@@ -10,14 +10,10 @@ const LoginPage = () => {
         e.preventDefault();
         login(email, password)
             .then((response) => {
-                // Authentication successful; handle the response here
                 console.log('Login successful');
                 console.log('Response:', response.data);
-
-                // Redirect to another page, set a token, or perform other actions as needed
             })
             .catch((error) => {
-                // Handle authentication errors using the exported function
                 handleLoginError(error);
             });
     };
