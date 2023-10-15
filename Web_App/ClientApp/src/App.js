@@ -1,20 +1,21 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import LoginPage from "./pages/LoginPage";
-
+import ProductPage from "./pages/ProductPage";
 
 const App = () => {
     return (
         <>
-        <Navbar/>
+            <Navbar />
             <Routes>
                 <Route element={<HomePage />} path="/" />
                 <Route element={<LoginPage />} path="/login" />
+                <Route element={< ProductPage />} path="/product" />
             </Routes>
-            <Footer/>
-        </>
+            <Footer />
+            </>
     );
 };
 
