@@ -9,7 +9,7 @@ const Navbar = () => {
                 <div className="flex justify-between items-center ">
                     <a href="/" className="flex items-center opacity-100 ">
                         <img src={snoop2} className="h-12 mr-3" alt="Logo" />
-                        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Kurwa</span>
+                        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">K*rwa</span>
                     </a>
                     <ul className="flex space-x-2">
                         <li>

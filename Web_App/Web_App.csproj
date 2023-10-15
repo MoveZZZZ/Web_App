@@ -26,6 +26,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="ClientApp\src\utils\productDetailsApi.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="ClientApp\src\components\Navbar\" />
     <Folder Include="ClientApp\src\components\Footer\" />
     <Folder Include="ClientApp\src\pages\" />

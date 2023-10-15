@@ -1,6 +1,9 @@
 ﻿import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { fetchProducts, fetchProductsByName, } from '../utils/productApi';
 import _ from "lodash";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 const ProductPage = () => {
     const [productes, setProductes] = useState([]);
@@ -60,21 +63,30 @@ const ProductPage = () => {
 
     return (
         <div>
-            <h1>Product List</h1>
+            <div>
+                <h1 className="text-6xl text-center m-4 text-secondary">Product List</h1>
+            </div>
+
+            <div className="mr-5 group content-end flex md:flex-row-reverse ">
+                <i className="mr-5 mt-2"><FontAwesomeIcon icon={faSearch} /></i>
             <input
                 type="text"
                 placeholder="Search by product name"
                 onChange={handleSearchInputChange}
-                className="my-4 p-2 rounded border border-gray-300"
-            />
-            {errMsg ? <div className="text-xl">{errMsg}</div> :
+                className="mr-5 p-2 mb-5 rounded border border-primary-300 text-secondary placeholder-primary-300"
+                />
+               
+            </div>
+            {errMsg ? <div className="text-5xl justify-center flex m-10">{errMsg}</div> :
                 <div className="grid grid-cols-5 gap-6">
                     {productes.map((product) => (
+                        <Link to={`/product/${product.id}`} key={product.id}>
                         <div key={product.id} className="bg-white shadow p-4">
                             <img src={product.imageUrl} alt={product.name} className="w-full h-40 object-cover mb-4" />
                             <h2 className="text-lg font-semibold">{product.name}</h2>
-                            <p className="text-sm text-gray-600">{product.description}</p>
-                        </div>
+                                <p className="text-sm text-gray-600 truncate">{product.description}</p>
+                            </div>
+                        </Link>
                     ))}
                 </div>
             }
