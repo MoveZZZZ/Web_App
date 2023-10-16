@@ -4,7 +4,7 @@ import { faStore, faCartShopping, faHeart } from "@fortawesome/free-solid-svg-ic
 import LoginPage from "../../pages/LoginPage";
 import React, { useState } from 'react';
 
-const Navbar = () => {
+const NavbarLogin = () => {
 
     return (
 
@@ -25,21 +25,11 @@ const Navbar = () => {
                     </div>
                     <ul className="flex space-x-2">
                         <li>
-                           
+                        <a>Mamu ebal</a>
                         </li>
-                        <li>
-                            <a href="/login" className="text-white hover:text-primary-300 ease-in-out  hover:text-secondary">Sign In</a>
-                        </li>
-                        <li>
-                            <a className="text-white">|</a>
-                        </li>
-                        <li>
-                            <a href="/" className="text-white hover:text-primary-300 ease-in-out hover:text-secondary">Sign Up</a>
-                            </li>
-
                     </ul>
                 </div>
-                
+
 
             </div>
         </nav>
@@ -47,4 +37,4 @@ const Navbar = () => {
     );
 };
 
-export default Navbar;
+export default NavbarLogin;

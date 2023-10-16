@@ -6,19 +6,21 @@ import snoopSec from "../assets/snoopSec.gif";
 const LoginPage = () => {
     const [loginUser, setLoginUser] = useState('');
     const [passwordUser, setPasswordUser] = useState('');
+    const [token, setToken] = useState('');
+    const [errMsg, setErrMsg] = useState('');
 
     const handleLogin = (e) => {
         e.preventDefault();
         login(loginUser, passwordUser)
             .then((response) => {
-                console.log('Login successful');
-                console.log('Response:', response.data);
+                setToken(response.accessToken);
+                setErrMsg("");
             })
             .catch((error) => {
-                handleLoginError(error);
+                setErrMsg("*bad login or password")
             });
         setLoginUser("");
-        setPasswordUser ("");
+        setPasswordUser("");
     };
 
     return (
@@ -59,9 +61,9 @@ const LoginPage = () => {
                         <div className="text-right mt-2">
                             <a href="#" className="text-sm font-semibold text-primary-600 hover:text-secondary">Forgot Password?</a>
                         </div>
-
+                        <p className="text-red text-xs">{errMsg}</p>
                         <button type="submit" className="w-full block bg-primary-300 hover:bg-primary-200 duration-200 focus:bg-blue-400 text-primary-600 font-semibold rounded-lg
-                px-4 py-3 mt-6" onClick={handleLogin}>Log In</button>
+                px-4 py-3 mt-3" onClick={handleLogin}>Log In</button>
                     </form>
 
                     <div class="mt-7 grid grid-cols-3 items-center text-gray-500">
@@ -76,7 +78,7 @@ const LoginPage = () => {
                     </div>
                 </div>
 
-                
+
 
             </div>
         </section>
