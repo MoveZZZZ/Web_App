@@ -72,7 +72,9 @@ const LoginPage = () => {
 
                     <div class="text-sm flex justify-between items-center mt-3 text-left">
                         <p>If you don't have an account...</p>
+                        <a href="/signup" >
                         <button class="py-2 px-5 ml-3 bg-primary-100 border rounded-xl hover:scale-110 duration-300 border-primary-300  ">Register</button>
+                        </a>
                     </div>
                 </div>
 

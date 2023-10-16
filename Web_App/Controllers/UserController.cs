@@ -10,7 +10,8 @@ public class UserController : ControllerBase
         new UserModel { Id = 1, Email = "user@example.com", Password = "password123" }
     };
 
-    [HttpPost("login")]
+    [HttpPost]
+    [Route("login")]
     public IActionResult Login([FromBody] UserModel login)
     {
         var user = Users.Find(u => u.Email == login.Email && u.Password == login.Password);
@@ -19,5 +20,13 @@ public class UserController : ControllerBase
             return Unauthorized(new { message = "Invalid email or password" });
         }
         return Ok(new { message = "Login successful" });
+    }
+
+    [HttpPost]
+    [Route("signup")]
+    public IActionResult SignUp([FromBody] SignUpModel sign)
+    {
+        
+        return Ok(new { message = "SignUp successful" });
     }
 }

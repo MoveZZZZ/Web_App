@@ -1,5 +1,4 @@
-﻿import snoop from "../../assets/Snoopy.gif";
-import snoop2 from "../../assets/snoopDogTr.gif";
+﻿import snoop2 from "../../assets/snoopDogTr.gif";
 
 const Navbar = () => {
     return (
@@ -22,7 +21,7 @@ const Navbar = () => {
                             <a className="text-white">|</a>
                         </li>
                         <li>
-                            <a href="/" className="text-white hover:text-primary-300 ease-in-out hover:text-secondary">Sign Up</a>
+                            <a href="/signup" className="text-white hover:text-primary-300 ease-in-out hover:text-secondary">Sign Up</a>
                         </li>
                     </ul>
                 </div>
