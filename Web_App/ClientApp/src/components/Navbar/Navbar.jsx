@@ -1,4 +1,4 @@
-﻿import snoopNavbar from "../../assets/snoopDogTr.gif";
+import snoopNavbar from "../../assets/snoopDogTr.gif";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStore, faCartShopping, faHeart } from "@fortawesome/free-solid-svg-icons";
 import LoginPage from "../../pages/LoginPage";
@@ -34,9 +34,9 @@ const Navbar = () => {
                             <a className="text-white">|</a>
                         </li>
                         <li>
-                            <a href="/" className="text-white hover:text-primary-300 ease-in-out hover:text-secondary">Sign Up</a>
-                            </li>
 
+                            <a href="/signup" className="text-white hover:text-primary-300 ease-in-out hover:text-secondary">Sign Up</a>
+                        </li>
                     </ul>
                 </div>
                 

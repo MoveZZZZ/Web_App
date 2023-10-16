@@ -39,4 +39,12 @@ public class UserController : ControllerBase
 
         return Ok(token);
     }
+
+    [HttpPost]
+    [Route("signup")]
+    public IActionResult SignUp([FromBody] SignUpModel sign)
+    {
+        
+        return Ok(new { message = "SignUp successful" });
+    }
 }
