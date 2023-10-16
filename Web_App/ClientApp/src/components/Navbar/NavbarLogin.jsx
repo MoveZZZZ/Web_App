@@ -1,10 +1,10 @@
-import snoopNavbar from "../../assets/snoopDogTr.gif";
+﻿import snoopNavbar from "../../assets/snoopDogTr.gif";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStore, faCartShopping, faHeart } from "@fortawesome/free-solid-svg-icons";
 import LoginPage from "../../pages/LoginPage";
 import React, { useState } from 'react';
 
-const Navbar = () => {
+const NavbarLogin = () => {
 
     return (
 
@@ -25,21 +25,11 @@ const Navbar = () => {
                     </div>
                     <ul className="flex space-x-2">
                         <li>
-                           
-                        </li>
-                        <li>
-                            <a href="/login" className="text-white hover:text-primary-300 ease-in-out  hover:text-secondary">Sign In</a>
-                        </li>
-                        <li>
-                            <a className="text-white">|</a>
-                        </li>
-                        <li>
-
-                            <a href="/signup" className="text-white hover:text-primary-300 ease-in-out hover:text-secondary">Sign Up</a>
+                        <a>Mamu ebal</a>
                         </li>
                     </ul>
                 </div>
-                
+
 
             </div>
         </nav>
@@ -47,4 +37,4 @@ const Navbar = () => {
     );
 };
 
-export default Navbar;
+export default NavbarLogin;

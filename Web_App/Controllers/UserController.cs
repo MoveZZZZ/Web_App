@@ -1,25 +1,43 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Web_App.Models;
+using Web_App.Services;
 
 [Route("[controller]")]
 [ApiController]
 public class UserController : ControllerBase
 {
-    private static readonly List<UserModel> Users = new List<UserModel>
+    private readonly ITokenService _tokenService;
+    public UserController(ITokenService tokenService)
     {
-        new UserModel { Id = 1, Email = "user@example.com", Password = "password123" }
+        _tokenService = tokenService;
+    }
+
+    private static readonly List<UserLogin> Users = new List<UserLogin>
+    {
+        new UserLogin { Login= "sperma", Password = "password123" }
     };
 
-    [HttpPost]
-    [Route("login")]
-    public IActionResult Login([FromBody] UserModel login)
+    [HttpPost("login")]
+    public IActionResult Login([FromBody] UserLogin loginModel)
     {
-        var user = Users.Find(u => u.Email == login.Email && u.Password == login.Password);
+        UserModel userModel = new UserModel
+        { Id = 1, Login = loginModel.Login, Email = "pizda@org.com", Password = loginModel.Password, RefreshToken = "1", RefreshTokenEndDate = DateTime.Now };
+            
+
+        var user = Users.Find(u => u.Login == loginModel.Login && u.Password == loginModel.Password);
         if (user == null)
         {
             return Unauthorized(new { message = "Invalid email or password" });
         }
-        return Ok(new { message = "Login successful" });
+
+
+        Token token = _tokenService.CreateToken(userModel);
+        userModel.RefreshToken = token.RefreshToken;
+        userModel.RefreshTokenEndDate = token.Expiration.AddMinutes(5);
+
+        return Ok(token);
     }
 
     [HttpPost]

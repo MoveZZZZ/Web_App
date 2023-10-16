@@ -14,6 +14,7 @@ module.exports = {
             },
             secondary: "#D2B48C",
             "background-color": "#FFFFFF",
+            red:"#ff0000"
             
         },
         extend: {},
