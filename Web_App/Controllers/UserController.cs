@@ -16,7 +16,7 @@ public class UserController : ControllerBase
 
     private static readonly List<UserLogin> Users = new List<UserLogin>
     {
-        new UserLogin { Login= "sperma", Password = "password123" }
+        new UserLogin { Login= "sperma", Password = "123" }
     };
 
     [HttpPost("login")]

@@ -15,6 +15,7 @@ const LoginPage = () => {
             .then((response) => {
                 setToken(response.accessToken);
                 setErrMsg("");
+                console.log(token);
             })
             .catch((error) => {
                 setErrMsg("*bad login or password")
