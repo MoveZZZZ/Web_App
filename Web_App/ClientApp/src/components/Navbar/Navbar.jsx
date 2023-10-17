@@ -2,9 +2,17 @@ import snoopNavbar from "../../assets/snoopDogTr.gif";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStore, faCartShopping, faHeart } from "@fortawesome/free-solid-svg-icons";
 import LoginPage from "../../pages/LoginPage";
-import React, { useState } from 'react';
+import { AuthContext } from "../../context";
+import React, { useContext, useState } from 'react';
+import { Link} from 'react-router-dom';
 
 const Navbar = () => {
+    const { isAuth, setIsAuth} = useContext(AuthContext);
+    const logout = () => {
+
+        setIsAuth(false);
+    }
+
 
     return (
 
@@ -16,27 +24,50 @@ const Navbar = () => {
                         <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">K*rwa</span>
                     </a>
                     <div className="flex justify-end">
-                        <a href="/product" className="text-white hover:text-primary-300 ease-in-out hover:text-secondary mx-5">Shop<i>
-                            <FontAwesomeIcon icon={faStore} className="ml-2" /></i></a>
-                        <a href="/cart" className="text-white hover:text-primary-300 ease-in-out hover:text-secondary mx-5">Cart<i>
-                            <FontAwesomeIcon icon={faCartShopping} className="ml-2" /></i></a>
-                        <a href="/" className="text-white hover:text-primary-300 ease-in-out hover:text-secondary mx-5">Favorite<i>
-                            <FontAwesomeIcon icon={faHeart} className="ml-2" /></i></a>
+                        <Link to="/product" className="text-white hover:text-primary-300 ease-in-out hover:text-secondary mx-5">
+                            Shop
+                            <i>
+                                <FontAwesomeIcon icon={faStore} className="ml-2" /></i>
+                        </Link>
+
+                        <Link to="/cart" className="text-white hover:text-primary-300 ease-in-out hover:text-secondary mx-5">
+                            Cart
+                            <i>
+                                <FontAwesomeIcon icon={faCartShopping} className="ml-2" /></i>
+                        </Link>
+
+
+                        <Link to="/favorite" className="text-white hover:text-primary-300 ease-in-out hover:text-secondary mx-5">
+                        Favorite
+                            <i>
+                                <FontAwesomeIcon icon={faHeart} className="ml-2" /></i>
+                        </Link>
                     </div>
                     <ul className="flex space-x-2">
-                        <li>
-                           
-                        </li>
-                        <li>
-                            <a href="/login" className="text-white hover:text-primary-300 ease-in-out  hover:text-secondary">Sign In</a>
+                        {isAuth
+                            ? (
+                             <li>
+                                    <Link to="/home" className="text-white hover:text-primary-300 ease-in-out  hover:text-secondary" onClick={logout}>Sign Out</Link>
+                           </li>
+                       
+                        )                                
+                            : (<>
+                             <li>
+                            <Link to="/login" className="text-white hover:text-primary-300 ease-in-out  hover:text-secondary">Sign In</Link>
+
                         </li>
                         <li>
                             <a className="text-white">|</a>
                         </li>
                         <li>
 
-                            <a href="/signup" className="text-white hover:text-primary-300 ease-in-out hover:text-secondary">Sign Up</a>
-                        </li>
+                            <Link to="/signup" className="text-white hover:text-primary-300 ease-in-out  hover:text-secondary">Sign Up</Link>
+                                </li>
+                            </>
+                          
+                        )
+                           
+                        }
                     </ul>
                 </div>
                 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from "react-router-dom";
 import { fetchDetailsProduct, } from '../utils/productDetailsApi';
+import { addToCart, } from '../utils/cartApi';
 
 
 
@@ -18,6 +19,11 @@ const ProductDetail = () => {
                 console.error('Error fetching products:', error);
             });
     }, []);
+
+
+    const addToCart = () => {
+        addToCart(id, 1);
+    }
   
     return (
         <div className="flex p-6 bg-white rounded-lg shadow-lg">
@@ -39,9 +45,10 @@ const ProductDetail = () => {
                     <span className="text-primary-600 font-bold">Price: $99.99</span>
                     <span className="text-primary-600 font-bold">In Stock: 25</span>
                 </div>
-                <button className="bg-primary-300 text-white rounded-full px-6 py-2 hover:bg-primary-400 focus:outline-none">
+                <button className="bg-primary-300 text-white rounded-full px-6 py-2 hover:bg-primary-400 focus:outline-none" onClick={addToCart}>
                     Add to Cart
                 </button>
+                <a>{id}</a>
             </div>
         </div>
     );

@@ -1,29 +1,54 @@
 ﻿// Login.js
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { handleLoginError, login } from '../utils/userApi';
 import snoopSec from "../assets/snoopSec.gif";
+import { AuthContext, UserIDContext, UserTokenContext, UserRefreshTokenContext, } from "../context";
 
 const LoginPage = () => {
     const [loginUser, setLoginUser] = useState('');
     const [passwordUser, setPasswordUser] = useState('');
-    const [token, setToken] = useState('');
     const [errMsg, setErrMsg] = useState('');
 
-    const handleLogin = (e) => {
-        e.preventDefault();
+
+
+    const { isAuth, setIsAuth } = useContext(AuthContext);
+    const { userID, setUserID } = useContext(UserIDContext);
+    const { userToken, setUserToken } = useContext(UserTokenContext);
+    const { userRefreshToken, setUserRefreshToken } = useContext(UserRefreshTokenContext);
+
+
+
+
+/*    useEffect(() => {
+        setUserID("");
+        setUserToken("");
+        setUserRefreshToken("");
+        }, []);*/
+
+    const handleLogin = () => {
+        console.log("FIRST");
+        console.log(userID);
         login(loginUser, passwordUser)
             .then((response) => {
-                setToken(response.accessToken);
+                console.log(response);
+                console.log("=================================");
+                setUserID(response.userID);
+                console.log(userID);
+                setUserToken(response.userToken);
+                console.log(userToken);
+                setUserRefreshToken(response.userRefreshToken);
+                console.log(userRefreshToken);
                 setErrMsg("");
-                console.log(token);
+
+                setIsAuth(true);
+
             })
             .catch((error) => {
                 setErrMsg("*bad login or password")
             });
         setLoginUser("");
         setPasswordUser("");
-    };
-
+    }
     return (
         <section class="border-primary-500  flex items-center justify-center">
             <div class="bg-primary-100 p-5 flex rounded-xl shadow-lg max-w-3xl m-28">

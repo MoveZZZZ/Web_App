@@ -6,6 +6,6 @@ namespace Web_App.Services
     public interface ITokenService
     {
         Token CreateToken(UserModel user);
-        string CreateRefreshToken();
+        string CreateRefreshToken(UserModel user);
     }
 }
