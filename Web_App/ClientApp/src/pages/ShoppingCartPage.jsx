@@ -45,11 +45,11 @@ const ShoppingCartPage = () => {
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-semibold mb-4">Shopping Cart</h1>
-            <div className="w-full overflow-x-auto flex items-center justify-center">
+            <div className="w-full overflow-x-auto flex items-center justify-center ">
                 <table className="w-full table-fixed border border-collapse m-5">
                     <thead>
                         <tr>
-                            <th className="w-1/12 border p-2">Product</th>
+                            <th className="w-1/12 border p-2 rounded-tl-sm">Product</th>
                             <th className="w-1/2 border p-2">Title</th>
                             <th className="w-2/6 border p-2">Price</th>
                             <th className="w-1/6 border p-2">Remove</th>
@@ -67,7 +67,7 @@ const ShoppingCartPage = () => {
                                         />
                                     </Link>
                                 </td>
-                                <td className="border p-2 hover:text-secondary">
+                                <td className="border p-2 hover:text-secondary text-4xl">
                                     <Link to={`/product/${item.id}`}>{item.name}</Link>
                                 </td>
                                 <td className="border p-2">${item.price.toFixed(2)}</td>

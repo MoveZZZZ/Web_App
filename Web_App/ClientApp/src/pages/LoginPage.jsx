@@ -14,20 +14,11 @@ const LoginPage = () => {
     const { userToken, setUserToken } = useContext(UserTokenContext);
     const { userRefreshToken, setUserRefreshToken } = useContext(UserRefreshTokenContext);
 
-    
-/*    useEffect(() => {
-        setUserID("");
-        setUserToken("");
-        setUserRefreshToken("");
-        }, []);*/
 
     const handleLogin = () => {
-        console.log("FIRST");
-        console.log(userID);
         login(loginUser, passwordUser)
             .then((response) => {
                 if (!response.message) {
-                    console.log(response);
                     setUserID(response.userID);
                     setUserToken(response.userToken);
                     setUserRefreshToken(response.userRefreshToken);

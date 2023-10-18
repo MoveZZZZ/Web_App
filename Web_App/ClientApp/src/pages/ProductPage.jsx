@@ -66,38 +66,33 @@ const ProductPage = () => {
 
     return (
         <div>
-            <div>
-                <h1 className="text-6xl text-center m-4 text-secondary">Product List</h1>
-            </div>
-
-            <div className="mr-5 group content-end flex md:flex-row-reverse ">
-                <i className="mr-5 mt-2"><FontAwesomeIcon icon={faSearch} /></i>
+            <div className="mr-5 mt-5 group content-end flex md:flex-row-reverse ">
+            <i className="mr-1 mt-2"><FontAwesomeIcon icon={faSearch} /></i>
             <input
                 type="text"
                 placeholder="Search by product name"
                 onChange={handleSearchInputChange}
                 className="mr-5 p-2 mb-5 rounded border border-primary-300 text-secondary placeholder-primary-300"
                 />
-               
             </div>
-            {errMsg ? <div className="text-5xl justify-center flex m-10">{errMsg}</div> :
-                <div className="grid grid-cols-5 gap-6">
+
+               
+            {errMsg ? <div className="text-5xl flex justify-center ">{errMsg}</div> :
+                <div className="grid grid-cols-5 gap-6 mx-5">
                     {productes.map((product) => (
                         <Link to={`/product/${product.id}`} key={product.id}>
-                            <div key={product.id} className="bg-white shadow p-4 transition duration-200 ease-in-out hover:scale-105">
-                            <img src={product.imageUrl} alt={product.name} className="w-full h-40 object-cover mb-4" />
-                            <h2 className="text-lg font-semibold">{product.name}</h2>
-                                <p className="text-sm text-gray-600 truncate">{product.description}</p>
+                            <div key={product.id} className="w-full bg-primary-100 shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-2xl">
+                                <img src={product.imageUrl} alt={product.name} className="h-75 w-67 object-cover rounded-t-xl" />
+                                <p class="text-lg font-bold text-proimary-500 truncate block capitalize mx-2">{product.name}</p>
+                                <p className="text-sm text-gray-600 truncate mx-2">{product.description}</p>
+                                <p className="text-lg font-semibold text-primary-500 cursor-auto mx-2 my-5 flex justify-end">1.11$</p>
                             </div>
                         </Link>
                     ))}
                 </div>
             }
-            <div>
-
-            </div>
             {!errMsg &&
-                <div className="mt-4 p-2 flex justify-center items-center">
+                <div className="flex items-center justify-center  hrounded-xl text-gray-600 overflow-hidden">
                     <button
                         onClick={() => {
                             setCurrentPage(currentPage - 1);
