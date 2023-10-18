@@ -20,7 +20,7 @@ const Navbar = () => {
     return (
 
         <nav className="p-4 shadow-lg p-6 bg-primary-100">
-            <div className="container mx-auto">
+            <div className="mx-3">
                 <div className="flex justify-between items-center ">
                     <Link to="/" className="flex items-center opacity-100 transition duration-200 ease-in-out hover:scale-110">
                         <img src={snoopNavbar} className="h-12 mr-3" alt="Logo" />

@@ -48,7 +48,6 @@ const ProductDetail = () => {
                 <button className="bg-primary-300 text-white rounded-full px-6 py-2 hover:bg-primary-400 focus:outline-none" onClick={addToCart}>
                     Add to Cart
                 </button>
-                <a>{id}</a>
             </div>
         </div>
     );

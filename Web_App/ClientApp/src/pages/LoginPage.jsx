@@ -19,29 +19,21 @@ const LoginPage = () => {
 
 
 
-/*    useEffect(() => {
-        setUserID("");
-        setUserToken("");
-        setUserRefreshToken("");
-        }, []);*/
 
     const handleLogin = () => {
-        console.log("FIRST");
-        console.log(userID);
         login(loginUser, passwordUser)
             .then((response) => {
-                console.log(response);
-                console.log("=================================");
-                setUserID(response.userID);
-                console.log(userID);
-                setUserToken(response.userToken);
-                console.log(userToken);
-                setUserRefreshToken(response.userRefreshToken);
-                console.log(userRefreshToken);
-                setErrMsg("");
+                if (!response.message) {
+                    setUserID(response.userID);
+                    setUserToken(response.userToken);
+                    setUserRefreshToken(response.userRefreshToken);
+                    setErrMsg("");
 
-                setIsAuth(true);
-
+                    setIsAuth(true);
+                }
+                else {
+                    setErrMsg(response.message);
+                }
             })
             .catch((error) => {
                 setErrMsg("*bad login or password")
