@@ -81,7 +81,7 @@ const ProductPage = () => {
                 <div className="grid grid-cols-5 gap-6">
                     {productes.map((product) => (
                         <Link to={`/product/${product.id}`} key={product.id}>
-                        <div key={product.id} className="bg-white shadow p-4">
+                            <div key={product.id} className="bg-white shadow p-4 transition duration-200 ease-in-out hover:scale-105">
                             <img src={product.imageUrl} alt={product.name} className="w-full h-40 object-cover mb-4" />
                             <h2 className="text-lg font-semibold">{product.name}</h2>
                                 <p className="text-sm text-gray-600 truncate">{product.description}</p>
