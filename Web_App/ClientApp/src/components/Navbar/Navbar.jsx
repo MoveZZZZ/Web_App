@@ -5,12 +5,15 @@ import LoginPage from "../../pages/LoginPage";
 import { AuthContext } from "../../context";
 import React, { useContext, useState } from 'react';
 import { Link} from 'react-router-dom';
+import LogoutModal from "../MyModal/LogOutModal";
+import cursedCat from "../../assets/cat.gif";
 
 const Navbar = () => {
-    const { isAuth, setIsAuth} = useContext(AuthContext);
+    const { isAuth, setIsAuth } = useContext(AuthContext);
+    const [modalVisability, setModalVisability] = useState(false);
     const logout = () => {
-
         setIsAuth(false);
+        setModalVisability(false);
     }
 
 
@@ -46,27 +49,39 @@ const Navbar = () => {
                     <ul className="flex space-x-2">
                         {isAuth
                             ? (
-                             <li>
-                                    <Link to="/home" className="text-white hover:text-primary-300 ease-in-out  hover:text-secondary" onClick={logout}>Sign Out</Link>
-                           </li>
+                            <>
+                                <li>
+                                    <Link to="/home" className="text-white hover:text-primary-300 ease-in-out  hover:text-secondary" onClick={() => setModalVisability(true)}>Sign Out</Link>
+                                </li>
+                                    <LogoutModal visible={modalVisability} setVisible={setModalVisability }>
+                                        <div space-y-4>
+                                            <div className="flex justify-center text-2xl font-semibold whitespace-nowrap dark:text-white">You are about to log out! Are you sure?</div>
+                                            <div className="flex justify-center mt-4">
+                                                <img src={cursedCat} className="rounded-2xl w-full h-auto flex justify-center" alt="I know your secret (0)_(0)" />
+                                            </div>
+                                            <div className="flex justify-center w-full space-x-2" >
+                                                <button className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border font-semibold focus:border-secondary focus:bg-primary-100 focus:outline-none" onClick={logout}>Yes, log me out NOW!</button>
+                                                <button className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border font-semibold focus:border-secondary focus:bg-primary-100 focus:outline-none" onClick = {() => setModalVisability(false)}>I'll better to stay logged.</button>
+                                            </div>
+                                            
+                                    </div>
+                                </LogoutModal>
+                            </>
                        
-                        )                                
+                            )                                
                             : (<>
-                             <li>
-                            <Link to="/login" className="text-white hover:text-primary-300 ease-in-out  hover:text-secondary">Sign In</Link>
+                                <li>
+                                    <Link to="/login" className="text-white hover:text-primary-300 ease-in-out  hover:text-secondary">Sign In</Link>
 
-                        </li>
-                        <li>
-                            <a className="text-white">|</a>
-                        </li>
-                        <li>
-
-                            <Link to="/signup" className="text-white hover:text-primary-300 ease-in-out  hover:text-secondary">Sign Up</Link>
+                                </li>
+                                <li>
+                                    <a className="text-white">|</a>
+                                 </li>
+                                <li>
+                                    <Link to="/signup" className="text-white hover:text-primary-300 ease-in-out  hover:text-secondary">Sign Up</Link>
                                 </li>
                             </>
-                          
-                        )
-                           
+                            )   
                         }
                     </ul>
                 </div>
