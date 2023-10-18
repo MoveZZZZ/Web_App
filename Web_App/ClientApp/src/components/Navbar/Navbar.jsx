@@ -8,50 +8,50 @@ import { Link} from 'react-router-dom';
 import LogoutModal from "../MyModal/LogOutModal";
 import cursedCat from "../../assets/cat.gif";
 
+
 const Navbar = () => {
     const { isAuth, setIsAuth } = useContext(AuthContext);
     const [modalVisability, setModalVisability] = useState(false);
+    const [choosenPage, setChoosenPage] = useState(0);
     const logout = () => {
         setIsAuth(false);
+        localStorage.removeItem('accTk');
         setModalVisability(false);
     }
 
-
     return (
-
         <nav className="p-4 shadow-lg p-6 bg-primary-100">
             <div className="container mx-auto">
                 <div className="flex justify-between items-center ">
-                    <Link to="/" className="flex items-center opacity-100 transition duration-200 ease-in-out hover:scale-110">
+                    <Link to="/" onClick={() => { setChoosenPage(0); }} className="flex items-center opacity-100 transition duration-200 ease-in-out hover:scale-110">
                         <img src={snoopNavbar} className="h-12 mr-3" alt="Logo" />
                         <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white ">K*rwa</span>
                     </Link>
                     <div className="flex justify-end">
-                        <Link to="/product" className="text-white hover:text-primary-300 ease-in-out hover:text-secondary transition-transform mx-5 transition duration-200 ease-in-out hover:scale-110">
+                        
+                        <Link to="/product" onClick={() => { setChoosenPage(1); }} className={` ${choosenPage === 1 ? 'text-red hover:text-primary-300 ease-in-out hover:text-secondary' : 'text-white hover:text-primary-300 ease-in-out hover:text-secondary transition-transform mx-5 transition duration-200 ease-in-out hover:scale-110'}`}>
                             Shop
                             <i>
                                 <FontAwesomeIcon icon={faStore} className="ml-2" /></i>
                         </Link>
-
-                        <Link to="/cart" className="text-white hover:text-primary-300 ease-in-out hover:text-secondary mx-5 transition duration-200 ease-in-out hover:scale-110">
+                        
+                        <Link to="/cart"    onClick={() => { setChoosenPage(2); }} className={` ${choosenPage === 2 ? 'text-red hover:text-primary-300 ease-in-out hover:text-secondary' : 'text-white hover:text-primary-300 ease-in-out hover:text-secondary mx-5 transition duration-200 ease-in-out hover:scale-110'}`}>
                             Cart
                             <i>
                                 <FontAwesomeIcon icon={faCartShopping} className="ml-2" /></i>
-                        </Link>
-
-
-                        <Link to="/favorite" className="text-white hover:text-primary-300 ease-in-out hover:text-secondary mx-5 transition duration-200 ease-in-out hover:scale-110">
+                            </Link>
+                        <Link to="/favorite" onClick={() => { setChoosenPage(3); }} className={` ${choosenPage === 3 ? 'text-red hover:text-primary-300 ease-in-out hover:text-secondary' : 'text-white hover:text-primary-300 ease-in-out hover:text-secondary mx-5 transition duration-200 ease-in-out hover:scale-110'}`}>
                         Favorite
                             <i>
                                 <FontAwesomeIcon icon={faHeart} className="ml-2" /></i>
-                        </Link>
+                            </Link>
                     </div>
                     <ul className="flex space-x-2">
                         {isAuth
                             ? (
                             <>
                                 <li>
-                                    <Link to="/home" className="text-white hover:text-primary-300 ease-in-out  hover:text-secondary" onClick={() => setModalVisability(true)}>Sign Out</Link>
+                                    <Link to="/home" onClick={() => { setChoosenPage(0); }} className="text-white hover:text-primary-300 ease-in-out  hover:text-secondary" onClick={() => setModalVisability(true)}>Sign Out</Link>
                                 </li>
                                     <LogoutModal visible={modalVisability} setVisible={setModalVisability }>
                                         <div space-y-4>
@@ -85,8 +85,6 @@ const Navbar = () => {
                         }
                     </ul>
                 </div>
-                
-
             </div>
         </nav>
 

@@ -9,16 +9,12 @@ const LoginPage = () => {
     const [passwordUser, setPasswordUser] = useState('');
     const [errMsg, setErrMsg] = useState('');
 
-
-
     const { isAuth, setIsAuth } = useContext(AuthContext);
     const { userID, setUserID } = useContext(UserIDContext);
     const { userToken, setUserToken } = useContext(UserTokenContext);
     const { userRefreshToken, setUserRefreshToken } = useContext(UserRefreshTokenContext);
 
-
-
-
+    
 /*    useEffect(() => {
         setUserID("");
         setUserToken("");
@@ -30,18 +26,18 @@ const LoginPage = () => {
         console.log(userID);
         login(loginUser, passwordUser)
             .then((response) => {
-                console.log(response);
-                console.log("=================================");
-                setUserID(response.userID);
-                console.log(userID);
-                setUserToken(response.userToken);
-                console.log(userToken);
-                setUserRefreshToken(response.userRefreshToken);
-                console.log(userRefreshToken);
-                setErrMsg("");
-
-                setIsAuth(true);
-
+                if (!response.message) {
+                    console.log(response);
+                    setUserID(response.userID);
+                    setUserToken(response.userToken);
+                    setUserRefreshToken(response.userRefreshToken);
+                    setErrMsg("");
+                    setIsAuth(true);
+                    localStorage.setItem('accTk', userToken);
+                }
+                else {
+                    setErrMsg(response.message);
+                }
             })
             .catch((error) => {
                 setErrMsg("*bad login or password")

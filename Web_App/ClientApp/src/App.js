@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext, UserIDContext, UserTokenContext, UserRefreshTokenContext, } from "./context";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
@@ -21,6 +21,15 @@ const App = () => {
     const [userID, setUserID] = useState("");
     const [userToken, setUserToken]=useState("");
     const [userRefreshToken, setUserRefreshToken] = useState("");
+
+    useEffect(() => {
+        if (localStorage.getItem('accTk')) {
+            setIsAuth(true);
+        }
+    }, []);
+
+    console.log(localStorage.getItem('accTk'));
+
     return (
         <UserRefreshTokenContext.Provider value ={{
             userRefreshToken,
