@@ -11,6 +11,9 @@ const ProductPage = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [searchQuery, setSearchQuery] = useState('');
     const [errMsg, setErrMsg] = useState('');
+
+    console.log(localStorage.getItem('accTk'));
+
     const loadProducts =() =>
     {
         fetchProducts(currentPage, 25)

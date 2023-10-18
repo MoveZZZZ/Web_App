@@ -9,15 +9,10 @@ const LoginPage = () => {
     const [passwordUser, setPasswordUser] = useState('');
     const [errMsg, setErrMsg] = useState('');
 
-
-
     const { isAuth, setIsAuth } = useContext(AuthContext);
     const { userID, setUserID } = useContext(UserIDContext);
     const { userToken, setUserToken } = useContext(UserTokenContext);
     const { userRefreshToken, setUserRefreshToken } = useContext(UserRefreshTokenContext);
-
-
-
 
 
     const handleLogin = () => {
@@ -28,8 +23,8 @@ const LoginPage = () => {
                     setUserToken(response.userToken);
                     setUserRefreshToken(response.userRefreshToken);
                     setErrMsg("");
-
                     setIsAuth(true);
+                    localStorage.setItem('accTk', userToken);
                 }
                 else {
                     setErrMsg(response.message);
