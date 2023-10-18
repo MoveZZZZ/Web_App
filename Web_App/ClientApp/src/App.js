@@ -4,7 +4,8 @@ import { AuthContext, UserIDContext, UserTokenContext, UserRefreshTokenContext, 
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import AppRouter from "./components/AppRouter";
-import MyModal from "./components/MyModal/LogOutModal";
+
+
 
 
 
@@ -39,7 +40,7 @@ const App = () => {
         }}>
             <>
                 <Navbar />
-            <AppRouter/>
+                <AppRouter/>
                 <Footer />
             </>
             </AuthContext.Provider>
