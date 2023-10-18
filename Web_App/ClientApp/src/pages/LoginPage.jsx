@@ -1,6 +1,6 @@
 ﻿// Login.js
 import React, { useState, useContext, useEffect } from 'react';
-import { handleLoginError, login } from '../utils/userApi';
+import {  login, } from '../utils/userApi';
 import snoopSec from "../assets/snoopSec.gif";
 import { AuthContext, UserIDContext, UserTokenContext, UserRefreshTokenContext, } from "../context";
 
@@ -40,7 +40,10 @@ const LoginPage = () => {
         <section class="border-primary-500  flex items-center justify-center">
             <div class="bg-primary-100 p-5 flex rounded-xl shadow-lg max-w-3xl m-28">
                 <div class="w-1/2 md:block hidden ">
-                    <img src={snoopSec} className="rounded-2xl w-auto h-auto" alt="page gif" />
+                    <img
+                        src={snoopSec}
+                        className="rounded-2xl w-auto h-auto"
+                        alt="page gif" />
                 </div>
                 <div className="md:w-1/2 px-5">
                     <h2 className="text-2xl font-bold text-primary-300 ">Login</h2>
@@ -72,11 +75,14 @@ const LoginPage = () => {
                                 placeholder="Password*" />
                         </div>
                         <div className="text-right mt-2">
-                            <a href="#" className="text-sm font-semibold text-primary-600 hover:text-secondary">Forgot Password?</a>
+                            <a href="#"
+                               className="text-sm font-semibold text-primary-600 hover:text-secondary">Forgot Password?</a>
                         </div>
                         <p className="text-red text-xs">{errMsg}</p>
-                        <button type="submit" className="w-full block bg-primary-300 hover:bg-primary-200 duration-200 focus:bg-blue-400 text-primary-600 font-semibold rounded-lg
-                px-4 py-3 mt-3" onClick={handleLogin}>Log In</button>
+                        <button
+                            type="submit"
+                            className="w-full block bg-primary-300 hover:bg-primary-200 duration-200 focus:bg-blue-400 text-primary-600 font-semibold rounded-lg px-4 py-3 mt-3"
+                            onClick={handleLogin}>Log In</button>
                     </form>
 
                     <div class="mt-7 grid grid-cols-3 items-center text-gray-500">

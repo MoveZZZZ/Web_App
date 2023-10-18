@@ -25,8 +25,3 @@ export const signup = (login, email, password, passwordConfirm) => {
             return response.json();
         });
 };
-
-// Function to handle login errors
-export const handleLoginError = (error) => {
-    console.error('Login failed:', error.message);
-};

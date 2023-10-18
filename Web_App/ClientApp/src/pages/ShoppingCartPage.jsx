@@ -74,8 +74,7 @@ const ShoppingCartPage = () => {
                                 <td className="border p-2">
                                     <button
                                         onClick={() => removeFromCart(item.id)}
-                                        className="text-primary-500 hover:text-red cursor-pointer"
-                                    >
+                                        className="text-primary-500 hover:text-red cursor-pointer">
                                         Remove
                                     </button>
                                     <a className="text-primary-500 mx-5">|</a>
@@ -96,7 +95,7 @@ const ShoppingCartPage = () => {
             <div className="flex justify-end"> 
             <button
                 onClick={placeOrder}
-                    className="bg-primary-500 text-primary-100 px-4 py-2 mb-4 rounded hover:bg-secondary m-5 "
+                className="bg-primary-500 text-primary-100 px-4 py-2 mb-4 rounded hover:bg-secondary m-5"
                 disabled={cartItems.every((item) => !item.selected)}
             >
                 Place Order

@@ -11,26 +11,48 @@ import FavoritePage from "../pages/FavoritePage";
 
 const AppRouter = () => {
     const { isAuth } = useContext(AuthContext);
-    console.log(isAuth);
     return (
         isAuth
             ?
             <Routes>
-                <Route element={<HomePage />} path="/" />
-                <Route element={< ProductPage />} path="/product" />
-                <Route element={<ProductDetail />} path="/product/:id" />
-                <Route element={<ShoppingCartPage />} path="/cart" />
-                <Route element={<FavoritePage />} path="/favorite" />
-                <Route path="*" element={<Navigate to="/" />} />
+                <Route
+                    element={<HomePage />}
+                    path="/" />
+                <Route
+                    element={< ProductPage />}
+                    path="/product" />
+                <Route
+                    element={<ProductDetail />}
+                    path="/product/:id" />
+                <Route
+                    element={<ShoppingCartPage />}
+                    path="/cart" />
+                <Route
+                    element={<FavoritePage />}
+                    path="/favorite" />
+                <Route
+                    path="*"
+                    element={<Navigate to="/" />} />
             </Routes>
             :
             <Routes>
-                <Route element={<HomePage />} path="/" />
-                <Route element={<LoginPage />} path="/login" />
-                <Route element={<SignUpPage />} path="/signup" />
-                <Route element={< ProductPage />} path="/product" />
-                <Route element={<ProductDetail />} path="/product/:id" />
-                <Route path="*" element={<Navigate to="/login" />} />
+                <Route
+                    element={<HomePage />}
+                    path="/" />
+                <Route
+                    element={<LoginPage />}
+                    path="/login" />
+                <Route
+                    element={<SignUpPage />}
+                    path="/signup" />
+                <Route
+                    element={< ProductPage />}
+                    path="/product" />
+                <Route
+                    element={<ProductDetail />}
+                    path="/product/:id" />
+                <Route
+                    path="*" element={<Navigate to="/login" />} />
             </Routes>
 
         

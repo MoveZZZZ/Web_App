@@ -47,9 +47,6 @@ const ProductPage = () => {
             loadProducts();
         } 
     };
-
-    //const debouncedSearch = _.debounce((query)=>searchProductsByName(query), 700);
-
     useEffect(() => {
         searchProductsByName(searchQuery);
     }, [searchQuery]);
@@ -57,10 +54,6 @@ const ProductPage = () => {
     useEffect(() => {
         loadProducts();
     }, [currentPage]);
-
-
-
-
 
     const handleSearchInputChange = _.debounce((e) => setSearchQuery(e.target.value), 500);
 
@@ -81,7 +74,7 @@ const ProductPage = () => {
                 <div className="grid grid-cols-5 gap-6 mx-5">
                     {productes.map((product) => (
                         <Link to={`/product/${product.id}`} key={product.id}>
-                            <div key={product.id} className="w-full bg-primary-100 shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-2xl">
+                            <div key={product.id} className="w-full bg-primary-100 shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-2xl border border-primary-200">
                                 <img src={product.imageUrl} alt={product.name} className="h-75 w-67 object-cover rounded-t-xl" />
                                 <p class="text-lg font-bold text-proimary-500 truncate block capitalize mx-2">{product.name}</p>
                                 <p className="text-sm text-gray-600 truncate mx-2">{product.description}</p>
@@ -98,7 +91,9 @@ const ProductPage = () => {
                             setCurrentPage(currentPage - 1);
                             window.scrollTo(0, 0); // Scroll to the top of the page
                         }}
-                        className={`mx-2 my-2 p-2 rounded ${currentPage === 1 ? 'bg-white border border-primary-500 cursor-not-allowed' : 'bg-primary-100 border border-primary-500 hover-bg-secondary'}`}
+                        className={`mx-2 my-2 p-2 rounded ${currentPage === 1
+                            ?'bg-white border border-primary-500 cursor-not-allowed'
+                            : 'bg-primary-100 border border-primary-500 hover-bg-secondary'}`}
                         disabled={currentPage === 1}
                     >
                         &lt; Previous
@@ -110,7 +105,9 @@ const ProductPage = () => {
                                 setCurrentPage(index + 1);
                                 window.scrollTo(0, 0); // Scroll to the top of the page
                             }}
-                            className={`mx-2 p-2 rounded ${currentPage === index + 1 ? 'bg-primary-100 text-primary-500 cursor-not-allowed' : 'bg-primary-100 border border-primary-500 hover-bg-secondary'}`}
+                            className={`mx-2 p-2 rounded ${currentPage === index + 1
+                                ? 'bg-primary-100 text-primary-500 cursor-not-allowed'
+                                : 'bg-primary-100 border border-primary-500 hover-bg-secondary'}`}
                             disabled={currentPage === index + 1}
                         >
                             {index + 1}
@@ -121,7 +118,10 @@ const ProductPage = () => {
                             setCurrentPage(currentPage + 1);
                             window.scrollTo(0, 0); // Scroll to the top of the page
                         }}
-                        className={`mx-2 my-2 p-2 rounded ${currentPage === totalPages ? 'bg-white border border-primary-500 cursor-not-allowed' : 'bg-white border border-gray-300 hover-bg-secondary'}`}
+                        className={`mx-2 my-2 p-2 rounded ${currentPage === totalPages
+                            ? 'bg-white border border-primary-500 cursor-not-allowed'
+                            : 'bg-white border border-gray-300 hover-bg-secondary'
+                            }`}
                         disabled={currentPage === totalPages}
                     >
                         Next &gt;

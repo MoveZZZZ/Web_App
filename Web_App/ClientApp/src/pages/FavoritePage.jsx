@@ -67,8 +67,7 @@ const FavoritePage = () => {
                                         <img
                                             src="https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*"
                                             alt={item.name}
-                                            className="object-cover hover: bg-primary-200 maxmax-w-2xl transition duration-300 ease-in-out hover:scale-110"
-                                        />
+                                            className="object-cover hover: bg-primary-200 maxmax-w-2xl transition duration-300 ease-in-out hover:scale-110"/>
                                     </Link>
                                 </td>
                                 <td className="border p-2 hover:text-secondary text-4xl">
@@ -86,8 +85,7 @@ const FavoritePage = () => {
                                     <a className="text-primary-500 mx-3">|</a>
                                     <button
                                         onClick={() => addToCart(item.id)}
-                                        className="text-primary-500 hover:text-greenLight cursor-pointer"
-                                    >
+                                        className="text-primary-500 hover:text-greenLight cursor-pointer">
                                         Add to cart
                                     </button>
                                    
