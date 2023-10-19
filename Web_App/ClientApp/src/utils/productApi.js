@@ -1,18 +1,3 @@
-/*export async function fetchProducts() {
-    try {
-        const response = await fetch('https://localhost:7257/products');
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Error fetching product data:', error);
-        throw error;
-    }
-}
-*/
-
 export const fetchProducts = async (page, pageSize) => {
     try {
         const response = await fetch(`https://localhost:7257/products?page=${page}&pageSize=${pageSize}`);

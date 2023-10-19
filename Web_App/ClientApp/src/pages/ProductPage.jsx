@@ -1,6 +1,9 @@
 ﻿import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { fetchProducts, fetchProductsByName, } from '../utils/productApi';
 import _ from "lodash";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 const ProductPage = () => {
     const [productes, setProductes] = useState([]);
@@ -8,6 +11,9 @@ const ProductPage = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [searchQuery, setSearchQuery] = useState('');
     const [errMsg, setErrMsg] = useState('');
+
+    console.log(localStorage.getItem('accTk'));
+
     const loadProducts =() =>
     {
         fetchProducts(currentPage, 25)
@@ -41,9 +47,6 @@ const ProductPage = () => {
             loadProducts();
         } 
     };
-
-    //const debouncedSearch = _.debounce((query)=>searchProductsByName(query), 700);
-
     useEffect(() => {
         searchProductsByName(searchQuery);
     }, [searchQuery]);
@@ -52,43 +55,45 @@ const ProductPage = () => {
         loadProducts();
     }, [currentPage]);
 
-
-
-
-
     const handleSearchInputChange = _.debounce((e) => setSearchQuery(e.target.value), 500);
 
     return (
         <div>
-            <h1>Product List</h1>
+            <div className="mr-5 mt-5 group content-end flex md:flex-row-reverse ">
+            <i className="mr-1 mt-2"><FontAwesomeIcon icon={faSearch} /></i>
             <input
                 type="text"
                 placeholder="Search by product name"
                 onChange={handleSearchInputChange}
-                className="my-4 p-2 rounded border border-gray-300"
-            />
-            {errMsg ? <div className="text-xl">{errMsg}</div> :
-                <div className="grid grid-cols-5 gap-6">
+                className="mr-5 p-2 mb-5 rounded border border-primary-300 text-secondary placeholder-primary-300"
+                />
+            </div>
+
+               
+            {errMsg ? <div className="text-5xl flex justify-center ">{errMsg}</div> :
+                <div className="grid grid-cols-5 gap-6 mx-5">
                     {productes.map((product) => (
-                        <div key={product.id} className="bg-white shadow p-4">
-                            <img src={product.imageUrl} alt={product.name} className="w-full h-40 object-cover mb-4" />
-                            <h2 className="text-lg font-semibold">{product.name}</h2>
-                            <p className="text-sm text-gray-600">{product.description}</p>
-                        </div>
+                        <Link to={`/product/${product.id}`} key={product.id}>
+                            <div key={product.id} className="w-full bg-primary-100 shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-2xl border border-primary-200">
+                                <img src={product.imageUrl} alt={product.name} className="h-75 w-67 object-cover rounded-t-xl" />
+                                <p class="text-lg font-bold text-proimary-500 truncate block capitalize mx-2">{product.name}</p>
+                                <p className="text-sm text-gray-600 truncate mx-2">{product.description}</p>
+                                <p className="text-lg font-semibold text-primary-500 cursor-auto mx-2 my-5 flex justify-end">1.11$</p>
+                            </div>
+                        </Link>
                     ))}
                 </div>
             }
-            <div>
-
-            </div>
             {!errMsg &&
-                <div className="mt-4 p-2 flex justify-center items-center">
+                <div className="flex items-center justify-center  hrounded-xl text-gray-600 overflow-hidden">
                     <button
                         onClick={() => {
                             setCurrentPage(currentPage - 1);
                             window.scrollTo(0, 0); // Scroll to the top of the page
                         }}
-                        className={`mx-2 my-2 p-2 rounded ${currentPage === 1 ? 'bg-white border border-primary-500 cursor-not-allowed' : 'bg-primary-100 border border-primary-500 hover-bg-secondary'}`}
+                        className={`mx-2 my-2 p-2 rounded ${currentPage === 1
+                            ?'bg-white border border-primary-500 cursor-not-allowed'
+                            : 'bg-primary-100 border border-primary-500 hover-bg-secondary'}`}
                         disabled={currentPage === 1}
                     >
                         &lt; Previous
@@ -100,7 +105,9 @@ const ProductPage = () => {
                                 setCurrentPage(index + 1);
                                 window.scrollTo(0, 0); // Scroll to the top of the page
                             }}
-                            className={`mx-2 p-2 rounded ${currentPage === index + 1 ? 'bg-primary-100 text-primary-500 cursor-not-allowed' : 'bg-primary-100 border border-primary-500 hover-bg-secondary'}`}
+                            className={`mx-2 p-2 rounded ${currentPage === index + 1
+                                ? 'bg-primary-100 text-primary-500 cursor-not-allowed'
+                                : 'bg-primary-100 border border-primary-500 hover-bg-secondary'}`}
                             disabled={currentPage === index + 1}
                         >
                             {index + 1}
@@ -111,7 +118,10 @@ const ProductPage = () => {
                             setCurrentPage(currentPage + 1);
                             window.scrollTo(0, 0); // Scroll to the top of the page
                         }}
-                        className={`mx-2 my-2 p-2 rounded ${currentPage === totalPages ? 'bg-white border border-primary-500 cursor-not-allowed' : 'bg-white border border-gray-300 hover-bg-secondary'}`}
+                        className={`mx-2 my-2 p-2 rounded ${currentPage === totalPages
+                            ? 'bg-white border border-primary-500 cursor-not-allowed'
+                            : 'bg-white border border-gray-300 hover-bg-secondary'
+                            }`}
                         disabled={currentPage === totalPages}
                     >
                         Next &gt;

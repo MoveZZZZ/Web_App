@@ -14,9 +14,13 @@ module.exports = {
             },
             secondary: "#D2B48C",
             "background-color": "#FFFFFF",
+            red: "#ff0000",
+            greenLight: "#90EE90"
             
         },
         extend: {},
+
     },
     plugins: [],
+
 }
