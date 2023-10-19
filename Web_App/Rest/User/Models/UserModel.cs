@@ -1,4 +1,4 @@
-﻿namespace Web_App.Models
+﻿namespace Web_App.Rest.User.Models
 {
     public class UserModel
     {
@@ -8,5 +8,5 @@
         public string Password { get; set; }
 
     }
-   
+
 }

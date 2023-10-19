@@ -1,15 +1,15 @@
 ﻿using System.Text;
-using Web_App.Models;
 using Microsoft.IdentityModel.Tokens;
-using Web_App.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System;
 using Microsoft.Extensions.Configuration;
 using System.Security.Cryptography;
 using System.Security.Claims;
+using Web_App.Rest.User.Models;
+using Web_App.Rest.JWT.Model;
 
-namespace Web_App.Services
+namespace Web_App.Rest.JWT.Services
 {
     public class TokenService : ITokenService
     {
