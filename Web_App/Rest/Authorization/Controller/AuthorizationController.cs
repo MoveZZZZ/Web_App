@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using MySql.Data.MySqlClient;
 using Web_App.Rest;
 using Web_App.Rest.Authorization.Models;
+using Web_App.Rest.Authorization.Repositories;
 using Web_App.Rest.Authorization.Services;
 using Web_App.Rest.JWT.Model;
 using Web_App.Rest.JWT.Services;
@@ -15,20 +16,28 @@ using Web_App.Rest.User.Models;
 public class AuthorizationController : ControllerBase
 {
     private readonly ITokenService _tokenService;
-    private AuthorizationResponseModel _authorizationResponseModel;
+    private UserAuthorizationService _userAuthorizationService;
 
 
     public AuthorizationController(ITokenService tokenService)
     {
         _tokenService = tokenService;
-        _authorizationResponseModel = new AuthorizationResponseModel(); 
+        _userAuthorizationService = new UserAuthorizationService(_tokenService);
     }
 
     [HttpPost("login")]
     public IActionResult Login([FromBody] AuthorizationModel loginModel)
-    {
+    {    
+        AuthorizationResponseModel _authorizationResponseModel=_userAuthorizationService.checkUser(loginModel);
 
 
+
+        if(_authorizationResponseModel.UserID!=0)
+        {
+            return Ok(_authorizationResponseModel);
+        }
+        return Unauthorized(new { message = "bad login or password" });
+        
 
 
           
@@ -44,7 +53,8 @@ public class AuthorizationController : ControllerBase
 
 
        //return Unauthorized(new { message = "Invalid email or password" });
-        return Ok(_authorizationResponseModel);
+        //return Ok(_authorizationResponseModel);
+        
     }
 
    

@@ -1,5 +1,5 @@
 ﻿export const login = (login, password) => {
-    return fetch('https://localhost:7257/user/login', {
+    return fetch('https://localhost:7257/Authorization/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
