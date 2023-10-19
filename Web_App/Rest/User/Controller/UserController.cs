@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using Web_App.Models;
-using Web_App.Services;
+using Web_App.Rest.Authorization.Models;
+using Web_App.Rest.JWT.Model;
+using Web_App.Rest.JWT.Services;
+using Web_App.Rest.User.Models;
 
 [Route("[controller]")]
 [ApiController]
@@ -18,13 +20,13 @@ public class UserController : ControllerBase
         _authorizationResponseModel = new AuthorizationResponseModel(); 
     }
 
-    private static readonly List<UserLogin> Users = new List<UserLogin>
+    private static readonly List<AuthorizationModel> Users = new List<AuthorizationModel>
     {
-        new UserLogin { Login= "sperma", Password = "123" }
+        new AuthorizationModel { Login= "sperma", Password = "123" }
     };
 
     [HttpPost("login")]
-    public IActionResult Login([FromBody] UserLogin loginModel)
+    public IActionResult Login([FromBody] AuthorizationModel loginModel)
     {
         UserModel userModel = new UserModel
         { Id = 1, Login = loginModel.Login, Email = "pizda@org.com", Password = loginModel.Password };
@@ -48,7 +50,7 @@ public class UserController : ControllerBase
 
     [HttpPost]
     [Route("signup")]
-    public IActionResult SignUp([FromBody] SignUpModel sign)
+    public IActionResult SignUp([FromBody] RegisterModel sign)
     {
         
         return Ok(new { message = "SignUp successful" });

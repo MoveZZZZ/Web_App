@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Runtime.CompilerServices;
-using Web_App.Models;
+using Web_App.Rest.Product.Model;
 
-namespace Web_App.Controllers
+namespace Web_App.Rest.Product.Controller
 {
     [Route("products")]
     [ApiController]

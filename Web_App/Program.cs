@@ -1,4 +1,4 @@
-using Web_App.Services;
+using Web_App.Rest.JWT.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

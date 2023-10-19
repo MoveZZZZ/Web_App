@@ -1,4 +1,4 @@
-﻿namespace Web_App.Models
+﻿namespace Web_App.Rest.JWT.Model
 {
     public class Token
     {
