@@ -39,7 +39,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Rest\Authorization\Controller\" />
+    <Folder Include="Rest\Authorization\Services\" />
     <Folder Include="ClientApp\src\components\Footer\" />
+    <Folder Include="Rest\Product\Service\" />
+    <Folder Include="Rest\Product\Repository\" />
+    <Folder Include="Rest\User\Repositories\" />
+    <Folder Include="Rest\User\Services\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
