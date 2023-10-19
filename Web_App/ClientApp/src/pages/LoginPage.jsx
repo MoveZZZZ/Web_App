@@ -1,6 +1,6 @@
 ﻿// Login.js
 import React, { useState, useContext, useEffect } from 'react';
-import {  login, } from '../utils/userApi';
+import {  login, } from '../utils/AuthorizationApi';
 import snoopSec from "../assets/snoopSec.gif";
 import { AuthContext, UserIDContext, UserTokenContext, UserRefreshTokenContext, } from "../context";
 

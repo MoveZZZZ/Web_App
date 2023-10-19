@@ -11,7 +11,7 @@
         });
 };
 export const signup = (login, email, password, passwordConfirm) => {
-    return fetch('https://localhost:7257/user/signup', {
+    return fetch('https://localhost:7257/registration/signup', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -19,9 +19,6 @@ export const signup = (login, email, password, passwordConfirm) => {
         body: JSON.stringify({login, email, password, passwordConfirm }),
     })
         .then((response) => {
-            if (!response.ok) {
-                throw new Error('SignUp failed');
-            }
             return response.json();
         });
 };
