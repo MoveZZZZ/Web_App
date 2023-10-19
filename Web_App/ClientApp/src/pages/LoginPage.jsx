@@ -1,6 +1,6 @@
 ﻿// Login.js
 import React, { useState, useContext, useEffect } from 'react';
-import {  login, } from '../utils/userApi';
+import {  login, } from '../utils/AuthorizationApi';
 import snoopSec from "../assets/snoopSec.gif";
 import { AuthContext, UserIDContext, UserTokenContext, UserRefreshTokenContext, } from "../context";
 
@@ -24,7 +24,7 @@ const LoginPage = () => {
                     setUserRefreshToken(response.userRefreshToken);
                     setErrMsg("");
                     setIsAuth(true);
-                    localStorage.setItem('accTk', userToken);
+                    localStorage.setItem('accTk', response.userToken);
                 }
                 else {
                     setErrMsg(response.message);

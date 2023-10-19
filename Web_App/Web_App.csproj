@@ -14,8 +14,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="FontAwesome" Version="4.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.22" />
+    <PackageReference Include="MySql.Data" Version="8.1.0" />
+    <PackageReference Include="MySqlConnector" Version="2.2.7" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.2" />
   </ItemGroup>
 
@@ -40,6 +43,11 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\src\components\Footer\" />
+    <Folder Include="Rest\Product\Service\" />
+    <Folder Include="Rest\Product\Repository\" />
+    <Folder Include="Rest\User\Controller\" />
+    <Folder Include="Rest\User\Repositories\" />
+    <Folder Include="Rest\User\Services\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

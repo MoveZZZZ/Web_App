@@ -1,5 +1,6 @@
-using Web_App.Services;
-
+using MySql.Data.MySqlClient;
+using Web_App.Rest.Authorization.Services;
+using Web_App.Rest.JWT.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -17,6 +18,10 @@ builder.Services.AddCors(options =>
     });
 });
 builder.Services.AddScoped<ITokenService, TokenService>();
+
+builder.Services.AddTransient<MySqlConnection>(_ =>
+    new MySqlConnection(builder.Configuration.GetConnectionString("Default")));
+
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
