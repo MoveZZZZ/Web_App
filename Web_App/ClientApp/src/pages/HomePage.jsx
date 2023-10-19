@@ -7,7 +7,7 @@ const HomePage = () => {
     const { userRefreshToken, setUserRefreshToken } = useContext(UserRefreshTokenContext);
 
     return (
-        <div>HOME</div>
+        <div>{userToken}</div>
 
 
 

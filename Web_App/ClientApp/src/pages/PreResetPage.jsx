@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { handleLoginError, preresetpass } from '../utils/userApi';
+import { handleLoginError, preresetpass } from '../utils/AuthorizationApi';
 
 const ForgotPasswordPreResetPage = () => {
     const [login, setLogin] = useState('');
