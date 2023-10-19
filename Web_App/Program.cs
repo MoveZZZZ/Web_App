@@ -1,3 +1,4 @@
+using MySql.Data.MySqlClient;
 using Web_App.Rest.JWT.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,10 @@ builder.Services.AddCors(options =>
     });
 });
 builder.Services.AddScoped<ITokenService, TokenService>();
+
+builder.Services.AddTransient<MySqlConnection>(_ =>
+    new MySqlConnection(builder.Configuration.GetConnectionString("Default")));
+
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
