@@ -24,7 +24,7 @@ namespace Web_App.Rest.JWT.Services
         {
             Token tokenInstance = new Token();
 
-            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(user.Password));
 
             SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
@@ -32,7 +32,7 @@ namespace Web_App.Rest.JWT.Services
            {
                 new Claim("sub", user.Login),
                 new Claim("mail", user.Email),
-                new Claim("role", "USER")
+                new Claim("role", user.Role)
             };
 
 
@@ -57,7 +57,8 @@ namespace Web_App.Rest.JWT.Services
 
         public string CreateRefreshToken(UserModel user)
         {
-            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
+            //SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(user.Password));
 
             SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
@@ -65,7 +66,7 @@ namespace Web_App.Rest.JWT.Services
            {
                 new Claim("sub", user.Login),
                 new Claim("mail", user.Email),
-                new Claim("role", "USER")
+                new Claim("role", user.Role)
             };
 
 

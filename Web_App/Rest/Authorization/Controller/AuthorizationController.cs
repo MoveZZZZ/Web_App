@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using MySql.Data.MySqlClient;
+using System.Net;
 using Web_App.Rest;
 using Web_App.Rest.Authorization.Models;
 using Web_App.Rest.Authorization.Repositories;
@@ -27,13 +28,28 @@ public class AuthorizationController : ControllerBase
 
     [HttpPost("login")]
     public IActionResult Login([FromBody] AuthorizationModel loginModel)
-    {    
+    {
         AuthorizationResponseModel _authorizationResponseModel=_userAuthorizationService.checkUser(loginModel);
-
-
-
         if(_authorizationResponseModel.UserID!=0)
         {
+            this.Response.Cookies.Append("AccessToken", _authorizationResponseModel.UserToken, new CookieOptions()
+            {
+                Expires = DateTimeOffset.Now.AddHours(24),
+                Path = "/",
+                HttpOnly = true,
+                Domain = null,
+                IsEssential = true,
+                Secure = true
+            });
+            this.Response.Cookies.Append("RefreshToken", _authorizationResponseModel.UserRefreshToken, new CookieOptions()
+            {
+                Expires = DateTimeOffset.Now.AddMinutes(2),
+                Path = "/",
+                HttpOnly = true,
+                Domain = null,
+                IsEssential = true,
+                Secure = true
+            });
             return Ok(_authorizationResponseModel);
         }
         return Unauthorized(new { message = "bad login or password" });
