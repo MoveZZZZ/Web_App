@@ -3,12 +3,20 @@ import React, { useState } from 'react';
 import { signup, } from '../utils/AuthorizationApi';
 import liveMaggotReaction from "../assets/V1.gif";
 
+import PasswordStrengthBar from 'react-password-strength-bar';
+
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+
 
 const SignUpPage = () => {
     const [loginUser, setLoginUser] = useState('');
     const [emailUser, setEmailUser] = useState('');
     const [passwordUser, setPasswordUser] = useState('');
     const [passwordConfUser, setPasswordConfUser] = useState('');
+
+    const [showPassword, setShowPassword] = useState(false);
 
     const [errMsg, setErrMsg] = useState('');
 
@@ -28,6 +36,10 @@ const SignUpPage = () => {
             })
 
     };
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
     return (
         <section class="border-primary-500  flex items-center justify-center">
             <div class="bg-primary-100 p-5 flex rounded-xl shadow-lg max-w-4xl m-28">
@@ -66,19 +78,29 @@ const SignUpPage = () => {
                                 className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none"
                                 placeholder="Email*" />
                         </div>
-                        <div class="mt-3">
+                        <div className="mt-3">
                             <label className="block text-primary-700">Password</label>
-                            <input
-                                id="password"
-                                name="password"
-                                type="password"
-                                autoComplete="current-password"
-                                required
-                                value={passwordUser}
-                                onChange={(e) => setPasswordUser(e.target.value)}
-                                className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none"
-                                placeholder="Password*" />
+                            <div className="relative">
+                                <input
+                                    id="password"
+                                    name="password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    autoComplete="current-password"
+                                    required
+                                    value={passwordUser}
+                                    onChange={(e) => setPasswordUser(e.target.value)}
+                                    className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none"
+                                    placeholder="Password*"
+                                />
+                                <span
+                                    className="absolute right-3 top-4 mt-1 cursor-pointer text-primary-400"
+                                    onClick={togglePasswordVisibility}
+                                >
+                                    {showPassword ? <i><FontAwesomeIcon icon={faEyeSlash} /></i> : <i><FontAwesomeIcon icon={faEye}/></i>}
+                                </span>
+                            </div>
                         </div>
+                        <PasswordStrengthBar password={passwordUser} />
                         <div class="mt-3">
                             <label className="block text-primary-700">Password Confirmation</label>
                             <input
