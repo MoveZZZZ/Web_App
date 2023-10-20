@@ -24,5 +24,20 @@ export const fetchProductsByName = async (name, page, pageSize) => {
     }
 };
 
+/*export const fetchAddTowar = async (id, name, description, cost, imageUrl, count) => {
+    try {
+        return fetch('https://localhost:7257/products/addproduct', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id, name, description, cost, imageUrl, count }),
+        })
+            .then((response) => {
+                return response.json();
+            });
+    }
+};*/
+
 
 
