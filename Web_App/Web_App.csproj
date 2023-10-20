@@ -43,8 +43,6 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\src\components\Footer\" />
-    <Folder Include="Rest\Product\Service\" />
-    <Folder Include="Rest\Product\Repository\" />
     <Folder Include="Rest\User\Controller\" />
     <Folder Include="Rest\User\Repositories\" />
     <Folder Include="Rest\User\Services\" />
