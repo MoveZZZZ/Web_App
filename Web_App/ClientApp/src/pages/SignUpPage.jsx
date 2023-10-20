@@ -1,6 +1,6 @@
 // SignUp.js
 import React, { useState } from 'react';
-import { signup, } from '../utils/userApi';
+import { signup, } from '../utils/AuthorizationApi';
 import liveMaggotReaction from "../assets/V1.gif";
 
 
@@ -10,19 +10,23 @@ const SignUpPage = () => {
     const [passwordUser, setPasswordUser] = useState('');
     const [passwordConfUser, setPasswordConfUser] = useState('');
 
+    const [errMsg, setErrMsg] = useState('');
+
     const handleSignUp = (e) => {
         e.preventDefault();
         signup(loginUser, emailUser, passwordUser, passwordConfUser)
-            .then((response) => {              
-                alert("You have successfully regitered!");
+            .then((response) => {
+                setErrMsg(response.message);
+                setPasswordUser("");
+                setPasswordConfUser("");
+
+            })
+            .catch(() => {
+                setErrMsg("");
                 // eslint-disable-next-line no-restricted-globals
                 location.replace("/login");
             })
-            .catch((error) => {
-                console.log(error.response.data);
-            });
-        setPasswordUser("");
-        setPasswordConfUser("");
+
     };
     return (
         <section class="border-primary-500  flex items-center justify-center">
@@ -88,6 +92,7 @@ const SignUpPage = () => {
                                 className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none"
                                 placeholder="Repeat your password*" />
                         </div>
+                        <p className="text-red text-xs">{errMsg}</p>
                         <button
                             type="submit"
                             className="w-full block bg-primary-300 hover:bg-primary-200 duration-200 focus:bg-blue-400 text-primary-600 font-semibold rounded-lg px-4 py-3 mt-4"

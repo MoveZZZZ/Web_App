@@ -1,6 +1,6 @@
 using MySql.Data.MySqlClient;
+using Web_App.Rest.Authorization.Services;
 using Web_App.Rest.JWT.Services;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
