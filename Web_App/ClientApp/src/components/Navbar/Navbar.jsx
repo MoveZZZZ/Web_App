@@ -20,6 +20,7 @@ const Navbar = () => {
         setChoosenPage(0);
     }
 
+
     return (
         <nav className="p-4 shadow-lg p-6 bg-primary-100">
             <div className="mx-3">
@@ -113,6 +114,10 @@ const Navbar = () => {
         </nav>
 
     );
+    
+
+
+
 };
 
 export default Navbar;

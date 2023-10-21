@@ -8,5 +8,6 @@ namespace Web_App.Rest.Product.Repository
         int getTowarsCount();
         public void addTowarInDB(ProductModel model);
         public ProductModel getProductByID(int id);
+        public List<ProductModel> getProductsListSearch(string str);
     }
 }
