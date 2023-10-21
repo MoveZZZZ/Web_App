@@ -13,6 +13,8 @@ const ProductPage = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [errMsg, setErrMsg] = useState('');
 
+    const [isSearchnig, setIsSearching] = useState(false);
+
 
     const [isLoading, setIsLoading] = useState(true);
 
@@ -37,21 +39,28 @@ const ProductPage = () => {
     const searchProductsByName = (query) => {
         setErrMsg("");
         if (query) {
-            fetchProductsByName(query, currentPage, 25)
+            setIsLoading(true);
+            setIsSearching(true);
+            fetchProductsByName(query)
                 .then((data) => {
                     if (data.products.length == 0) {
                         setErrMsg("Nie znalieziono żadnych produktów!");
                     }
                     setProductes(data.products);
                     setTotalPages(data.totalPages);
-
-                    
                 })
                 .catch((error) => {
                     console.error('Error fetching products by name:', error);
+                })
+                .finally(() => {
+                    setTimeout(() => {
+                        setIsLoading(false);
+                    }, 1000);
                 });
+
         }
         else {
+            setIsSearching(false);
             loadProducts();
         } 
     };
@@ -63,27 +72,28 @@ const ProductPage = () => {
         loadProducts();
     }, [currentPage]);
 
-    const handleSearchInputChange = _.debounce((e) => setSearchQuery(e.target.value), 500);
+    const handleSearchInputChange = _.debounce((e) => setSearchQuery(e.target.value), 1000);
 
     return (
         <>
+            <div className="mr-5 mt-5 group content-end flex md:flex-row-reverse ">
+                <i className="mr-1 mt-2"><FontAwesomeIcon icon={faSearch} /></i>
+                <input
+                    type="text"
+                    placeholder="Search by product name"
+                    onChange={handleSearchInputChange}
+                    className="mr-5 p-2 mb-5 rounded border border-primary-300 text-secondary placeholder-primary-300"
+                />
+            </div>
             {isLoading ?
+
                 <div className="flex text-center items-center justify-center w-full h-96">
                     < Spinner />
-                </div> :
+                </div>
+                :
                 <div>
-                    <div className="mr-5 mt-5 group content-end flex md:flex-row-reverse ">
-                        <i className="mr-1 mt-2"><FontAwesomeIcon icon={faSearch} /></i>
-                        <input
-                            type="text"
-                            placeholder="Search by product name"
-                            onChange={handleSearchInputChange}
-                            className="mr-5 p-2 mb-5 rounded border border-primary-300 text-secondary placeholder-primary-300"
-                        />
-                    </div>
-
-
-                    {errMsg ? <div className="text-5xl flex justify-center ">{errMsg}</div> :
+                    {errMsg ? <div className="text-5xl flex justify-center ">{errMsg}</div>
+                        :
                         <div className="grid grid-cols-5 gap-6 mx-5">
                             {productes.map((product) => (
                                 <Link to={`/product/${product.id}`} key={product.id}>
@@ -97,7 +107,7 @@ const ProductPage = () => {
                             ))}
                         </div>
                     }
-                    {!errMsg &&
+                    {!errMsg && !isSearchnig &&
                         <div className="flex items-center justify-center  hrounded-xl text-gray-600 overflow-hidden">
                             <button
                                 onClick={() => {

@@ -11,9 +11,9 @@ export const fetchProducts = async (page, pageSize) => {
     }
 };
 
-export const fetchProductsByName = async (name, page, pageSize) => {
+export const fetchProductsByName = async (name) => {
     try {
-        const response = await fetch(`https://localhost:7257/products/search?name=${encodeURIComponent(name)}&page=${page}&pageSize=${pageSize}`);
+        const response = await fetch(`https://localhost:7257/products/search?name=${encodeURIComponent(name)}`);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }

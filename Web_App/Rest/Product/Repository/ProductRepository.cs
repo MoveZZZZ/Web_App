@@ -102,5 +102,36 @@ namespace Web_App.Rest.Product.Repository
             }
             return product;
         }
+        public List<ProductModel> getProductsListSearch(string str)
+        {
+            List<ProductModel> products = new List<ProductModel>();
+            ProductModel product;
+
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            DataTable table = new DataTable();
+
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "SELECT * FROM products WHERE name COLLATE utf8_general_ci LIKE @searchPattern";
+                command.Parameters.Add(new MySqlParameter("@searchPattern", MySqlDbType.VarChar) { Value = "%" + str + "%" });
+                adapter.SelectCommand = command;
+                adapter.Fill(table);
+            }
+            foreach (DataRow row in table.Rows)
+            {
+                product = new ProductModel();
+                product.Id = Convert.ToInt32(row[0].ToString());
+                product.Name = row[1].ToString();
+                product.Description = row[2].ToString();
+                product.Cost = Convert.ToInt32(row[3].ToString());
+                product.ImageUrl = (byte[])row["image"];
+                product.Count = Convert.ToInt32(row[5].ToString());
+                products.Add(product);
+            }
+            return products;
+        }
     }
 }

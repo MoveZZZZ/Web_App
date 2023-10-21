@@ -35,7 +35,6 @@ const ProductDetail = () => {
     const addToCart = () => {
         addToCart(id, 1);
     }
-  
     return (
         <>
         { isLoading ?
@@ -49,8 +48,8 @@ const ProductDetail = () => {
                 </h1>
                 <img
                     src={`data:image/jpeg;base64,${productDetails.imageUrl.toString('base64')}`}
-                    alt={productDetails.name}
-                    className="w-10/12 h-auto rounded-md shadow-md  object-center"
+                            alt={productDetails.name}
+                            className="w-[1000px] h-[750px] rounded-md shadow-md  object-center"
                 />
             </div>
                 <div className="w-1/2 mt-12">

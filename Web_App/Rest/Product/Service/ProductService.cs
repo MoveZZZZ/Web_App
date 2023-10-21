@@ -35,7 +35,7 @@ namespace Web_App.Rest.Product.Service
         public List<ProductModel> paginatedProduct(int pageSize, int currenPage)
         {
             List<ProductModel> products = new List<ProductModel>();
-            products = _productRepository.getProductsList(pageSize, currenPage);
+            products = _productRepository.getProductsList(pageSize, (currenPage-1)*pageSize);
             var paginatedProduct = products
                 .Take(pageSize)
                 .ToList();
@@ -58,7 +58,7 @@ namespace Web_App.Rest.Product.Service
                     Thread.Sleep(250);
                     byte[] imageData = stream.ToArray();
 
-                    createdModel.ImageUrl = CompressImage(imageData, 800, 600, 70);
+                    createdModel.ImageUrl = CompressImage(imageData, 1200, 1200, 100);
                 }
             }
             catch (Exception ex)
@@ -102,6 +102,17 @@ namespace Web_App.Rest.Product.Service
             model = _productRepository.getProductByID(id);
             return model;
 
+        }
+        public List<ProductModel> paginatedProductSearch(string str) {
+
+            List<ProductModel> products = new List<ProductModel>();
+
+            products = _productRepository.getProductsListSearch(str);
+           
+            var paginatedProduct = products
+                .Take(products.Count())
+                .ToList();
+            return paginatedProduct;
         }
 
 
