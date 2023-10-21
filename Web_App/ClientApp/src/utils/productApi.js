@@ -42,7 +42,7 @@ export async function addProduct(formData) {
     if (!response.ok) {
         throw new Error('Error adding product');
     }
-
+    //console.log("NEXT");
     return response.json();
 };
 

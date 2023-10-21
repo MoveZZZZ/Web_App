@@ -55,6 +55,7 @@ namespace Web_App.Rest.Product.Service
                 using (var stream = new MemoryStream())
                 {
                     model.Image.CopyToAsync(stream);
+                    Thread.Sleep(250);
                     byte[] imageData = stream.ToArray();
 
                     createdModel.ImageUrl = CompressImage(imageData, 800, 600, 70);
