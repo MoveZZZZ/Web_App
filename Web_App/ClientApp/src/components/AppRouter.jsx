@@ -8,6 +8,7 @@ import ProductPage from "../pages/ProductPage";
 import ProductDetail from "../pages/ProductDetail";
 import ShoppingCartPage from "../pages/ShoppingCartPage";
 import FavoritePage from "../pages/FavoritePage";
+import AddTowarPage from "../pages/AddTowarPage";
 
 const AppRouter = () => {
     const { isAuth } = useContext(AuthContext);
@@ -51,6 +52,9 @@ const AppRouter = () => {
                 <Route
                     element={<ProductDetail />}
                     path="/product/:id" />
+                <Route
+                    element={<AddTowarPage />}
+                    path="/addtowar"/>
                 <Route
                     path="*" element={<Navigate to="/login" />} />
             </Routes>
