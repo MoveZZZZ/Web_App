@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Runtime.CompilerServices;
 using Web_App.Rest.Product.Model;
@@ -43,7 +44,7 @@ namespace Web_App.Rest.Product.Controller
             return Ok(pModelDetails);
 
         }
-
+        [Authorize]
         [HttpPost]
         [Route("addproduct")]
         public IActionResult AddProduct([FromForm] ProductRequestModel model)

@@ -24,7 +24,7 @@ namespace Web_App.Rest.JWT.Services
         {
             Token tokenInstance = new Token();
 
-            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(user.Password));
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
 
             SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
@@ -36,7 +36,7 @@ namespace Web_App.Rest.JWT.Services
             };
 
 
-            DateTime Expiration = DateTime.Now.AddMinutes(1);
+            DateTime Expiration = DateTime.Now.AddMinutes(2);
             JwtSecurityToken securityToken = new JwtSecurityToken(
                 issuer: _configuration["Token:Issuer"],
                 audience: _configuration["Token:Audience"],
@@ -57,8 +57,8 @@ namespace Web_App.Rest.JWT.Services
 
         public string CreateRefreshToken(UserModel user)
         {
-            //SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
-            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(user.Password));
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
+            //SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(user.Password));
 
             SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
@@ -82,6 +82,12 @@ namespace Web_App.Rest.JWT.Services
 
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             return tokenHandler.WriteToken(securityToken);
+        }
+
+        public SymmetricSecurityKey GetSymmetricKey()
+        {
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
+            return securityKey;
         }
     }
 }

@@ -15,7 +15,7 @@ const Navbar = () => {
     const [choosenPage, setChoosenPage] = useState(0);
     const logout = () => {
         setIsAuth(false);
-        localStorage.removeItem('accTk');
+        sessionStorage.removeItem('accTk');
         setModalVisability(false);
         setChoosenPage(0);
     }

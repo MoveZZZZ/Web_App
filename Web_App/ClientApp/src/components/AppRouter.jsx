@@ -32,6 +32,9 @@ const AppRouter = () => {
                     element={<FavoritePage />}
                     path="/favorite" />
                 <Route
+                    element={<AddTowarPage />}
+                    path="/addtowar" />
+                <Route
                     path="*"
                     element={<Navigate to="/" />} />
             </Routes>
@@ -54,7 +57,8 @@ const AppRouter = () => {
                     path="/product/:id" />
                 <Route
                     element={<AddTowarPage />}
-                    path="/addtowar"/>
+                    path="/addtowar" />
+
                 <Route
                     path="*" element={<Navigate to="/login" />} />
             </Routes>
