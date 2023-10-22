@@ -18,7 +18,8 @@ module.exports = {
             greenLight: "#90EE90"
             
         },
-        extend: {},
+        extend: {
+        },
 
     },
     plugins: [],

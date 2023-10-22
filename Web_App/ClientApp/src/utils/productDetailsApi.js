@@ -8,7 +8,9 @@ export const fetchDetailsProduct = async (id) => {
         return data;
     } catch (error) {
         throw error;
-    }
-
-    
+    }    
 }
+
+
+
+
