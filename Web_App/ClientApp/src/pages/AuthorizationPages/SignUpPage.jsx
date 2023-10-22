@@ -1,7 +1,7 @@
 // SignUp.js
 import React, { useState } from 'react';
-import { signup, } from '../utils/AuthorizationApi';
-import liveMaggotReaction from "../assets/V1.gif";
+import { signup, } from '../../utils/AuthorizationApi';
+import liveMaggotReaction from "../../assets/V1.gif";
 
 import PasswordStrengthBar from 'react-password-strength-bar';
 
