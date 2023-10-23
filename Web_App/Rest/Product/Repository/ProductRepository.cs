@@ -133,5 +133,18 @@ namespace Web_App.Rest.Product.Repository
             }
             return products;
         }
+        public void updateProdcutCount(int orderCountProduct, int productID)
+        {
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "UPDATE products SET count=count-@ordercount WHERE id=@pid";
+                command.Parameters.Add("@ordercount", MySqlDbType.Int32).Value = orderCountProduct;
+                command.Parameters.Add("@pid", MySqlDbType.Int32).Value = productID;
+                command.ExecuteNonQuery();
+            }
+        }
     }
 }

@@ -1,6 +1,8 @@
 using MySql.Data.MySqlClient;
 using Web_App.Rest.Authorization.Services;
 using Web_App.Rest.JWT.Services;
+using Web_App.Rest.Payments.Service;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -29,6 +31,8 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 
 builder.Services.AddTransient<MySqlConnection>(_ =>
     new MySqlConnection(builder.Configuration.GetConnectionString("Default")));
+
+builder.Services.AddTransient<IBraintreeService, BraintreeService>();
 
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())

@@ -7,17 +7,9 @@ import AppRouter from "./components/AppRouter";
 
 
 
-
-
-/*import HomePage from "./pages/HomePage";
-import LoginPage from "./pages/LoginPage";
-import SignUpPage from "./pages/SignUpPage";
-import ProductPage from "./pages/ProductPage";
-import ProductDetail from "./pages/ProductDetail";
-import ShoppingCartPage from "./pages/ShoppingCartPage";*/
-
 const App = () => {
     const [isAuth, setIsAuth] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [userID, setUserID] = useState("");
     const [userToken, setUserToken]=useState("");
     const [userRefreshToken, setUserRefreshToken] = useState("");
@@ -25,6 +17,7 @@ const App = () => {
     useEffect(() => {
         if (localStorage.getItem('accTk')) {
             setIsAuth(true);
+            setIsLoading(false);
         }
     }, []);
 
@@ -45,7 +38,8 @@ const App = () => {
         } }>
         <AuthContext.Provider value={{
             isAuth,
-            setIsAuth 
+                        setIsAuth,
+            isLoading
         }}>
             <>
                 <Navbar />

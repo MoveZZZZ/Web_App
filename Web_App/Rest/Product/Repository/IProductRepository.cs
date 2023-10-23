@@ -9,5 +9,6 @@ namespace Web_App.Rest.Product.Repository
         public void addTowarInDB(ProductModel model);
         public ProductModel getProductByID(int id);
         public List<ProductModel> getProductsListSearch(string str);
+        public void updateProdcutCount(int orderCountProduct, int productID);
     }
 }

@@ -115,6 +115,9 @@ namespace Web_App.Rest.Product.Service
             return paginatedProduct;
         }
 
-
+        public void updateProductCountAfterAddToOrder(int orderCountProduct, int productID)
+        {
+            _productRepository.updateProdcutCount(orderCountProduct, productID);
+        }
     }
 }

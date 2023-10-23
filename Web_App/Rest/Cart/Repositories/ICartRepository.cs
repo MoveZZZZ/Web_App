@@ -9,5 +9,7 @@ namespace Web_App.Rest.Cart.Repositories
         public void updateCartCountTowar(CartModelRequest cartReqModel);
         public List<CartModelResponse> getCartListTowar(int userID);
         public List<int> getListCartIndexes(int userID);
+
+        public void RemoveFromCartList(int userID, List<int> listTowar);
     }
 }
