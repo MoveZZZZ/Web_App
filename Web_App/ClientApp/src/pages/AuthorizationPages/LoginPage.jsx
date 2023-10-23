@@ -24,9 +24,7 @@ const LoginPage = () => {
                     setUserRefreshToken(response.userRefreshToken);
                     setErrMsg("");
                     setIsAuth(true);
-                    localStorage.setItem('accTk', response.userToken);
-                    localStorage.setItem('RefTk', response.userRefreshToken);
-                    localStorage.setItem('UserID', response.userID);
+                    sessionStorage.setItem('accTk', response.userToken);
                 }
                 else {
                     setErrMsg(response.message);

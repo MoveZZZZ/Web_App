@@ -25,3 +25,16 @@ export const signup = (login, email, password, passwordConfirm) => {
             return response.json();
         });
 };
+
+export const refreshTokens = () => {
+    return fetch('https://localhost:7257/token/refresh_access_token',
+        {
+            method: 'GET',
+            credentials: 'include'
+        })
+        .then(res => {
+                console.log(res.headers.get('set-cookie')); // undefined
+                console.log(document.cookie); // nope
+                return res.json();
+        })
+};

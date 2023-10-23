@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Web_App.Rest.Authorization.Models;
 using Web_App.Rest.Authorization.Services;
 
@@ -12,6 +13,7 @@ public class RegistrationController:ControllerBase
         _userRegistrationService= new UserRegistrationService();
     }
 
+    [AllowAnonymous]
     [HttpPost]
     [Route("signup")]
     public IActionResult SignUp([FromBody] RegisterModel sign)

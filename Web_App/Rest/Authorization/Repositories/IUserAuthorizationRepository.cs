@@ -7,6 +7,6 @@ namespace Web_App.Rest.Authorization.Repositories
     public interface IUserAuthorizationRepository
     {
         UserModel getUserDataFromDB(AuthorizationModel authModel);
-
+        UserModel getUserDataFromDBviaMail(string email);
     }
 }

@@ -34,30 +34,27 @@ public class AuthorizationController : ControllerBase
         {
             this.Response.Cookies.Append("AccessToken", _authorizationResponseModel.UserToken, new CookieOptions()
             {
-                Expires = DateTimeOffset.Now.AddHours(24),
-                Path = "/",
-                HttpOnly = true,
-                Domain = null,
-                IsEssential = true,
-                Secure = true
-            });
-            this.Response.Cookies.Append("RefreshToken", _authorizationResponseModel.UserRefreshToken, new CookieOptions()
-            {
                 Expires = DateTimeOffset.Now.AddMinutes(2),
                 Path = "/",
                 HttpOnly = true,
                 Domain = null,
                 IsEssential = true,
-                Secure = true
+                Secure = true,
+                SameSite = SameSiteMode.Strict
+            });
+            this.Response.Cookies.Append("RefreshToken", _authorizationResponseModel.UserRefreshToken, new CookieOptions()
+            {
+                Expires = DateTimeOffset.Now.AddMinutes(4800),
+                Path = "/",
+                HttpOnly = true,
+                Domain = null,
+                IsEssential = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict
             });
             return Ok(_authorizationResponseModel);
         }
-        return Unauthorized(new { message = "bad login or password" });
-        
-
-
-          
-           
+        return Unauthorized(new { message = "bad login or password" });      
 /*
 
         Token token = _tokenService.CreateToken(userModel);
