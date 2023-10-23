@@ -1,6 +1,6 @@
 import snoopNavbar from "../../assets/snoopDogTr.gif";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStore, faCartShopping, faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faStore, faCartShopping, faHeart, faBagShopping } from "@fortawesome/free-solid-svg-icons";
 import LoginPage from "../../pages/AuthorizationPages/LoginPage";
 import { AuthContext } from "../../context";
 import React, { useContext, useState } from 'react';
@@ -64,12 +64,23 @@ const Navbar = () => {
                         Favorite
                             <i><FontAwesomeIcon icon={faHeart} className="ml-2" /></i>
                         </Link>
+                        <Link to="/orders"
+                            onClick={() => { setChoosenPage(4); }}
+                            className={` ${choosenPage === 4
+                                ? 'text-secondary mx-3'
+                                : 'text-white hover:text-primary-300 ease-in-out hover:text-secondary transition duration-200 mx-3 ease-in-out hover:scale-110'
+                                }`}>
+                            Orders
+                            <i><FontAwesomeIcon icon={faBagShopping} className="ml-2" /></i>
+                        </Link>
+
+                       
 
                     </div>
                     <ul className="flex space-x-2">
                         {isAuth
                             ? (
-                            <>
+                                <>
                                 <li>
                                         <a onClick={() => { setChoosenPage(0); }}
                                             className="text-white hover:text-primary-300 ease-in-out  hover:text-secondary cursor-pointer"
@@ -91,7 +102,8 @@ const Navbar = () => {
                                             </div>
                                             
                                     </div>
-                                </LogoutModal>
+                                    </LogoutModal>
+
                             </>
                        
                             )                                

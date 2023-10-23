@@ -82,6 +82,26 @@ namespace Web_App.Rest.Cart.Repositories
             return indedxes;
         }
 
+        public void RemoveFromCartList(int userID, List<int> listTowar)
+        {
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "DELETE FROM cart WHERE user_id=@uid AND products_id=@pid";
+                
+                foreach (int tempTowarID in listTowar)
+                {
+                    command.Parameters.Add("@uid", MySqlDbType.Int32).Value = userID;
+                    command.Parameters.Add("@pid", MySqlDbType.Int32).Value = tempTowarID;
+                    command.ExecuteNonQuery();
+                    command.Parameters.Clear();
+                }
+                
+            }
+        }
+
         public void removeFromCartTowar(CartModelRequest cartReqModel)
         {
             using (var connection = GetConnection())

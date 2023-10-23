@@ -1,5 +1,6 @@
 ﻿using Web_App.Rest.Cart.Model;
 using Web_App.Rest.Cart.Repositories;
+using ZstdSharp.Unsafe;
 
 namespace Web_App.Rest.Cart.Services
 {
@@ -35,6 +36,11 @@ namespace Web_App.Rest.Cart.Services
             List<int> response = new List<int>();
             response = _repository.getListCartIndexes(userID);
             return response;
+        }
+
+        public void removeTowarFromCartAfterAddOrder(int userID, List<int> listTowar)
+        {
+            _repository.RemoveFromCartList(userID, listTowar);
         }
 
     }

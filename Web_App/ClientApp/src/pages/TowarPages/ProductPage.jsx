@@ -1,4 +1,5 @@
 ﻿import React, { useState, useEffect } from 'react';
+import { Select, Option } from "@material-tailwind/react";
 import { Link } from 'react-router-dom';
 import { fetchProducts, fetchProductsByName, } from '../../utils/productApi';
 import _ from "lodash";
@@ -76,14 +77,37 @@ const ProductPage = () => {
 
     return (
         <>
-            <div className="mr-5 mt-5 group content-end flex md:flex-row-reverse ">
-                <i className="mr-1 mt-2"><FontAwesomeIcon icon={faSearch} /></i>
+            <div className="mr-5 mt-5 flex justify-between items-center grid grid-cols-3">
+                <div className="flex justify-start w-1/2 h-3/8 ml-6">
+
+                    {/*CREATE LOGIC TYPES!!!!*/ }
+                    <select className="w-full p-2.5 text-primary-400 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-secondary text-center">
+                        <option>All</option>
+                        <option>Weapon</option>
+                        <option>Bullet</option>
+                        <option>Knifes</option>
+                    </select>
+
+
+
+
+
+                    <select className="w-full ml-10 p-2.5 text-primary-400 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-secondary text-center" >
+                        <option>None</option>
+                        <option>Increase</option>
+                        <option>Decrease</option>
+                    </select>
+                </div>
+                <div className="text-3xl flex justify-center ">{errMsg}</div>
+                <div className="flex justify-end mt-3">
+                <i className="mr-3 mt-2"><FontAwesomeIcon icon={faSearch} /></i>
                 <input
                     type="text"
                     placeholder="Search by product name"
                     onChange={handleSearchInputChange}
-                    className="mr-5 p-2 mb-5 rounded border border-primary-300 text-secondary placeholder-primary-300"
-                />
+                    className=" p-2 mb-2 rounded border border-primary-300 text-secondary placeholder-primary-300"
+                    />
+                </div>
             </div>
             {isLoading ?
 
@@ -92,7 +116,7 @@ const ProductPage = () => {
                 </div>
                 :
                 <div>
-                    {errMsg ? <div className="text-5xl flex justify-center ">{errMsg}</div>
+                    {errMsg ? <></>
                         :
                         <div className="grid grid-cols-5 gap-6 mx-5">
                             {productes.map((product) => (

@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Spinner from '../../components/Spinner/Spinner';
 import { fetchGetAllClientCartItems, } from "../../utils/cartApi"
+import { fetchCreateOrder, } from "../../utils/orderAPI"
 import Message from "../../components/Message/Message";
 import ErrorMessage from "../../components/Message/ErrorMessage";
-//src = "https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*"
-//src={`/path-to-product-images/${item.id}.jpg`}
+
+import { fetchGetAllAPCity, fetchGetAllAPTheCity, fetchGetAllAPState, fetchGetAllAPTheState, fetchGetAllCitysTheState, fetchGetAllAPTheStateAndCity } from "../../utils/accessPointsAPI"
+
 const ShoppingCartPage = () => {
 
 
@@ -13,7 +15,10 @@ const ShoppingCartPage = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     const [selectedItemList, setSelectedItemList] = useState([]);
+    const [selectedItemCountList, setSelectedItemCountList] = useState([]);
 
+   
+    const [isPlaceOrderClick, setIsPlaceOrderClick] = useState(false);
 
 
     const userID = localStorage.getItem('UserID');
@@ -27,14 +32,38 @@ const ShoppingCartPage = () => {
 
     const [isError, setIsError] = useState(false);
 
+
+    const [totalOrderSum, setTotalOrderSum] = useState(0);
+
+
+    const [statesList, setStatesList] = useState([]);
+    const [citysList, setCitysList] = useState([]);
+    const [accesspointsList, setAccesspointsList] = useState([]);
+
+    const [choisedState, setChoisedState] = useState();
+    const [choisedCity, setChoisedCity] = useState();
+    const [choisedAP, setChoisedAP] = useState(null);
+
+
+    const [orderComment, setOrderComment] = useState("");
+
+    const [paymentMethod, setPaymentMethod] = useState("Card");
+
+
+
+
+    const [orderListProduct, setOrderListProduct] = useState([]);
+    const [orderListCountProduct, setorderListCountProduct] = useState([]);
+
     const uploadData = async () => {
         setIsLoading(true);
         fetchGetAllClientCartItems(userID)
             .then((data) => {
                 setCartItems(data.towar);
             })
-            .catch((error) => {
-                console.error('Error fetching products:', error);
+            .catch(() => {
+                setMessage("Bad data loading");
+                getErrorMessage();
             })
             .finally(() => {
                 setTimeout(() => {
@@ -42,9 +71,20 @@ const ShoppingCartPage = () => {
                 }, 100);
             });
     }
+    const uploadStates = async () => {
+        fetchGetAllAPState()
+            .then((response) => {
+                setStatesList(response.states);
+            })
+            .catch(() => {
+                setMessage("Bad data loading");
+                getErrorMessage();
+            })
+    }
 
     useEffect(() => {
         uploadData();
+        uploadStates();
     }, []);
 
 
@@ -56,6 +96,7 @@ const ShoppingCartPage = () => {
     };
     const placeOrder = () => {
         if (selectedItemList.length) {
+            setIsPlaceOrderClick(true);
         }
         else {
             setMessage("Choise item(s), please!");
@@ -63,14 +104,56 @@ const ShoppingCartPage = () => {
         }
        
     };
-    const toggleSelect = (itemId) => {
+    const createOrder = () => {
+        
+            if (selectedItemList &&
+                choisedAP
+            ) {
+                fetchCreateOrder(userID, selectedItemList, selectedItemCountList, totalOrderSum, orderComment, choisedAP.id, paymentMethod)
+                    .then((data) => {
+                        setTimeout(() => {
+                            window.open("/orders", "_self");
+                            setIsLoading(false);
+                        }, 2000);
+                    })
+                    .catch(() => {
+                        setMessage("Bad data loading");
+                        getErrorMessage();
+                    })
+                setMessage("Your order successefely added!")
+                getMessage();
+            }
+            else if (!choisedAP) {
+                setMessage("Choise addres!")
+                getErrorMessage();
+            }
+    };
+    const removeOrder = () => {
+        setIsPlaceOrderClick(false);
+        setOrderComment("");
+        setTotalOrderSum(0);
+        uploadData();
+        setSelectedItemList([]);
+        setSelectedItemList([]);
+        setChoisedCity();
+        setChoisedAP([]);
+        setChoisedState();
+        setCitysList([]);
+        setAccesspointsList([]);
+        setChoisedAP(null);
+        
+    };
+    const toggleSelect = (itemId, sum, itemCount) => {
         if (selectedItemList.includes(itemId)) {
             setSelectedItemList(selectedItemList.filter((item) => item !== itemId));
+            setSelectedItemCountList(selectedItemCountList.filter((item) => item !== itemCount))
+            setTotalOrderSum(totalOrderSum - sum);
         } else {
             setSelectedItemList([...selectedItemList, itemId]);
+            setSelectedItemCountList([...selectedItemCountList, itemCount]);
+            setTotalOrderSum(totalOrderSum + sum);
         }
     };
-
     const getMessage = () => {
         setIsMessage(true);
         setTimeout(() => setIsMessage(false), 2500);
@@ -80,6 +163,61 @@ const ShoppingCartPage = () => {
         setTimeout(() => setIsError(false), 2500);
     }
 
+
+
+    const uploadAccessPoints = async (city) => {
+        fetchGetAllAPTheStateAndCity(choisedState,city)
+            .then((response) => {
+                setAccesspointsList(response.accesPoints);
+            })
+            .catch(() => {
+                setMessage("Bad data loading");
+                getErrorMessage();
+            });
+
+    }
+    const uploadCitys = async (state)=>
+    {
+        fetchGetAllCitysTheState(state)
+            .then((response) => {
+
+                setCitysList(response.citys);
+            })
+            .catch(() => {
+                setMessage("Bad data loading");
+                getErrorMessage();
+            });
+    }
+
+    const handleSelectState = (event) => {
+        if (event.target.value != "None") {
+            uploadCitys(event.target.value)
+        } else {
+            setChoisedAP(null);
+            setCitysList([]);
+            setAccesspointsList([]);
+        }
+        setChoisedState(event.target.value)
+    }
+    const handleSelectCity = (event) => {
+        if (event.target.value != "None") {
+            uploadAccessPoints(event.target.value);
+        } else {
+            setAccesspointsList([]);
+            setChoisedAP(null);
+        }
+        setChoisedCity(event.target.value)
+
+    }
+    const handleSelectAP = (event) => {
+        const name = event.target.value;
+        const selectedAPinMethod = accesspointsList.find((ap) => ap.name === name);
+        setChoisedAP(selectedAPinMethod);
+    }
+    const handlePaymentMethod = (event) => {
+        setPaymentMethod(event.target.value);
+        //console.log(choisedAP.id);
+    }
     return (
          <>
             {isLoading ?
@@ -102,7 +240,7 @@ const ShoppingCartPage = () => {
                             <thead>
                                 <tr>
                                     <th className="w-1/6 border p-2 rounded-tl-sm">Product</th>
-                                    <th className="w-1/12 border p-2">Title</th>
+                                    <th className="w-2/12 border p-2">Title</th>
                                     <th className="w-1/12 border p-2">Price</th>
                                     <th className="w-1/12 border p-2">Count</th>
                                     <th className="w-1/12 border p-2">Total</th>
@@ -139,7 +277,7 @@ const ShoppingCartPage = () => {
                                                 className="mx-4"
                                                 type="checkbox"
                                                 checked={item.selected}
-                                                onChange={() => toggleSelect(item.towarID)}
+                                                onChange={() => toggleSelect(item.towarID, item.sumPrice, item.count)}
                                             />
                                         </td>
                                     </tr>
@@ -148,14 +286,167 @@ const ShoppingCartPage = () => {
                         </table>
 
                     </div>
-                    <div className="flex justify-end">
-                        <button
-                            onClick={placeOrder}
-                            className="bg-primary-500 text-primary-100 px-4 py-2 mb-4 rounded hover:bg-secondary m-5"
-                        >
-                            Place Order
-                        </button>
-                    </div>
+                    {!isPlaceOrderClick && !selectedItemList.length ? (
+                        <div className="flex justify-end">
+                            <button
+                                onClick={placeOrder}
+                                className="bg-primary-500 text-primary-100 px-4 py-2 mb-4 rounded hover:bg-secondary m-5"
+                            >
+                                Place Order
+                            </button>
+                        </div>                        
+                    ) : (
+                            <>
+                                <div>
+                                    <div className="relative flex py-5 items-center">
+                                    <div className="flex-grow border-t border-primary-400"></div>
+                                     <span className="flex-shrink mx-4 text-primary-400">Order details</span>
+                                     <div className="flex-grow border-t border-primary-400"></div>
+                                    </div>
+                                    <div className="flex justify-center place-items-center content-center border border-primary-200 w-full">
+                                        <p>Choised Product list</p>
+
+                                    </div>
+
+                                    <div className="w-full overflow-x-auto flex items-center justify-center ">
+                                        <table className="w-full table-fixed border border-collapse mt-5">
+                                            <thead>
+                                                <tr>
+                                                    <th className="w-1/12 border p-2">Title</th>
+                                                    <th className="w-1/12 border p-2">Price</th>
+                                                    <th className="w-1/12 border p-2">Count</th>
+                                                    <th className="w-1/12 border p-2">Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="text-center break-all">
+                                                {cartItems.map((item) => (
+                                                    <tr key={item.towarID}>
+                                                        {selectedItemList.includes(item.towarID) ? (
+                                                            <>
+                                                                <td className="border p-2">{item.towarName}</td>
+                                                                <td className="border p-2">${item.towarPrice.toFixed(2)}</td>
+                                                                <td className="border p-2">{item.count}</td>
+                                                                <td className="border p-2">${item.sumPrice}</td>
+                                                                </>
+                                                            ): null
+                                                        }
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+
+
+                                    <div className="flex justify-start items-center gap-6">
+                                    <div>
+                                        <select className="w-32 mt-10 px-4 py-2 text-primary-400 bg-white border rounded-md 
+                                        shadow-sm outline-none appearance-none focus:border-secondary text-center"
+                                            onChange={handleSelectState}>
+                                                <option key="None">None</option>
+                                            {statesList.map((stateItem) => (
+                                                <option key={stateItem}>{stateItem}</option>
+                                            ))}
+                                            </select>
+                                        </div>
+                                        
+                                        {citysList.length ? (
+                                            <div>
+                                                <select className="w-32 px-4 py-2 mt-10 text-primary-400 bg-white border rounded-md 
+                                        shadow-sm outline-none appearance-none focus:border-secondary text-center"
+                                                    onChange={handleSelectCity}>
+                                                    <option key="None">None</option>
+                                                    {citysList.map((cityItem) => (
+                                                        <option key={cityItem}>{cityItem}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                           
+                                        ):(
+                                           <></>
+                                        )}
+
+
+
+                                        {accesspointsList.length ? (
+                                            <>
+                                            <div>
+                                                <select className="w-32 px-4 py-2 mt-10 text-primary-400 bg-white border rounded-md 
+                                        shadow-sm outline-none appearance-none focus:border-secondary text-center"
+                                                    onChange={handleSelectAP}>
+                                                    <option key="None">None</option>
+                                                    {accesspointsList.map((accesPList) => (
+                                                        <option key={accesPList}>{accesPList.name}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                          
+                                            </>
+                                                ) : (
+                                            <></>
+                                        )}
+                                        {choisedAP &&
+                                            <>
+                                            <p className="mt-10 text-2xl text-bolid">Full addres shop:</p>
+                                            <div className="mt-10 text-xl text-bolid"><h1>{choisedAP.buildingNumber} {choisedAP.street} St, {choisedAP.city}, {choisedAP.postIndex}, {choisedAP.state} </h1></div>
+                                        </>
+                                        }
+
+                                        
+                                    </div>
+                                    <input htmlFor="large-input"
+                                        id="uname"
+                                        name="uname"
+                                        value={orderComment}
+                                        type="uname"
+                                        autoComplete="uname"
+                                        onChange={(e) => setOrderComment(e.target.value)}
+                                        required
+                                        placeholder="Write comment to your order"
+                                        className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none"
+                                         />
+
+
+                                    <p className="flex justify-end mt-2">Payment method:</p>
+                                    <div className="flex justify-end">
+                                        <select className="w-40 px-4 py-2 text-primary-400 bg-white border rounded-md
+                                        shadow-sm outline-none appearance-none focus:border-secondary text-center"
+                                            onChange={handlePaymentMethod }>
+                                            <option key="Card">Card</option>
+                                            <option key="Cash">Cash</option>
+                                        </select>
+                                    </div>
+                                    <p className="flex justify-end text-xl">Total sum: ${totalOrderSum}</p>
+
+
+
+
+
+
+
+
+
+                                 <div className="flex justify-center">
+                                                            <button
+                                    onClick={createOrder}
+                                    className="bg-primary-500 text-primary-100 px-4 py-2 mb-4 rounded hover:bg-secondary m-5"
+                                >
+                                    Place Order
+                                </button>
+                             <button
+                                    onClick={removeOrder}
+                                    className="bg-primary-500 text-primary-100 px-4 py-2 mb-4 rounded hover:bg-secondary m-5"
+                                >
+                                    Back
+                                </button>
+
+                                </div>
+                            </div>
+                            </>
+
+                    )}
+                   
                 </div>
             }
            </>

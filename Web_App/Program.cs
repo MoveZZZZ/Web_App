@@ -7,6 +7,8 @@ using Web_App.Rest.JWT.Services;
 using Microsoft.Extensions.Configuration;
 using Web_App.Rest.JWT.Model;
 using Web_App.Rest.JWT.Services;
+using Web_App.Rest.Payments.Service;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +40,7 @@ builder.Services.AddTransient<MySqlConnection>(_ =>
     new MySqlConnection(builder.Configuration.GetConnectionString("Default")));
 
 
+builder.Services.AddTransient<IBraintreeService, BraintreeService>();
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

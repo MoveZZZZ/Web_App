@@ -9,9 +9,18 @@ import ProductDetail from "../pages/TowarPages/ProductDetail";
 import ShoppingCartPage from "../pages/TowarPages/ShoppingCartPage";
 import FavoritePage from "../pages/TowarPages/FavoritePage";
 import AddTowarPage from "../pages/TowarPages/AddTowarPage";
+import OrdersPage from "../pages/TowarPages/OrdersPage";
+
+import Spinner from '../components/Spinner/Spinner';
+import CreateOrderPage from "../pages/TowarPages/CreateOrderPage";
 
 const AppRouter = () => {
-    const { isAuth } = useContext(AuthContext);
+    const { isAuth, isLoading } = useContext(AuthContext);
+    if (isLoading) {
+        return (
+            <Spinner/>
+        )
+    }
     return (
         isAuth
             ?
@@ -32,8 +41,16 @@ const AppRouter = () => {
                     element={<FavoritePage />}
                     path="/favorite" />
                 <Route
-                    element={<AddTowarPage />}
+                    element={<OrdersPage />}
+                    path="/orders" />
+                <Route
+                    element={<CreateOrderPage />}
+                    path="/createorder" />
+                      {/*
+                      element={<AddTowarPage />}
                     path="/addtowar" />
+                    ?????????????*/}
+
                 <Route
                     path="*"
                     element={<Navigate to="/" />} />
@@ -58,13 +75,13 @@ const AppRouter = () => {
                 <Route
                     element={<AddTowarPage />}
                     path="/addtowar" />
-
                 <Route
                     path="*" element={<Navigate to="/login" />} />
             </Routes>
 
-        
+
     )
+   
 }
 
 export default AppRouter;
