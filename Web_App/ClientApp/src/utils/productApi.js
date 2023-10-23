@@ -33,9 +33,10 @@ export async function addProduct(formData) {
     body.append('Cost', formData.Cost);
     body.append('Count', formData.Count);
     body.append('Image', formData.Image);
-
+    const token = sessionStorage.getItem('accTk')
     const response = await fetch(apiUrl, {
         method: 'POST',
+        credentials: 'include',
         body,
     });
 

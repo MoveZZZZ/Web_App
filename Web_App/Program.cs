@@ -1,7 +1,14 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using MySql.Data.MySqlClient;
+using System.Text;
 using Web_App.Rest.Authorization.Services;
 using Web_App.Rest.JWT.Services;
+using Microsoft.Extensions.Configuration;
+using Web_App.Rest.JWT.Model;
+using Web_App.Rest.JWT.Services;
 using Web_App.Rest.Payments.Service;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +39,44 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 builder.Services.AddTransient<MySqlConnection>(_ =>
     new MySqlConnection(builder.Configuration.GetConnectionString("Default")));
 
+
 builder.Services.AddTransient<IBraintreeService, BraintreeService>();
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = false, // Set to true if needed
+        ValidateAudience = false, // Set to true if needed
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        //NOT FOR RELEASE VERSION, RENEW TOKEN AFTER FIX THAT
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("MFswDQYJKoZIhvcNAQEBBQADSgAwRwJAf/GielqHk/+f1YrD2gRRnSHoAae+Ta05ktSA5/x7hpozFsANrUy6SaYMvGgc/t7aqTmMTEHUtrAfIZDY9cWSqwIDAQAB"))
+    };
+    options.SaveToken = true;
+    options.Events = new JwtBearerEvents();
+    options.Events.OnMessageReceived = context => {
+        if (context.Request.Cookies.ContainsKey("AccessToken"))
+        {
+            context.Token = context.Request.Cookies["AccessToken"];
+            return Task.CompletedTask;
+        }
+        return Task.CompletedTask;
+
+    };
+})
+.AddCookie(options =>
+ {
+     options.Cookie.SameSite = SameSiteMode.Strict;
+     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+     options.Cookie.IsEssential = true;
+ });
 
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())
@@ -46,6 +90,11 @@ app.UseRouting();
 app.UseCors();
 app.UseCookiePolicy();
 app.UseAuthentication();
+app.UseAuthorization();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.MapControllerRoute(
     name: "default",

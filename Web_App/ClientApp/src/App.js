@@ -15,7 +15,7 @@ const App = () => {
     const [userRefreshToken, setUserRefreshToken] = useState("");
 
     useEffect(() => {
-        if (localStorage.getItem('accTk')) {
+        if (sessionStorage.getItem('accTk')) {
             setIsAuth(true);
             setIsLoading(false);
         }
