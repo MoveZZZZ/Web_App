@@ -1,7 +1,7 @@
 import snoopNavbar from "../../assets/snoopDogTr.gif";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStore, faCartShopping, faHeart } from "@fortawesome/free-solid-svg-icons";
-import LoginPage from "../../pages/LoginPage";
+import LoginPage from "../../pages/AuthorizationPages/LoginPage";
 import { AuthContext } from "../../context";
 import React, { useContext, useState } from 'react';
 import { Link} from 'react-router-dom';
@@ -76,7 +76,7 @@ const Navbar = () => {
                                             onClick={() => setModalVisability(true)}>Sign Out</a>
                                 </li>
                                     <LogoutModal visible={modalVisability} setVisible={setModalVisability }>
-                                        <div space-y-4>
+                                        <div className="space-y-4">
                                             <div className="flex justify-center text-2xl font-semibold whitespace-nowrap dark:text-white">You are about to log out! Are you sure?</div>
                                             <div className="flex justify-center mt-4">
                                                 <img src={cursedCat}

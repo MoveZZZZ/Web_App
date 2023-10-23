@@ -1,5 +1,5 @@
 ﻿import React, { useState } from 'react';
-import { addProduct } from "../utils/productApi";
+import { addProduct } from "../../utils/productApi";
 
 const AddTowarPage = () => {
     const getInitialFormData = () => ({

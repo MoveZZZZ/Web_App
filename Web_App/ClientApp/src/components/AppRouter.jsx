@@ -2,13 +2,13 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from "../context";
 import HomePage from "../pages/HomePage";
-import LoginPage from "../pages/LoginPage";
-import SignUpPage from "../pages/SignUpPage";
-import ProductPage from "../pages/ProductPage";
-import ProductDetail from "../pages/ProductDetail";
-import ShoppingCartPage from "../pages/ShoppingCartPage";
-import FavoritePage from "../pages/FavoritePage";
-import AddTowarPage from "../pages/AddTowarPage";
+import LoginPage from "../pages/AuthorizationPages/LoginPage";
+import SignUpPage from "../pages/AuthorizationPages/SignUpPage";
+import ProductPage from "../pages/TowarPages/ProductPage";
+import ProductDetail from "../pages/TowarPages/ProductDetail";
+import ShoppingCartPage from "../pages/TowarPages/ShoppingCartPage";
+import FavoritePage from "../pages/TowarPages/FavoritePage";
+import AddTowarPage from "../pages/TowarPages/AddTowarPage";
 
 const AppRouter = () => {
     const { isAuth } = useContext(AuthContext);

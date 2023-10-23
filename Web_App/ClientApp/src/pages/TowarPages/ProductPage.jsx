@@ -1,10 +1,10 @@
 ﻿import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchProducts, fetchProductsByName, } from '../utils/productApi';
+import { fetchProducts, fetchProductsByName, } from '../../utils/productApi';
 import _ from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import Spinner from '../components/Spinner/Spinner';
+import Spinner from '../../components/Spinner/Spinner';
 
 const ProductPage = () => {
     const [productes, setProductes] = useState([]);

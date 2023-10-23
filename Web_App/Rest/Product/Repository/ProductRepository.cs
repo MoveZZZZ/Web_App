@@ -68,7 +68,7 @@ namespace Web_App.Rest.Product.Repository
                 command.CommandText = "INSERT INTO products(`name`, `description`, `cost`, `image`, `count`) VALUES(@name, @des, @cost, @img, @cnt)";
                 command.Parameters.Add("@name", MySqlDbType.VarChar).Value = model.Name;
                 command.Parameters.Add("@des", MySqlDbType.TinyText).Value = model.Description;
-                command.Parameters.Add("@cost", MySqlDbType.Int32).Value = model.Cost;
+                command.Parameters.Add("@cost", MySqlDbType.Float).Value = model.Cost;
                 command.Parameters.Add("@img", MySqlDbType.Blob).Value = model.ImageUrl;
                 command.Parameters.Add("@cnt", MySqlDbType.Int32).Value = model.Count;
                 command.ExecuteNonQuery();

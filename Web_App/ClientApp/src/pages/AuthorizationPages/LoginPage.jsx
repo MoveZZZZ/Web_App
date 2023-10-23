@@ -1,8 +1,8 @@
 ﻿// Login.js
 import React, { useState, useContext, useEffect } from 'react';
-import {  login, } from '../utils/AuthorizationApi';
-import snoopSec from "../assets/snoopSec.gif";
-import { AuthContext, UserIDContext, UserTokenContext, UserRefreshTokenContext, } from "../context";
+import { login, } from '../../utils/AuthorizationApi';
+import snoopSec from "../../assets/snoopSec.gif";
+import { AuthContext, UserIDContext, UserTokenContext, UserRefreshTokenContext, } from "../../context";
 
 const LoginPage = () => {
     const [loginUser, setLoginUser] = useState('');
