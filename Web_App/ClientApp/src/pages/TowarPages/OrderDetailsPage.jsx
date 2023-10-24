@@ -1,17 +1,23 @@
 ﻿import React, { useEffect } from 'react'
 import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { fetchOrderDetails, } from "../../utils/orderAPI"
 
 
-const OrderDetailsPage = () => {
+const OrderDetailsPage = (props) => {
+
     const userID = localStorage.getItem('UserID');
+    const location = useLocation();
+    
     const [orderID, setOrderID] = useState(1);
 
     const [orderDetailData, setOrderDetailData] = useState();
     const [orderDetailProducts, setorderDetailProducts] = useState([]);
 
     const handleOrderDetails = async () => {
-        fetchOrderDetails(orderID, parseInt(userID, 10))
+        console.log(location.state.orderID);
+        console.log(userID);
+        fetchOrderDetails(location.state.orderID, parseInt(userID, 10))
             .then((data) => {
                 console.log(data);
                 setOrderDetailData(data);
@@ -26,7 +32,7 @@ const OrderDetailsPage = () => {
 
 
     useEffect(() => {
-        handleOrderDetails();
+       handleOrderDetails();
     }, []);
 
     return (
@@ -40,10 +46,13 @@ const OrderDetailsPage = () => {
                 <div class="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">
                     <div class="flex flex-col justify-start items-start dark:bg-gray-800 bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full">
                         <p class="text-lg md:text-xl dark:text-white font-semibold leading-6 xl:leading-5 text-gray-800">Customer’s Cart</p>
-                        <div class="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full">
-                            {/*MAP THIS!!!!*/}
-                            <div class="pb-4 md:pb-4 w-full md:w-40">
-                                <img class="w-full hidden md:block" src="https://i.ibb.co/84qQR4p/Rectangle-10.png" alt="dress" />
+
+                            {orderDetailProducts.map((items) =>
+                                <div class="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full">
+                                <div class="pb-4 md:pb-4 w-full md:w-40">
+                                        <img class="w-full hidden md:block"
+                                            src={`data:image/jpeg;base64,${items.imageUrl.toString('base64')}`}
+                                            alt="dress" />
                             </div>
                             <div class="border-b border-gray-200 md:flex-row flex-col flex justify-between items-start w-full pb-8 space-y-4 md:space-y-0">
                                 <div class="w-full flex flex-col justify-start items-start space-y-8">
@@ -60,8 +69,12 @@ const OrderDetailsPage = () => {
                                     <p class="text-base dark:text-white xl:text-lg font-semibold leading-6 text-gray-800">$36.00</p>
                                 </div>
                             </div>
-                        </div>
-
+                                </div >
+                        
+                            )}
+                        
+                            
+                       
 
                     </div>
                     <div class="flex justify-center flex-col md:flex-row flex-col items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
