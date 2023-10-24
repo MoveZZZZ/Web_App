@@ -8,6 +8,6 @@
         public float Cost { get; set; }
         public string Ordercom { get; set; }
         public int AccessPointId { get; set; }
-        public string PaymentMethod {  get; set; }
+        public string PaymentMethod { get; set; }
     }
 }

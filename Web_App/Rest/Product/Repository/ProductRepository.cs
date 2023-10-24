@@ -13,7 +13,7 @@ namespace Web_App.Rest.Product.Repository
     {
         public List<ProductModel> getProductsList(int count, int skip)
         {
-            List <ProductModel> products = new List <ProductModel> ();
+            List<ProductModel> products = new List<ProductModel>();
             ProductModel product;
 
             MySqlDataAdapter adapter = new MySqlDataAdapter();
@@ -54,7 +54,7 @@ namespace Web_App.Rest.Product.Repository
                 command.Connection = connection;
                 command.CommandText = "SELECT COUNT(*) FROM products";
                 dataReader = command.ExecuteReader();
-                while(dataReader.Read()) { towarCount = Convert.ToInt32(dataReader.GetValue(0).ToString()); }
+                while (dataReader.Read()) { towarCount = Convert.ToInt32(dataReader.GetValue(0).ToString()); }
             }
             return towarCount;
         }
@@ -76,7 +76,7 @@ namespace Web_App.Rest.Product.Repository
         }
         public ProductModel getProductByID(int id)
         {
-            ProductModel product= new ProductModel();
+            ProductModel product = new ProductModel();
 
             MySqlDataAdapter adapter = new MySqlDataAdapter();
             DataTable table = new DataTable();

@@ -17,7 +17,7 @@ const ShoppingCartPage = () => {
     const [selectedItemList, setSelectedItemList] = useState([]);
     const [selectedItemCountList, setSelectedItemCountList] = useState([]);
 
-   
+
     const [isPlaceOrderClick, setIsPlaceOrderClick] = useState(false);
 
 
@@ -49,11 +49,6 @@ const ShoppingCartPage = () => {
 
     const [paymentMethod, setPaymentMethod] = useState("Card");
 
-
-
-
-    const [orderListProduct, setOrderListProduct] = useState([]);
-    const [orderListCountProduct, setorderListCountProduct] = useState([]);
 
     const uploadData = async () => {
         setIsLoading(true);
@@ -102,31 +97,31 @@ const ShoppingCartPage = () => {
             setMessage("Choise item(s), please!");
             getErrorMessage();
         }
-       
+
     };
     const createOrder = () => {
-        
-            if (selectedItemList &&
-                choisedAP
-            ) {
-                fetchCreateOrder(userID, selectedItemList, selectedItemCountList, totalOrderSum, orderComment, choisedAP.id, paymentMethod)
-                    .then((data) => {
-                        setTimeout(() => {
-                            window.open("/orders", "_self");
-                            setIsLoading(false);
-                        }, 2000);
-                    })
-                    .catch(() => {
-                        setMessage("Bad data loading");
-                        getErrorMessage();
-                    })
-                setMessage("Your order successefely added!")
-                getMessage();
-            }
-            else if (!choisedAP) {
-                setMessage("Choise addres!")
-                getErrorMessage();
-            }
+
+        if (selectedItemList &&
+            choisedAP
+        ) {
+            fetchCreateOrder(userID, selectedItemList, selectedItemCountList, totalOrderSum, orderComment, choisedAP.id, paymentMethod)
+                .then((data) => {
+                    setTimeout(() => {
+                        window.open("/orders", "_self");
+                        setIsLoading(false);
+                    }, 2000);
+                })
+                .catch(() => {
+                    setMessage("Bad data loading");
+                    getErrorMessage();
+                })
+            setMessage("Your order successefely added!")
+            getMessage();
+        }
+        else if (!choisedAP) {
+            setMessage("Choise addres!")
+            getErrorMessage();
+        }
     };
     const removeOrder = () => {
         setIsPlaceOrderClick(false);
@@ -141,7 +136,7 @@ const ShoppingCartPage = () => {
         setCitysList([]);
         setAccesspointsList([]);
         setChoisedAP(null);
-        
+
     };
     const toggleSelect = (itemId, sum, itemCount) => {
         if (selectedItemList.includes(itemId)) {
@@ -166,7 +161,7 @@ const ShoppingCartPage = () => {
 
 
     const uploadAccessPoints = async (city) => {
-        fetchGetAllAPTheStateAndCity(choisedState,city)
+        fetchGetAllAPTheStateAndCity(choisedState, city)
             .then((response) => {
                 setAccesspointsList(response.accesPoints);
             })
@@ -176,8 +171,7 @@ const ShoppingCartPage = () => {
             });
 
     }
-    const uploadCitys = async (state)=>
-    {
+    const uploadCitys = async (state) => {
         fetchGetAllCitysTheState(state)
             .then((response) => {
 
@@ -216,10 +210,9 @@ const ShoppingCartPage = () => {
     }
     const handlePaymentMethod = (event) => {
         setPaymentMethod(event.target.value);
-        //console.log(choisedAP.id);
     }
     return (
-         <>
+        <>
             {isLoading ?
                 <div className="flex text-center items-center justify-center w-full h-96">
                     < Spinner />
@@ -232,129 +225,166 @@ const ShoppingCartPage = () => {
                     }
                     {isError ?
                         <ErrorMessage param={message} />
-                    :
-                    <></>}
-                    <h1 className="text-2xl font-semibold mb-4">Shopping Cart</h1>
-                    <div className="w-full overflow-x-auto flex items-center justify-center ">
-                        <table className="w-full table-fixed border border-collapse m-5">
-                            <thead>
-                                <tr>
-                                    <th className="w-1/6 border p-2 rounded-tl-sm">Product</th>
-                                    <th className="w-2/12 border p-2">Title</th>
-                                    <th className="w-1/12 border p-2">Price</th>
-                                    <th className="w-1/12 border p-2">Count</th>
-                                    <th className="w-1/12 border p-2">Total</th>
-                                    <th className="w-1/6 border p-2">Remove</th>
-                                </tr>
-                            </thead>
-                            <tbody className="text-center break-all">
-                                {cartItems.map((item) => (
-                                    <tr key={item.towarID}>
-                                        <td className="border p-2">
-                                            <Link to={`/product/${item.towarID}`}>
-                                                <img
-                                                    src={`data:image/jpeg;base64,${item.image.toString('base64')}`}
-                                                    alt={item.towarName}
-                                                    className="object-cover hover: bg-primary-200 maxmax-w-2xl transition duration-300 ease-in-out hover:scale-110"
-                                                />
-                                            </Link>
-                                        </td>
-                                        <td className="border p-2 hover:text-secondary text-4xl">
-                                            <Link to={`/product/${item.towarID}`}>{item.towarName}</Link>
-                                        </td>
-                                        <td className="border p-2">${item.towarPrice.toFixed(2)}</td>
-                                        <td className="border p-2">{item.count}</td>
-                                        <td className="border p-2">${item.sumPrice}</td>
-                                        <td className="border p-2">
-                                            <button
-                                                onClick={() => removeFromCart(item.towarID)}
-                                                className="text-primary-500 hover:text-red cursor-pointer">
-                                                Remove
-                                            </button>
-                                            <a className="text-primary-500 mx-5">|</a>
-                                            <a className="text-primary-500">Select</a>
-                                            <input
-                                                className="mx-4"
-                                                type="checkbox"
-                                                checked={item.selected}
-                                                onChange={() => toggleSelect(item.towarID, item.sumPrice, item.count)}
-                                            />
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-
-                    </div>
-                    {!isPlaceOrderClick && !selectedItemList.length ? (
-                        <div className="flex justify-end">
-                            <button
-                                onClick={placeOrder}
-                                className="bg-primary-500 text-primary-100 px-4 py-2 mb-4 rounded hover:bg-secondary m-5"
-                            >
-                                Place Order
-                            </button>
-                        </div>                        
-                    ) : (
+                        :
+                        <></>}
+                    <div class="bg-white rounded-md w-auto-full align-20[px] ">
+                        <div class=" flex items-center justify-between">
+                            <div>
+                                <h2 class="text-gray-600 font-semibold">Favorite</h2>
+                            </div>
+                        </div>
+                        <div className="flex justify-center items-center">
+                            <div class="-mx-4 sm:-mx-8 px-4 sm:px-4 py-4 overflow-x-auto">
+                                <div className="inline-block min-w-full shadow rounded-lg overflow-hidden ">
+                                    <table class="min-w-full leading-normal ">
+                                        <thead>
+                                            <tr>
+                                                <th
+                                                    class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    Product
+                                                </th>
+                                                <th
+                                                    class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    Name
+                                                </th>
+                                                <th
+                                                    class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    Price
+                                                </th>
+                                                <th
+                                                    class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    Count
+                                                </th>
+                                                <th
+                                                    class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    Total
+                                                </th>
+                                                <th
+                                                    class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    Option
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="text-center break-all">
+                                            {cartItems.map((item) => (
+                                                <tr key={item.towarID}>
+                                                    <td className="px-5 py-5 border-b border-primary-200 bg-white text-xl">
+                                                        <div class="flex-shrink-0 w-20 h-20">
+                                                            <Link to={`/product/${item.towarID}`}>
+                                                                <img
+                                                                    src={`data:image/jpeg;base64,${item.image.toString('base64')}`}
+                                                                    alt={item.towarName}
+                                                                    className="w-full h-full rounded-full object-cover hover: bg-primary-200 maxmax-w-2xl transition duration-300 ease-in-out hover:scale-110" />
+                                                            </Link>
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-5 py-5 border-b border-primary-200 bg-white text-xs">
+                                                        <Link to={`/product/${item.towarID}`}>{item.towarName}</Link>
+                                                    </td>
+                                                    <td className="px-5 py-5 border-b border-primary-200 bg-white text-sm">${item.towarPrice.toFixed(2)}</td>
+                                                    <td className="px-5 py-5 border-b border-primary-200 bg-white text-sm">{item.count}</td>
+                                                    <td className="px-5 py-5 border-b border-primary-200 bg-white text-sm">${item.sumPrice}</td>
+                                                    <td className="px-5 py-5 border-b border-primary-200 bg-white text-sm">
+                                                        <button
+                                                            onClick={() => removeFromCart(item.towarID)}
+                                                            className="text-primary-500 hover:text-red cursor-pointer">
+                                                            Remove
+                                                        </button>
+                                                        <a className="text-primary-500 mx-5">|</a>
+                                                        <a className="text-primary-500">Select</a>
+                                                        <input
+                                                            className="mx-4"
+                                                            type="checkbox"
+                                                            checked={item.selected}
+                                                            onChange={() => toggleSelect(item.towarID, item.sumPrice, item.count)}
+                                                        />
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        {!isPlaceOrderClick && !selectedItemList.length ? (
+                            <div className="flex justify-end">
+                                <button
+                                    onClick={placeOrder}
+                                    className="bg-primary-500 text-primary-100 px-4 py-2 mb-4 rounded hover:bg-secondary m-5"
+                                >
+                                    Place Order
+                                </button>
+                            </div>
+                        ) : (
                             <>
                                 <div>
                                     <div className="relative flex py-5 items-center">
-                                    <div className="flex-grow border-t border-primary-400"></div>
-                                     <span className="flex-shrink mx-4 text-primary-400">Order details</span>
-                                     <div className="flex-grow border-t border-primary-400"></div>
-                                    </div>
-                                    <div className="flex justify-center place-items-center content-center border border-primary-200 w-full">
-                                        <p>Choised Product list</p>
-
+                                        <div className="flex-grow border-t border-primary-400"></div>
+                                        <span className="flex-shrink mx-4 text-primary-400">Order details</span>
+                                        <div className="flex-grow border-t border-primary-400"></div>
                                     </div>
 
-                                    <div className="w-full overflow-x-auto flex items-center justify-center ">
-                                        <table className="w-full table-fixed border border-collapse mt-5">
-                                            <thead>
-                                                <tr>
-                                                    <th className="w-1/12 border p-2">Title</th>
-                                                    <th className="w-1/12 border p-2">Price</th>
-                                                    <th className="w-1/12 border p-2">Count</th>
-                                                    <th className="w-1/12 border p-2">Total</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody className="text-center break-all">
-                                                {cartItems.map((item) => (
-                                                    <tr key={item.towarID}>
-                                                        {selectedItemList.includes(item.towarID) ? (
-                                                            <>
-                                                                <td className="border p-2">{item.towarName}</td>
-                                                                <td className="border p-2">${item.towarPrice.toFixed(2)}</td>
-                                                                <td className="border p-2">{item.count}</td>
-                                                                <td className="border p-2">${item.sumPrice}</td>
-                                                                </>
-                                                            ): null
-                                                        }
-                                                    </tr>
-                                                ))}
-                                            </tbody>
-                                        </table>
+                                    <div className="flex justify-center items-center">
+                                        <div class="-mx-4 sm:-mx-8 px-4 sm:px-4 py-4 overflow-x-auto">
+                                            <div className="inline-block min-w-full shadow rounded-lg overflow-hidden ">
+                                                <table className="min-w-full leading-normal">
+                                                    <thead>
+                                                        <tr>
+                                                            <th
+                                                                class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                Title
+                                                            </th>
+                                                            <th
+                                                                class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                Price
+                                                            </th>
+                                                            <th
+                                                                class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                Count
+                                                            </th>
+                                                            <th
+                                                                class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                Total
+                                                            </th>
+
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody className="text-center break-all">
+                                                        {cartItems.map((item) => (
+                                                            <tr key={item.towarID}>
+                                                                {selectedItemList.includes(item.towarID) ? (
+                                                                    <>
+                                                                        <td className="px-5 py-5 border-b border-primary-200 bg-white text-xl">{item.towarName}</td>
+                                                                        <td className="px-5 py-5 border-b border-primary-200 bg-white text-xl">${item.towarPrice.toFixed(2)}</td>
+                                                                        <td className="px-5 py-5 border-b border-primary-200 bg-white text-xl">{item.count}</td>
+                                                                        <td className="px-5 py-5 border-b border-primary-200 bg-white text-xl">${item.sumPrice}</td>
+                                                                    </>
+                                                                ) : null
+                                                                }
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
                                     </div>
-
-
-
-
                                     <div className="flex justify-start items-center gap-6">
-                                    <div>
-                                        <select className="w-32 mt-10 px-4 py-2 text-primary-400 bg-white border rounded-md 
-                                        shadow-sm outline-none appearance-none focus:border-secondary text-center"
-                                            onChange={handleSelectState}>
+                                        <div>
+                                            <select className="w-32 mt-10 text-primary-400 bg-white border rounded-md 
+                                        shadow-sm outline-none appearance-none focus:border-secondary text-center px-5 py-5 bg-white text-xs"
+                                                onChange={handleSelectState}>
                                                 <option key="None">None</option>
-                                            {statesList.map((stateItem) => (
-                                                <option key={stateItem}>{stateItem}</option>
-                                            ))}
+                                                {statesList.map((stateItem) => (
+                                                    <option key={stateItem}>{stateItem}</option>
+                                                ))}
                                             </select>
                                         </div>
-                                        
+
                                         {citysList.length ? (
                                             <div>
-                                                <select className="w-32 px-4 py-2 mt-10 text-primary-400 bg-white border rounded-md 
-                                        shadow-sm outline-none appearance-none focus:border-secondary text-center"
+                                                <select className="w-32 mt-10 text-primary-400 bg-white border rounded-md 
+                                        shadow-sm outline-none appearance-none focus:border-secondary text-center px-5 py-5 bg-white text-xs"
                                                     onChange={handleSelectCity}>
                                                     <option key="None">None</option>
                                                     {citysList.map((cityItem) => (
@@ -362,38 +392,35 @@ const ShoppingCartPage = () => {
                                                     ))}
                                                 </select>
                                             </div>
-                                           
-                                        ):(
-                                           <></>
-                                        )}
 
-
-
+                                        )
+                                            :
+                                            (
+                                                <></>
+                                            )}
                                         {accesspointsList.length ? (
                                             <>
-                                            <div>
-                                                <select className="w-32 px-4 py-2 mt-10 text-primary-400 bg-white border rounded-md 
-                                        shadow-sm outline-none appearance-none focus:border-secondary text-center"
-                                                    onChange={handleSelectAP}>
-                                                    <option key="None">None</option>
-                                                    {accesspointsList.map((accesPList) => (
-                                                        <option key={accesPList}>{accesPList.name}</option>
-                                                    ))}
-                                                </select>
-                                            </div>
-                                          
+                                                <div>
+                                                    <select className="w-32 mt-10 text-primary-400 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-secondary text-center px-5 py-5 bg-white text-xs"
+                                                        onChange={handleSelectAP}>
+                                                        <option key="None">None</option>
+                                                        {accesspointsList.map((accesPList) => (
+                                                            <option key={accesPList}>{accesPList.name}</option>
+                                                        ))}
+                                                    </select>
+                                                </div>
                                             </>
-                                                ) : (
-                                            <></>
-                                        )}
+                                        )
+                                            :
+                                            (
+                                                <></>
+                                            )}
                                         {choisedAP &&
                                             <>
-                                            <p className="mt-10 text-2xl text-bolid">Full addres shop:</p>
-                                            <div className="mt-10 text-xl text-bolid"><h1>{choisedAP.buildingNumber} {choisedAP.street} St, {choisedAP.city}, {choisedAP.postIndex}, {choisedAP.state} </h1></div>
-                                        </>
+                                                <p className="mt-10 text-2xl text-bolid">Full addres shop:</p>
+                                                <div className="mt-10 text-xl text-bolid"><h1>{choisedAP.buildingNumber} {choisedAP.street} St, {choisedAP.city}, {choisedAP.postIndex}, {choisedAP.state} </h1></div>
+                                            </>
                                         }
-
-                                        
                                     </div>
                                     <input htmlFor="large-input"
                                         id="uname"
@@ -405,51 +432,42 @@ const ShoppingCartPage = () => {
                                         required
                                         placeholder="Write comment to your order"
                                         className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none"
-                                         />
-
-
+                                    />
                                     <p className="flex justify-end mt-2">Payment method:</p>
                                     <div className="flex justify-end">
                                         <select className="w-40 px-4 py-2 text-primary-400 bg-white border rounded-md
                                         shadow-sm outline-none appearance-none focus:border-secondary text-center"
-                                            onChange={handlePaymentMethod }>
+                                            onChange={handlePaymentMethod}>
                                             <option key="Card">Card</option>
                                             <option key="Cash">Cash</option>
                                         </select>
                                     </div>
                                     <p className="flex justify-end text-xl">Total sum: ${totalOrderSum}</p>
+                                    <div className="flex justify-center">
+                                        <button
+                                            onClick={createOrder}
+                                            className="bg-primary-500 text-primary-100 px-4 py-2 mb-4 rounded hover:bg-secondary m-5"
+                                        >
+                                            Place Order
+                                        </button>
+                                        <button
+                                            onClick={removeOrder}
+                                            className="bg-primary-500 text-primary-100 px-4 py-2 mb-4 rounded hover:bg-secondary m-5"
+                                        >
+                                            Back
+                                        </button>
 
-
-
-
-
-
-
-
-
-                                 <div className="flex justify-center">
-                                                            <button
-                                    onClick={createOrder}
-                                    className="bg-primary-500 text-primary-100 px-4 py-2 mb-4 rounded hover:bg-secondary m-5"
-                                >
-                                    Place Order
-                                </button>
-                             <button
-                                    onClick={removeOrder}
-                                    className="bg-primary-500 text-primary-100 px-4 py-2 mb-4 rounded hover:bg-secondary m-5"
-                                >
-                                    Back
-                                </button>
-
+                                    </div>
                                 </div>
-                            </div>
                             </>
 
-                    )}
-                   
+                        )}
+
+                    </div>
                 </div>
             }
-           </>
+
+        </>
 
     );
 };

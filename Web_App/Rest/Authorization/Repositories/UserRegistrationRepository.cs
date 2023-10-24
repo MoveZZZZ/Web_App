@@ -51,9 +51,9 @@ namespace Web_App.Rest.Authorization.Repositories
                 command.CommandText = "SELECT * FROM user WHERE username = @uname";
                 command.Parameters.Add("@uname", MySqlDbType.VarChar).Value = username;
                 MySqlDataReader getedData = command.ExecuteReader();
-                using(getedData)
+                using (getedData)
                     result.Load(getedData);
-                
+
             }
             return result;
 

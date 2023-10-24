@@ -5,12 +5,12 @@ using Web_App.Rest.Authorization.Services;
 
 [Route("[controller]")]
 [ApiController]
-public class RegistrationController:ControllerBase
-    {
+public class RegistrationController : ControllerBase
+{
     private UserRegistrationService _userRegistrationService;
-    public RegistrationController ()
+    public RegistrationController()
     {
-        _userRegistrationService= new UserRegistrationService();
+        _userRegistrationService = new UserRegistrationService();
     }
 
     [AllowAnonymous]

@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useContext} from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link, useParams } from "react-router-dom";
 import { fetchDetailsProduct, } from '../../utils/productDetailsApi';
 import { fetchAddToCart, fetchGetAllIndexClientCart, fetchRemoveFromCart, } from '../../utils/cartApi';
 import { fetchAddToFavorite, fetchGetAllIndexClientFavorite, fetchRemoveFavoriteItem } from "../../utils/favoriteApi"
 import Spinner from '../../components/Spinner/Spinner';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeartCirclePlus,faHeartCircleXmark, faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+import { faHeartCirclePlus, faHeartCircleXmark, faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { add } from 'lodash';
 import { UserIDContext } from "../../context";
 import Message from "../../components/Message/Message";
@@ -31,7 +31,7 @@ const ProductDetail = () => {
 
     const [isMessage, setIsMessage] = useState(false);
 
-    const[successMessage, setSuccessMessage] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
 
     const increaseCount = () => {
         if (count < productDetails.count) {
@@ -188,8 +188,8 @@ const ProductDetail = () => {
 
     return (
         <>
-        { isLoading ?
-                <div className = "flex text-center items-center justify-center w-full h-96">
+            {isLoading ?
+                <div className="flex text-center items-center justify-center w-full h-96">
                     < Spinner />
                 </div> :
                 <div className="flex p-6 bg-white rounded-lg shadow-lg">
@@ -199,19 +199,19 @@ const ProductDetail = () => {
                         <></>
                     }
                     <div className="w-1/2 pr-6 flex flex-col justify-center items-center">
-                <h1 className="text-3xl font-semibold text-primary-700 text-center mb-4">
-                    {productDetails.name}
+                        <h1 className="text-3xl font-semibold text-primary-700 text-center mb-4">
+                            {productDetails.name}
                         </h1>
-                <img
-                    src={`data:image/jpeg;base64,${productDetails.imageUrl.toString('base64')}`}
+                        <img
+                            src={`data:image/jpeg;base64,${productDetails.imageUrl.toString('base64')}`}
                             alt={productDetails.name}
                             className="w-[1000px] h-[750px] rounded-md shadow-md  object-center"
-                />
-            </div>
-                <div className="w-1/2 mt-12">
-                    <p className="text-lg mb-4 text-primary-500 text-justify">
-                        {productDetails.description}
-                    </p>
+                        />
+                    </div>
+                    <div className="w-1/2 mt-12">
+                        <p className="text-lg mb-4 text-primary-500 text-justify">
+                            {productDetails.description}
+                        </p>
                         <div className="flex justify-between mb-4">
                             <span className="text-primary-600 font-bold">Price: ${productDetails.cost}</span>
                             <span className="text-primary-600 font-bold">In Stock: {productDetails.count}</span>
@@ -224,31 +224,31 @@ const ProductDetail = () => {
                                 </button></>
                             ) : (
                                 <>
-                                    <button className = "bg-primary-300 text-white rounded-full px-6 py-2 hover:bg-primary-400 focus:outline-none"
-                        onClick = { addItemsToCart }>
-                        Add to Cart
-                        </button>
-                        <div className="flex items-center justify-evenly gap-3">
-                            <button className="rounded-full bg-primary-300 px-6 py-2 hover:bg-secondary ease-in-out duration-150 font-bold text-center"
-                                onClick={increaseCount}
-                            >
-                                <FontAwesomeIcon
-                                    icon={faPlus}
-                                />
-                            </button>
+                                    <button className="bg-primary-300 text-white rounded-full px-6 py-2 hover:bg-primary-400 focus:outline-none"
+                                        onClick={addItemsToCart}>
+                                        Add to Cart
+                                    </button>
+                                    <div className="flex items-center justify-evenly gap-3">
+                                        <button className="rounded-full bg-primary-300 px-6 py-2 hover:bg-secondary ease-in-out duration-150 font-bold text-center"
+                                            onClick={increaseCount}
+                                        >
+                                            <FontAwesomeIcon
+                                                icon={faPlus}
+                                            />
+                                        </button>
 
-                            <p className="text-xl mx-2">
-                                {count}
-                            </p>
+                                        <p className="text-xl mx-2">
+                                            {count}
+                                        </p>
 
-                            <button className="rounded-full bg-primary-300 px-6 py-2 hover:bg-secondary ease-in-out duration-150 font-bold text-center"
-                                onClick={decreaseCount}>
-                                <FontAwesomeIcon
-                                    icon={faMinus}
-                                />
-                            </button>
-                        </div>
-                        </>
+                                        <button className="rounded-full bg-primary-300 px-6 py-2 hover:bg-secondary ease-in-out duration-150 font-bold text-center"
+                                            onClick={decreaseCount}>
+                                            <FontAwesomeIcon
+                                                icon={faMinus}
+                                            />
+                                        </button>
+                                    </div>
+                                </>
                             )}
                             <i>{!isFavorite ? <FontAwesomeIcon
                                 icon={faHeartCirclePlus}
@@ -265,11 +265,11 @@ const ProductDetail = () => {
                             />}
                             </i>
                         </div>
+                    </div>
                 </div>
-        </div>
-    }
+            }
         </>
-            
+
 
     );
 };

@@ -21,21 +21,22 @@ namespace Web_App.Rest.Product.Service
         {
             int itemsDataBase = 0;
             int totalPage = 0;
-            try {
-                itemsDataBase= _productRepository.getTowarsCount();
+            try
+            {
+                itemsDataBase = _productRepository.getTowarsCount();
             }
             catch
             {
                 itemsDataBase = 25;
             }
-            totalPage= (int)Math.Ceiling((double)itemsDataBase / pageSize);
+            totalPage = (int)Math.Ceiling((double)itemsDataBase / pageSize);
             return totalPage;
         }
 
         public List<ProductModel> paginatedProduct(int pageSize, int currenPage)
         {
             List<ProductModel> products = new List<ProductModel>();
-            products = _productRepository.getProductsList(pageSize, (currenPage-1)*pageSize);
+            products = _productRepository.getProductsList(pageSize, (currenPage - 1) * pageSize);
             var paginatedProduct = products
                 .Take(pageSize)
                 .ToList();
@@ -45,10 +46,10 @@ namespace Web_App.Rest.Product.Service
         public ProductModel createDBModelProduct(ProductRequestModel model)
         {
             ProductModel createdModel = new ProductModel();
-            createdModel.Name=model.Name;
-            createdModel.Description=model.Description; 
-            createdModel.Cost=model.Cost;
-            createdModel.Count=model.Count;
+            createdModel.Name = model.Name;
+            createdModel.Description = model.Description;
+            createdModel.Cost = model.Cost;
+            createdModel.Count = model.Count;
 
             try
             {
@@ -63,7 +64,7 @@ namespace Web_App.Rest.Product.Service
             }
             catch (Exception ex)
             {
-                
+
             }
             return createdModel;
         }
@@ -95,7 +96,7 @@ namespace Web_App.Rest.Product.Service
         {
             _productRepository.addTowarInDB(model);
         }
-        
+
         public ProductModel getTowarDetailsByID(int id)
         {
             ProductModel model = new ProductModel();
@@ -103,12 +104,13 @@ namespace Web_App.Rest.Product.Service
             return model;
 
         }
-        public List<ProductModel> paginatedProductSearch(string str) {
+        public List<ProductModel> paginatedProductSearch(string str)
+        {
 
             List<ProductModel> products = new List<ProductModel>();
 
             products = _productRepository.getProductsListSearch(str);
-           
+
             var paginatedProduct = products
                 .Take(products.Count())
                 .ToList();

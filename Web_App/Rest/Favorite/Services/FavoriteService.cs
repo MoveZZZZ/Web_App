@@ -23,8 +23,8 @@ namespace Web_App.Rest.Favorite.Services
 
         public List<int> getAllIndexesFavoriteClient(int clientId)
         {
-            List<int> indexes = new List<int>();  
-            indexes=_favoriteRepository.getAllFavoriteIndexForUser(clientId);
+            List<int> indexes = new List<int>();
+            indexes = _favoriteRepository.getAllFavoriteIndexForUser(clientId);
             return indexes;
         }
 

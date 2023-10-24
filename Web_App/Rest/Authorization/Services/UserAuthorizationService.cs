@@ -26,15 +26,15 @@ namespace Web_App.Rest.Authorization.Services
         {
             _tokenService = tokenService;
             _userAuth = new UserAuthorizationRepository();
-            _userModel= new UserModel();
-            
+            _userModel = new UserModel();
+
         }
 
 
         public bool isUserExist(AuthorizationModel authorizationModel)
         {
             _userModel = _userAuth.getUserDataFromDB(authorizationModel);
-            if(_userModel.Login!=null)
+            if (_userModel.Login != null)
             {
                 return true;
             }
@@ -52,8 +52,8 @@ namespace Web_App.Rest.Authorization.Services
         public AuthorizationResponseModel checkUser(AuthorizationModel authorizationModel)
         {
             AuthorizationResponseModel responseModel = new AuthorizationResponseModel();
-            responseModel.UserID=0;
-            if (isUserExist(authorizationModel)&& checkPassword(authorizationModel))
+            responseModel.UserID = 0;
+            if (isUserExist(authorizationModel) && checkPassword(authorizationModel))
             {
                 Token token = _tokenService.CreateToken(_userModel);
                 responseModel.UserToken = token.AccessToken;

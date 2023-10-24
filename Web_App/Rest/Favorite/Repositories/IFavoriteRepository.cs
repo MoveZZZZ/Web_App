@@ -9,7 +9,7 @@ namespace Web_App.Rest.Favorite.Repositories
         public List<int> getAllFavoriteIndexForUser(int userID);
 
         public List<FavoritePageResponseModel> getAllFavoritePage(int userID);
-        
+
 
 
 

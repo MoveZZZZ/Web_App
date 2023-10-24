@@ -49,6 +49,7 @@ export const fetchRemoveFromCart = async (IdClient, IdTowar) => {
         headers: {
             'Content-Type': 'application/json',
         },
+
         credentials: 'include',
         body: JSON.stringify({ IdClient, IdTowar}),
     })
