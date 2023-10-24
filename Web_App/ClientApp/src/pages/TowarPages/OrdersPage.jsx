@@ -1,11 +1,40 @@
-﻿import React, { useState } from 'react';
+﻿import React, { useState, useContext, } from 'react';
 import { useEffect } from 'react';
 import imageShop from "../../assets/guns-shop.jpeg"
+import { fetchAllUserOrders, } from "../../utils/orderAPI"
+import { UserIDContext, } from "../../context";
+import { Link } from 'react-router-dom';
 
+import Spinner from '../../components/Spinner/Spinner';
 
 const OrdersPage = () => {
 
+    //const { userID, setUserID } = useContext(UserIDContext);
+    const userID = localStorage.getItem('UserID');
+    const [ordersList, setOrdersList] = useState([]);
+    const [isLoadinh, setIsLoading] = useState(true);
 
+
+    const handleOrdersUser = async () => {
+        console.log(userID);
+        fetchAllUserOrders(userID)
+            .then((data) => {
+                setOrdersList(data);
+                console.log(data);
+            })
+            .catch((error) => {
+                console.error('Error fetching products:', error);
+            })
+            .finally(() => {
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 2000)
+            })
+    }
+
+    useEffect(() => {
+        handleOrdersUser();
+    }, [])
 
 
 
@@ -52,54 +81,48 @@ const OrdersPage = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0 w-10 h-10">
-                                                <img class="w-full h-full rounded-full"
-                                                    src={imageShop}
-                                                    alt="" />
+                                {ordersList.map((item) => (
+                                    <tr>
+                                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <div class="flex items-center">
+                                                <div class="flex-shrink-0 w-10 h-10">
+                                                    <img class="w-full h-full rounded-full"
+                                                        src={imageShop}
+                                                        alt="" />
+                                                </div>
+                                                <div class="ml-3">
+                                                    <p class="text-gray-900 whitespace-no-wrap">
+                                                        {item.productsString}
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <div class="ml-3">
-                                                <p class="text-gray-900 whitespace-no-wrap">
-                                                    LISTPRODUCT
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p class="text-gray-900 whitespace-no-wrap">ID</p>
-                                    </td>
-                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p class="text-gray-900 whitespace-no-wrap">
-                                            DATE
-                                        </p>
-                                    </td>
-                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <span
-                                            class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                            <span aria-hidden
-                                                class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                                            <span class="relative">STATUS_</span>
-                                        </span>
-                                    </td>
-                                </tr>
+                                        </td>
+                                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <Link
+                                                to='/orderdetails'
+                                                state={{ orderID: item.orderID }}
+                                            >
+                                            <p class="text-gray-900 whitespace-no-wrap">
+                                                    {item.orderID}</p>
+                                            </Link>
+                                        </td>
+                                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <p class="text-gray-900 whitespace-no-wrap">
+                                                {item.dateTime.slice(0, 10)}
+                                            </p>
+                                        </td>
+                                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <span
+                                                class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                                <span aria-hidden
+                                                    class="absolute inset-0 bg-greenLight opacity-50 rounded-full"></span>
+                                                <span class="relative">{item.status}</span>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
-                        <div
-                            class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
-                            <div class="inline-flex mt-2 xs:mt-0">
-                                <button
-                                    class="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-l">
-                                    Prev
-                                </button>
-                                &nbsp; &nbsp;
-                                <button
-                                    class="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-r">
-                                    Next
-                                </button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

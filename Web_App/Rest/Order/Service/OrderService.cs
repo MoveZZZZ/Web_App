@@ -57,7 +57,7 @@ namespace Web_App.Rest.Order.Service
             }
 
         }
-        public OrderDetailsModel getOrderDetailsModel(int clientID, int orderID)
+        public OrderDetailsModel getOrderDetailsModel(int orderID, int clientID)
         {
             OrderDetailsModel orderDetailsModel = new OrderDetailsModel();
             orderDetailsModel = _orderRepository.getOrderDetailsByUserIdAndOrderID(orderID, clientID);
@@ -71,6 +71,29 @@ namespace Web_App.Rest.Order.Service
             _modelProducts = _orderRepository.getAllProductsInOrder(orderID);
             return _modelProducts;
 
+        }
+        public List<OrdersUserModel> getOrdersUsers(int userID)
+        {
+            List<OrdersUserModel> _userOrders = new List<OrdersUserModel>();
+
+            List<OrderDetailsProductModel> products;
+
+            _userOrders = _orderRepository.getAllOrdersUser(userID);
+            string productStrting;
+
+            for (int i=0; i< _userOrders.Count; i++)
+            {
+                productStrting = "";
+                int j = 0;
+                products = new List<OrderDetailsProductModel>();
+                products = _orderRepository.getAllProductsInOrder(_userOrders[i].OrderID);
+                for(;j<products.Count; j++)
+                {
+                    productStrting = productStrting + ", " + products[j].NameProduct;
+                }
+                _userOrders[i].ProductsString = productStrting.Remove(0,2);
+            }
+            return _userOrders;
         }
 
     }

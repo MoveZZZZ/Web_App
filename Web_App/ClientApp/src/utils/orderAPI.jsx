@@ -19,3 +19,13 @@ export const fetchOrderDetails = async (orderID, clientID) => {
         throw error;
     }
 }
+export const fetchAllUserOrders = async (userID) => {
+    try {
+        const response = await fetch(`https://localhost:7257/order/getallordersuser?userID=${userID}`);
+        const data = await response.json();
+        return data;
+    }
+    catch (error) {
+        throw error;
+    }
+}

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using Web_App.Rest.Order.Model;
 using Web_App.Rest.Order.Service;
 
@@ -34,6 +35,16 @@ namespace Web_App.Rest.Order.Controller
             OrderDetailsModel orderDetailsModel = new OrderDetailsModel();
             orderDetailsModel = _orderService.getOrderDetailsModel(orderID, clientID);
             return Ok(orderDetailsModel);
+        }
+        [HttpGet]
+        [Route("getallordersuser")]
+        public IActionResult getOrdersUser([FromQuery] int  userID)
+        {
+            List <OrdersUserModel> model = new List <OrdersUserModel>();
+            model = _orderService.getOrdersUsers(userID);
+
+
+            return Ok(model);
         }
 
 

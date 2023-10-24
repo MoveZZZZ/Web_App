@@ -1,9 +1,8 @@
-﻿//Удалить товары из карта+, добавить order+, добавить продукты в order в таблицу products_order+, уменьшить кол-во товаров в product+
-
-using Google.Protobuf.WellKnownTypes;
+﻿using Google.Protobuf.WellKnownTypes;
 using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI;
 using System.Data;
+using System.Security.Cryptography.X509Certificates;
 using System.Xml.Linq;
 using Web_App.Rest.DataBase.Repositories;
 using Web_App.Rest.Order.Model;
@@ -23,12 +22,13 @@ namespace Web_App.Rest.Order.Repository
             {
                 connection.Open();
                 command.Connection = connection;
-                command.CommandText = "INSERT INTO `order`(`user_id`, `status`, `ordercom`, `access_point_id`, `cost`) VALUES (@uid, @status, @com, @apid, @cost); SELECT LAST_INSERT_ID()";
+                command.CommandText = "INSERT INTO `order`(`user_id`, `status`, `ordercom`, `access_point_id`, `cost`, `order_create`) VALUES (@uid, @status, @com, @apid, @cost, @ocreate); SELECT LAST_INSERT_ID()";
                 command.Parameters.Add("@uid", MySqlDbType.Int32).Value = clientID;
                 command.Parameters.Add("@status", MySqlDbType.String).Value = status;
                 command.Parameters.Add("@com", MySqlDbType.String).Value = comment;
                 command.Parameters.Add("@apid", MySqlDbType.Int32).Value = ApID;
                 command.Parameters.Add("@cost", MySqlDbType.Float).Value = cost;
+                command.Parameters.Add("@ocreate", MySqlDbType.Date).Value = DateTime.UtcNow.Date;
                 adapter.SelectCommand = command;
                 adapter.Fill(table);
                 foreach (DataRow row in table.Rows)
@@ -58,6 +58,34 @@ namespace Web_App.Rest.Order.Repository
                 }
 
             }
+        }
+
+        public List<OrdersUserModel> getAllOrdersUser(int userID)
+        {
+            List<OrdersUserModel> _data = new List<OrdersUserModel>();
+            OrdersUserModel _model;
+
+
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            DataTable table = new DataTable();
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "SELECT order_id, status, order_create FROM `order` WHERE user_id=@uid";
+                command.Parameters.Add("@uid", MySqlDbType.Int32).Value = userID;
+                adapter.SelectCommand = command;
+                adapter.Fill(table);
+            }
+            foreach (DataRow row in table.Rows) { 
+                _model = new OrdersUserModel();
+                _model.OrderID = Convert.ToInt32(row["order_id"].ToString());
+                _model.Status = row["status"].ToString();
+                _model.DateTime= Convert.ToDateTime(row["order_create"].ToString());
+                _data.Add( _model );
+            }
+            return _data;
         }
 
         public List<OrderDetailsProductModel> getAllProductsInOrder(int orderID)
