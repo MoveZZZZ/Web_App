@@ -12,7 +12,6 @@ import AddTowarPage from "../pages/TowarPages/AddTowarPage";
 import OrdersPage from "../pages/TowarPages/OrdersPage";
 
 import Spinner from '../components/Spinner/Spinner';
-import CreateOrderPage from "../pages/TowarPages/CreateOrderPage";
 import OrderDetailsPage from "../pages/TowarPages/OrderDetailsPage";
 
 const AppRouter = () => {
