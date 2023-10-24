@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Web_App.Rest.Order.Model;
 using Web_App.Rest.Order.Service;
 
@@ -14,6 +15,8 @@ namespace Web_App.Rest.Order.Controller
         {
             _orderService = new OrderService();
         }
+
+        //[Authorize]
         [HttpPost]
         [Route("addorder")]
         public IActionResult addOrder(OrderRequestModel orderRequestModel)

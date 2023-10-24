@@ -7,17 +7,7 @@ import { refreshTokens, } from '../utils/AuthorizationApi';
 
 
 const HomePage = () => {
-    const TestAction = (e) => {
-        e.preventDefault();
-        refreshTokens()
-            .then((response) => {
-                console.log("Zaebok");
-            })
-            .catch((response) => {
-                console.log("Nie Zaebok");
-            })
-
-    }
+    
     return (
         <>      <div class="pt-5">
             <div class="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
@@ -140,20 +130,12 @@ const HomePage = () => {
                 <div class="w-full mb-4">
                     <div class="h-1 mx-auto bg-white w-1/6 opacity-25 my-0 py-0 rounded-t"></div>
                 </div>
+
                 <h3 class="my-4 text-3xl leading-tight">
                     PIZDAPIZDAPIZDAPIZDAPIZDAPIZDAPIZDAPIZDAPIZDA
                 </h3>
             </section>
         </>
-
-{/*
-            <div>
-            <button onClick={TestAction} class="py-2 px-5 ml-3 bg-primary-100 border rounded-xl hover:scale-110 duration-300 border-primary-300  ">
-                ????????
-            </button>
-        </div>
-????????????*/}
-
     );
 };
 

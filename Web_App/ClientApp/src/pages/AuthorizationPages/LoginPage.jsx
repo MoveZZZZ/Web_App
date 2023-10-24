@@ -19,11 +19,11 @@ const LoginPage = () => {
             .then((response) => {
                 if (!response.message) {
                     setUserID(response.userID);
-                    setUserToken(response.userToken);
-                    setUserRefreshToken(response.userRefreshToken);
                     setErrMsg("");
                     setIsAuth(true);
-                    sessionStorage.setItem('accTk', response.userToken);
+                    ///remove
+                    sessionStorage.setItem("ID", response.userID);
+                    localStorage.setItem('UserID', sessionStorage.getItem("ID"));
                 }
                 else {
                     setErrMsg(response.message);

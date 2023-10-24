@@ -12,10 +12,7 @@ namespace Web_App.Rest.Product.Controller
     [ApiController]
     public class ProductsController : ControllerBase
     {
-
         ProductService _productService;
-
-
         public ProductsController()
         {
             _productService = new ProductService();
@@ -43,8 +40,9 @@ namespace Web_App.Rest.Product.Controller
             pModelDetails = _productService.getTowarDetailsByID(id);
             return Ok(pModelDetails);
         }
-        //[Authorize]
-        //[RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
+
+        [Authorize]
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
         [HttpPost]
         [Route("addproduct")]
         public IActionResult AddProduct([FromForm] ProductRequestModel model)

@@ -47,6 +47,12 @@ const AppRouter = () => {
                     element={<OrderDetailsPage />}
                     path="/orderdetails" />
                 <Route
+                    element={<CreateOrderPage />}
+                    path="/createorder" />
+                <Route
+                    element={<AddTowarPage />}
+                    path="/addtowar" />
+                <Route
                     path="*"
                     element={<Navigate to="/" />} />
             </Routes>
