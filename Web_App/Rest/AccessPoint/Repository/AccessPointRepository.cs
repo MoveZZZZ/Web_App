@@ -29,10 +29,10 @@ namespace Web_App.Rest.AccessPoint.Repository
             }
             foreach (DataRow row in table.Rows)
             {
-                
+
                 accessModel = new AccessPointModel();
-                
-                accessModel.ID= Convert.ToInt32(row["id"]);
+
+                accessModel.ID = Convert.ToInt32(row["id"]);
                 accessModel.Name = row["name"].ToString();
                 accessModel.State = row["state"].ToString();
                 accessModel.City = row["city"].ToString();

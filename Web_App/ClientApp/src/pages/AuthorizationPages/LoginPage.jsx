@@ -1,5 +1,4 @@
-﻿// Login.js
-import React, { useState, useContext, useEffect } from 'react';
+﻿import React, { useState, useContext, useEffect } from 'react';
 import { login, } from '../../utils/AuthorizationApi';
 import snoopSec from "../../assets/snoopSec.gif";
 import { AuthContext, UserIDContext, UserTokenContext, UserRefreshTokenContext, } from "../../context";
@@ -76,7 +75,7 @@ const LoginPage = () => {
                         </div>
                         <div className="text-right mt-2">
                             <a href="#"
-                               className="text-sm font-semibold text-primary-600 hover:text-secondary">Forgot Password?</a>
+                                className="text-sm font-semibold text-primary-600 hover:text-secondary">Forgot Password?</a>
                         </div>
                         <p className="text-red text-xs">{errMsg}</p>
                         <button
@@ -94,7 +93,7 @@ const LoginPage = () => {
                     <div class="text-sm flex justify-between items-center mt-3 text-left">
                         <p>If you don't have an account...</p>
                         <a href="/signup" >
-                        <button class="py-2 px-5 ml-3 bg-primary-100 border rounded-xl hover:scale-110 duration-300 border-primary-300  ">Register</button>
+                            <button class="py-2 px-5 ml-3 bg-primary-100 border rounded-xl hover:scale-110 duration-300 border-primary-300  ">Register</button>
                         </a>
                     </div>
                 </div>

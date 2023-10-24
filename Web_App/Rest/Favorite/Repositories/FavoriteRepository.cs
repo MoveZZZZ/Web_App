@@ -5,7 +5,7 @@ using Web_App.Rest.Favorite.Models;
 
 namespace Web_App.Rest.Favorite.Repositories
 {
-    public class FavoriteRepository :RepositoryBase, IFavoriteRepository
+    public class FavoriteRepository : RepositoryBase, IFavoriteRepository
     {
         public void addToFavorite(int userID, int towarID)
         {

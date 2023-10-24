@@ -6,7 +6,7 @@ namespace Web_App.Rest.Order.Controller
 {
     [Route("order")]
     [ApiController]
-    public class OrderController:ControllerBase
+    public class OrderController : ControllerBase
     {
 
         private OrderService _orderService;
@@ -23,7 +23,14 @@ namespace Web_App.Rest.Order.Controller
             _orderService.removeProductFromCart();
             _orderService.updateCountProducts(orderRequestModel.TowarCount, orderRequestModel.TowarIdList);
 
-            return Ok(new {Message ="Zajebis" });
+            return Ok(new { Message = "Zajebis" });
+        }
+        [HttpGet]
+        public IActionResult getOrderDetails([FromQuery] int orderID, int clientID)
+        {
+            OrderDetailsModel orderDetailsModel = new OrderDetailsModel();
+            orderDetailsModel = _orderService.getOrderDetailsModel(orderID, clientID);
+            return Ok(orderDetailsModel);
         }
 
 

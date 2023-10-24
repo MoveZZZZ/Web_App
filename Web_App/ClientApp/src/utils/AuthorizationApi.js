@@ -19,7 +19,7 @@ export const signup = (login, email, password, passwordConfirm) => {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({login, email, password, passwordConfirm }),
+        body: JSON.stringify({ login, email, password, passwordConfirm }),
     })
         .then((response) => {
             return response.json();

@@ -11,7 +11,7 @@ const App = () => {
     const [isAuth, setIsAuth] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [userID, setUserID] = useState("");
-    const [userToken, setUserToken]=useState("");
+    const [userToken, setUserToken] = useState("");
     const [userRefreshToken, setUserRefreshToken] = useState("");
 
     useEffect(() => {
@@ -24,30 +24,30 @@ const App = () => {
     console.log(localStorage.getItem('accTk'));
 
     return (
-        <UserRefreshTokenContext.Provider value ={{
+        <UserRefreshTokenContext.Provider value={{
             userRefreshToken,
             setUserRefreshToken
-        } }>
-        <UserTokenContext.Provider value={{
-            userToken,
-            setUserToken
         }}>
-        <UserIDContext.Provider value={{
-            userID,
-            setUserID
-        } }>
-        <AuthContext.Provider value={{
-            isAuth,
+            <UserTokenContext.Provider value={{
+                userToken,
+                setUserToken
+            }}>
+                <UserIDContext.Provider value={{
+                    userID,
+                    setUserID
+                }}>
+                    <AuthContext.Provider value={{
+                        isAuth,
                         setIsAuth,
-            isLoading
-        }}>
-            <>
-                <Navbar />
-                <AppRouter/>
-                <Footer />
-            </>
-            </AuthContext.Provider>
-            </UserIDContext.Provider>
+                        isLoading
+                    }}>
+                        <>
+                            <Navbar />
+                            <AppRouter />
+                            <Footer />
+                        </>
+                    </AuthContext.Provider>
+                </UserIDContext.Provider>
             </UserTokenContext.Provider>
         </UserRefreshTokenContext.Provider>
     )

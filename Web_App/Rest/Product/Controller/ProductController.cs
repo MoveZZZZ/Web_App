@@ -33,7 +33,7 @@ namespace Web_App.Rest.Product.Controller
         public IActionResult GetByProductName([FromQuery] string name)
         {
             var paginatedSearch = _productService.paginatedProductSearch(name);
-            return Ok(new { Products = paginatedSearch});
+            return Ok(new { Products = paginatedSearch });
         }
 
         [HttpGet("getproductinfo")]

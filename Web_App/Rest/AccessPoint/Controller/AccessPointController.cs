@@ -17,8 +17,6 @@ namespace Web_App.Rest.AccessPoint.Controller
             _accessPointService = new AccessPointService();
         }
 
-
-
         [HttpGet]
         [Route("getallaccesspointstate")]
         public IActionResult GetAllAccessPointState()
@@ -27,15 +25,15 @@ namespace Web_App.Rest.AccessPoint.Controller
             response = _accessPointService.getAllPointsState();
 
 
-            return Ok(new {States = response});
+            return Ok(new { States = response });
         }
         [HttpGet]
         [Route("getallaccesspointcity")]
-        public IActionResult GetAccessPointCity() 
+        public IActionResult GetAccessPointCity()
         {
             List<string> response = new List<string>();
             response = _accessPointService.getAllPointsCity();
-            return Ok (new {Citys = response});
+            return Ok(new { Citys = response });
         }
 
 
@@ -50,20 +48,20 @@ namespace Web_App.Rest.AccessPoint.Controller
 
         [HttpPost]
         [Route("getallaccesspointthestateandcity")]
-        public IActionResult GetAccessPointsTheStateAndCity([FromQuery] string State, string City) 
+        public IActionResult GetAccessPointsTheStateAndCity([FromQuery] string State, string City)
         {
             List<AccessPointModel> response = new List<AccessPointModel>();
-            response = _accessPointService.getAllPointsTheCity(State,City);
+            response = _accessPointService.getAllPointsTheCity(State, City);
             return Ok(new { AccesPoints = response });
         }
 
         [HttpPost]
         [Route("getallcitysthestate")]
-        public IActionResult GetAllCitysAPTheState([FromQuery] string State) 
+        public IActionResult GetAllCitysAPTheState([FromQuery] string State)
         {
             List<string> response = new List<string>();
             response = _accessPointService.getAllCitysAPTheState(State);
-            return Ok(new { Citys =  response});
+            return Ok(new { Citys = response });
         }
     }
 }

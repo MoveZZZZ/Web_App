@@ -1,4 +1,3 @@
-// SignUp.js
 import React, { useState } from 'react';
 import { signup, } from '../../utils/AuthorizationApi';
 import liveMaggotReaction from "../../assets/V1.gif";
@@ -96,7 +95,7 @@ const SignUpPage = () => {
                                     className="absolute right-3 top-4 mt-1 cursor-pointer text-primary-400"
                                     onClick={togglePasswordVisibility}
                                 >
-                                    {showPassword ? <i><FontAwesomeIcon icon={faEyeSlash} /></i> : <i><FontAwesomeIcon icon={faEye}/></i>}
+                                    {showPassword ? <i><FontAwesomeIcon icon={faEyeSlash} /></i> : <i><FontAwesomeIcon icon={faEye} /></i>}
                                 </span>
                             </div>
                         </div>

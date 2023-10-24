@@ -29,8 +29,8 @@ public class AuthorizationController : ControllerBase
     [HttpPost("login")]
     public IActionResult Login([FromBody] AuthorizationModel loginModel)
     {
-        AuthorizationResponseModel _authorizationResponseModel=_userAuthorizationService.checkUser(loginModel);
-        if(_authorizationResponseModel.UserID!=0)
+        AuthorizationResponseModel _authorizationResponseModel = _userAuthorizationService.checkUser(loginModel);
+        if (_authorizationResponseModel.UserID != 0)
         {
             this.Response.Cookies.Append("AccessToken", _authorizationResponseModel.UserToken, new CookieOptions()
             {
@@ -54,7 +54,12 @@ public class AuthorizationController : ControllerBase
             });
             return Ok(_authorizationResponseModel);
         }
-        return Unauthorized(new { message = "bad login or password" });      
+        return Unauthorized(new { message = "bad login or password" });
+        
+
+
+          
+           
 /*
 
         Token token = _tokenService.CreateToken(userModel);
@@ -70,5 +75,5 @@ public class AuthorizationController : ControllerBase
         
     }
 
-   
+
 }

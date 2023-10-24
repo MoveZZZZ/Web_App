@@ -32,7 +32,7 @@ export const fetchGetAllAPTheStateAndCity = (State, City) => {
 }
 export const fetchGetAllCitysTheState = (State) => {
     return fetch(`https://localhost:7257/accesspoint/getallcitysthestate?State=${State}`, {
-        method:'POST',
+        method: 'POST',
     })
         .then((response) => {
             return response.json();

@@ -26,15 +26,15 @@ namespace Web_App.Rest.Order.Service
             _orderModel.OrderComment = orderRequestModel.Ordercom;
             _orderModel.AccessPointID = orderRequestModel.AccessPointId;
             _orderModel.Cost = orderRequestModel.Cost;
-            if(orderRequestModel.PaymentMethod=="Card")
+            if (orderRequestModel.PaymentMethod == "Card")
             {
                 _orderModel.Status = "Payment";
             }
             else
-            _orderModel.Status = "Waiting for payment...";
+                _orderModel.Status = "Waiting for payment...";
 
         }
-        public void addOrderToDB (OrderRequestModel orderRequestModel)
+        public void addOrderToDB(OrderRequestModel orderRequestModel)
         {
             fillModel(orderRequestModel);
             _orderModel.OrderID = _orderRepository.addOrderAndGetIndex(orderRequestModel.ClientID, orderRequestModel.Ordercom, orderRequestModel.AccessPointId, orderRequestModel.Cost, _orderModel.Status);
@@ -49,15 +49,29 @@ namespace Web_App.Rest.Order.Service
         {
             _cartService.removeTowarFromCartAfterAddOrder(_orderModel.UserID, _orderModel.ProductIDList);
         }
-        public void updateCountProducts(List<int> orderCountTowar, List<int>ProductID)
+        public void updateCountProducts(List<int> orderCountTowar, List<int> ProductID)
         {
-            for(int i=0; i<ProductID.Count; i++)
+            for (int i = 0; i < ProductID.Count; i++)
             {
                 _productService.updateProductCountAfterAddToOrder(orderCountTowar[i], ProductID[i]);
             }
-            
+
+        }
+        public OrderDetailsModel getOrderDetailsModel(int clientID, int orderID)
+        {
+            OrderDetailsModel orderDetailsModel = new OrderDetailsModel();
+            orderDetailsModel = _orderRepository.getOrderDetailsByUserIdAndOrderID(orderID, clientID);
+            orderDetailsModel.ProductOrderList = getAllProductsInOrder(orderID);
+            return orderDetailsModel;
         }
 
+        private List<OrderDetailsProductModel> getAllProductsInOrder(int orderID)
+        {
+            List<OrderDetailsProductModel> _modelProducts = new List<OrderDetailsProductModel>();
+            _modelProducts = _orderRepository.getAllProductsInOrder(orderID);
+            return _modelProducts;
+
+        }
 
     }
 }

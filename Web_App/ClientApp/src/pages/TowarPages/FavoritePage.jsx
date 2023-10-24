@@ -3,8 +3,10 @@ import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { fetchGetAllClientFavoriteItems, fetchRemoveFavoriteItem } from '../../utils/favoriteApi';
 import Spinner from '../../components/Spinner/Spinner';
-import {fetchRemoveFromCart, fetchGetAllIndexClientCart } from '../../utils/cartApi';
+import { fetchRemoveFromCart, fetchGetAllIndexClientCart } from '../../utils/cartApi';
 import Message from "../../components/Message/Message";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMoneyBill, faTrash, faCartShopping } from "@fortawesome/free-solid-svg-icons";
 
 const FavoritePage = () => {
     const [favoriteItem, setFavoriteItem] = useState([]);
@@ -93,7 +95,7 @@ const FavoritePage = () => {
             .finally(() => {
                 uploadData();
             });
-    } 
+    }
     const getMessage = () => {
         setIsMessage(true);
         setTimeout(() => setIsMessage(false), 5000);
@@ -117,14 +119,13 @@ const FavoritePage = () => {
         });
         setFavoriteItem(updatedFavorite);
     };
-    const addToCart = (itemId) => {
-    }
+
 
 
 
 
     return (
-         <>
+        <>
             {isLoading ?
                 <div className="flex text-center items-center justify-center w-full h-96">
                     < Spinner />
@@ -135,65 +136,96 @@ const FavoritePage = () => {
                         :
                         <></>
                     }
-                    <h1 className="text-2xl font-semibold mb-4">Favorite</h1>
-                    <div className="w-full overflow-x-auto flex items-center justify-center">
-                        <table className="w-full table-fixed border border-collapse m-5">
-                            <thead>
-                                <tr>
-                                    <th className="w-2/12 border p-2">Product</th>
-                                    <th className="w-1/12 border p-2">Title</th>
-                                    <th className="w-1/2 border p-2">Details</th>
-                                    <th className="w-1/12 border p-2">Price</th>
-                                    <th className="w-1/6 border p-2">Remove</th>
-                                </tr>
-                            </thead>
-                            <tbody className="text-center break-all">
-                                {favoriteItem.map((item) => (
-                                    <tr key={item.productID}>
-                                        <td className="border p-2">
-                                            <Link to={`/product/${item.productID}`}>
-                                                <img
-                                                    src={`data:image/jpeg;base64,${item.imageUrl.toString('base64')}`}
-                                                    alt={item.productName}
-                                                    className="object-cover hover: bg-primary-200 maxmax-w-2xl transition duration-300 ease-in-out hover:scale-110" />
-                                            </Link>
-                                        </td>
-                                        <td className="border p-2 hover:text-secondary text-2xl text-bolid">
-                                            <Link to={`/product/${item.productID}`}>{item.productName}</Link>
-                                        </td>
-                                        <td className="border p-2 flex-col text-justify">{item.description}</td>
-                                        <td className="border p-2">${item.cost.toFixed(2)}</td>
-                                        <td className="border p-2">
-                                            <button
-                                                onClick={() => removeFromFavorite(item.productID)}
-                                                className="text-primary-500 hover:text-red cursor-pointer"
-                                            >
-                                                Remove
-                                            </button>
-                                            <a className="text-primary-500 mx-3">|</a>
-                                            {isInCart(item.productID) ? <button
-                                                onClick={() => removeFromCart(item.productID)}
-                                                className="text-primary-500 hover:text-greenLight cursor-pointer">
-                                                Remove from Cart
-                                            </button> : <button
-                                                    onClick={() => navigate(`/product/${item.productID}`)}
-                                                
-                                                className="text-primary-500 hover:text-greenLight cursor-pointer">
-                                               Buy
-                                            </button>}
-                                            
+                    <div class="bg-white rounded-md w-full">
+                        <div class=" flex items-center justify-between">
+                            <div>
+                                <h2 class="text-gray-600 font-semibold">Favorite</h2>
+                            </div>
 
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                        </div>
+                        <div>
+                            <div class="-mx-4 sm:-mx-8 px-4 sm:px-4 py-4 overflow-x-auto">
+                                <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+                                    <table class="min-w-full leading-normal ">
+                                        <thead>
+                                            <tr>
+                                                <th
+                                                    class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    Product
+                                                </th>
+                                                <th
+                                                    class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    Name
+                                                </th>
+                                                <th
+                                                    class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    Details
+                                                </th>
+                                                <th
+                                                    class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    Price
+                                                </th>
+                                                <th
+                                                    class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    Option
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="text-center break-all">
+                                            {favoriteItem.map((item) => (
+                                                <tr key={item.productID}>
+                                                    <td class="px-5 py-5 border-b border-primary-200 bg-white text-xs">
+                                                        <div class="flex-shrink-0 w-20 h-20">
+                                                            <Link to={`/product/${item.productID}`}>
+                                                                <img
+                                                                    src={`data:image/jpeg;base64,${item.imageUrl.toString('base64')}`}
+                                                                    alt={item.productName}
+                                                                    className="w-full h-full rounded-full object-cover hover: bg-primary-200 maxmax-w-2xl transition duration-300 ease-in-out hover:scale-110" />
+                                                            </Link>
+                                                        </div>
 
+                                                    </td>
+                                                    <td class="px-2 py-5 border-b border-primary-200 bg-white text-sm">
+                                                        <Link to={`/product/${item.productID}`}>{item.productName}</Link>
+                                                    </td>
+                                                    <td class="px-2 py-2 border-b border-primary-200 bg-white text-xs text-justify">{item.description}</td>
+                                                    <td class="px-2 py-2 border-b border-primary-200 bg-white text-sm">${item.cost.toFixed(2)}</td>
+                                                    <td class="px-2 py-2 border-b border-primary-200 bg-white text-sm">
+                                                        <button
+                                                            onClick={() => removeFromFavorite(item.productID)}
+                                                            className="text-primary-300 hover:text-red cursor-pointer"
+                                                        >
+                                                            <FontAwesomeIcon icon={faTrash} className="mx-5 h-5" />
+
+                                                        </button>
+                                                        {isInCart(item.productID) ? <button
+                                                            onClick={() => removeFromCart(item.productID)}
+                                                            className="text-primary-300 hover:text-red cursor-pointer">
+                                                            <FontAwesomeIcon icon={faCartShopping} className="mx-2 mt-5 h-5" />
+                                                        </button> : <button
+                                                            onClick={() => navigate(`/product/${item.productID}`)}
+
+                                                            className="text-primary-300 hover:text-greenLight cursor-pointer">
+                                                            <FontAwesomeIcon icon={faMoneyBill} className="mx-2 mt-5 h-5" />
+
+                                                        </button>}
+
+
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
                     </div>
-                    <div className="flex justify-end mr-5 text-primary-500 text font-bold">Total favorite sum: {totalSum.toFixed(2)}$</div>
                 </div>
             }
-            </>
+        </>
+
     );
 
 

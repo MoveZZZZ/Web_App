@@ -27,16 +27,18 @@ namespace Web_App.Rest.AccessPoint.Service
         public List<AccessPointModel> getAllPointsTheState(string state)
         {
             List<AccessPointModel> data = new List<AccessPointModel>();
-            data=_accessPointRepository.GetAllAccessPointState(state);
+            data = _accessPointRepository.GetAllAccessPointState(state);
             return data;
         }
-        public List<AccessPointModel> getAllPointsTheCity(string state, string city) {
+        public List<AccessPointModel> getAllPointsTheCity(string state, string city)
+        {
             List<AccessPointModel> accessPointModels = new List<AccessPointModel>();
-            accessPointModels = _accessPointRepository.GetAllAccessPointStateAndCity(state,city);
+            accessPointModels = _accessPointRepository.GetAllAccessPointStateAndCity(state, city);
             return accessPointModels;
         }
 
-        public List<string> getAllCitysAPTheState(string state) {
+        public List<string> getAllCitysAPTheState(string state)
+        {
             List<string> data = new List<string>();
             data = _accessPointRepository.GetAllCitysAPTheState(state);
             return data;

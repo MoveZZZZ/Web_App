@@ -9,7 +9,7 @@
         .catch((error) => {
             return error;
 
-    });
+        });
 }
 export const fetchGetAllIndexClientFavorite = (clientId) => {
     return fetch(`https://localhost:7257/favorite/getlistfavorite?clientId=${clientId}`, {

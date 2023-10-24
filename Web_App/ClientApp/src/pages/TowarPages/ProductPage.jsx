@@ -20,8 +20,7 @@ const ProductPage = () => {
     const [isLoading, setIsLoading] = useState(true);
 
 
-    const loadProducts = async() =>
-    {
+    const loadProducts = async () => {
         setIsLoading(true);
         fetchProducts(currentPage, 25)
             .then((data) => {
@@ -63,7 +62,7 @@ const ProductPage = () => {
         else {
             setIsSearching(false);
             loadProducts();
-        } 
+        }
     };
     useEffect(() => {
         searchProductsByName(searchQuery);
@@ -80,18 +79,13 @@ const ProductPage = () => {
             <div className="mr-5 mt-5 flex justify-between items-center grid grid-cols-3">
                 <div className="flex justify-start w-1/2 h-3/8 ml-6">
 
-                    {/*CREATE LOGIC TYPES!!!!*/ }
+                    {/*CREATE LOGIC TYPES!!!!*/}
                     <select className="w-full p-2.5 text-primary-400 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-secondary text-center">
                         <option>All</option>
                         <option>Weapon</option>
                         <option>Bullet</option>
                         <option>Knifes</option>
                     </select>
-
-
-
-
-
                     <select className="w-full ml-10 p-2.5 text-primary-400 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-secondary text-center" >
                         <option>None</option>
                         <option>Increase</option>
@@ -100,12 +94,12 @@ const ProductPage = () => {
                 </div>
                 <div className="text-3xl flex justify-center ">{errMsg}</div>
                 <div className="flex justify-end mt-3">
-                <i className="mr-3 mt-2"><FontAwesomeIcon icon={faSearch} /></i>
-                <input
-                    type="text"
-                    placeholder="Search by product name"
-                    onChange={handleSearchInputChange}
-                    className=" p-2 mb-2 rounded border border-primary-300 text-secondary placeholder-primary-300"
+                    <i className="mr-3 mt-2"><FontAwesomeIcon icon={faSearch} /></i>
+                    <input
+                        type="text"
+                        placeholder="Search by product name"
+                        onChange={handleSearchInputChange}
+                        className=" p-2 mb-2 rounded border border-primary-300 text-secondary placeholder-primary-300"
                     />
                 </div>
             </div>
@@ -136,7 +130,7 @@ const ProductPage = () => {
                             <button
                                 onClick={() => {
                                     setCurrentPage(currentPage - 1);
-                                    window.scrollTo(0, 0); // Scroll to the top of the page
+                                    window.scrollTo(0, 0);
                                 }}
                                 className={`mx-2 my-2 p-2 rounded ${currentPage === 1
                                     ? 'bg-white border border-primary-500 cursor-not-allowed'
@@ -150,7 +144,7 @@ const ProductPage = () => {
                                     key={index}
                                     onClick={() => {
                                         setCurrentPage(index + 1);
-                                        window.scrollTo(0, 0); // Scroll to the top of the page
+                                        window.scrollTo(0, 0); 
                                     }}
                                     className={`mx-2 p-2 rounded ${currentPage === index + 1
                                         ? 'bg-primary-100 text-primary-500 cursor-not-allowed'
@@ -163,7 +157,7 @@ const ProductPage = () => {
                             <button
                                 onClick={() => {
                                     setCurrentPage(currentPage + 1);
-                                    window.scrollTo(0, 0); // Scroll to the top of the page
+                                    window.scrollTo(0, 0); 
                                 }}
                                 className={`mx-2 my-2 p-2 rounded ${currentPage === totalPages
                                     ? 'bg-white border border-primary-500 cursor-not-allowed'
@@ -177,7 +171,7 @@ const ProductPage = () => {
                     }
                 </div>
             }
-            </>
+        </>
     );
 };
 

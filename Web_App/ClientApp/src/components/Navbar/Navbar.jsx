@@ -4,7 +4,7 @@ import { faStore, faCartShopping, faHeart, faBagShopping } from "@fortawesome/fr
 import LoginPage from "../../pages/AuthorizationPages/LoginPage";
 import { AuthContext } from "../../context";
 import React, { useContext, useState } from 'react';
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import LogoutModal from "../MyModal/LogOutModal";
 import cursedCat from "../../assets/cat.gif";
 
@@ -33,7 +33,6 @@ const Navbar = () => {
                         <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white ">K*rwa</span>
                     </Link>
                     <div className="flex justify-end ">
-                        
                         <Link
                             to="/product"
                             onClick={() => { setChoosenPage(1); }}
@@ -44,7 +43,6 @@ const Navbar = () => {
                             Shop
                             <i><FontAwesomeIcon icon={faStore} className="ml-2" /></i>
                         </Link>
-                        
                         <Link to="/cart"
                             onClick={() => { setChoosenPage(2); }}
                             className={` ${choosenPage === 2
@@ -54,14 +52,13 @@ const Navbar = () => {
                             Cart
                             <i><FontAwesomeIcon icon={faCartShopping} className="ml-2" /></i>
                         </Link>
-
                         <Link to="/favorite"
                             onClick={() => { setChoosenPage(3); }}
                             className={` ${choosenPage === 3
                                 ? 'text-secondary mx-3'
                                 : 'text-white hover:text-primary-300 ease-in-out hover:text-secondary transition duration-200 mx-3 ease-in-out hover:scale-110'
                                 }`}>
-                        Favorite
+                            Favorite
                             <i><FontAwesomeIcon icon={faHeart} className="ml-2" /></i>
                         </Link>
                         <Link to="/orders"
@@ -73,20 +70,17 @@ const Navbar = () => {
                             Orders
                             <i><FontAwesomeIcon icon={faBagShopping} className="ml-2" /></i>
                         </Link>
-
-                       
-
                     </div>
                     <ul className="flex space-x-2">
                         {isAuth
                             ? (
                                 <>
-                                <li>
+                                    <li>
                                         <a onClick={() => { setChoosenPage(0); }}
                                             className="text-white hover:text-primary-300 ease-in-out  hover:text-secondary cursor-pointer"
                                             onClick={() => setModalVisability(true)}>Sign Out</a>
-                                </li>
-                                    <LogoutModal visible={modalVisability} setVisible={setModalVisability }>
+                                    </li>
+                                    <LogoutModal visible={modalVisability} setVisible={setModalVisability}>
                                         <div className="space-y-4">
                                             <div className="flex justify-center text-2xl font-semibold whitespace-nowrap dark:text-white">You are about to log out! Are you sure?</div>
                                             <div className="flex justify-center mt-4">
@@ -100,25 +94,22 @@ const Navbar = () => {
                                                 <button className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border font-semibold focus:border-secondary focus:bg-primary-100 focus:outline-none"
                                                     onClick={() => setModalVisability(false)}>I'll better to stay logged.</button>
                                             </div>
-                                            
-                                    </div>
+                                        </div>
                                     </LogoutModal>
-
-                            </>
-                       
-                            )                                
+                                </>
+                            )
                             : (<>
                                 <li>
                                     <Link to="/login" className="text-white hover:text-primary-300 ease-in-out  hover:text-secondary">Sign In</Link>
                                 </li>
                                 <li>
                                     <a className="text-white">|</a>
-                                 </li>
+                                </li>
                                 <li>
                                     <Link to="/signup" className="text-white hover:text-primary-300 ease-in-out  hover:text-secondary">Sign Up</Link>
                                 </li>
                             </>
-                            )   
+                            )
                         }
                     </ul>
                 </div>
@@ -126,7 +117,7 @@ const Navbar = () => {
         </nav>
 
     );
-    
+
 
 
 

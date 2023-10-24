@@ -30,7 +30,7 @@ export const fetchRemoveFromCart = (IdClient, IdTowar) => {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ IdClient, IdTowar}),
+        body: JSON.stringify({ IdClient, IdTowar }),
     })
         .catch((error) => {
             console.log(error)

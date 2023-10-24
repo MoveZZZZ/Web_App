@@ -7,7 +7,7 @@ namespace Web_App.Rest.Favorite.Controller
 {
     [Route("[controller]")]
     [ApiController]
-    public class FavoriteController:ControllerBase
+    public class FavoriteController : ControllerBase
     {
         FavoriteService _favoriteService;
 
@@ -19,7 +19,7 @@ namespace Web_App.Rest.Favorite.Controller
 
         [HttpPost]
         [Route("addfavorite")]
-        public IActionResult AddFavorite([FromBody]FavoriteRequestModel model)
+        public IActionResult AddFavorite([FromBody] FavoriteRequestModel model)
         {
             _favoriteService.addToFavorite(model);
 
@@ -34,12 +34,12 @@ namespace Web_App.Rest.Favorite.Controller
             List<int> indexes = new List<int>();
 
             indexes = _favoriteService.getAllIndexesFavoriteClient(clientId);
-            return Ok(new {ListIndex = indexes});
+            return Ok(new { ListIndex = indexes });
         }
 
         [HttpPost]
         [Route("removefavoriteitem")]
-        public IActionResult RemoveFavoriteItem([FromBody]FavoriteRequestModel model)
+        public IActionResult RemoveFavoriteItem([FromBody] FavoriteRequestModel model)
         {
             _favoriteService.removeFovorite(model);
             return Ok();
@@ -51,7 +51,7 @@ namespace Web_App.Rest.Favorite.Controller
         {
             List<FavoritePageResponseModel> response = new List<FavoritePageResponseModel>();
             response = _favoriteService.getAllUserFavorite(userID);
-            float sum = response.Sum(t => t.Cost); 
+            float sum = response.Sum(t => t.Cost);
 
             return Ok(new { towars = response, summary = sum });
         }
