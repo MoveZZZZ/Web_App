@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Web_App.Rest.Cart.Model;
 using Web_App.Rest.Cart.Services;
 
@@ -9,13 +10,12 @@ namespace Web_App.Rest.Cart.Controller
     public class CartController:ControllerBase
     {
         CartService _cartService;
-
         public CartController()
         {
             _cartService = new CartService();
         }
 
-
+        //[Authorize]
         [HttpGet]
         [Route("getlistcart")]
         public IActionResult GetCartItemsList([FromQuery] int userID)
@@ -26,6 +26,7 @@ namespace Web_App.Rest.Cart.Controller
             return Ok( new {Towar = response});
         }
 
+        //[Authorize]
         [HttpGet]
         [Route("getindexlistcart")]
         public IActionResult GetIndexCartList([FromQuery] int userID)
@@ -35,8 +36,7 @@ namespace Web_App.Rest.Cart.Controller
             return Ok(new {cartIndexesList = response});
         }
 
-
-
+        //[Authorize]
         [HttpPost]
         [Route("addtocart")]
         public IActionResult AddToCart([FromBody] CartModelRequest model)
@@ -44,6 +44,8 @@ namespace Web_App.Rest.Cart.Controller
             _cartService.addTowarInCart(model);
             return Ok(new {message = "zaebis!"});
         }
+
+        //[Authorize]
         [HttpPost]
         [Route("removefromcart")]
         public IActionResult RemoveItemFromCart([FromBody] CartModelRequest model)
@@ -52,7 +54,5 @@ namespace Web_App.Rest.Cart.Controller
 
             return Ok(new { message = "jebnia!" });
         }
-
-
     }
 }
