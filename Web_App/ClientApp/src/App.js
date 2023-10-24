@@ -4,6 +4,8 @@ import { AuthContext, UserIDContext, UserTokenContext, UserRefreshTokenContext, 
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import AppRouter from "./components/AppRouter";
+import { refreshTokens, } from "./utils/AuthorizationApi";
+import { set } from "lodash";
 
 
 
@@ -15,13 +17,25 @@ const App = () => {
     const [userRefreshToken, setUserRefreshToken] = useState("");
 
     useEffect(() => {
-        if (sessionStorage.getItem('accTk')) {
-            setIsAuth(true);
+        const dataLoader = async () => { 
+            await refreshTokens()
+                .then((response) => {
+                    if (!response.message) {
+                        sessionStorage.setItem("ID", response.userID);
+                       //REMOVE LATER
+                        
+                    }
+                });
+            if (sessionStorage.getItem("ID")) {
+                //REMOVE LATER
+                localStorage.setItem('UserID', sessionStorage.getItem("ID"));
+                setIsAuth(true);
+                setUserID(sessionStorage.getItem("ID"));
+            }
             setIsLoading(false);
         }
+        dataLoader();
     }, []);
-
-    console.log(localStorage.getItem('accTk'));
 
     return (
         <UserRefreshTokenContext.Provider value ={{

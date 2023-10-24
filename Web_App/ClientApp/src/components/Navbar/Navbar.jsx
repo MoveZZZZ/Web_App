@@ -7,6 +7,7 @@ import React, { useContext, useState } from 'react';
 import { Link} from 'react-router-dom';
 import LogoutModal from "../MyModal/LogOutModal";
 import cursedCat from "../../assets/cat.gif";
+import { logoutCookieCleanUp, } from '../../utils/AuthorizationApi';
 
 
 const Navbar = () => {
@@ -16,6 +17,7 @@ const Navbar = () => {
     const logout = () => {
         setIsAuth(false);
         sessionStorage.removeItem('accTk');
+        logoutCookieCleanUp();
         setModalVisability(false);
         setChoosenPage(0);
     }

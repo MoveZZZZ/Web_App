@@ -1,4 +1,5 @@
-﻿export const login = (login, password) => {
+﻿
+export const login = (login, password) => {
     return fetch('https://localhost:7257/Authorization/login', {
         method: 'POST',
         headers: {
@@ -8,8 +9,6 @@
         body: JSON.stringify({ login, password })
     })
         .then(res => {
-            console.log(res.headers.get('set-cookie')); // undefined
-            console.log(document.cookie); // nope
             return res.json();
         })
 };
@@ -26,15 +25,21 @@ export const signup = (login, email, password, passwordConfirm) => {
         });
 };
 
-export const refreshTokens = () => {
-    return fetch('https://localhost:7257/token/refresh_access_token',
+export const refreshTokens = async () => {
+    return await fetch('https://localhost:7257/token/refresh_access_token',
         {
             method: 'GET',
             credentials: 'include'
         })
-        .then(res => {
-                console.log(res.headers.get('set-cookie')); // undefined
-                console.log(document.cookie); // nope
-                return res.json();
-        })
+        .then((response) => {
+            return response.json();
+        });   
 };
+
+export const logoutCookieCleanUp = async () => {
+    await fetch('https://localhost:7257/token/logout',
+        {
+            method: 'GET',
+            credentials: 'include'
+        });
+}

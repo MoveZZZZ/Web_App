@@ -1,3 +1,5 @@
+import { refreshTokens, } from './AuthorizationApi';
+
 export const fetchProducts = async (page, pageSize) => {
     try {
         const response = await fetch(`https://localhost:7257/products?page=${page}&pageSize=${pageSize}`);
@@ -26,24 +28,27 @@ export const fetchProductsByName = async (name) => {
 
 export async function addProduct(formData) {
     const apiUrl = 'https://localhost:7257/products/addproduct';
-
+    console.log("ADD PROD")
     const body = new FormData();
     body.append('Name', formData.Name);
     body.append('Description', formData.Description);
     body.append('Cost', formData.Cost);
     body.append('Count', formData.Count);
     body.append('Image', formData.Image);
-    const token = sessionStorage.getItem('accTk')
     const response = await fetch(apiUrl, {
         method: 'POST',
         credentials: 'include',
         body,
     });
-
-    if (!response.ok) {
-        throw new Error('Error adding product');
+    if (response.status === 401) {
+        if (refreshTokens()) {
+            console.log("Tokens Successfully refreshed")
+            addProduct(formData);
+        }
+        else {
+            throw new Error('Some authorization/authentication problems');
+        }
     }
-    //console.log("NEXT");
     return response.json();
 };
 

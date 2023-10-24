@@ -45,7 +45,7 @@ public class AuthorizationController : ControllerBase
             this.Response.Cookies.Append("RefreshToken", _authorizationResponseModel.UserRefreshToken, new CookieOptions()
             {
                 Expires = DateTimeOffset.Now.AddMinutes(4800),
-                Path = "/",
+                Path = "/token/",
                 HttpOnly = true,
                 Domain = null,
                 IsEssential = true,
