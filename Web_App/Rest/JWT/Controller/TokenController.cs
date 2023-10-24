@@ -59,7 +59,7 @@ public class TokenController : ControllerBase
             });
             return Ok(_response);
         }
-        this.Response.Cookies.Append("AccessToken", _response.UserToken, new CookieOptions()
+        this.Response.Cookies.Append("AccessToken", "delval", new CookieOptions()
         {
             Expires = DateTimeOffset.Now.AddDays(-1),
             Path = "/",
@@ -69,7 +69,7 @@ public class TokenController : ControllerBase
             Secure = true,
             SameSite = SameSiteMode.Strict
         });
-        this.Response.Cookies.Append("RefreshToken", _response.UserRefreshToken, new CookieOptions()
+        this.Response.Cookies.Append("RefreshToken", "delval", new CookieOptions()
         {
             Expires = DateTimeOffset.Now.AddDays(-1),
             Path = "/token/",
