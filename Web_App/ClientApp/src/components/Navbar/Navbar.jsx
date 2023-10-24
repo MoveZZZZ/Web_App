@@ -21,6 +21,17 @@ const Navbar = () => {
         setModalVisability(false);
         setChoosenPage(0);
     }
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
+    const closeMenu = () => {
+        setIsMenuOpen(false);
+    };
+
+    //add user data from db (useeffect)!!!
 
 
     return (
@@ -77,11 +88,41 @@ const Navbar = () => {
                         {isAuth
                             ? (
                                 <>
-                                    <li>
-                                        <a onClick={() => { setChoosenPage(0); }}
-                                            className="text-white hover:text-primary-300 ease-in-out  hover:text-secondary cursor-pointer"
-                                            onClick={() => setModalVisability(true)}>Sign Out</a>
-                                    </li>
+                                    <div>
+                                        <button
+                                            id="dropdownUserAvatarButton"
+                                            data-dropdown-toggle="dropdownAvatar"
+                                            className="flex mx-3 text-sm rounded-full md:mr-0"
+                                            type="button"
+                                            onClick={toggleMenu}
+                                        >
+                                            <span className="sr-only">Open user menu</span>
+                                            <img className="w-8 h-8 rounded-full" src={snoopNavbar} alt="user photo" />
+                                        </button>
+                                        {isMenuOpen && (
+                                            <div
+                                                id="dropdownAvatar"
+                                                className="absolute right-0 mt-10 mx-2 bg-primary-100 divide-y divide-primary-200 rounded-lg shadow-xl w-44"
+                                            >
+                                                <div className="px-4 py-3 text-sm text-primary-500">
+                                                    <div>Username</div>
+                                                    <div className="font-medium truncate">user poczta</div>
+                                                </div>
+                                                <ul className="py-2 text-sm text-primary-500" aria-labelledby="dropdownUserAvatarButton">
+                                                    <li>
+                                                        <a href="#" className="block px-4 py-2 hover:text-secondary" onClick={closeMenu}>
+                                                            Settings
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                                <div className="py-2">
+                                                    <a className="block px-4 py-2 text-sm text-primary-500 hover:text-secondary" onClick={() => setModalVisability(true)}>
+                                                        Sign out
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
                                     <LogoutModal visible={modalVisability} setVisible={setModalVisability}>
                                         <div className="space-y-4">
                                             <div className="flex justify-center text-2xl font-semibold whitespace-nowrap dark:text-white">You are about to log out! Are you sure?</div>

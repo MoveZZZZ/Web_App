@@ -15,7 +15,7 @@ import Message from "../../components/Message/Message";
 const ProductDetail = () => {
     const { id } = useParams();
     const userID = localStorage.getItem('UserID');
-    const [count, setCount] = useState(1);
+    const [count, setCount] = useState(0);
 
     const [productDetails, setProductDetails] = useState([]);
 
@@ -224,7 +224,11 @@ const ProductDetail = () => {
                                 </button></>
                             ) : (
                                 <>
-                                    <button className="bg-primary-300 text-white rounded-full px-6 py-2 hover:bg-primary-400 focus:outline-none"
+                                        <button
+                                            className={`${count === 0
+                                                ? 'bg-primary-300 text-white rounded-full px-6 py-2 hover:bg-primary-400 focus:outline-none cursor-not-allowed'
+                                                : 'bg-primary-300 text-white rounded-full px-6 py-2 hover:bg-primary-400 focus:outline-none'}`}
+                                            disabled={count ===0}
                                         onClick={addItemsToCart}>
                                         Add to Cart
                                     </button>
