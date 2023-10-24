@@ -12,6 +12,7 @@ module.exports = {
                 500:"#333333",
 
             },
+            black: "#000000",
             secondary: "#D2B48C",
             "background-color": "#FFFFFF",
             red: "#ff0000",

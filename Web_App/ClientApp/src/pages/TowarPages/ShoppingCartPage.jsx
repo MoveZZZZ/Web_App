@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Spinner from '../../components/Spinner/Spinner';
-import { fetchGetAllClientCartItems, } from "../../utils/cartApi"
+import { fetchGetAllClientCartItems, fetchRemoveFromCart, } from "../../utils/cartApi"
 import { fetchCreateOrder, } from "../../utils/orderAPI"
 import Message from "../../components/Message/Message";
 import ErrorMessage from "../../components/Message/ErrorMessage";
@@ -85,8 +85,21 @@ const ShoppingCartPage = () => {
 
 
     const removeFromCart = (itemId) => {
-        setMessage("Your item removed from Cart!");
-        getMessage();
+
+        fetchRemoveFromCart(userID, itemId)
+            .then((data) => {
+
+                setMessage("Your item removed from Cart!");
+                getMessage();
+
+                uploadData();
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 1000);
+            })
+            .catch(() => {
+            })
+        
 
     };
     const placeOrder = () => {
