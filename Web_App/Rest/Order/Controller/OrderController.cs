@@ -8,6 +8,7 @@ namespace Web_App.Rest.Order.Controller
 {
     [Route("order")]
     [ApiController]
+    [Authorize]
     public class OrderController : ControllerBase
     {
 
@@ -17,7 +18,6 @@ namespace Web_App.Rest.Order.Controller
             _orderService = new OrderService();
         }
 
-        //[Authorize]
         [HttpPost]
         [Route("addorder")]
         public IActionResult addOrder(OrderRequestModel orderRequestModel)

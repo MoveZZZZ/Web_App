@@ -16,16 +16,16 @@ namespace Web_App.Rest.Favorite.Controller
             _favoriteService = new FavoriteService();
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         [Route("addfavorite")]
         public IActionResult AddFavorite([FromBody] FavoriteRequestModel model)
         {
             _favoriteService.addToFavorite(model);
-            return Ok();
+            return Ok(new {message = "Added successfully" });
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         [Route("getlistfavorite")]
         public IActionResult GetIndexFavorite([FromQuery] int clientId)
@@ -35,16 +35,16 @@ namespace Web_App.Rest.Favorite.Controller
             return Ok(new { ListIndex = indexes });
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         [Route("removefavoriteitem")]
         public IActionResult RemoveFavoriteItem([FromBody] FavoriteRequestModel model)
         {
             _favoriteService.removeFovorite(model);
-            return Ok();
+            return Ok(new { message = "Deleted successfully" });
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         [Route("getallfavoriteuser")]
         public IActionResult GetAllFavoriteItem(int userID)
