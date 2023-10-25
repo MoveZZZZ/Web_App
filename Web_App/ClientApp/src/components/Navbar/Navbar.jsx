@@ -110,7 +110,7 @@ const Navbar = () => {
                                                 </div>
                                                 <ul className="py-2 text-sm text-primary-500" aria-labelledby="dropdownUserAvatarButton">
                                                     <li>
-                                                        <a href="#" className="block px-4 py-2 hover:text-secondary" onClick={closeMenu}>
+                                                        <a href="/settings" className="block px-4 py-2 hover:text-secondary" onClick={closeMenu}>
                                                             Settings
                                                         </a>
                                                     </li>

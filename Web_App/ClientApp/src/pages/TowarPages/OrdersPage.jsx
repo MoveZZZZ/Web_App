@@ -8,8 +8,6 @@ import { Link } from 'react-router-dom';
 import Spinner from '../../components/Spinner/Spinner';
 
 const OrdersPage = () => {
-
-    //const { userID, setUserID } = useContext(UserIDContext);
     const userID = localStorage.getItem('UserID');
     const [ordersList, setOrdersList] = useState([]);
     const [isLoadinh, setIsLoading] = useState(true);
@@ -84,6 +82,10 @@ const OrdersPage = () => {
                                 {ordersList.map((item) => (
                                     <tr>
                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <Link
+                                                to='/orderdetails'
+                                                state={{ orderID: item.orderID }}
+                                            >
                                             <div class="flex items-center">
                                                 <div class="flex-shrink-0 w-10 h-10">
                                                     <img class="w-full h-full rounded-full"
@@ -95,7 +97,8 @@ const OrdersPage = () => {
                                                         {item.productsString}
                                                     </p>
                                                 </div>
-                                            </div>
+                                                </div>
+                                            </Link>
                                         </td>
                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                             <Link
@@ -107,17 +110,27 @@ const OrdersPage = () => {
                                             </Link>
                                         </td>
                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <Link
+                                                to='/orderdetails'
+                                                state={{ orderID: item.orderID }}
+                                            >
                                             <p class="text-gray-900 whitespace-no-wrap">
                                                 {item.dateTime.slice(0, 10)}
-                                            </p>
+                                                </p>
+                                            </Link>
                                         </td>
                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <Link
+                                                to='/orderdetails'
+                                                state={{ orderID: item.orderID }}
+                                            >
                                             <span
                                                 class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                                                 <span aria-hidden
                                                     class="absolute inset-0 bg-greenLight opacity-50 rounded-full"></span>
                                                 <span class="relative">{item.status}</span>
-                                            </span>
+                                                </span>
+                                            </Link>
                                         </td>
                                     </tr>
                                 ))}

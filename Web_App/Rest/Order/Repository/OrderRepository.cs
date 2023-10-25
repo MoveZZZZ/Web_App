@@ -59,7 +59,6 @@ namespace Web_App.Rest.Order.Repository
 
             }
         }
-
         public List<OrdersUserModel> getAllOrdersUser(int userID)
         {
             List<OrdersUserModel> _data = new List<OrdersUserModel>();
@@ -78,12 +77,13 @@ namespace Web_App.Rest.Order.Repository
                 adapter.SelectCommand = command;
                 adapter.Fill(table);
             }
-            foreach (DataRow row in table.Rows) { 
+            foreach (DataRow row in table.Rows)
+            {
                 _model = new OrdersUserModel();
                 _model.OrderID = Convert.ToInt32(row["order_id"].ToString());
                 _model.Status = row["status"].ToString();
-                _model.DateTime= Convert.ToDateTime(row["order_create"].ToString());
-                _data.Add( _model );
+                _model.DateTime = Convert.ToDateTime(row["order_create"].ToString());
+                _data.Add(_model);
             }
             return _data;
         }
@@ -99,7 +99,7 @@ namespace Web_App.Rest.Order.Repository
             {
                 connection.Open();
                 command.Connection = connection;
-                command.CommandText = "SELECT products.id, products.name, products_order.count ,products.image FROM products_order JOIN products ON products_order.product_id=products.id WHERE products_order.order_id=@orderid";
+                command.CommandText = "SELECT products.id, products.name, products_order.count, products.cost ,products.image FROM products_order JOIN products ON products_order.product_id=products.id WHERE products_order.order_id=@orderid";
                 command.Parameters.Add("@orderid", MySqlDbType.Int32).Value = orderID;
                 adapter.SelectCommand = command;
                 adapter.Fill(table);
@@ -110,6 +110,8 @@ namespace Web_App.Rest.Order.Repository
                 _model.IdProduct = Convert.ToInt32(row["id"].ToString());
                 _model.NameProduct = row["name"].ToString();
                 _model.CountProduct = Convert.ToInt32(row["count"].ToString());
+                _model.ProductCost = (float)Convert.ToDouble(row["cost"].ToString());
+                _model.ProductCostSummary = (float)(Convert.ToDouble(row["cost"].ToString()) * Convert.ToInt32(row["count"].ToString()));
                 _model.ImageUrl = (byte[])row["image"];
                 _modelList.Add(_model);
             }
@@ -145,6 +147,28 @@ namespace Web_App.Rest.Order.Repository
             }
             return orderModel;
 
+        }
+
+        public int getTotalOrdersClient(int clientID)
+        {
+            int totalOrdersClient = 0;
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            DataTable table = new DataTable();
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "SELECT COUNT(order_id) FROM `order` WHERE user_id=@uid";
+                command.Parameters.Add("@uid", MySqlDbType.Int32).Value = clientID;
+                adapter.SelectCommand = command;
+                adapter.Fill(table);
+            }
+            foreach (DataRow row in table.Rows)
+            {
+                totalOrdersClient = Convert.ToInt32(row[0].ToString());
+            }
+            return totalOrdersClient;
         }
     }
 }
