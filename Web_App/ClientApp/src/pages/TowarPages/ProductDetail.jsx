@@ -92,6 +92,7 @@ const ProductDetail = () => {
     }
 
     const handleCartItems = async () => {
+        console.log(userID);
         fetchGetAllIndexClientCart(userID)
             .then((data) => {
                 setCartID(data.cartIndexesList);

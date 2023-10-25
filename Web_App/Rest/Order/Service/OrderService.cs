@@ -2,6 +2,8 @@
 using Web_App.Rest.Order.Model;
 using Web_App.Rest.Order.Repository;
 using Web_App.Rest.Product.Service;
+using Web_App.Rest.User.Models;
+using Web_App.Rest.User.Services;
 
 namespace Web_App.Rest.Order.Service
 {
@@ -11,12 +13,14 @@ namespace Web_App.Rest.Order.Service
         private CartService _cartService;
         private IOrderRepository _orderRepository;
         private OrderModel _orderModel;
+        private UserService _userService;
         public OrderService()
         {
             _orderRepository = new OrderRepository();
             _orderModel = new OrderModel();
             _productService = new ProductService();
             _cartService = new CartService();
+            _userService = new UserService();   
         }
 
         public void fillModel(OrderRequestModel orderRequestModel)
@@ -60,8 +64,13 @@ namespace Web_App.Rest.Order.Service
         public OrderDetailsModel getOrderDetailsModel(int orderID, int clientID)
         {
             OrderDetailsModel orderDetailsModel = new OrderDetailsModel();
+            UserModel userModel = new UserModel();
             orderDetailsModel = _orderRepository.getOrderDetailsByUserIdAndOrderID(orderID, clientID);
             orderDetailsModel.ProductOrderList = getAllProductsInOrder(orderID);
+            orderDetailsModel.TotalOrdersClient = _orderRepository.getTotalOrdersClient(clientID);
+            userModel = _userService.getUsernamePhotoByID(clientID);
+            orderDetailsModel.UserName = userModel.Login;
+            orderDetailsModel.ClientPhoto = userModel.Photo;
             return orderDetailsModel;
         }
 

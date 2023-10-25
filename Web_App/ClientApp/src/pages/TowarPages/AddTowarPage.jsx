@@ -9,7 +9,9 @@ const AddTowarPage = () => {
         Count: 0,
         Image: null,
     });
+
     const [formData, setFormData] = useState(getInitialFormData());
+
     const handleInputChange = (e) => {
         const { name, value, type } = e.target;
         setFormData((prevData) => ({

@@ -12,6 +12,7 @@ import AddTowarPage from "../pages/TowarPages/AddTowarPage";
 import OrdersPage from "../pages/TowarPages/OrdersPage";
 import Spinner from '../components/Spinner/Spinner';
 import OrderDetailsPage from "../pages/TowarPages/OrderDetailsPage";
+import SettingsPage from "../pages/usersPage/SettingsPage";
 
 const AppRouter = () => {
     const { isAuth, isLoading } = useContext(AuthContext);
@@ -49,8 +50,13 @@ const AppRouter = () => {
                     element={<AddTowarPage />}
                     path="/addtowar" />
                 <Route
+                    element={<SettingsPage />}
+                    path="/settings"
+                />
+                <Route
                     path="*"
                     element={<Navigate to="/" />} />
+
             </Routes>
             :
             <Routes>

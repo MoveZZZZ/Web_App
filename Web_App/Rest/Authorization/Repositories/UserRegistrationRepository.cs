@@ -7,18 +7,19 @@ namespace Web_App.Rest.Authorization.Repositories
 {
     public class UserRegistrationRepository : RepositoryBase, IUserRegistrationRepository
     {
-        public void addUserInDB(RegisterModel registerModel)
+        public void addUserInDB(RegisterModel registerModel, byte[] img)
         {
             using (var connection = GetConnection())
             using (var command = new MySqlCommand())
             {
                 connection.Open();
                 command.Connection = connection;
-                command.CommandText = "INSERT INTO user(`username`, `password`, `email`, `role`) VALUES(@uname, @pass, @email, @role)";
+                command.CommandText = "INSERT INTO user(`username`, `password`, `email`, `role`, `photo`) VALUES(@uname, @pass, @email, @role, @photo)";
                 command.Parameters.Add("@uname", MySqlDbType.VarChar).Value = registerModel.Login;
                 command.Parameters.Add("@pass", MySqlDbType.VarChar).Value = registerModel.Password;
                 command.Parameters.Add("@email", MySqlDbType.VarChar).Value = registerModel.Email;
                 command.Parameters.Add("@role", MySqlDbType.VarChar).Value = "USER";
+                command.Parameters.Add("@photo", MySqlDbType.TinyBlob).Value = img;
                 command.ExecuteNonQuery();
             }
         }

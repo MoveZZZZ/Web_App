@@ -6,6 +6,11 @@ using System.Net;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging.Abstractions;
 using System.Data;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using SixLabors.ImageSharp.Formats;
+
 
 namespace Web_App.Rest.Authorization.Services
 {
@@ -110,7 +115,20 @@ namespace Web_App.Rest.Authorization.Services
             return false;
         }
 
+        public byte[] createImageByte ()
+        {
+            using (Bitmap image = new Bitmap("Rest/User/Assets/userPhoto.png"))
+            {
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    image.Save(stream, ImageFormat.Png);
 
+                    byte[] byteArray = stream.ToArray();
+
+                    return byteArray;
+                }
+            }
+        }
 
 
 
@@ -144,7 +162,7 @@ namespace Web_App.Rest.Authorization.Services
 
 
 
-            _userRegistrationRepository.addUserInDB(userRegistModel);
+            _userRegistrationRepository.addUserInDB(userRegistModel, createImageByte());
             return _message;
         }
 

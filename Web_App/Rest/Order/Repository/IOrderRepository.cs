@@ -9,6 +9,7 @@ namespace Web_App.Rest.Order.Repository
         public OrderDetailsModel getOrderDetailsByUserIdAndOrderID(int orderID, int clientID);
         public List<OrderDetailsProductModel> getAllProductsInOrder(int orderID);
         public List<OrdersUserModel> getAllOrdersUser(int userID);
+        public int getTotalOrdersClient (int clientID);
 
     }
 }
