@@ -35,21 +35,27 @@ export async function addProduct(formData) {
     body.append('Cost', formData.Cost);
     body.append('Count', formData.Count);
     body.append('Image', formData.Image);
-    const response = await fetch(apiUrl, {
+    let res = await fetch(apiUrl, {
         method: 'POST',
         credentials: 'include',
         body,
     });
-    if (response.status === 401) {
-        if (refreshTokens()) {
-            console.log("Tokens Successfully refreshed")
-            addProduct(formData);
-        }
-        else {
-            throw new Error('Some authorization/authentication problems');
-        }
+    if (res.status === 401) {
+        await refreshTokens()
+            .then((response) => {
+                if (!response.message) {
+                    res = addProduct(formData);
+                    sessionStorage.setItem("ID", response.userID);
+                    //REMOVE LATER
+                }
+                else {
+                    sessionStorage.removeItem("ID");
+                    localStorage.removeItem("ID");
+                }
+            });
+        
     }
-    return response.json();
+    return res.json();
 };
 
 
