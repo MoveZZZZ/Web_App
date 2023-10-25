@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { signup, } from '../../utils/AuthorizationApi';
 import liveMaggotReaction from "../../assets/V1.gif";
-
 import PasswordStrengthBar from 'react-password-strength-bar';
-
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 

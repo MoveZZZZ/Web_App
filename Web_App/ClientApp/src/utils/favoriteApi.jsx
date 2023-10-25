@@ -1,50 +1,39 @@
-﻿export const fetchAddToFavorite = (TowarId, ClientID) => {
-    return fetch('https://localhost:7257/favorite/addfavorite', {
+﻿import { fetchWithAuthentication, } from './AuthenticationLogic';
+
+export const fetchAddToFavorite = (TowarId, ClientID) => {
+    const params = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({ TowarId, ClientID }),
-    })
-        .catch((error) => {
-            return error;
-
-        });
+    }
+    return fetchWithAuthentication('https://localhost:7257/favorite/addfavorite', params);
 }
+
 export const fetchGetAllIndexClientFavorite = (clientId) => {
-    return fetch(`https://localhost:7257/favorite/getlistfavorite?clientId=${clientId}`, {
+    const params = {
         method: 'GET',
-    })
-        .then((response) => {
-            return response.json();
-        });
+        credentials: 'include',
+    };
+    return fetchWithAuthentication(`https://localhost:7257/favorite/getlistfavorite?clientId=${clientId}`, params);
 }
-
 
 export const fetchRemoveFavoriteItem = (TowarId, ClientID) => {
-    return fetch('https://localhost:7257/favorite/removefavoriteitem', {
+    const params = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({ TowarId, ClientID }),
-    })
-        .catch((error) => {
-            return error;
-
-        });
+    };
+    return fetchWithAuthentication('https://localhost:7257/favorite/removefavoriteitem', params);
+        
 }
 
-
 export const fetchGetAllClientFavoriteItems = async (clientId) => {
-    try {
-        const response = await fetch(`https://localhost:7257/favorite/getallfavoriteuser?userID=${clientId}`);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        throw error;
-    }
+    const params = { credentials: 'include' };
+    return fetchWithAuthentication(`https://localhost:7257/favorite/getallfavoriteuser?userID=${clientId}`, params);
 }

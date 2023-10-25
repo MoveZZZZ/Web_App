@@ -7,7 +7,7 @@ import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import LogoutModal from "../MyModal/LogOutModal";
 import cursedCat from "../../assets/cat.gif";
-import { logoutCookieCleanUp, } from '../../utils/AuthorizationApi';
+import { logoutCookieCleanUp, } from '../../utils/AuthenticationLogic';
 
 
 const Navbar = () => {

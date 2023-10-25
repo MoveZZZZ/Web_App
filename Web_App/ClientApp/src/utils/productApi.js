@@ -1,4 +1,4 @@
-import { refreshTokens, } from './AuthorizationApi';
+import { fetchWithAuthentication, } from './AuthenticationLogic';
 
 export const fetchProducts = async (page, pageSize) => {
     try {
@@ -35,27 +35,10 @@ export async function addProduct(formData) {
     body.append('Cost', formData.Cost);
     body.append('Count', formData.Count);
     body.append('Image', formData.Image);
-    let res = await fetch(apiUrl, {
+    const params = {
         method: 'POST',
         credentials: 'include',
         body,
-    });
-    if (res.status === 401) {
-        await refreshTokens()
-            .then((response) => {
-                if (!response.message) {
-                    res = addProduct(formData);
-                    sessionStorage.setItem("ID", response.userID);
-                    //REMOVE LATER
-                }
-                else {
-                    sessionStorage.removeItem("ID");
-                    localStorage.removeItem("ID");
-                }
-            });
-        
-    }
-    return res.json();
+    };
+    return fetchWithAuthentication(apiUrl, params);
 };
-
-

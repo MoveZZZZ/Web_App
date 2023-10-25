@@ -1,51 +1,39 @@
-﻿import { refreshTokens, } from './AuthorizationApi';
-
+﻿import { fetchWithAuthentication, } from './AuthenticationLogic';
+//!
 export const fetchAddToCart = async (IdClient, IdTowar, TowarCount) => {
-    return fetch('https://localhost:7257/cart/addtocart', {
+    const params = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({ IdClient, IdTowar, TowarCount }),
-    })
-        .then((response) => {
-            return response.json();
-        });
+    }
+    return fetchWithAuthentication('https://localhost:7257/cart/addtocart', params);
 }
-
+//!
 export const fetchGetAllClientCartItems = async (clientId) => {
-    try {
-        const response = await fetch(`https://localhost:7257/cart/getlistcart?userID=${clientId}`, { credentials: 'include', });
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        return data;
-    }
-    catch (error) {
-        throw error;
-    }
+    return fetchWithAuthentication(`https://localhost:7257/cart/getlistcart?userID=${clientId}`, { credentials: 'include', });
 }
 
 export const fetchRemoveFromCart = (IdClient, IdTowar) => {
-    return fetch('https://localhost:7257/cart/removefromcart', {
+    const params = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({ IdClient, IdTowar }),
-    })
-        .catch((error) => {
-            console.log(error)
-        });
+    }
+    return fetchWithAuthentication('https://localhost:7257/cart/removefromcart', params);
 }
 
 
 export const fetchGetAllIndexClientCart = (clientId) => {
-    return fetch(`https://localhost:7257/cart/getindexlistcart?userID=${clientId}`, {
+    const params =
+    {
         method: 'GET',
-    })
-        .then((response) => {
-            return response.json();
-        });
+        credentials: 'include',
+    }
+    return fetchWithAuthentication(`https://localhost:7257/cart/getindexlistcart?userID=${clientId}`, params);
 }
