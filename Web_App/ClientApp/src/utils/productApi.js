@@ -1,4 +1,4 @@
-import { refreshTokens, } from './AuthorizationApi';
+import { fetchWithAuthentication, } from './AuthenticationLogic';
 
 export const fetchProducts = async (page, pageSize) => {
     try {
@@ -35,21 +35,10 @@ export async function addProduct(formData) {
     body.append('Cost', formData.Cost);
     body.append('Count', formData.Count);
     body.append('Image', formData.Image);
-    const response = await fetch(apiUrl, {
+    const params = {
         method: 'POST',
         credentials: 'include',
         body,
-    });
-    if (response.status === 401) {
-        if (refreshTokens()) {
-            console.log("Tokens Successfully refreshed")
-            addProduct(formData);
-        }
-        else {
-            throw new Error('Some authorization/authentication problems');
-        }
-    }
-    return response.json();
+    };
+    return fetchWithAuthentication(apiUrl, params);
 };
-
-

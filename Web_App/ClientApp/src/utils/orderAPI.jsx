@@ -1,31 +1,31 @@
-﻿export const fetchCreateOrder = async (ClientID, TowarIdList, TowarCount, Cost, Ordercom, AccessPointId, PaymentMethod) => {
-    return fetch('https://localhost:7257/order/addorder', {
+﻿import { fetchWithAuthentication, } from './AuthenticationLogic';
+
+export const fetchCreateOrder = async (ClientID, TowarIdList, TowarCount, Cost, Ordercom, AccessPointId, PaymentMethod) => {
+    const api = 'https://localhost:7257/order/addorder';
+    const params =
+    {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({ ClientID, TowarIdList, TowarCount, Cost, Ordercom, AccessPointId, PaymentMethod })
-    })
-        .then((response) => {
-            return response.json();
-        })
+    };
+    return fetchWithAuthentication(api, params);
 }
+
 export const fetchOrderDetails = async (orderID, clientID) => {
-    try {
-        const response = await fetch(`https://localhost:7257/order/?orderID=${orderID}&clientID=${clientID}`);
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        throw error;
-    }
+    const api = `https://localhost:7257/order/?orderID=${orderID}&clientID=${clientID}`;
+    const params = {
+        credentials: 'include',
+    };
+    return fetchWithAuthentication(api, params);
 }
+
 export const fetchAllUserOrders = async (userID) => {
-    try {
-        const response = await fetch(`https://localhost:7257/order/getallordersuser?userID=${userID}`);
-        const data = await response.json();
-        return data;
-    }
-    catch (error) {
-        throw error;
-    }
+    const api = `https://localhost:7257/order/getallordersuser?userID=${userID}`;
+    const params = {
+        credentials: 'include',
+    };
+    return fetchWithAuthentication(api, params);
 }

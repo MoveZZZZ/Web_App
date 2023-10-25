@@ -15,7 +15,7 @@ namespace Web_App.Rest.Cart.Controller
             _cartService = new CartService();
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         [Route("getlistcart")]
         public IActionResult GetCartItemsList([FromQuery] int userID)
@@ -26,7 +26,7 @@ namespace Web_App.Rest.Cart.Controller
             return Ok( new {Towar = response});
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         [Route("getindexlistcart")]
         public IActionResult GetIndexCartList([FromQuery] int userID)
@@ -36,7 +36,7 @@ namespace Web_App.Rest.Cart.Controller
             return Ok(new {cartIndexesList = response});
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         [Route("addtocart")]
         public IActionResult AddToCart([FromBody] CartModelRequest model)

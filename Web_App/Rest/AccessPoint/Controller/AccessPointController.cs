@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Web_App.Rest.AccessPoint.Model;
 using Web_App.Rest.AccessPoint.Service;
 
@@ -6,6 +7,7 @@ namespace Web_App.Rest.AccessPoint.Controller
 {
     [Route("accesspoint")]
     [ApiController]
+    [Authorize]
     public class AccessPointController : ControllerBase
     {
 

@@ -4,7 +4,7 @@ import { AuthContext, UserIDContext, UserTokenContext, UserRefreshTokenContext, 
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import AppRouter from "./components/AppRouter";
-import { refreshTokens, } from "./utils/AuthorizationApi";
+import { refreshTokens, } from "./utils/AuthenticationLogic";
 import { set } from "lodash";
 
 
@@ -23,7 +23,6 @@ const App = () => {
                     if (!response.message) {
                         sessionStorage.setItem("ID", response.userID);
                         //REMOVE LATER
-
                     }
                     else {
                         sessionStorage.removeItem("ID");

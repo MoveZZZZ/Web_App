@@ -1,5 +1,4 @@
-﻿
-export const login = (login, password) => {
+﻿export const login = (login, password) => {
     return fetch('https://localhost:7257/Authorization/login', {
         method: 'POST',
         headers: {
@@ -12,6 +11,7 @@ export const login = (login, password) => {
             return res.json();
         })
 };
+
 export const signup = (login, email, password, passwordConfirm) => {
     return fetch('https://localhost:7257/registration/signup', {
         method: 'POST',
@@ -25,21 +25,3 @@ export const signup = (login, email, password, passwordConfirm) => {
         });
 };
 
-export const refreshTokens = async () => {
-    return await fetch('https://localhost:7257/token/refresh_access_token',
-        {
-            method: 'GET',
-            credentials: 'include'
-        })
-        .then((response) => {
-            return response.json();
-        });   
-};
-
-export const logoutCookieCleanUp = async () => {
-    await fetch('https://localhost:7257/token/logout',
-        {
-            method: 'GET',
-            credentials: 'include'
-        });
-}

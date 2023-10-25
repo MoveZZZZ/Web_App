@@ -1,40 +1,46 @@
-﻿export const fetchGetAllAPState = () => {
-    return fetch('https://localhost:7257/accesspoint/getallaccesspointstate', {
+﻿import { fetchWithAuthentication, } from './AuthenticationLogic';
+
+export const fetchGetAllAPState = () => {
+    const api = 'https://localhost:7257/accesspoint/getallaccesspointstate';
+    const params = {
+        credentials: 'include',
         method: 'GET',
-    })
-        .then((response) => {
-            return response.json();
-        });
+    };
+    return fetchWithAuthentication(api, params);
 }
+
 export const fetchGetAllAPCity = () => {
-    return fetch('https://localhost:7257/accesspoint/getallaccesspointcity', {
+    const api = 'https://localhost:7257/accesspoint/getallaccesspointcity';
+    const params = {
+        credentials: 'include',
         method: 'GET',
-    })
-        .then((response) => {
-            return response.json();
-        });
+    };
+    return fetchWithAuthentication(api, params);
 }
+
 export const fetchGetAllAPTheState = (State) => {
-    return fetch(`https://localhost:7257/accesspoint/getallaccesspointthestate?State=${State}`, {
+    const api = `https://localhost:7257/accesspoint/getallaccesspointthestate?State=${State}`;
+    const params = {
+        credentials: 'include',
         method: 'POST',
-    })
-        .then((response) => {
-            return response.json();
-        });
+    };
+    return fetchWithAuthentication(api, params);
 }
-export const fetchGetAllAPTheStateAndCity = (State, City) => {
-    return fetch(`https://localhost:7257/accesspoint/getallaccesspointthestateandcity?State=${State}&City=${City}`, {
-        method: 'POST',
-    })
-        .then((response) => {
-            return response.json();
-        });
-}
+
 export const fetchGetAllCitysTheState = (State) => {
-    return fetch(`https://localhost:7257/accesspoint/getallcitysthestate?State=${State}`, {
+    const api = `https://localhost:7257/accesspoint/getallcitysthestate?State=${State}`;
+    const params = {
         method: 'POST',
-    })
-        .then((response) => {
-            return response.json();
-        })
+        credentials: 'include',
+    }
+    return fetchWithAuthentication(api, params);
+}
+
+export const fetchGetAllAPTheStateAndCity = (State, City) => {
+    const api = `https://localhost:7257/accesspoint/getallaccesspointthestateandcity?State=${State}&City=${City}`;
+    const params = {
+        method: 'POST',
+        credentials: 'include',
+    }
+    return fetchWithAuthentication(api, params);
 }
