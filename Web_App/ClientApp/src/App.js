@@ -22,8 +22,11 @@ const App = () => {
                 .then((response) => {
                     if (!response.message) {
                         sessionStorage.setItem("ID", response.userID);
-                       //REMOVE LATER
-                        
+                        //REMOVE LATER
+                    }
+                    else {
+                        sessionStorage.removeItem("ID");
+                        localStorage.removeItem("ID");
                     }
                 });
             if (sessionStorage.getItem("ID")) {
