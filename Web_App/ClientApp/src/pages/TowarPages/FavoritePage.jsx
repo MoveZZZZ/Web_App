@@ -81,7 +81,6 @@ const FavoritePage = () => {
     };
 
     const removeFromCart = (itemId) => {
-        console.log(itemId);
         fetchRemoveFromCart(userID, itemId)
             .then((data) => {
                 handleCartItems();
@@ -100,16 +99,6 @@ const FavoritePage = () => {
         setIsMessage(true);
         setTimeout(() => setIsMessage(false), 5000);
     }
-    const placeOrder = () => {
-        const selectedItems = favoriteItem.filter((item) => item.selected);
-        if (selectedItems.length) {
-            console.log('Selected Items for Order:', selectedItems);
-        }
-        else {
-            console.log('Wypierdalaj');
-        }
-
-    };
     const toggleSelect = (itemId) => {
         const updatedFavorite = favoriteItem.map((item) => {
             if (item.id === itemId) {

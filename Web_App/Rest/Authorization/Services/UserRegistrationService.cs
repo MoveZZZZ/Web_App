@@ -27,19 +27,19 @@ namespace Web_App.Rest.Authorization.Services
 
 
         //login
-        public bool chekUsernameFromDB(RegisterModel userRegistModel)
+        private bool chekUsernameFromDB(string login)
         {
-            DataTable reader = _userRegistrationRepository.getByUsernameFromDB(userRegistModel.Login);
+            DataTable reader = _userRegistrationRepository.getByUsernameFromDB(login);
             if (reader.Rows.Count > 0)
             {
                 return true;
             }
             return false;
         }
-        public bool checkDefaultAccountName(RegisterModel userRegistModel)
+        private bool checkDefaultAccountName(string login)
         {
             string[] lines = File.ReadAllLines("Rest/Authorization/DefaultAccountNames.txt");
-            if (lines.Contains(userRegistModel.Login.ToLower()))
+            if (lines.Contains(login.ToLower()))
             {
                 return true;
             }
@@ -48,33 +48,33 @@ namespace Web_App.Rest.Authorization.Services
 
 
         //password
-        public bool checkPasswordAndRepeatPassword(RegisterModel userRegistModel)
+        private bool checkPasswordAndRepeatPassword(string password, string repeatPassword)
         {
-            if (userRegistModel.Password != userRegistModel.PasswordConfirm)
+            if (password != repeatPassword)
                 return true;
             return false;
         }
-        public bool checkPasswordLenght(RegisterModel userRegistModel)
+        private bool checkPasswordLenght(string password)
         {
-            if (userRegistModel.Password.Length < 12
-                || userRegistModel.Password.Length > 86)
+            if (password.Length < 12
+                || password.Length > 86)
                 return true;
             return false;
         }
-        public bool checkPasswordMostPopular(RegisterModel userRegistModel)
+        private bool checkPasswordMostPopular(string password)
         {
             string[] lines = File.ReadAllLines("Rest/Authorization/10000Passwords.txt");
-            if (lines.Contains(userRegistModel.Password))
+            if (lines.Contains(password))
             {
                 return true;
             }
             return false;
         }
-        public void checkPasswordSpaces(RegisterModel userRegistModel)
+        public string checkPasswordSpaces(string password)
         {
             char lastSymbol = '1';
             string updatedPassword = "";
-            foreach (char c in userRegistModel.Password)
+            foreach (char c in password)
             {
                 if (char.IsWhiteSpace(c) && char.IsWhiteSpace(lastSymbol))
                 {
@@ -83,31 +83,31 @@ namespace Web_App.Rest.Authorization.Services
                 updatedPassword += c;
                 lastSymbol = c;
             }
-            userRegistModel.Password = updatedPassword;
+            return updatedPassword;
         }
 
 
         //hash
-        public void hashPassword(RegisterModel userRegistModel)
+        public string hashPassword(string password)
         {
-            string hashedPass = BCrypt.Net.BCrypt.HashPassword(userRegistModel.Password);
-            userRegistModel.Password = hashedPass;
+            string hashedPass = BCrypt.Net.BCrypt.HashPassword(password);
+            return hashedPass;
         }
 
 
 
         //email
-        public bool checkEmailSyntax(RegisterModel userRegistModel)
+        private bool checkEmailSyntax(string email)
         {
             string pattern = @"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$";
             Regex r = new Regex(pattern, RegexOptions.IgnoreCase);
-            if (userRegistModel.Email == null || !r.Match(userRegistModel.Email).Success)
+            if (email == null || !r.Match(email).Success)
                 return true;
             return false;
         }
-        public bool checkEmailFromDB(RegisterModel registerModel)
+        private bool checkEmailFromDB(string email)
         {
-            DataTable reader = _userRegistrationRepository.getByEmailFromDB(registerModel.Email);
+            DataTable reader = _userRegistrationRepository.getByEmailFromDB(email);
             if (reader.Rows.Count > 0)
             {
                 return true;
@@ -115,7 +115,7 @@ namespace Web_App.Rest.Authorization.Services
             return false;
         }
 
-        public byte[] createImageByte ()
+        private byte[] createImageByte ()
         {
             using (Bitmap image = new Bitmap("Rest/User/Assets/userPhoto.png"))
             {
@@ -130,6 +130,33 @@ namespace Web_App.Rest.Authorization.Services
             }
         }
 
+        public bool checkUsername (string username)
+        {
+            if (chekUsernameFromDB(username)
+                || username.Length > 255
+                || checkDefaultAccountName(username))
+                return true;
+            return false;
+        }
+        public bool checkEmail (string email)
+        {
+            if (checkEmailSyntax(email)
+               || checkEmailFromDB(email))
+                return true;
+            return false;
+        }
+        public bool checkSamePassword(string password, string repeatpassword)
+        {
+            if (checkPasswordAndRepeatPassword(password, repeatpassword))
+                return true;
+            return false;
+        }
+        public bool checkPasswordLenAndPopular (string password)
+        {
+            if (checkPasswordLenght(password) || checkPasswordMostPopular(password))
+                return true;
+            return false;
+        }
 
 
 
@@ -140,23 +167,23 @@ namespace Web_App.Rest.Authorization.Services
         public string checkAllData(RegisterModel userRegistModel)
         {
             //Username
-            if (chekUsernameFromDB(userRegistModel)
-                || userRegistModel.Login.Length > 255
-                || checkDefaultAccountName(userRegistModel))
-                return _message = "bad login";
+            if (checkUsername(userRegistModel.Login))
+                return _message = "wrong username!";
 
             //email
-            if (checkEmailSyntax(userRegistModel)
-                || checkEmailFromDB(userRegistModel))
+            if (checkEmail(userRegistModel.Email))
                 return _message = "wrong email";
 
             //Password
-            if (checkPasswordAndRepeatPassword(userRegistModel))
+          if(checkSamePassword(userRegistModel.Password, userRegistModel.PasswordConfirm))
                 return _message = "passwords are not the same";
-            checkPasswordSpaces(userRegistModel);
-            if (checkPasswordLenght(userRegistModel) || checkPasswordMostPopular(userRegistModel))
+
+            userRegistModel.Password=checkPasswordSpaces(userRegistModel.Password);
+
+            if(checkPasswordLenAndPopular(userRegistModel.Password))
                 return _message = "wrong password";
-            hashPassword(userRegistModel);
+
+            userRegistModel.Password=hashPassword(userRegistModel.Password);
 
 
 

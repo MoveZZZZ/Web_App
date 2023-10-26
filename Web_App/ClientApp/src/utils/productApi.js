@@ -28,7 +28,6 @@ export const fetchProductsByName = async (name) => {
 
 export async function addProduct(formData) {
     const apiUrl = 'https://localhost:7257/products/addproduct';
-    console.log("ADD PROD")
     const body = new FormData();
     body.append('Name', formData.Name);
     body.append('Description', formData.Description);

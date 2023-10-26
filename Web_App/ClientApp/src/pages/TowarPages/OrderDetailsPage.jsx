@@ -16,19 +16,14 @@ const OrderDetailsPage = (props) => {
 
     const [isLoading, setIsLoading] = useState(true);
 
-    console.log(location.state.orderID);
-    console.log(userID);
+
 
     const handleOrderDetails = async () => {
-        console.log(location.state.orderID);
-        console.log(userID);
         setIsLoading(true);
         fetchOrderDetails(location.state.orderID, parseInt(userID, 10))
             .then((data) => {
-                console.log(data);
                 setOrderDetailData(data);
                 setorderDetailProducts(data.productOrderList);
-                console.log(data.productOrderList);
 
             })
             .catch((error) => {

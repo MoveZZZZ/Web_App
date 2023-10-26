@@ -33,7 +33,6 @@ const AddTowarPage = () => {
             await addProduct(formData);
             setFormData(getInitialFormData());
         } catch (error) {
-            console.error('Error adding product:', error);
         }
     };
 

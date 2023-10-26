@@ -14,11 +14,9 @@ const OrdersPage = () => {
 
 
     const handleOrdersUser = async () => {
-        console.log(userID);
         fetchAllUserOrders(userID)
             .then((data) => {
                 setOrdersList(data);
-                console.log(data);
             })
             .catch((error) => {
                 console.error('Error fetching products:', error);
@@ -80,8 +78,8 @@ const OrdersPage = () => {
                             </thead>
                             <tbody>
                                 {ordersList.map((item) => (
-                                    <tr>
-                                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <tr className="hover:hover:bg-lightgrey cursor-pointer">
+                                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm ">
                                             <Link
                                                 to='/orderdetails'
                                                 state={{ orderID: item.orderID }}
