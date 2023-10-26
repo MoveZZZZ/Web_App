@@ -54,25 +54,7 @@ public class AuthorizationController : ControllerBase
             });
             return Ok(_authorizationResponseModel);
         }
-        return Unauthorized(new { message = "bad login or password" });
-        
-
-
-          
-           
-/*
-
-        Token token = _tokenService.CreateToken(userModel);
-
-        _authorizationResponseModel.UserToken = token.AccessToken;
-        _authorizationResponseModel.UserRefreshToken = token.RefreshToken;
-        _authorizationResponseModel.UserID = userModel.Id;
-*/
-
-
-       //return Unauthorized(new { message = "Invalid email or password" });
-        //return Ok(_authorizationResponseModel);
-        
+        return Unauthorized(new { message = "bad login or password" });  
     }
 
 

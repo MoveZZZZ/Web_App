@@ -11,11 +11,6 @@ import ErrorMessage from "../../components/Message/ErrorMessage";
 
 
 const SettingsPage = () => {
-
-
-   
-
-
     const [modalLoginChangeVisability, setModalLoginChangeVisability] = useState(false)
     const [modalEmailChangeVisability, setModalEmailChangeVisability] = useState(false)
     const [modalPasswordChangeVisability, setModalPasswordChangeVisability] = useState(false)
@@ -26,28 +21,17 @@ const SettingsPage = () => {
     const [newPassword, setNewPassword] = useState('');
     const [repeatNewPassword, setRepeatNewPassword] = useState('');
 
-
     const [isLoading, setIsLoading] = useState(true);
 
-
-    const userID = localStorage.getItem('UserID');
+    const userID = sessionStorage.getItem('ID');
 
     const [userProfile, setUserProfile] = useState([])
 
-
     const [showPassword, setShowPassword] = useState(false);
-
-
 
     const [isMessage, setIsMessage] = useState(false);
     const [isError, setIsError] = useState(false);
-
     const [message, setMessage] = useState("");
-
-
-    
-
-
 
     const getInitialFormData = () => ({
             userid: userID,
@@ -61,8 +45,17 @@ const SettingsPage = () => {
         }));
     };
 
+    useEffect(() => {
+        clearVariables();
+    }, [modalLoginChangeVisability]);
 
+    useEffect(() => {
+        clearVariables();
+    }, [modalEmailChangeVisability]);
 
+    useEffect(() => {
+        clearVariables();
+    }, [modalPasswordChangeVisability]);
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -93,6 +86,9 @@ const SettingsPage = () => {
     const clearVariables = () => {
         setCurrentPassword('');
         setNewLogn('');
+        setNewEmail('');
+        setNewPassword('');
+        setRepeatNewPassword('');
     }
 
     const uploadUserData = async () => {

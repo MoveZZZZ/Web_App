@@ -37,7 +37,7 @@ namespace Web_App.Rest.Authorization.Repositories
             return userModel;
         }
 
-        public UserModel getUserDataFromDBviaMail(string email)
+        public UserModel getUserDataFromDBviaID(int userID)
         {
             UserModel userModel = new UserModel();
 
@@ -48,8 +48,8 @@ namespace Web_App.Rest.Authorization.Repositories
             {
                 connection.Open();
                 command.Connection = connection;
-                command.CommandText = "SELECT * FROM user WHERE email = @email";
-                command.Parameters.Add("@email", MySqlDbType.VarChar).Value = email;
+                command.CommandText = "SELECT * FROM user WHERE id = @userID";
+                command.Parameters.Add("@userID", MySqlDbType.VarChar).Value = userID;
                 adapter.SelectCommand = command;
                 adapter.Fill(table);
             }

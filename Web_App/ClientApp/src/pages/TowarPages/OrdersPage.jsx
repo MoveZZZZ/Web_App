@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import Spinner from '../../components/Spinner/Spinner';
 
 const OrdersPage = () => {
-    const userID = localStorage.getItem('UserID');
+    const userID = sessionStorage.getItem('ID');
     const [ordersList, setOrdersList] = useState([]);
     const [isLoadinh, setIsLoading] = useState(true);
 

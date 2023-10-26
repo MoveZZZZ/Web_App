@@ -25,3 +25,7 @@ export const signup = (login, email, password, passwordConfirm) => {
         });
 };
 
+export const preresetpass = (email) => {
+    return true;
+}
+
