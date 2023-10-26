@@ -26,12 +26,10 @@ const App = () => {
                     }
                     else {
                         sessionStorage.removeItem("ID");
-                        localStorage.removeItem("ID");
                     }
                 });
             if (sessionStorage.getItem("ID")) {
                 //REMOVE LATER
-                localStorage.setItem('UserID', sessionStorage.getItem("ID"));
                 setIsAuth(true);
                 setUserID(sessionStorage.getItem("ID"));
             }

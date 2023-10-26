@@ -15,7 +15,7 @@ const FavoritePage = () => {
 
     const [isLoading, setIsLoading] = useState(true);
 
-    const userID = localStorage.getItem('UserID');
+    const userID = sessionStorage.getItem('ID');
 
     const [cartID, setCartID] = useState([]);
     const [isCart, setIsCart] = useState(false);

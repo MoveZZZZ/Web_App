@@ -23,7 +23,6 @@ const LoginPage = () => {
                     setIsAuth(true);
                     ///remove
                     sessionStorage.setItem("ID", response.userID);
-                    localStorage.setItem('UserID', sessionStorage.getItem("ID"));
                 }
                 else {
                     setErrMsg(response.message);
@@ -74,7 +73,7 @@ const LoginPage = () => {
                                 placeholder="Password*" />
                         </div>
                         <div className="text-right mt-2">
-                            <a href="#"
+                            <a href="/passwordrecovery"
                                 className="text-sm font-semibold text-primary-600 hover:text-secondary">Forgot Password?</a>
                         </div>
                         <p className="text-red text-xs">{errMsg}</p>

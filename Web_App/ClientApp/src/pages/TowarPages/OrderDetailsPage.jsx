@@ -6,7 +6,7 @@ import Spinner from '../../components/Spinner/Spinner';
 
 const OrderDetailsPage = (props) => {
 
-    const userID = localStorage.getItem('UserID');
+    const userID = sessionStorage.getItem('ID');
     const location = useLocation();
 
     const [orderID, setOrderID] = useState(1);

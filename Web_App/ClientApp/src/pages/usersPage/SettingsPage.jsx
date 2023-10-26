@@ -13,31 +13,20 @@ import { logoutCookieCleanUp } from '../../utils/AuthenticationLogic';
 
 const SettingsPage = () => {
 
-
-
-
     const [modalLoginChangeVisability, setModalLoginChangeVisability] = useState(false)
     const [modalEmailChangeVisability, setModalEmailChangeVisability] = useState(false)
     const [modalPasswordChangeVisability, setModalPasswordChangeVisability] = useState(false)
     const [modalDeleteAccounteVisability, setModalDeleteAccountVisability] = useState(false)
 
     const [isLoading, setIsLoading] = useState(true);
-    const userID = localStorage.getItem('UserID');
+   const userID = sessionStorage.getItem('ID');
     const [userProfile, setUserProfile] = useState([])
     const [showPassword, setShowPassword] = useState(false);
 
-
-
     const [isMessage, setIsMessage] = useState(false);
     const [isError, setIsError] = useState(false);
-
     const [message, setMessage] = useState("");
     const [responseMessage, setResponseMessage] = useState("");
-
-
-    
-
-
 
     const getInitialFormData = () => ({
             userid: userID,
@@ -51,8 +40,17 @@ const SettingsPage = () => {
         }));
     };
 
+    useEffect(() => {
+        clearVariables();
+    }, [modalLoginChangeVisability]);
 
+    useEffect(() => {
+        clearVariables();
+    }, [modalEmailChangeVisability]);
 
+    useEffect(() => {
+        clearVariables();
+    }, [modalPasswordChangeVisability]);
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -174,6 +172,7 @@ const SettingsPage = () => {
         else
             setResponseMessage("Write data!");
     }
+
 
     const uploadUserData = async () => {
         setIsLoading(true);
