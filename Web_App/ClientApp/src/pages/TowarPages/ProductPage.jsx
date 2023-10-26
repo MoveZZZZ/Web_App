@@ -76,10 +76,10 @@ const ProductPage = () => {
 
     return (
         <>
-            <div className="mr-5 mt-5 flex justify-between items-center grid grid-cols-3">
-                <div className="flex justify-start w-1/2 h-3/8 ml-6">
+            <div className="mr-5 mt-5 flex justify-between items-center grid grid-cols-2">
+{/*                <div className="flex justify-start w-1/2 h-3/8 ml-6">
 
-                    {/*CREATE LOGIC TYPES!!!!*/}
+                    */}{/*CREATE LOGIC TYPES!!!!*/}{/*
                     <select className="w-full p-2.5 text-primary-400 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-secondary text-center">
                         <option>All</option>
                         <option>Weapon</option>
@@ -91,7 +91,7 @@ const ProductPage = () => {
                         <option>Increase</option>
                         <option>Decrease</option>
                     </select>
-                </div>
+                </div>*/}
                 <div className="text-3xl flex justify-center ">{errMsg}</div>
                 <div className="flex justify-end mt-3">
                     <i className="mr-3 mt-2"><FontAwesomeIcon icon={faSearch} /></i>
@@ -112,10 +112,10 @@ const ProductPage = () => {
                 <div>
                     {errMsg ? <></>
                         :
-                        <div className="grid grid-cols-5 gap-6 mx-5">
+                        <div className="grid grid-cols-5 max-xl:grid-cols-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 gap-6 mx-5">
                             {productes.map((product) => (
                                 <Link to={`/product/${product.id}`} key={product.id}>
-                                    <div key={product.id} className="w-full h-120 bg-primary-100 shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-2xl border border-primary-200">
+                                    <div key={product.id} className="w-full h-120 bg-primary-100 max-sm:w-min-11/12 max-md:w-full max-lg: shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-2xl border border-primary-200">
                                         <img className=" w-full h-72 object-fill rounded-t-xl" src={`data:image/jpeg;base64,${product.imageUrl.toString('base64')}`} />
                                         <p className="text-lg font-bold text-proimary-500 truncate block capitalize mx-2">{product.name}</p>
                                         <p className="text-sm text-gray-600 truncate mx-2">{product.description}</p>

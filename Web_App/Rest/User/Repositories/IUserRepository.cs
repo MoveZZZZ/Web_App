@@ -6,6 +6,11 @@ namespace Web_App.Rest.User.Repositories
     {
         public UserModel getUnamePhotoByUserID(int userID);
         public UserModel getUnameEmailPhotoByUserID(int userID);
+        public UserModel getDataUser(int userID);
         public void changeAvatarByID(byte[] img, int userID);
+        public void changeUserNameByID (int userID, string userName);
+        public void changeEmailNameByID (int userID, string email);
+        public void changePasswordByID (int userID, string password);
+        public void deleteAccountByID(int userID);
     }
 }

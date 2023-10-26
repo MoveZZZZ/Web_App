@@ -3,35 +3,30 @@ import LogoutModal from "../../components/MyModal/LogOutModal";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { fetchGetUserDataProfile, fetchUpdatePhotoUser } from "../../utils/userApi"
+import { fetchGetUserDataProfile, fetchUpdatePhotoUser, fetchUpdateEmailUser, fetchUpdateLoginUser, fetchUpdatePasswordUser, fetchUpdateRemoveAccoutUser } from "../../utils/userApi"
 
 import Spinner from '../../components/Spinner/Spinner';
 import Message from "../../components/Message/Message";
 import ErrorMessage from "../../components/Message/ErrorMessage";
+import { logoutCookieCleanUp } from '../../utils/AuthenticationLogic';
 
 
 const SettingsPage = () => {
+
     const [modalLoginChangeVisability, setModalLoginChangeVisability] = useState(false)
     const [modalEmailChangeVisability, setModalEmailChangeVisability] = useState(false)
     const [modalPasswordChangeVisability, setModalPasswordChangeVisability] = useState(false)
-
-    const [newLogin, setNewLogn] = useState('');
-    const [newEmail, setNewEmail] = useState('');
-    const [currentPassword, setCurrentPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [repeatNewPassword, setRepeatNewPassword] = useState('');
+    const [modalDeleteAccounteVisability, setModalDeleteAccountVisability] = useState(false)
 
     const [isLoading, setIsLoading] = useState(true);
-
-    const userID = sessionStorage.getItem('ID');
-
+   const userID = sessionStorage.getItem('ID');
     const [userProfile, setUserProfile] = useState([])
-
     const [showPassword, setShowPassword] = useState(false);
 
     const [isMessage, setIsMessage] = useState(false);
     const [isError, setIsError] = useState(false);
     const [message, setMessage] = useState("");
+    const [responseMessage, setResponseMessage] = useState("");
 
     const getInitialFormData = () => ({
             userid: userID,
@@ -60,6 +55,18 @@ const SettingsPage = () => {
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
+
+
+    const getInitialFormDataChange = () => ({
+        UserID: userID,
+        UserName: "",
+        Email: "",
+        Password: "",
+        NewPassword: "",
+        RepeatNewPassword: "",
+    });
+    const [formDataChange, setFormDataChange] = useState(getInitialFormDataChange());
+
     const changeAvatar = async (e) => {
         if (formData.Image) {
             await fetchUpdatePhotoUser(formData);
@@ -74,28 +81,103 @@ const SettingsPage = () => {
         }
        
     };
-    const changeLogin = () => {
+    const handleInputChange = async (e) => {
+        const { name, value, type } = e.target;
+        setFormDataChange((prevData) => ({
+            ...prevData,
+            [name]: type === 'number' ? parseInt(value, 10) : value,
+        }));
+    };
+    const isSuccesChangeLogin = (message) => {
+        if (message === "Login successfully changed") {
+            setModalLoginChangeVisability(false);
+            setMessage(message)
+            getMessage();
+            uploadUserData();
+        }
+        else {
+            setResponseMessage(message);
+        }
+    }
+    const changeLogin = async () => {
+        if (formDataChange.UserID && formDataChange.UserName && formDataChange.Password) {
+            const response = await fetchUpdateLoginUser(formDataChange);
+            setFormDataChange(getInitialFormDataChange());
+            isSuccesChangeLogin(response.message);
+        }
+        else
+            setResponseMessage("Write data!");
+    }
+    const isSuccessChangeEmail = (message) => {
+        if (message === "Email successfully changed") {
+            setModalEmailChangeVisability(false);
+            setMessage(message)
+            getMessage();
+            uploadUserData();
+        }
+        else {
+            setResponseMessage(message);
+        }
+    }
+    const changeEmail = async () => {
+        if (formDataChange.UserID && formDataChange.Email && formDataChange.Password) {
+            const response = await fetchUpdateEmailUser(formDataChange);
+            setFormDataChange(getInitialFormDataChange());
+            isSuccessChangeEmail(response.message);
+        }
+        else 
+            setResponseMessage("Write data!");
+    }
+    const isSuccessChangePassword = (message) => {
+        if (message === "Your password successfully changed!") {
+            setModalPasswordChangeVisability(false);
+            setMessage(message)
+            getMessage();
+            uploadUserData();
+        }
+        else {
+            setResponseMessage(message);
+        }
+    }
+    const changePassword = async () => {
+
+        if (formDataChange.UserID && formDataChange.Password && formDataChange.NewPassword && formDataChange.RepeatNewPassword) {
+            const response = await fetchUpdatePasswordUser(formDataChange);
+            setFormDataChange(getInitialFormDataChange());
+            isSuccessChangePassword(response.message);
+        }
+        else
+            setResponseMessage("Write data!");
 
     }
-    const changeEmail = () => {
+    const isSuccessDeleteAccount = (message) => {
+        if (message === "Your account successfully removed!") {
+            setModalDeleteAccountVisability(false);
+            setMessage(message)
+            getMessage();
+            logoutCookieCleanUp();
+            setTimeout(() => 
+                window.open("/", "_self"), 4000)
+        }
+        else {
+            setResponseMessage(message);
+        }
+    }
+    const removeAccount = async () => {
+        if (formDataChange.UserID && formDataChange.Password) {
+            const response = await fetchUpdateRemoveAccoutUser(formDataChange);
+            setFormDataChange(getInitialFormDataChange());
+            isSuccessDeleteAccount(response.message);
+        }
+        else
+            setResponseMessage("Write data!");
+    }
 
-    }
-    const changePassword = () => {
-
-    }
-    const clearVariables = () => {
-        setCurrentPassword('');
-        setNewLogn('');
-        setNewEmail('');
-        setNewPassword('');
-        setRepeatNewPassword('');
-    }
 
     const uploadUserData = async () => {
         setIsLoading(true);
         fetchGetUserDataProfile(userID)
             .then((data) => {
-                console.log(data);
                 setUserProfile(data);
             })
             .catch(() => {
@@ -116,6 +198,33 @@ const SettingsPage = () => {
         setIsError(true);
         setTimeout(() => setIsError(false), 4000);
     }
+    const clearData = () => {
+        setFormDataChange(getInitialFormDataChange());
+        setShowPassword(false);
+        setResponseMessage("");
+    }
+
+
+    useEffect(() => {
+        clearData();
+    }, [modalLoginChangeVisability]);
+
+    useEffect(() => {
+        clearData();
+    }, [modalEmailChangeVisability]);
+
+    useEffect(() => {
+        clearData();
+    }, [modalPasswordChangeVisability]);
+
+    useEffect(() => {
+        clearData();
+    }, [modalDeleteAccounteVisability]);
+
+
+
+
+
 
     useEffect(() => {
         uploadUserData();
@@ -140,7 +249,7 @@ const SettingsPage = () => {
                     <h1 className="text-5xl font-bold text-center hover:text-primary-300 ease-in-out duration-300 max-2xl:text-3xl">Settings</h1>
                     <section className="border-primary-500  flex items-center justify-center border-b">
                         <div className="bg-primary-100 p-5 flex rounded-xl shadow-lg max-w-3xl m-28">
-                            <div class="w-1/2">
+                            <div class="w-5/12">
                                 <p className="text-primary-300 text-xl flex justify-center">Profile photo:</p>
                                 <img
                                     src={`data:image/jpeg;base64,${userProfile.photo.toString('base64')}`}
@@ -163,21 +272,26 @@ const SettingsPage = () => {
 
                                 </button>
                             </div>
-                            <div className="w-1/2">
+                            <div className="w-1/2 ml-10">
                                 <p className="text-primary-300 text-xl flex justify-center mb-10">Global info:</p>
-                                <div class="border-b border-primary-200 flex-col flex justify-between items-start w-3/4 pb-3 m-5 hover:scale-105 duration-300 cursor-pointer ">
-                                    <div class="w-full flex flex-col justify-start items-start space-y-2">
-                                        <a class="text-sm font-semibold leading-2 text-primary-400 hover:text-secondary" onClick={() => setModalLoginChangeVisability(true)}>Change Login: { }</a>
+                                <div class="border-b border-primary-200 flex-col flex justify-between items-start w-11/12 pb-3 m-5 hover:scale-105 duration-300 cursor-pointer ">
+                                    <div class="w-full flex flex-col justify-start items-center space-y-2">
+                                        <a class="text-sm font-semibold leading-2 text-primary-400 hover:text-secondary" onClick={() => setModalLoginChangeVisability(true)}>Change Login ({userProfile.login})</a>
                                     </div>
                                 </div>
-                                <div class="border-b border-primary-200 flex-col flex justify-between items-start w-3/4 pb-3 m-5 hover:scale-105 duration-300 cursor-pointer">
-                                    <div class="w-full flex flex-col justify-start items-start space-y-2">
-                                        <a class="text-sm font-semibold leading-2 text-primary-400 hover:text-secondary" onClick={() => setModalEmailChangeVisability(true)}>Change Email: { }</a>
+                                <div class="border-b border-primary-200 flex-col flex justify-between items-start w-11/12 pb-3 m-5 hover:scale-105 duration-300 cursor-pointer">
+                                    <div class="w-full flex flex-col justify-start items-center space-y-2">
+                                        <a class="text-sm font-semibold leading-2 text-primary-400 hover:text-secondary" onClick={() => setModalEmailChangeVisability(true)}>Change Email ({userProfile.mail})</a>
                                     </div>
                                 </div>
-                                <div class="border-b border-primary-200 flex-col flex justify-between items-start w-3/4 pb-3 m-5 hover:scale-105 duration-300 cursor-pointer">
-                                    <div class="w-full flex flex-col justify-start items-start space-y-2">
-                                        <a class="text-sm font-semibold leading-2 text-primary-400 hover:text-secondary" onClick={() => setModalPasswordChangeVisability(true)}>Change password:</a>
+                                <div class="border-b border-primary-200 flex-col flex justify-between items-start w-11/12 pb-3 m-5 hover:scale-105 duration-300 cursor-pointer">
+                                    <div class="w-full flex flex-col justify-start items-center space-y-2">
+                                        <a class="text-sm font-semibold leading-2 text-primary-400 hover:text-secondary" onClick={() => setModalPasswordChangeVisability(true)}>Change password</a>
+                                    </div>
+                                </div>
+                                <div class="border-b border-primary-200 flex-col flex justify-between items-start w-11/12 pb-3 m-5 hover:scale-105 duration-300 cursor-pointer">
+                                    <div class="w-full flex flex-col justify-start items-center space-y-2">
+                                        <a class="text-sm font-semibold leading-2 text-primary-400 hover:text-secondary" onClick={() => setModalDeleteAccountVisability(true)}>Remove account</a>
                                     </div>
                                 </div>
 
@@ -185,30 +299,28 @@ const SettingsPage = () => {
                         </div>
                     </section>
                     <LogoutModal visible={modalLoginChangeVisability} setVisible={setModalLoginChangeVisability}>
-                        <div className="space-y-4">
+                        <div className="space-y-2">
                             <div className="flex justify-center text-xl font-semibold whitespace-nowrap text-primary-300">Change login</div>
                             <form className="mt-6">
                                 <input
-                                    id="uname"
-                                    name="uname"
-                                    type="uname"
-                                    autoComplete="uname"
+                                    id="UserName"
+                                    name="UserName"
+                                    type="text"
                                     required
-                                    value={newLogin}
-                                    onChange={(e) => setNewLogn(e.target.value)}
+                                    value={formDataChange.UserName}
+                                    onChange={handleInputChange}
                                     placeholder="New login*"
                                     className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none hover:scale-105 duration-200"
                                 />
                             </form>
                             <div className="relative">
                                 <input
-                                    id="password"
-                                    name="password"
+                                    id="Password"
+                                    name="Password"
                                     type={showPassword ? 'text' : 'password'}
-                                    autoComplete="current-password"
                                     required
-                                    value={currentPassword}
-                                    onChange={(e) => setCurrentPassword(e.target.value)}
+                                    value={formDataChange.Password}
+                                    onChange={handleInputChange}
                                     className="w-full px-4 py-3 pr-10 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none hover:scale-105 duration-200"
                                     placeholder="Current password*"
                                 />
@@ -219,38 +331,37 @@ const SettingsPage = () => {
                                     {showPassword ? <i><FontAwesomeIcon icon={faEyeSlash} /></i> : <i><FontAwesomeIcon icon={faEye} /></i>}
                                 </span>
                             </div>
+                            <p className="flex justify-start text-sm text-red">{responseMessage}</p>
                             <div className="flex justify-center">
-                                <button className="w-6/12 text-center bg-primary-200 rounded-lg px-4 py-2 mt-2 hover:bg-secondary duration-200 hover:text-primary-100"
+                                <button className="w-6/12 text-center bg-primary-200 rounded-lg px-4 py-2 hover:bg-secondary duration-200 hover:text-primary-100"
                                     onClick={changeLogin}                        >
                                     Apply</button>
                             </div>
                         </div>
                     </LogoutModal>
                     <LogoutModal visible={modalEmailChangeVisability} setVisible={setModalEmailChangeVisability}>
-                        <div className="space-y-4">
+                        <div className="space-y-2">
                             <div className="flex justify-center text-xl font-semibold whitespace-nowrap text-primary-300">Change email</div>
                             <form className="mt-6">
                                 <input
-                                    id="email"
-                                    name="email"
+                                    id="Email"
+                                    name="Email"
                                     type="email"
-                                    autoComplete="email"
                                     required
-                                    value={newEmail}
-                                    onChange={(e) => setNewEmail(e.target.value)}
+                                    onChange={handleInputChange}
+                                    value={formDataChange.Email}
                                     placeholder="New email*"
                                     className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none hover:scale-105 duration-200"
                                 />
                             </form>
                             <div className="relative">
                                 <input
-                                    id="password"
-                                    name="password"
+                                    id="Password"
+                                    name="Password"
                                     type={showPassword ? 'text' : 'password'}
-                                    autoComplete="current-password"
                                     required
-                                    value={currentPassword}
-                                    onChange={(e) => setCurrentPassword(e.target.value)}
+                                    value={formDataChange.Password}
+                                    onChange={handleInputChange}
                                     className="w-full px-4 py-3 pr-10 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none hover:scale-105 duration-200"
                                     placeholder="Current password*"
                                 />
@@ -261,6 +372,7 @@ const SettingsPage = () => {
                                     {showPassword ? <i><FontAwesomeIcon icon={faEyeSlash} /></i> : <i><FontAwesomeIcon icon={faEye} /></i>}
                                 </span>
                             </div>
+                            <p className="flex justify-start text-sm text-red">{responseMessage}</p>
                             <div className="flex justify-center">
                                 <button className="w-6/12 text-center bg-primary-200 rounded-lg px-4 py-2 mt-2 hover:bg-secondary duration-200 hover:text-primary-100"
                                     onClick={changeEmail}                        >
@@ -269,17 +381,16 @@ const SettingsPage = () => {
                         </div>
                     </LogoutModal>
                     <LogoutModal visible={modalPasswordChangeVisability} setVisible={setModalPasswordChangeVisability}>
-                        <div className="space-y-4">
+                        <div className="space-y-2">
                             <div className="flex justify-center text-xl font-semibold whitespace-nowrap text-primary-300">Change password</div>
                             <div>
                                 <input
                                     type="password"
-                                    id="password"
-                                    name="password"
-                                    autoComplete="current-password"
+                                    id="Password"
+                                    name="Password"
                                     required
-                                    value={currentPassword}
-                                    onChange={(e) => setCurrentPassword(e.target.value)}
+                                    onChange={handleInputChange}
+                                    value={formDataChange.Password}
                                     className="w-full px-4 py-3 pr-10 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none hover:scale-105 duration-200"
                                     placeholder="Current password*"
                                 />
@@ -287,13 +398,12 @@ const SettingsPage = () => {
                             </div>
                             <div className="relative">
                                 <input
-                                    id="newpassword"
-                                    name="newpassword"
+                                    id="NewPassword"
+                                    name="NewPassword"
                                     type={showPassword ? 'text' : 'password'}
-                                    autoComplete="new-password"
                                     required
-                                    value={newPassword}
-                                    onChange={(e) => setNewPassword(e.target.value)}
+                                    onChange={handleInputChange}
+                                    value={formDataChange.NewPassword}
                                     placeholder="New password*"
                                     className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none hover:scale-105 duration-200"
                                 />
@@ -306,13 +416,16 @@ const SettingsPage = () => {
                             </div>
                             <div>
                                 <input
+                                    id="RepeatNewPassword"
+                                    name="RepeatNewPassword"
                                     type="password"
                                     required
-                                    value={repeatNewPassword}
-                                    onChange={(e) => setRepeatNewPassword(e.target.value)}
+                                    onChange={handleInputChange}
+                                    value={formDataChange.RepeatNewPassword}
                                     placeholder="Repeat new password*"
                                     className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none hover:scale-105 duration-200"
                                 />
+                                <p className="flex justify-start text-sm text-red">{responseMessage}</p>
                                 <div className="flex justify-center">
                                     <button className="w-6/12 text-center bg-primary-200 rounded-lg px-4 py-2 mt-2 hover:bg-secondary duration-200 hover:text-primary-100"
                                         onClick={changePassword}                        >
@@ -321,6 +434,31 @@ const SettingsPage = () => {
                             </div>
                         </div>
                     </LogoutModal>
+                    <LogoutModal visible={modalDeleteAccounteVisability} setVisible={setModalDeleteAccountVisability}>
+                        <div className="space-y-2">
+                            <div className="flex justify-center text-xl font-semibold whitespace-nowrap text-primary-300">Delete account</div>
+                            <div>
+                                <input
+                                    type="password"
+                                    id="Password"
+                                    name="Password"
+                                    required
+                                    onChange={handleInputChange}
+                                    value={formDataChange.Password}
+                                    className="w-full px-4 py-3 pr-10 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none hover:scale-105 duration-200"
+                                    placeholder="Current password*"
+                                />
+
+                            </div>
+                            <p className="flex justify-start text-sm text-red">{responseMessage}</p>
+                            <div className="flex justify-center">
+                                <button className="w-6/12 text-center bg-primary-200 rounded-lg px-4 py-2 mt-2 hover:bg-secondary duration-200 hover:text-primary-100"
+                                    onClick={removeAccount}                        >
+                                    Apply</button>
+                            </div>
+                        </div>
+                    </LogoutModal>
+
                 </div>
             }
             </>

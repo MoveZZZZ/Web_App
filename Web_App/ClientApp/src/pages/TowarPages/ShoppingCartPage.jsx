@@ -243,7 +243,7 @@ const ShoppingCartPage = () => {
                     <div class="bg-white rounded-md w-auto-full align-20[px] ">
                         <div class=" flex items-center justify-between">
                             <div>
-                                <h2 class="text-gray-600 font-semibold">Favorite</h2>
+                                <h2 class="text-gray-600 font-semibold">Cart</h2>
                             </div>
                         </div>
                         <div className="flex justify-center items-center">
@@ -280,7 +280,7 @@ const ShoppingCartPage = () => {
                                         </thead>
                                         <tbody className="text-center break-all">
                                             {cartItems.map((item) => (
-                                                <tr key={item.towarID}>
+                                                <tr key={item.towarID} className="hover:hover:bg-lightgrey cursor-pointer">
                                                     <td className="px-5 py-5 border-b border-primary-200 bg-white text-xl">
                                                         <div class="flex-shrink-0 w-20 h-20">
                                                             <Link to={`/product/${item.towarID}`}>
@@ -304,9 +304,8 @@ const ShoppingCartPage = () => {
                                                             Remove
                                                         </button>
                                                         <a className="text-primary-500 mx-5">|</a>
-                                                        <a className="text-primary-500">Select</a>
                                                         <input
-                                                            className="mx-4"
+                                                            className="hover:cursor-pointer"
                                                             type="checkbox"
                                                             checked={item.selected}
                                                             onChange={() => toggleSelect(item.towarID, item.sumPrice, item.count)}
@@ -329,8 +328,8 @@ const ShoppingCartPage = () => {
                                 </button>
                             </div>
                         ) : (
-                            <>
-                                <div>
+                                <>
+                                    <div className="grid grid-row">
                                     <div className="relative flex py-5 items-center">
                                         <div className="flex-grow border-t border-primary-400"></div>
                                         <span className="flex-shrink mx-4 text-primary-400">Order details</span>
@@ -381,11 +380,13 @@ const ShoppingCartPage = () => {
                                                 </table>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="flex justify-start items-center gap-6">
+                                        </div>
+                                        <h1 className="flex justify-center">Choise shop address</h1>
+                                        <div className="flex justify-center items-center gap-6 mt-5">
+                                          
                                         <div>
-                                            <select className="w-32 mt-10 text-primary-400 bg-white border rounded-md 
-                                        shadow-sm outline-none appearance-none focus:border-secondary text-center px-5 py-5 bg-white text-xs"
+                                            <select className="w-32 text-primary-400 bg-white border rounded-md 
+                                        shadow-sm outline-none appearance-none focus:border-secondary text-center py-2 bg-white text-xs"
                                                 onChange={handleSelectState}>
                                                 <option key="None">None</option>
                                                 {statesList.map((stateItem) => (
@@ -396,8 +397,8 @@ const ShoppingCartPage = () => {
 
                                         {citysList.length ? (
                                             <div>
-                                                <select className="w-32 mt-10 text-primary-400 bg-white border rounded-md 
-                                        shadow-sm outline-none appearance-none focus:border-secondary text-center px-5 py-5 bg-white text-xs"
+                                                <select className="w-32 text-primary-400 bg-white border rounded-md 
+                                        shadow-sm outline-none appearance-none focus:border-secondary text-center py-2 bg-white text-xs"
                                                     onChange={handleSelectCity}>
                                                     <option key="None">None</option>
                                                     {citysList.map((cityItem) => (
@@ -414,7 +415,7 @@ const ShoppingCartPage = () => {
                                         {accesspointsList.length ? (
                                             <>
                                                 <div>
-                                                    <select className="w-32 mt-10 text-primary-400 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-secondary text-center px-5 py-5 bg-white text-xs"
+                                                    <select className="w-32 text-primary-400 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-secondary text-center py-2 bg-white text-xs"
                                                         onChange={handleSelectAP}>
                                                         <option key="None">None</option>
                                                         {accesspointsList.map((accesPList) => (
@@ -428,14 +429,15 @@ const ShoppingCartPage = () => {
                                             (
                                                 <></>
                                             )}
+                                        </div>
                                         {choisedAP &&
-                                            <>
-                                                <p className="mt-10 text-2xl text-bolid">Full addres shop:</p>
-                                                <div className="mt-10 text-xl text-bolid"><h1>{choisedAP.buildingNumber} {choisedAP.street} St, {choisedAP.city}, {choisedAP.postIndex}, {choisedAP.state} </h1></div>
-                                            </>
+                                            <div className="flex justify-center mt-5 text-xl font-bold">
+                                                <p>Full addres shop:</p>
+                                                <h1 className="ml-5 text-">{choisedAP.buildingNumber} {choisedAP.street} St, {choisedAP.city}, {choisedAP.postIndex}, {choisedAP.state}</h1>
+                                            </div>
                                         }
-                                    </div>
-                                    <input htmlFor="large-input"
+                                        <div className="flex justify-center">
+                                    <input 
                                         id="uname"
                                         name="uname"
                                         value={orderComment}
@@ -444,8 +446,9 @@ const ShoppingCartPage = () => {
                                         onChange={(e) => setOrderComment(e.target.value)}
                                         required
                                         placeholder="Write comment to your order"
-                                        className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none"
-                                    />
+                                        className="w-1/2 px-4 py-3 rounded-lg bg-primary-100 mt-5 border focus:border-secondary focus:bg-primary-100 focus:outline-none"
+                                            />
+                                        </div>
                                     <p className="flex justify-end mt-2">Payment method:</p>
                                     <div className="flex justify-end">
                                         <select className="w-40 px-4 py-2 text-primary-400 bg-white border rounded-md
@@ -456,16 +459,16 @@ const ShoppingCartPage = () => {
                                         </select>
                                     </div>
                                     <p className="flex justify-end text-xl">Total sum: ${totalOrderSum}</p>
-                                    <div className="flex justify-center">
+                                    <div className="flex justify-end">
                                         <button
                                             onClick={createOrder}
-                                            className="bg-primary-500 text-primary-100 px-4 py-2 mb-4 rounded hover:bg-secondary m-5"
+                                            className="bg-primary-500 text-primary-100 px-6 py-2 rounded hover:bg-secondary"
                                         >
-                                            Place Order
+                                            Buy
                                         </button>
                                         <button
                                             onClick={removeOrder}
-                                            className="bg-primary-500 text-primary-100 px-4 py-2 mb-4 rounded hover:bg-secondary m-5"
+                                            className="bg-primary-500 text-primary-100 px-6 py-2 rounded hover:bg-secondary ml-10"
                                         >
                                             Back
                                         </button>

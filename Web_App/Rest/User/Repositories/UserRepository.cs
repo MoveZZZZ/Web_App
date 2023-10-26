@@ -22,7 +22,6 @@ namespace Web_App.Rest.User.Repositories
                 command.ExecuteNonQuery();
             }
         }
-
         public UserModel getUnameEmailPhotoByUserID(int userID)
         {
             UserModel user = new UserModel();
@@ -49,7 +48,7 @@ namespace Web_App.Rest.User.Repositories
 
         public UserModel getUnamePhotoByUserID(int userID)
         {
-            UserModel user = new UserModel(); 
+            UserModel user = new UserModel();
             MySqlDataAdapter adapter = new MySqlDataAdapter();
             DataTable table = new DataTable();
             using (var connection = GetConnection())
@@ -68,6 +67,84 @@ namespace Web_App.Rest.User.Repositories
                 user.Photo = (byte[])row["photo"];
             }
             return user;
+        }
+        public UserModel getDataUser (int userID)
+        {
+            UserModel user = new UserModel();
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            DataTable table = new DataTable();
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "SELECT username, password, email FROM `user` WHERE id=@uid";
+                command.Parameters.Add("@uid", MySqlDbType.Int32).Value = userID;
+                adapter.SelectCommand = command;
+                adapter.Fill(table);
+            }
+            foreach (DataRow row in table.Rows)
+            {
+                user.Login = row["username"].ToString();
+                user.Password = row["password"].ToString();
+                user.Email = row["email"].ToString();
+            }
+            return user;
+        }
+
+        public void changeEmailNameByID(int userID, string email)
+        {
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "UPDATE `user` SET email=@newemail WHERE id=@uid";
+                command.Parameters.Add("@newemail", MySqlDbType.VarChar).Value = email;
+                command.Parameters.Add("@uid", MySqlDbType.Int32).Value = userID;
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public void changePasswordByID(int userID, string password)
+        {
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "UPDATE `user` SET password=@newpassword WHERE id=@uid";
+                command.Parameters.Add("@newpassword", MySqlDbType.VarChar).Value = password;
+                command.Parameters.Add("@uid", MySqlDbType.Int32).Value = userID;
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public void changeUserNameByID(int userID, string userName)
+        {
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "UPDATE `user` SET username=@newusername WHERE id=@uid";
+                command.Parameters.Add("@newusername", MySqlDbType.VarChar).Value = userName;
+                command.Parameters.Add("@uid", MySqlDbType.Int32).Value = userID;
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public void deleteAccountByID(int userID)
+        {
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "DELETE FROM `user` WHERE id=@uid";
+                command.Parameters.Add("@uid", MySqlDbType.Int32).Value = userID;
+                command.ExecuteNonQuery();
+            }
         }
     }
 }

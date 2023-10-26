@@ -90,7 +90,6 @@ const ProductDetail = () => {
     }, [cartID]);
 
     const isInCart = () => {
-        console.log(cartID)
         if (cartID.includes(parseInt(id, 10))) {
             return true;
         }
@@ -98,7 +97,6 @@ const ProductDetail = () => {
     }
 
     const handleCartItems = async () => {
-        console.log(userID);
         fetchGetAllIndexClientCart(userID)
             .then((data) => {
                 setCartID(data.cartIndexesList);
@@ -205,17 +203,17 @@ const ProductDetail = () => {
                         :
                         <></>
                     }
-                    <div className="w-1/2 pr-6 flex flex-col justify-center items-center">
-                        <h1 className="text-3xl font-semibold text-primary-700 text-center mb-4">
-                            {productDetails.name}
-                        </h1>
+                    
+                    <div className="w-1/2 pr-6 justify-end items- ">
                         <img
                             src={`data:image/jpeg;base64,${productDetails.imageUrl.toString('base64')}`}
                             alt={productDetails.name}
-                            className="w-[1000px] h-[750px] rounded-md shadow-md  object-center"
+                            className="w-[1000px] h-[500px] rounded-md shadow-md  object-center "
                         />
                     </div>
-                    <div className="w-1/2 mt-12">
+                    <div className="w-1/2">
+                        <h1 className="text-3xl font-semibold text-primary-700 text-center mb-4">
+                            {productDetails.name}</h1>
                         <p className="text-lg mb-4 text-primary-500 text-justify">
                             {productDetails.description}
                         </p>

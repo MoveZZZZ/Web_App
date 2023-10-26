@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Web_App.Rest.JWT.Services;
 using Web_App.Rest.Product.Model;
 using Web_App.Rest.User.Models;
 using Web_App.Rest.User.Services;
@@ -20,7 +21,6 @@ namespace Web_App.Rest.User.Controller
             _userservice = new UserService();
             _tokenService = new TokenService(_conf);
         }
-
 
         [Authorize]
         [HttpGet]
@@ -48,9 +48,36 @@ namespace Web_App.Rest.User.Controller
                 return BadRequest(new { message = "UnAuthorized Attempt to Access Data belong to Other User!" });
             }
             _userservice.changeUserAvatar(Image, userID);
-
-
             return Ok(new{message ="OK!"});
+        }
+
+        [HttpPost]
+        [Route("changelogin")]
+        public IActionResult changeUserLogin([FromForm] ModifyUserRequestModel model)
+        {
+            string message = _userservice.changeLoginByID(model);
+            return Ok(new {message = message});
+        }
+        [HttpPost]
+        [Route("changeemail")]
+        public IActionResult changeUserEmail([FromForm] ModifyUserRequestModel model)
+        {
+            string message = _userservice.changeEmailByID(model);
+            return Ok(new { message = message });
+        }
+        [HttpPost]
+        [Route("changepassword")]
+        public IActionResult changeUserPassword([FromForm] ModifyUserRequestModel model)
+        {
+            string message = _userservice.changePasswordByID(model);
+            return Ok(new { message = message });
+        }
+        [HttpPost]
+        [Route("deleteaccount")]
+        public IActionResult deleteUserAccountByID([FromForm] ModifyUserRequestModel model)
+        {
+            string message = _userservice.removeAccountByID(model);
+            return Ok(new { message = message });
         }
 
     }
