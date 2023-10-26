@@ -19,7 +19,9 @@ const AppRouter = () => {
     const { isAuth, isLoading } = useContext(AuthContext);
     if (isLoading) {
         return (
-            <Spinner />
+            <div className="flex justify-center w-full">
+                <Spinner />
+            </div>
         )
     }
     return (
