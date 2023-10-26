@@ -40,18 +40,6 @@ const SettingsPage = () => {
         }));
     };
 
-    useEffect(() => {
-        clearVariables();
-    }, [modalLoginChangeVisability]);
-
-    useEffect(() => {
-        clearVariables();
-    }, [modalEmailChangeVisability]);
-
-    useEffect(() => {
-        clearVariables();
-    }, [modalPasswordChangeVisability]);
-
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
@@ -204,7 +192,6 @@ const SettingsPage = () => {
         setResponseMessage("");
     }
 
-
     useEffect(() => {
         clearData();
     }, [modalLoginChangeVisability]);
@@ -220,9 +207,6 @@ const SettingsPage = () => {
     useEffect(() => {
         clearData();
     }, [modalDeleteAccounteVisability]);
-
-
-
 
 
 
@@ -246,9 +230,9 @@ const SettingsPage = () => {
                         <ErrorMessage param={message} />
                         :
                         <></>}
-                    <h1 className="text-5xl font-bold text-center hover:text-primary-300 ease-in-out duration-300 max-2xl:text-3xl">Settings</h1>
-                    <section className="border-primary-500  flex items-center justify-center border-b">
-                        <div className="bg-primary-100 p-5 flex rounded-xl shadow-lg max-w-3xl m-28">
+                    <h1 className="text-2xl font-bold text-center hover:text-primary-300 ease-in-out duration-300 mt-20">Settings</h1>
+                    <section className="border-primary-500  flex items-center justify-center ">
+                        <div className="bg-primary-100 p-5 flex rounded-xl shadow-lg max-w-3xl m-20">
                             <div class="w-5/12">
                                 <p className="text-primary-300 text-xl flex justify-center">Profile photo:</p>
                                 <img
