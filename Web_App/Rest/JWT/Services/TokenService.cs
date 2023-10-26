@@ -12,13 +12,13 @@ using Web_App.Rest.Authorization.Repositories;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using System.Security.Principal;
+using System.Collections.Specialized;
 
 namespace Web_App.Rest.JWT.Services
 {
     public class TokenService : ITokenService
     {
         private readonly IConfiguration _configuration;
-
         private IUserAuthorizationRepository _userAuthorizationRepository;
         public TokenService(IConfiguration configuration)
         {
@@ -37,7 +37,8 @@ namespace Web_App.Rest.JWT.Services
             var claims = new[]
            {
                 new Claim("sub", user.Login),
-                new Claim("mail", user.Email),
+                new Claim("userID", Convert.ToString(user.Id)),
+                //new Claim("mail", user.Email),
                 new Claim("role", user.Role)
             };
 
@@ -60,7 +61,6 @@ namespace Web_App.Rest.JWT.Services
             return tokenInstance;
 
         }
-
         public string CreateRefreshToken(UserModel user)
         {
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
@@ -71,7 +71,7 @@ namespace Web_App.Rest.JWT.Services
             var claims = new[]
            {
                 new Claim("sub", user.Login),
-                new Claim("mail", user.Email),
+                new Claim("userID", Convert.ToString(user.Id)),
                 new Claim("role", user.Role)
             };
 
@@ -94,14 +94,7 @@ namespace Web_App.Rest.JWT.Services
         {
             var output = new AuthorizationResponseModel();
             output.UserID = 0;
-            var tokenHandler = new JwtSecurityTokenHandler();
-            if (!ValidateToken(bearerToken))
-            {
-                return output;
-            }
-            var securityToken = (JwtSecurityToken)tokenHandler.ReadToken(bearerToken);
-            var mail = securityToken.Claims.FirstOrDefault((c => c.Type == "mail"))?.Value;
-            UserModel user = _userAuthorizationRepository.getUserDataFromDBviaMail(mail);
+            var user = TokenVerifyAndExtractInfoFromDatabase(bearerToken);
             if (user.Login != null) 
             {
                 output.UserID = user.Id;
@@ -111,7 +104,28 @@ namespace Web_App.Rest.JWT.Services
             }
             return output;
         }
-
+        public bool IDQueryTokenVerificator(int userID, string bearerToken)
+        {
+            var user = TokenVerifyAndExtractInfoFromDatabase(bearerToken);
+            if (user.Login != null)
+            {
+                if (user.Id == userID) return true;
+            }
+            return false;
+        }
+        private UserModel TokenVerifyAndExtractInfoFromDatabase(string bearerToken)
+        {
+            var response = new UserModel();
+            var tokenHandler = new JwtSecurityTokenHandler();
+            if (!ValidateToken(bearerToken))
+            {
+                return response;
+            }
+            var securityToken = (JwtSecurityToken)tokenHandler.ReadToken(bearerToken);
+            var IDfromToken = Convert.ToInt32(securityToken.Claims.FirstOrDefault((c => c.Type == "userID"))?.Value);
+            response = _userAuthorizationRepository.getUserDataFromDBviaID(IDfromToken);
+            return response;
+        }
         private bool ValidateToken(string authToken)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -121,7 +135,6 @@ namespace Web_App.Rest.JWT.Services
             IPrincipal principal = tokenHandler.ValidateToken(authToken, validationParameters, out validatedToken);
             return true;
         }
-
         private TokenValidationParameters GetValidationParameters()
         {
             return new TokenValidationParameters()

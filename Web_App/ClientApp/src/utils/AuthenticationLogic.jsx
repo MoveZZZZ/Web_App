@@ -1,4 +1,3 @@
-
 export const refreshTokens = async () => {
     return await fetch('https://localhost:7257/token/refresh_access_token',
         {
@@ -27,7 +26,6 @@ export async function fetchWithAuthentication(url, params) {
         }
         else {
             sessionStorage.removeItem("ID");
-            localStorage.removeItem("ID");
             // eslint-disable-next-line no-restricted-globals
             location.replace("/login");
         }

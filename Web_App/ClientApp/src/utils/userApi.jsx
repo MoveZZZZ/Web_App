@@ -1,20 +1,23 @@
-﻿export const fetchGetUserDataProfile = async (userID) => {
-    return fetch(`https://localhost:7257/user/?userID=${userID}`, {
-        method: 'GET',
-    })
-        .then((response) => {
-            return response.json();
-        });
+﻿import { fetchWithAuthentication, } from './AuthenticationLogic';
 
+export const fetchGetUserDataProfile = async (userID) => {
+    const api = `https://localhost:7257/user/?userID=${userID}`;
+    const params = {
+        method: 'GET',
+        credentials: 'include',
+    };
+    return fetchWithAuthentication(api, params);
 }
-export async function fetchUpdatePhotoUser (formData) {
-    const apiUrl = 'https://localhost:7257/user/changeavatar';
+
+export async function fetchUpdatePhotoUser(formData) {
+    const api = 'https://localhost:7257/user/changeavatar';
     const body = new FormData();
     body.append('Image', formData.Image);
     body.append('userID', formData.userid);
-    const response = await fetch(apiUrl, {
+    const params = {
         method: 'POST',
+        credentials: 'include',
         body,
-    });
-    return response.json();
+    };
+    return fetchWithAuthentication(api, params);
 }

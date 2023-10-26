@@ -13,6 +13,7 @@ import OrdersPage from "../pages/TowarPages/OrdersPage";
 import Spinner from '../components/Spinner/Spinner';
 import OrderDetailsPage from "../pages/TowarPages/OrderDetailsPage";
 import SettingsPage from "../pages/usersPage/SettingsPage";
+import ForgotPasswordPreResetPage from "../pages/AuthorizationPages/PreResetPage";
 
 const AppRouter = () => {
     const { isAuth, isLoading } = useContext(AuthContext);
@@ -78,6 +79,9 @@ const AppRouter = () => {
                 <Route
                     element={<AddTowarPage />}
                     path="/addtowar" />
+                <Route
+                    element={<ForgotPasswordPreResetPage />}
+                    path="/passwordrecovery"/>
                 <Route
                     path="*" element={<Navigate to="/login" />} />
             </Routes>

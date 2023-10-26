@@ -21,7 +21,7 @@ const ShoppingCartPage = () => {
     const [isPlaceOrderClick, setIsPlaceOrderClick] = useState(false);
 
 
-    const userID = localStorage.getItem('UserID');
+    const userID = sessionStorage.getItem('ID');
 
 
     const [isMessage, setIsMessage] = useState(false);

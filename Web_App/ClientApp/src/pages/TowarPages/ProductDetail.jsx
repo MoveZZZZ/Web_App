@@ -14,7 +14,7 @@ import Message from "../../components/Message/Message";
 
 const ProductDetail = () => {
     const { id } = useParams();
-    const userID = localStorage.getItem('UserID');
+    const userID = sessionStorage.getItem('ID');
     const [count, setCount] = useState(0);
 
     const [productDetails, setProductDetails] = useState([]);
@@ -62,13 +62,17 @@ const ProductDetail = () => {
 
     useEffect(() => {
         handleData();
-        handleFavorite();
-        handleCartItems();
+        if (userID) {
+            handleFavorite();
+            handleCartItems();
+        }
     }, []);
 
     useEffect(() => {
-        const isFav = isInFavorite();
-        setIsFavorite(isFav)
+        if (userID) {
+            const isFav = isInFavorite();
+            setIsFavorite(isFav)
+        }
     }, [favoriteID]);
 
     const isInFavorite = () => {
@@ -79,8 +83,10 @@ const ProductDetail = () => {
     }
 
     useEffect(() => {
-        const isAdded = isInCart();
-        setIsCart(isAdded)
+        if (userID) {
+            const isAdded = isInCart();
+            setIsCart(isAdded)
+        }
     }, [cartID]);
 
     const isInCart = () => {
