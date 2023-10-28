@@ -17,9 +17,9 @@ using Web_App.Rest.User.Models;
 public class PasswordResetController : ControllerBase
 {
     private UserResetPasswordService _userResetPasswordService;
-    public PasswordResetController()
+    public PasswordResetController(IConfiguration conf)
     {
-        _userResetPasswordService = new UserResetPasswordService();
+        _userResetPasswordService = new UserResetPasswordService(conf);
     }
 
     [HttpPost]

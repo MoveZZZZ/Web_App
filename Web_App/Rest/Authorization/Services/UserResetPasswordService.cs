@@ -2,6 +2,7 @@
 using System.Data;
 using Web_App.Rest.Authorization.Models;
 using Web_App.Rest.Authorization.Repositories;
+using Web_App.Rest.Authorization.Services;
 using Web_App.Rest.JWT.Model;
 using Web_App.Rest.JWT.Services;
 using Web_App.Rest.User.Models;
@@ -15,9 +16,11 @@ namespace Web_App.Rest.Authorization.Services
     {
         private IUserResetPasswordRepository _resetrepo;
         private IUserAuthorizationRepository _userAuth;
+        private MailSendingService _mailSendingService;
 
-        public UserResetPasswordService()
+        public UserResetPasswordService(IConfiguration conf)
         {
+            _mailSendingService = new MailSendingService(conf);
             _resetrepo = new UserResetPasswordRepository();
             _userAuth = new UserAuthorizationRepository();
         }
@@ -30,18 +33,22 @@ namespace Web_App.Rest.Authorization.Services
         }
         public void processingUserResetPasswordRequest(string email)
         {
-            createResetLink(email);
-            //SEND MAIL
+            ResetPasswordModel user = createResetLink(email);
+            _mailSendingService.SendMailWithRecoveryLink(user.Email, user.UID);
         }
 
-        private void createResetLink(string email)
+        private ResetPasswordModel createResetLink(string email)
         {
+            ResetPasswordModel reset = new ResetPasswordModel();
             UserModel user = _userAuth.getUserDataFromDBviaEmail(email);
             Random rand = new Random();
             int payload = rand.Next(1000000, 9999999);
             string mergedData = user.Password + Convert.ToString(payload) + user.Email;
             string uid = CalculateSHA512Hash(mergedData);
             _resetrepo.createResetLink(user.Id, uid);
+            reset.UID = uid;
+            reset.Email = email;
+            return reset;
         }
 
         static string CalculateSHA512Hash(string input)
