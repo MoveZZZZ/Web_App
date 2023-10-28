@@ -37,9 +37,11 @@ const AddTowarPage = () => {
     };
 
     return (
-        <div className="container mx-auto">
-            <h1 className="text-2xl font-bold mb-4">Add Product</h1>
-            <form onSubmit={handleSubmit}>
+        <>
+            <h1 className="text-2xl font-bold mb-4 flex justify-center p-5">Add Product</h1>
+        <div className="px-5 flex justify-center">
+
+                <form onSubmit={handleSubmit} className="w-1/2">
                 <div className="mb-4">
                     <label htmlFor="Name" className="block text-sm font-medium text-gray-700">
                         Name
@@ -114,7 +116,8 @@ const AddTowarPage = () => {
                     Add Product
                 </button>
             </form>
-        </div>
+            </div>
+        </>
     );
 };
 

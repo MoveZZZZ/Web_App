@@ -1,4 +1,4 @@
- import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Spinner from '../../components/Spinner/Spinner';
 import { fetchGetAllClientCartItems, fetchRemoveFromCart, } from "../../utils/cartApi"
@@ -98,7 +98,7 @@ const ShoppingCartPage = () => {
             })
             .catch(() => {
             })
-        
+
 
     };
     const placeOrder = () => {
@@ -121,7 +121,7 @@ const ShoppingCartPage = () => {
                 .then((data) => {
                     setTimeout(() => {
                         window.open("/orders", "_self");
-                       
+
                         setIsLoading(false);
                     }, 2000);
 
@@ -243,8 +243,8 @@ const ShoppingCartPage = () => {
                         :
                         <></>}
                     <div class="bg-white rounded-md w-auto-full align-20[px] ">
-                        <div class=" flex items-center justify-between">
-                            <div>
+                        <div class=" flex items-center justify-center">
+                            <div >
                                 <h2 class="text-gray-600 font-semibold">Cart</h2>
                             </div>
                         </div>
@@ -330,8 +330,8 @@ const ShoppingCartPage = () => {
                                 </button>
                             </div>
                         ) : (
-                                <>
-                                    <div className="grid grid-row">
+                            <>
+                                <div className="grid grid-row">
                                     <div className="relative flex py-5 items-center">
                                         <div className="flex-grow border-t border-primary-400"></div>
                                         <span className="flex-shrink mx-4 text-primary-400">Order details</span>
@@ -382,12 +382,12 @@ const ShoppingCartPage = () => {
                                                 </table>
                                             </div>
                                         </div>
-                                        </div>
-                                        <h1 className="flex justify-center">Choise shop address</h1>
-                                        <div className="flex justify-center items-center gap-6 mt-5">
-                                          
+                                    </div>
+                                    <h1 className="flex justify-center">Choise shop address</h1>
+                                    <div className="flex justify-center items-center gap-6 mt-5">
+
                                         <div>
-                                            <select className="w-32 text-primary-400 bg-white border rounded-md 
+                                            <select className="w-40 max-sm:w-20 text-primary-400 bg-white border rounded-md 
                                         shadow-sm outline-none appearance-none focus:border-secondary text-center py-2 bg-white text-xs"
                                                 onChange={handleSelectState}>
                                                 <option key="None">None</option>
@@ -399,7 +399,7 @@ const ShoppingCartPage = () => {
 
                                         {citysList.length ? (
                                             <div>
-                                                <select className="w-32 text-primary-400 bg-white border rounded-md 
+                                                <select className="w-40 max-sm:w-20 text-primary-400 bg-white border rounded-md 
                                         shadow-sm outline-none appearance-none focus:border-secondary text-center py-2 bg-white text-xs"
                                                     onChange={handleSelectCity}>
                                                     <option key="None">None</option>
@@ -417,7 +417,7 @@ const ShoppingCartPage = () => {
                                         {accesspointsList.length ? (
                                             <>
                                                 <div>
-                                                    <select className="w-32 text-primary-400 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-secondary text-center py-2 bg-white text-xs"
+                                                    <select className="w-40 max-sm:w-20 text-primary-400 bg-white border rounded-md shadow-sm outline-none appearance-none focus:border-secondary text-center py-2 bg-white text-xs"
                                                         onChange={handleSelectAP}>
                                                         <option key="None">None</option>
                                                         {accesspointsList.map((accesPList) => (
@@ -431,26 +431,26 @@ const ShoppingCartPage = () => {
                                             (
                                                 <></>
                                             )}
+                                    </div>
+                                    {choisedAP &&
+                                        <div className="flex justify-center mt-5 text-xl max-sm:text-sm font-bold">
+                                            <p>Full addres shop:</p>
+                                            <h1 className="ml-5 text-">{choisedAP.buildingNumber} {choisedAP.street} St, {choisedAP.city}, {choisedAP.postIndex}, {choisedAP.state}</h1>
                                         </div>
-                                        {choisedAP &&
-                                            <div className="flex justify-center mt-5 text-xl font-bold">
-                                                <p>Full addres shop:</p>
-                                                <h1 className="ml-5 text-">{choisedAP.buildingNumber} {choisedAP.street} St, {choisedAP.city}, {choisedAP.postIndex}, {choisedAP.state}</h1>
-                                            </div>
-                                        }
-                                        <div className="flex justify-center">
-                                    <input 
-                                        id="uname"
-                                        name="uname"
-                                        value={orderComment}
-                                        type="uname"
-                                        autoComplete="uname"
-                                        onChange={(e) => setOrderComment(e.target.value)}
-                                        required
-                                        placeholder="Write comment to your order"
-                                        className="w-1/2 px-4 py-3 rounded-lg bg-primary-100 mt-5 border focus:border-secondary focus:bg-primary-100 focus:outline-none"
-                                            />
-                                        </div>
+                                    }
+                                    <div className="flex justify-center">
+                                        <input
+                                            id="uname"
+                                            name="uname"
+                                            value={orderComment}
+                                            type="uname"
+                                            autoComplete="uname"
+                                            onChange={(e) => setOrderComment(e.target.value)}
+                                            required
+                                            placeholder="Write comment to your order"
+                                            className="w-1/2 px-4 py-3 rounded-lg bg-primary-100 mt-5 border focus:border-secondary focus:bg-primary-100 focus:outline-none"
+                                        />
+                                    </div>
                                     <p className="flex justify-end mt-2">Payment method:</p>
                                     <div className="flex justify-end">
                                         <select className="w-40 px-4 py-2 text-primary-400 bg-white border rounded-md

@@ -232,7 +232,7 @@ const ProductDetail = () => {
                     console.error(error);
                 })
         }
-       
+
         setTimeout(() => {
             handleData();
             setIsLoading(false);
@@ -252,151 +252,155 @@ const ProductDetail = () => {
                         :
                         <></>
                     }
-                    
-                    <div className="w-1/2 pr-6 justify-end">
-                        <img
-                            src={`data:image/jpeg;base64,${productDetails.imageUrl.toString('base64')}`}
-                            alt={productDetails.name}
-                            className="w-[1000px] h-[500px] rounded-md shadow-md  object-center "
-                        />
-                        {isEditing ? (
-                            <input
-                                type="file"
-                                id="Image"
-                                name="Image"
-                                accept="image/*"
-                                onChange={(e) => setEditedImage(e.target.files[0])}
-                                className="border border-gray-300 rounded-lg p-2 w-full mt-5"
+                    <div className="w-full flex justify-center max-lg:items-center gap-6 max-lg:flex-col mt-16 mb-16">
+                        <div className="flex flex-col justify-between gap-6">
+                            <img
+                                src={`data:image/jpeg;base64,${productDetails.imageUrl.toString('base64')}`}
+                                alt={productDetails.name}
+                                className="w-96 h-96 rounded-md shadow-md  object-center "
                             />
-                        ): (
-                           null    
-                        )}
-                    </div>
-                    <div className="w-1/2">
-                        <h1 className="text-3xl font-semibold text-primary-700 text-center mb-4">
-                            {productDetails.name}</h1>
-                        {isEditing ? (
-                            <textarea
-                                value={editedDescription}
-                                onChange={(e) => setEditedDescription(e.target.value)}
-                                className="text-lg mb-4 text-primary-400 text-justify w-full h-2/3"
-                            />
-                        ) : (
-                            <p className="text-lg mb-4 text-primary-500 text-justify">
-                                {productDetails.description}
-                            </p>
-                        )}
-
-                        <div className="flex justify-between mb-4">
                             {isEditing ? (
                                 <input
-                                    placeholder="Price"
-                                    type="number"
-                                    value={editedPrice}
-                                    onChange={(e) => setEditedPrice(e.target.value)}
-                                    className="text-primary-600 font-bold"
+                                    type="file"
+                                    id="Image"
+                                    name="Image"
+                                    accept="image/*"
+                                    onChange={(e) => setEditedImage(e.target.files[0])}
+                                    className="border border-gray-300 rounded-lg p-2 h-12 w-full mt-5"
                                 />
-                            ): (
-                                    <span className="text-primary-600 font-bold">Price: ${productDetails.cost.toFixed(2)}</span>
-                            )}
-
-                            {isEditing ? (
-                                <>
-                                <input
-                                    type="number"
-                                    value={editedStock}
-                                    onChange={(e) => setEditedStock(e.target.value)}
-                                    className="text-primary-600 font-bold"
-                                    />
-                                </>
                             ) : (
-                                    <span className="text-primary-600 font-bold">In Stock: {productDetails.count}</span>
+                                null
                             )}
                         </div>
-                        <div className="flex justify-start items-center gap-6">
-                            {isAdmin ? (
-                                <>
-                                    {isEditing ? (
-                                        <button
-                                            className="bg-primary-300 text-white rounded-full px-6 py-2 hover:bg-primary-400 focus:outline-none"
-                                            onClick={saveChanges}
-                                        >
-                                            Save Changes
-                                        </button>
-                                    ) : (
-                                        <button
-                                            className="bg-primary-300 text-white rounded-full px-6 py-2 hover:bg-primary-400 focus:outline-none"
-                                            onClick={() => setIsEditing(!isEditing)}
-                                        >
-                                            Edit
-                                        </button>
-                                    )}
+                        <div className="w-1/2 max-lg:w-full max-lg:px-16 max-sm:px-4">
+                            <h1 className="text-3xl font-semibold text-primary-700 text-center mb-4">
+                                {productDetails.name}</h1>
+                            {isEditing ? (
+                                <textarea
+                                    value={editedDescription}
+                                    onChange={(e) => setEditedDescription(e.target.value)}
+                                    className="text-lg mb-4 text-primary-400 text-justify w-full h-2/3"
+                                />
+                            ) : (
+                                <p className="text-lg mb-4 text-primary-500 text-justify">
+                                    {productDetails.description}
+                                </p>
+                            )}
 
-                                </>
+                            <div className="flex justify-between mb-4">
+                                {isEditing ? (
+                                    <input
+                                        placeholder="Price"
+                                        type="number"
+                                        value={editedPrice}
+                                        onChange={(e) => setEditedPrice(e.target.value)}
+                                        className="text-primary-600 font-bold"
+                                    />
+                                ) : (
+                                    <span className="text-primary-600 font-bold">Price: ${productDetails.cost.toFixed(2)}</span>
+                                )}
 
-                            ): null}
-                          
-                            {!isAdmin ? (
-                                <>
-                                    {isCart ? (
-                                        <><button className="bg-primary-300 text-white rounded-full px-6 py-2 hover:bg-primary-400 focus:outline-none"
-                                            onClick={removeItemsFromCart}>
-                                            Remove from Cart
-                                        </button></>
-                                    ) : (
-                                        <>
+                                {isEditing ? (
+                                    <>
+                                        <input
+                                            type="number"
+                                            value={editedStock}
+                                            onChange={(e) => setEditedStock(e.target.value)}
+                                            className="text-primary-600 font-bold"
+                                        />
+                                    </>
+                                ) : (
+                                    <span className="text-primary-600 font-bold">In Stock: {productDetails.count}</span>
+                                )}
+                            </div>
+                            <div className="flex justify-start items-center gap-6">
+                                {isAdmin ? (
+                                    <div className="flex w-full justify-center items-center">
+                                        {isEditing ? (
+  
                                             <button
-                                                className={`${count === 0
-                                                    ? 'bg-primary-300 text-white rounded-full px-6 py-2 hover:bg-primary-400 focus:outline-none cursor-not-allowed'
-                                                    : 'bg-primary-300 text-white rounded-full px-6 py-2 hover:bg-primary-400 focus:outline-none'}`}
-                                                disabled={count === 0}
-                                                onClick={addItemsToCart}>
-                                                Add to Cart
+                                                className="w-72 bg-primary-300 text-white rounded-full px-6 py-2 hover:bg-primary-400 focus:outline-none"
+                                                onClick={saveChanges}
+                                            >
+                                                Save Changes
                                             </button>
-                                            <div className="flex items-center justify-evenly gap-3">
-                                                <button className="rounded-full bg-primary-300 px-6 py-2 hover:bg-secondary ease-in-out duration-150 font-bold text-center"
-                                                    onClick={increaseCount}
-                                                >
-                                                    <FontAwesomeIcon
-                                                        icon={faPlus}
-                                                    />
-                                                </button>
+                                        ) : (
+                                            <button
+                                                className="w-72 bg-primary-300 text-white rounded-full px-6 py-2 hover:bg-primary-400 focus:outline-none"
+                                                onClick={() => setIsEditing(!isEditing)}
+                                            >
+                                                Edit
+                                            </button>
+                                        )}
 
-                                                <p className="text-xl mx-2">
-                                                    {count}
-                                                </p>
+                                    </div>
 
-                                                <button className="rounded-full bg-primary-300 px-6 py-2 hover:bg-secondary ease-in-out duration-150 font-bold text-center"
-                                                    onClick={decreaseCount}>
-                                                    <FontAwesomeIcon
-                                                        icon={faMinus}
-                                                    />
+                                ) : null}
+
+                                {!isAdmin ? (
+                                    <>
+                                        {isCart ? (
+                                            <div className="w-full flex justify-center itesm-center">
+                                                <button className="bg-primary-300 text-white rounded-full px-6 py-2 hover:bg-primary-400 focus:outline-none"
+                                                    onClick={removeItemsFromCart}>
+                                                    Remove from Cart
                                                 </button>
                                             </div>
-                                        </>
-                                    )}
+                                        ) : (
+                                            <div className="flex gap-6 justify-center w-full max-sm:flex-col max-sm:items-center">
+                                                <button
+                                                    className={`${count === 0
+                                                        ? 'bg-primary-300 text-white rounded-full px-6 py-2 hover:bg-primary-400 focus:outline-none cursor-not-allowed'
+                                                            : 'bg-primary-300 text-white rounded-full px-6 py-2 hover:bg-primary-400 focus:outline-none'}
+                                                        max-sm:w-72`}
+                                                    disabled={count === 0}
+                                                    onClick={addItemsToCart}>
+                                                    Add to Cart
+                                                </button>
+                                                <div className="flex items-center justify-evenly gap-3">
+                                                    <button className="rounded-full bg-primary-300 px-6 py-2 hover:bg-secondary ease-in-out duration-150 font-bold text-center"
+                                                        onClick={increaseCount}
+                                                    >
+                                                        <FontAwesomeIcon
+                                                            icon={faPlus}
+                                                        />
+                                                    </button>
 
-                                </>
-                            )
-                            :null}
-                            {!isAdmin ?
-                                <i>{!isFavorite ? <FontAwesomeIcon
-                                    icon={faHeartCirclePlus}
-                                    className="fa-2x text-primary-300 hover:text-red cursor-pointer focus:outline-none"
-                                    onClick={() => {
-                                        addToFavorite();
-                                    }
-                                    }
-                                /> : <FontAwesomeIcon
-                                    icon={faHeartCircleXmark}
-                                    className="fa-2x text-red hover:text-primary-400 cursor-pointer focus:outline-none"
-                                    onClick={() => { removeToFavorite() }
-                                    }
-                                />}
-                                </i>
-                                :null
-                            }
-                           
+                                                    <p className="text-xl mx-2">
+                                                        {count}
+                                                    </p>
+
+                                                    <button className="rounded-full bg-primary-300 px-6 py-2 hover:bg-secondary ease-in-out duration-150 font-bold text-center"
+                                                        onClick={decreaseCount}>
+                                                        <FontAwesomeIcon
+                                                            icon={faMinus}
+                                                        />
+                                                    </button>
+                                                </div>
+                                                {!isAdmin ?
+                                                    <i>{!isFavorite ? <FontAwesomeIcon
+                                                        icon={faHeartCirclePlus}
+                                                        className="fa-2x text-primary-300 hover:text-red cursor-pointer focus:outline-none"
+                                                        onClick={() => {
+                                                            addToFavorite();
+                                                        }
+                                                        }
+                                                    /> : <FontAwesomeIcon
+                                                        icon={faHeartCircleXmark}
+                                                        className="fa-2x text-red hover:text-primary-400 cursor-pointer focus:outline-none"
+                                                        onClick={() => { removeToFavorite() }
+                                                        }
+                                                    />}
+                                                    </i>
+                                                    : null
+                                                }
+                                            </div>
+                                        )}
+
+                                    </>
+                                )
+                                    : null}
+                            </div>
                         </div>
                     </div>
                 </div>
