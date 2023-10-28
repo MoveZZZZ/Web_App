@@ -40,11 +40,8 @@ public class PasswordResetController : ControllerBase
     [Route("checklink")]
     public IActionResult ValidateRecoveryLink([FromQuery] string uid)
     {
-        if (_userResetPasswordService.passwordRecoveryUIDvalidation(uid))
-        {
-            return Ok(new { message = "Ok" });
-        }
-        else { return BadRequest(new { message = "UID is not valid" }); }
+       string msg = _userResetPasswordService.checkExistUID(uid);
+        return Ok(new {message =  msg});
     }
     public IActionResult ResetPassword([FromBody] string newPassword, [FromQuery] string resetID)
     {

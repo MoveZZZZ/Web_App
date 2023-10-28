@@ -22,14 +22,11 @@ namespace Web_App.Rest.Authorization.Services
             _userAuth = new UserAuthorizationRepository();
         }
 
-        public bool passwordRecoveryUIDvalidation(string uid)
+        public string checkExistUID(string uid)
         {
-            int userID = _resetrepo.getResetUserIDViaUID(uid);
-            if (userID != 0)
-            {
-                return true;
-            }
-            return false;
+            if (_resetrepo.isUIDExist(uid))
+                return "Valid!";
+            return "No valid!";
         }
         public void processingUserResetPasswordRequest(string email)
         {
