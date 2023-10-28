@@ -53,6 +53,27 @@ namespace Web_App.Rest.Product.Controller
             return Ok();
         }
 
+        [HttpPost]
+        [Route("productdetails/admin/changeproduct")]
+        public IActionResult ChangeDataProduct([FromForm] ProductUpdateModel model)
+        {
+            ProductModel modelBase = new ProductModel();
+            modelBase = _productService.createDBModelProductUpdateProduct(model);
+            _productService.updateTowar(modelBase);
+            return Ok();
+
+        }
+        [HttpPost]
+        [Route("productdetails/admin/changeproductwithoutimage")]
+        public IActionResult ChangeDataProductWithoutImage([FromForm] ProductUpdateWithoutImageModel model)
+        {
+            ProductModel modelBase = new ProductModel();
+            modelBase = _productService.createDBModelProductUpdateProductWithoutImage(model);
+            _productService.updateTowar(modelBase);
+            return Ok();
+
+        }
+
     }
 
 }
