@@ -1,6 +1,7 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI;
+using MySqlX.XDevAPI.Relational;
 using System.Data;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml.Linq;
@@ -59,6 +60,68 @@ namespace Web_App.Rest.Order.Repository
 
             }
         }
+
+        public List<AllOrderAdminModel> getAllOrders()
+        {
+            List<AllOrderAdminModel> _data = new List<AllOrderAdminModel>();
+            AllOrderAdminModel _model;
+
+
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            DataTable table = new DataTable();
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "SELECT order_id, user.email, status, order_create, user.photo FROM `order` JOIN user ON `order`.user_id = user.id WHERE user_id>0";
+                adapter.SelectCommand = command;
+                adapter.Fill(table);
+            }
+            foreach (DataRow row in table.Rows)
+            {
+                _model = new AllOrderAdminModel();
+                _model.OrderID = Convert.ToInt32(row["order_id"].ToString());
+                _model.UserEmail = row["email"].ToString();
+                _model.Status = row["status"].ToString();
+                _model.DateTime = Convert.ToDateTime(row["order_create"].ToString());
+                _model.UserPhoto = (byte[])row["photo"];
+                _data.Add(_model);
+            }
+            return _data;
+        }
+
+        public List<AllOrderAdminModel> getAllOrdersByEmail(string email)
+        {
+            List<AllOrderAdminModel> _data = new List<AllOrderAdminModel>();
+            AllOrderAdminModel _model;
+
+
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            DataTable table = new DataTable();
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "SELECT order_id, user.email, status, order_create, user.photo FROM `order` JOIN user ON `order`.user_id = user.id WHERE user.email COLLATE utf8_general_ci LIKE @searchPattern";
+                command.Parameters.Add(new MySqlParameter("@searchPattern", MySqlDbType.VarChar) { Value = "%" + email + "%" });
+                adapter.SelectCommand = command;
+                adapter.Fill(table);
+            }
+            foreach (DataRow row in table.Rows)
+            {
+                _model = new AllOrderAdminModel();
+                _model.OrderID = Convert.ToInt32(row["order_id"].ToString());
+                _model.UserEmail = row["email"].ToString();
+                _model.Status = row["status"].ToString();
+                _model.DateTime = Convert.ToDateTime(row["order_create"].ToString());
+                _model.UserPhoto = (byte[])row["photo"];
+                _data.Add(_model);
+            }
+            return _data;
+        }
+
         public List<OrdersUserModel> getAllOrdersUser(int userID)
         {
             List<OrdersUserModel> _data = new List<OrdersUserModel>();
@@ -169,6 +232,20 @@ namespace Web_App.Rest.Order.Repository
                 totalOrdersClient = Convert.ToInt32(row[0].ToString());
             }
             return totalOrdersClient;
+        }
+
+
+        public void removeOrderByID(int orderID)
+        {
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "DELETE FROM `order` WHERE order_id=@orderid";
+                command.Parameters.Add("@orderid", MySqlDbType.Int32).Value = orderID;
+                command.ExecuteNonQuery();
+            }
         }
     }
 }

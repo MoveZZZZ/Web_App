@@ -22,7 +22,7 @@ builder.Services.AddCors(options =>
     options.AddDefaultPolicy(builder =>
     {
         builder.WithOrigins("https://localhost:44456")
-            .WithMethods("GET", "POST")
+            .WithMethods("GET", "POST", "DELETE")
             .WithHeaders("Content-Type")
             .AllowCredentials();
     });

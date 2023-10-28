@@ -49,7 +49,7 @@ const ShoppingCartPage = () => {
 
     const [paymentMethod, setPaymentMethod] = useState("Card");
 
-
+    const [isCreated, setIsCreated] = useState(false);
     const uploadData = async () => {
         setIsLoading(true);
         fetchGetAllClientCartItems(userID)
@@ -91,7 +91,6 @@ const ShoppingCartPage = () => {
 
                 setMessage("Your item removed from Cart!");
                 getMessage();
-
                 uploadData();
                 setTimeout(() => {
                     setIsLoading(false);
@@ -115,14 +114,17 @@ const ShoppingCartPage = () => {
     const createOrder = () => {
 
         if (selectedItemList &&
-            choisedAP
+            choisedAP && !isCreated
         ) {
+            setIsCreated(true);
             fetchCreateOrder(userID, selectedItemList, selectedItemCountList, totalOrderSum, orderComment, choisedAP.id, paymentMethod)
                 .then((data) => {
                     setTimeout(() => {
                         window.open("/orders", "_self");
+                       
                         setIsLoading(false);
                     }, 2000);
+
                 })
                 .catch(() => {
                     setMessage("Bad data loading");
