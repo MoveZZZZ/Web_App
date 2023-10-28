@@ -12,5 +12,6 @@ namespace Web_App.Rest.User.Repositories
         public void changeEmailNameByID (int userID, string email);
         public void changePasswordByID (int userID, string password);
         public void deleteAccountByID(int userID);
+        public int getIDByEmail(string email);
     }
 }

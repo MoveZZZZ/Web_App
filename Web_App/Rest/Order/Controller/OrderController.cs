@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Braintree.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MySqlX.XDevAPI;
 using System.Collections.Generic;
+using Web_App.Rest.JWT.Identity;
 using Web_App.Rest.JWT.Services;
 using Web_App.Rest.Order.Model;
 using Web_App.Rest.Order.Service;
@@ -64,7 +67,60 @@ namespace Web_App.Rest.Order.Controller
             return Ok(model);
         }
 
+        [Authorize]
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")] 
+        [HttpGet]
+        [Route("admin/getallorder")]
+        public IActionResult getAllOrders([FromQuery] int userID)
+        {
 
+            List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
+            model = _orderService.getAllOrders();
+
+
+            return Ok(model);
+        }
+        [Authorize]
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
+        [HttpGet]
+        [Route("admin/getallorderbyemail")]
+        public IActionResult getAllOrdersByEmail([FromQuery] string userEmail)
+        {
+
+            List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
+
+            model = _orderService.getAllOrdersByUserEmail(userEmail);
+
+
+            return Ok(model);
+        }
+        [Authorize]
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
+        [HttpGet]
+        [Route("admin/orderdetails")]
+        public IActionResult getOrderDetailsAdmin([FromQuery] int orderID, string emailUser)
+        {
+            OrderDetailsModel orderDetailsModel = new OrderDetailsModel();
+            orderDetailsModel = _orderService.getOrderDetailsModelAdmin(orderID, emailUser);
+            return Ok(orderDetailsModel);
+        }
+        [Authorize]
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
+        [HttpDelete]
+        [Route("admin/removeorder")]
+        public IActionResult removeOrderAdmin([FromQuery] int orderID)
+        {
+            try
+            {
+                _orderService.removeOrderAdmin(orderID);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
+           
+        }
 
     }
 }

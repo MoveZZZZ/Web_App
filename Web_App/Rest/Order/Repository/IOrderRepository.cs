@@ -10,6 +10,9 @@ namespace Web_App.Rest.Order.Repository
         public List<OrderDetailsProductModel> getAllProductsInOrder(int orderID);
         public List<OrdersUserModel> getAllOrdersUser(int userID);
         public int getTotalOrdersClient (int clientID);
+        public List<AllOrderAdminModel> getAllOrders();
+        public List<AllOrderAdminModel> getAllOrdersByEmail(string email);
+        public void removeOrderByID (int orderID);
 
     }
 }

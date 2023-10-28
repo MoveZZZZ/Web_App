@@ -146,5 +146,34 @@ namespace Web_App.Rest.Product.Repository
                 command.ExecuteNonQuery();
             }
         }
+        public void updateProduct(ProductModel model)
+        {
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                if(model.ImageUrl != null)
+                {
+                    command.CommandText = "UPDATE products SET description=@desc, cost=@cost, image=@img, count=@count WHERE id=@id";
+                    command.Parameters.Add("@id", MySqlDbType.Int32).Value = model.Id;
+                    command.Parameters.Add("@desc", MySqlDbType.MediumText).Value = model.Description;
+                    command.Parameters.Add("@cost", MySqlDbType.Float).Value = model.Cost;
+                    command.Parameters.Add("@img", MySqlDbType.LongBlob).Value = model.ImageUrl;
+                    command.Parameters.Add("@count", MySqlDbType.Int32).Value = model.Count;
+                    command.ExecuteNonQuery();
+                }
+                else
+                {
+                    command.CommandText = "UPDATE products SET description=@desc, cost=@cost, count=@count WHERE id=@id";
+                    command.Parameters.Add("@id", MySqlDbType.Int32).Value = model.Id;
+                    command.Parameters.Add("@desc", MySqlDbType.MediumText).Value = model.Description;
+                    command.Parameters.Add("@cost", MySqlDbType.Float).Value = model.Cost;
+                    command.Parameters.Add("@count", MySqlDbType.Int32).Value = model.Count;
+                    command.ExecuteNonQuery();
+                }
+               
+            }
+        }
     }
 }
