@@ -1,6 +1,6 @@
 import snoopNavbar from "../../assets/snoopDogTr.gif";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStore, faCartShopping, faHeart, faBagShopping } from "@fortawesome/free-solid-svg-icons";
+import { faStore, faCartShopping, faHeart, faBagShopping, faSquarePlus } from "@fortawesome/free-solid-svg-icons";
 import LoginPage from "../../pages/AuthorizationPages/LoginPage";
 import { AuthContext } from "../../context";
 import React, { useContext, useState } from 'react';
@@ -11,7 +11,7 @@ import { logoutCookieCleanUp, } from '../../utils/AuthenticationLogic';
 
 
 const Navbar = () => {
-    const { isAuth, setIsAuth } = useContext(AuthContext);
+    const { isAuth, setIsAuth, isAdmin } = useContext(AuthContext);
     const [modalVisability, setModalVisability] = useState(false);
     const [choosenPage, setChoosenPage] = useState(0);
     const logout = () => {
@@ -56,7 +56,9 @@ const Navbar = () => {
                             Shop
                             <i><FontAwesomeIcon icon={faStore} className="ml-2" /></i>
                         </Link>
-                        <Link to="/cart"
+                        {!isAdmin ? (
+                            <>
+                              <Link to="/cart"
                             onClick={() => { setChoosenPage(2); }}
                             className={` ${choosenPage === 2
                                 ? 'text-secondary mx-3'
@@ -82,7 +84,31 @@ const Navbar = () => {
                                 }`}>
                             Orders
                             <i><FontAwesomeIcon icon={faBagShopping} className="ml-2" /></i>
-                        </Link>
+                                </Link>
+                            </>
+                        ) : (
+                            <>
+                                <Link to="/admin/getallorder"
+                                    onClick={() => { setChoosenPage(4); }}
+                                    className={` ${choosenPage === 4
+                                        ? 'text-secondary mx-3'
+                                        : 'text-white hover:text-primary-300 ease-in-out hover:text-secondary transition duration-200 mx-3 ease-in-out hover:scale-110'
+                                        }`}>
+                                    All Orders
+                                    <i><FontAwesomeIcon icon={faBagShopping} className="ml-2" /></i>
+                                </Link>
+                                 <Link to="/admin/addtowar"
+                                    onClick={() => { setChoosenPage(5); }}
+                                    className={` ${choosenPage === 5
+                                        ? 'text-secondary mx-3'
+                                        : 'text-white hover:text-primary-300 ease-in-out hover:text-secondary transition duration-200 mx-3 ease-in-out hover:scale-110'
+                                        }`}>
+                                        Add towar
+                                        <i><FontAwesomeIcon icon={faSquarePlus} className="ml-2" /></i>
+                                    </Link>
+                                </>
+                        )}
+                      
                     </div>
                     <ul className="flex space-x-2">
                         {isAuth

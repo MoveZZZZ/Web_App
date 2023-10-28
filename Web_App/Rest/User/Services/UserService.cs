@@ -147,5 +147,11 @@ namespace Web_App.Rest.User.Services
             return "Your account successfully removed!";
 
         }
+        public int getIDByEmail (string email)
+        {
+            int ID = 0;
+            ID = _userRepository.getIDByEmail(email);
+            return ID;
+        }
     }
 }

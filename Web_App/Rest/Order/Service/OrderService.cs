@@ -1,4 +1,5 @@
-﻿using Web_App.Rest.Cart.Services;
+﻿using MySqlX.XDevAPI;
+using Web_App.Rest.Cart.Services;
 using Web_App.Rest.Order.Model;
 using Web_App.Rest.Order.Repository;
 using Web_App.Rest.Product.Service;
@@ -103,6 +104,39 @@ namespace Web_App.Rest.Order.Service
                 _userOrders[i].ProductsString = productStrting.Remove(0,2);
             }
             return _userOrders;
+        }
+
+
+        public List<AllOrderAdminModel> getAllOrders()
+        {
+            List<AllOrderAdminModel> _userOrders = new List<AllOrderAdminModel>();
+            _userOrders = _orderRepository.getAllOrders();
+            return _userOrders;
+        }
+        public List<AllOrderAdminModel> getAllOrdersByUserEmail(string email)
+        {
+            List<AllOrderAdminModel> _userOrders = new List<AllOrderAdminModel>();
+            _userOrders = _orderRepository.getAllOrdersByEmail(email);
+            return _userOrders;
+        }
+
+        public OrderDetailsModel getOrderDetailsModelAdmin(int orderID, string emailUser)
+        {
+            int clientID = _userService.getIDByEmail(emailUser);
+
+            OrderDetailsModel orderDetailsModel = new OrderDetailsModel();
+            UserModel userModel = new UserModel();
+            orderDetailsModel = _orderRepository.getOrderDetailsByUserIdAndOrderID(orderID, clientID);
+            orderDetailsModel.ProductOrderList = getAllProductsInOrder(orderID);
+            orderDetailsModel.TotalOrdersClient = _orderRepository.getTotalOrdersClient(clientID);
+            userModel = _userService.getUsernamePhotoByID(clientID);
+            orderDetailsModel.UserName = userModel.Login;
+            orderDetailsModel.ClientPhoto = userModel.Photo;
+            return orderDetailsModel;
+        }
+        public void removeOrderAdmin(int orderID)
+        {
+            _orderRepository.removeOrderByID(orderID);
         }
 
     }

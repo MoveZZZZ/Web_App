@@ -68,7 +68,41 @@ namespace Web_App.Rest.Product.Service
             }
             return createdModel;
         }
+        public ProductModel createDBModelProductUpdateProduct(ProductUpdateModel model)
+        {
+            ProductModel createdModel = new ProductModel();
+            createdModel.Id = model.Id;
+            createdModel.Name = model.Name;
+            createdModel.Description = model.Description;
+            createdModel.Cost = model.Cost;
+            createdModel.Count = model.Count;
+            try
+            {
+                using (var stream = new MemoryStream())
+                {
+                    model.Image.CopyToAsync(stream);
+                    Thread.Sleep(250);
+                    byte[] imageData = stream.ToArray();
 
+                    createdModel.ImageUrl = CompressImage(imageData, 1200, 1200, 100);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return createdModel;
+        }
+        public ProductModel createDBModelProductUpdateProductWithoutImage(ProductUpdateWithoutImageModel model)
+        {
+            ProductModel createdModel = new ProductModel();
+            createdModel.Id = model.Id;
+            createdModel.Name = model.Name;
+            createdModel.Description = model.Description;
+            createdModel.Cost = model.Cost;
+            createdModel.Count = model.Count;
+            return createdModel;
+        }
         public byte[] CompressImage(byte[] originalImage, int maxWidth, int maxHeight, int quality)
         {
             using (var originalImageStream = new MemoryStream(originalImage))
@@ -120,6 +154,12 @@ namespace Web_App.Rest.Product.Service
         public void updateProductCountAfterAddToOrder(int orderCountProduct, int productID)
         {
             _productRepository.updateProdcutCount(orderCountProduct, productID);
+        }
+
+
+        public void updateTowar(ProductModel product)
+        {
+            _productRepository.updateProduct(product);
         }
     }
 }

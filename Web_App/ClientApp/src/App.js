@@ -12,6 +12,10 @@ import { set } from "lodash";
 const App = () => {
     const [isAuth, setIsAuth] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+
+    //////CHANGE AFTER RESPONSE!!!!!!!
+    const [isAdmin, setIsAdmin] = useState(false);
+
     const [userID, setUserID] = useState("");
     const [userToken, setUserToken] = useState("");
     const [userRefreshToken, setUserRefreshToken] = useState("");
@@ -54,7 +58,9 @@ const App = () => {
                     <AuthContext.Provider value={{
                         isAuth,
                         setIsAuth,
-                        isLoading
+                        isLoading,
+                        isAdmin,
+                        setIsAdmin
                     }}>
                         <>
                             <Navbar />

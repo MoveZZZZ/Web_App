@@ -146,5 +146,26 @@ namespace Web_App.Rest.User.Repositories
                 command.ExecuteNonQuery();
             }
         }
+        public int getIDByEmail(string email)
+        {
+            int ID = 0;
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            DataTable table = new DataTable();
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "SELECT id FROM `user` WHERE email=@umail";
+                command.Parameters.Add("@umail", MySqlDbType.VarChar).Value = email;
+                adapter.SelectCommand = command;
+                adapter.Fill(table);
+            }
+            foreach (DataRow row in table.Rows)
+            {
+                ID = Convert.ToInt32(row["id"].ToString());
+            }
+            return ID;
+        }
     }
 }
