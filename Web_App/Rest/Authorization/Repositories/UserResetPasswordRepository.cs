@@ -28,9 +28,9 @@ namespace Web_App.Rest.Authorization.Repositories
             }
         }
 
-        public int getResetUserIDViaUID(string uid)
+        public bool isUIDExist(string uid)
         {
-            int result = 0;
+            bool isUIDExist;
             DataTable table = new DataTable();
             MySqlDataAdapter adapter = new MySqlDataAdapter();
             using (var connection = GetConnection())
@@ -40,14 +40,10 @@ namespace Web_App.Rest.Authorization.Repositories
                 command.Connection = connection;
                 command.CommandText = "SELECT user_id FROM reset_links WHERE uid = @uid";
                 command.Parameters.Add("@uid", MySqlDbType.Text).Value = uid;
-                adapter.SelectCommand = command;
-                adapter.Fill(table);
+                isUIDExist = command.ExecuteScalar() == null ? false : true;
             }
-            foreach (DataRow row in table.Rows)
-            {
-                result = Convert.ToInt32(row["user_id"].ToString());
-            }
-            return result;
+            return isUIDExist;
+
         }
     }
 }

@@ -29,7 +29,18 @@ export const preresetpass = (email) => {
     return fetch(`https://localhost:7257/passwordreset/genresetmail?email=${email}`, { method: 'POST', });
 }
 
-export const uidcheck = (uid) => {
-    return fetch(`https://localhost:7257/passwordreset/checklink?uid=${uid}`, { method: 'POST', });
+export const fetchIsExistUID = async (uid) => {
+    try {
+        const response = await fetch(`https://localhost:7257/passwordreset/checklink?uid=${uid}`, {
+            method: 'POST',
+        });
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        throw error;
+    }
 }
 
