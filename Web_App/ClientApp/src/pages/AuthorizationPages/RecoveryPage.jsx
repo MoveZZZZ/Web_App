@@ -19,7 +19,7 @@ const ResetPage = () => {
         setIsLoading(true);
         fetchIsExistUID(uid)
             .then((data) => {
-                if (data.message === "Ok") {
+                if (data.message === "Valid!") {
                     setIsValid(true);
                 }
             })
