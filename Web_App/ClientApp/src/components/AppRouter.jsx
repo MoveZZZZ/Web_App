@@ -13,9 +13,11 @@ import OrdersPage from "../pages/TowarPages/OrdersPage";
 import Spinner from '../components/Spinner/Spinner';
 import OrderDetailsPage from "../pages/TowarPages/OrderDetailsPage";
 import SettingsPage from "../pages/usersPage/SettingsPage";
-import ForgotPasswordPreResetPage from "../pages/AuthorizationPages/PreResetPage";
+import ForgotPasswordPreResetPage from "../pages/AuthorizationPages/PreResetPage"; 
+import ResetPage from "../pages/AuthorizationPages/RecoveryPage";
 import AllOrderPage from "../pages/AdminPage/AllOrdersPage"
 import AdminOrderDetailsPage from "../pages/AdminPage/AdminOrderDetailsPage";
+
 
 const AppRouter = () => {
     const { isAuth, isLoading, isAdmin } = useContext(AuthContext);
@@ -112,7 +114,10 @@ const AppRouter = () => {
                     path="/addtowar" />
                 <Route
                     element={<ForgotPasswordPreResetPage />}
-                    path="/passwordrecovery"/>
+                    path="/passwordrecovery" />
+                <Route
+                    element={<ResetPage/>}
+                    path="/recoverypage/:uid" />
                 <Route
                     path="*" element={<Navigate to="/login" />} />
             </Routes>

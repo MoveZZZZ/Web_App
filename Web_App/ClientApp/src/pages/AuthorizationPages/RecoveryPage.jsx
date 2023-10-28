@@ -1,10 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { preresetpass } from '../../utils/AuthorizationApi';
 import Spooky from "../../assets/KABAN.gif";
 
-const ForgotPasswordPreResetPage = () => {
+const ResetPage = () => {
+    const { uid } = useParams();
     const [email, setEmail] = useState('');
     const [errMsg, setErr] = useState('');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        if (!uidcheck(uid))
+        {
+            //MODAL HERE
+            alert("WARNING WHIS LINK IS EXPIRED, YPU WILL BE REDIRECT TO THE LOGIN PAGE");
+            setTimeout(() =>
+                // eslint-disable-next-line no-restricted-globals
+                location.replace("/login"), 1000);
+        }
+        setIsLoading(false);
+    })
+
+    const uidcheck = (uid) =>
+    {
+        return true;
+    }
 
     const handlePreReset = (e) => {
         e.preventDefault();
@@ -22,7 +43,7 @@ const ForgotPasswordPreResetPage = () => {
                         alt="page gif" />
                 </div>
                 <div className="md:w-1/2 px-3  space-y-4">
-                    <h2 className="text-2xl font-bold text-primary-300 ">Password Reset Page</h2>
+                    <h2 className="text-2xl font-bold text-primary-300 ">{uid}</h2>
                     <form className="mt-3">
                         <div class="mt-3">
                             <label class="block text-primary-700">Email</label>
@@ -66,4 +87,4 @@ const ForgotPasswordPreResetPage = () => {
     )
 };
 
-export default ForgotPasswordPreResetPage;
+export default ResetPage;

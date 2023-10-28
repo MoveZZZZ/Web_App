@@ -26,6 +26,10 @@ export const signup = (login, email, password, passwordConfirm) => {
 };
 
 export const preresetpass = (email) => {
-    return true;
+    return fetch(`https://localhost:7257/passwordreset/genresetmail?email=${email}`, { method: 'POST', });
+}
+
+export const uidcheck = (uid) => {
+    return fetch(`https://localhost:7257/passwordreset/checklink?uid=${uid}`, { method: 'POST', });
 }
 
