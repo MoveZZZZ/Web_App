@@ -8,5 +8,6 @@ namespace Web_App.Rest.Authorization.Repositories
     {
         UserModel getUserDataFromDB(AuthorizationModel authModel);
         UserModel getUserDataFromDBviaID(int ID);
+        public UserModel getUserDataFromDBviaEmail(string email);
     }
 }
