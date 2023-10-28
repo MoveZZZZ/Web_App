@@ -19,11 +19,9 @@ const ProductDetail = () => {
     const { id } = useParams();
     const userID = sessionStorage.getItem('ID');
     const [count, setCount] = useState(0);
-
     const [productDetails, setProductDetails] = useState([]);
 
     const [isLoading, setIsLoading] = useState(true);
-
 
     const [favoriteID, setFavoriteID] = useState([]);
     const [isFavorite, setIsFavorite] = useState(false);
