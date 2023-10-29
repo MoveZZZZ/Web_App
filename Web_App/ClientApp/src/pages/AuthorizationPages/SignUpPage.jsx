@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { signup, } from '../../utils/AuthorizationApi';
 import liveMaggotReaction from "../../assets/V1.gif";
 import PasswordStrengthBar from 'react-password-strength-bar';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import ReCAPTCHA from "react-google-recaptcha";
 
 
 const SignUpPage = () => {
@@ -13,24 +14,30 @@ const SignUpPage = () => {
     const [passwordConfUser, setPasswordConfUser] = useState('');
 
     const [showPassword, setShowPassword] = useState(false);
-
+    const recaptcha = useRef();
     const [errMsg, setErrMsg] = useState('');
 
     const handleSignUp = (e) => {
         e.preventDefault();
-        signup(loginUser, emailUser, passwordUser, passwordConfUser)
-            .then((response) => {
-                setErrMsg(response.message);
-                setPasswordUser("");
-                setPasswordConfUser("");
+        const captchaValue = recaptcha.current.getValue();
+        if (!captchaValue) {
 
-            })
-            .catch(() => {
-                setErrMsg("");
-                // eslint-disable-next-line no-restricted-globals
-                location.replace("/login");
-            })
+            setErrMsg("Please verify the reCAPTCHA!");
 
+        } else {
+            signup(loginUser, emailUser, passwordUser, passwordConfUser)
+                .then((response) => {
+                    setErrMsg(response.message);
+                    setPasswordUser("");
+                    setPasswordConfUser("");
+
+                })
+                .catch(() => {
+                    setErrMsg("");
+                    // eslint-disable-next-line no-restricted-globals
+                    location.replace("/login");
+                })
+        }
     };
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -113,8 +120,9 @@ const SignUpPage = () => {
                         <p className="text-red text-xs">{errMsg}</p>
                         <button
                             type="submit"
-                            className="w-full block bg-primary-300 hover:bg-primary-200 duration-200 focus:bg-blue-400 text-primary-600 font-semibold rounded-lg px-4 py-3 mt-4"
+                            className="w-full block bg-primary-300 hover:bg-primary-200 duration-200 focus:bg-blue-400 text-primary-600 font-semibold rounded-lg px-4 py-3 mt-4 mb-4"
                             onClick={handleSignUp}>Create Account</button>
+                        <ReCAPTCHA sitekey="6LcT39soAAAAAGvtx4Pt61bzVpNEYHZXdcvJAo7t" ref={recaptcha} className="flex justify-center" />
                     </form>
                     <div class="mt-3 grid grid-cols-3 items-center text-gray-500">
                         <hr class="border-secondary" />

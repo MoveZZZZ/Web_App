@@ -23,7 +23,7 @@ const ForgotPasswordPreResetPage = () => {
                         alt="page gif" />
                 </div>
                 <div className="md:w-1/2 px-3  space-y-4">
-                    <h2 className="text-2xl font-bold text-primary-300 ">Password Reset Page</h2>
+                    <h2 className="text-2xl font-bold text-primary-300 flex justify-center">Password Reset Page</h2>
                     <form className="mt-3">
                         <div class="mt-3">
                             <label class="block text-primary-700">Email</label>
@@ -52,7 +52,7 @@ const ForgotPasswordPreResetPage = () => {
                     <div class="text-sm flex justify-between items-center mt-3 text-left">
                         <p>If yor remembered password</p>
                         <a href="/login" >
-                            <button class="py-2 px-5 ml-3 bg-primary-100 border rounded-xl hover:scale-110 duration-300 border-primary-300  ">Register</button>
+                            <button class="py-2 px-5 ml-3 bg-primary-100 border rounded-xl hover:scale-110 duration-300 border-primary-300  ">Login</button>
                         </a>
                     </div>
                     <div class="text-sm flex justify-between items-center mt-3 text-left">
