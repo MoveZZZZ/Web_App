@@ -2,6 +2,9 @@
 {
     public class RefreshTokenModel
     {
-        public string Token { get; set; }
+        public int UserID { get; set; }
+        public string UserRole { get; set; }
+        public string UserToken { get; set; }
+        public string UserRefreshToken { get; set; }
     }
 }

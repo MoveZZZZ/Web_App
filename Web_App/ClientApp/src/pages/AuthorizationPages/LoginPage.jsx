@@ -8,21 +8,12 @@ const LoginPage = () => {
     const [passwordUser, setPasswordUser] = useState('');
     const [errMsg, setErrMsg] = useState('');
 
-    const { isAuth, setIsAuth } = useContext(AuthContext);
-    const { userID, setUserID } = useContext(UserIDContext);
-    const { userToken, setUserToken } = useContext(UserTokenContext);
-    const { userRefreshToken, setUserRefreshToken } = useContext(UserRefreshTokenContext);
-
-
     const handleLogin = () => {
         login(loginUser, passwordUser)
             .then((response) => {
                 if (!response.message) {
-                    setUserID(response.userID);
-                    setErrMsg("");
-                    setIsAuth(true);
-                    ///remove
-                    sessionStorage.setItem("ID", response.userID);
+                    // eslint-disable-next-line no-restricted-globals
+                    location.replace("/login");
                 }
                 else {
                     setErrMsg(response.message);

@@ -9,6 +9,7 @@ const ForgotPasswordPreResetPage = () => {
     const handlePreReset = (e) => {
         e.preventDefault();
         preresetpass(email);
+        setErr("If user with this email address exists, email with recovery link were sent!")
         setEmail("");
     };
 
