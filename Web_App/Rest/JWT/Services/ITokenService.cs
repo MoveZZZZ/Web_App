@@ -8,7 +8,7 @@ namespace Web_App.Rest.JWT.Services
     {
         Token CreateToken(UserModel user);
         string CreateRefreshToken(UserModel user);
-        AuthorizationResponseModel RenewTokensProcessingService(string RefreshToken);
+        public RefreshTokenModel RenewTokensProcessingService(string bearerToken);
         public bool IDQueryTokenVerificator(int userID, string bearerToken);
     }
 }

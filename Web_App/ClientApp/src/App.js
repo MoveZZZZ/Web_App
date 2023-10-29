@@ -4,7 +4,7 @@ import { AuthContext, UserIDContext, UserTokenContext, UserRefreshTokenContext, 
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import AppRouter from "./components/AppRouter";
-import { refreshTokens, } from "./utils/AuthenticationLogic";
+import { refreshTokens} from "./utils/AuthenticationLogic";
 import { set } from "lodash";
 
 
@@ -22,25 +22,26 @@ const App = () => {
 
     useEffect(() => {
         const dataLoader = async () => { 
-            await refreshTokens()
-                .then((response) => {
-                    if (!response.message) {
-                        sessionStorage.setItem("ID", response.userID);
-                        //REMOVE LATER
-                    }
-                    else {
-                        sessionStorage.removeItem("ID");
-                    }
-                });
+            let res = await refreshTokens();
+            if (!res.message)
+            {
+                if (res.userRole === 'ADMIN')
+                {
+                    setIsAdmin(true);
+                }
+                sessionStorage.setItem("ID", res.userID);
+            }
             if (sessionStorage.getItem("ID")) {
                 //REMOVE LATER
                 setIsAuth(true);
                 setUserID(sessionStorage.getItem("ID"));
             }
+            console.log(isAdmin);
             setIsLoading(false);
         }
         dataLoader();
     }, []);
+
 
     return (
         <UserRefreshTokenContext.Provider value={{

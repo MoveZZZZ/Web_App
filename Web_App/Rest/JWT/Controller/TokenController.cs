@@ -26,7 +26,7 @@ public class TokenController : ControllerBase
     [HttpGet("refresh_access_token")]
     public IActionResult AccessTokenRenew()
     {
-        AuthorizationResponseModel _response = null;
+        RefreshTokenModel _response = null;
         try 
         { 
             _response = _tokenService.RenewTokensProcessingService(Request.Cookies["RefreshToken"]); 

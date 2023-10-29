@@ -90,9 +90,9 @@ namespace Web_App.Rest.JWT.Services
             return tokenHandler.WriteToken(securityToken);
         }
 
-        public AuthorizationResponseModel RenewTokensProcessingService(string bearerToken)
+        public RefreshTokenModel RenewTokensProcessingService(string bearerToken)
         {
-            var output = new AuthorizationResponseModel();
+            var output = new RefreshTokenModel();
             output.UserID = 0;
             var user = TokenVerifyAndExtractInfoFromDatabase(bearerToken);
             if (user.Login != null) 
@@ -101,6 +101,7 @@ namespace Web_App.Rest.JWT.Services
                 Token token = CreateToken(user);
                 output.UserToken = token.AccessToken;
                 output.UserRefreshToken = token.RefreshToken;
+                output.UserRole = user.Role;
             }
             return output;
         }
