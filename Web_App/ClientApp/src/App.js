@@ -35,7 +35,6 @@ const App = () => {
                 setIsAuth(true);
                 setUserID(sessionStorage.getItem("ID"));
             }
-            console.log(isAdmin);
             setIsLoading(false);
         }
         dataLoader();
