@@ -18,7 +18,7 @@ namespace Web_App.Rest.User.Controller
 
         public UserController(IConfiguration _conf)
         {
-            _userservice = new UserService();
+            _userservice = new UserService(_conf);
             _tokenService = new TokenService(_conf);
         }
 
