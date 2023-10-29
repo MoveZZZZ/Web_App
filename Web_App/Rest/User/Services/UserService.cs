@@ -11,10 +11,12 @@ namespace Web_App.Rest.User.Services
     {
         private IUserRepository _userRepository;
         private UserRegistrationService _userRegistrationService;
+        private MailSendingService _mailSendingService;
 
 
-        public UserService()
+        public UserService(IConfiguration conf)
         {
+            _mailSendingService = new MailSendingService(conf);
             _userRepository = new UserRepository();
             _userRegistrationService = new UserRegistrationService();
         }
@@ -85,8 +87,6 @@ namespace Web_App.Rest.User.Services
             }
 
         }
-
-
         public string changeLoginByID(ModifyUserRequestModel _modelRequest)
         {
             UserModel _userModelBase = new UserModel();
@@ -99,9 +99,9 @@ namespace Web_App.Rest.User.Services
                 return "Bad password!";
 
             _userRepository.changeUserNameByID(_modelRequest.UserID, _modelRequest.UserName);
+            _mailSendingService.SendMailByUserAuthDataChange(_userModelBase.Email, "USERNAME");
             return "Login successfully changed";
         }
-
         public string changeEmailByID(ModifyUserRequestModel _modelRequest)
         {
             UserModel _userModelBase = new UserModel();
@@ -111,10 +111,11 @@ namespace Web_App.Rest.User.Services
                 return "Bad email";
             if (!verifyPasswords(_modelRequest.Password, _userModelBase.Password))
                 return "Bad password!";
+
+            _mailSendingService.SendMailByUserAuthDataChange(_userModelBase.Email, "EMAIL");
             _userRepository.changeEmailNameByID(_modelRequest.UserID, _modelRequest.Email);
             return "Email successfully changed";
         }
-
         public string changePasswordByID(ModifyUserRequestModel _modelRequest)
         {
             UserModel _userModelBase = new UserModel();
@@ -133,6 +134,7 @@ namespace Web_App.Rest.User.Services
             _modelRequest.NewPassword = _userRegistrationService.hashPassword(_modelRequest.NewPassword);
 
             _userRepository.changePasswordByID(_modelRequest.UserID, _modelRequest.NewPassword);
+            _mailSendingService.SendMailByUserAuthDataChange(_userModelBase.Email, "PASSWORD");
             return "Your password successfully changed!";
 
         }
@@ -144,6 +146,7 @@ namespace Web_App.Rest.User.Services
             if (!verifyPasswords(_modelRequest.Password, _userModelBase.Password))
                 return "Wrong current password!";
             _userRepository.deleteAccountByID(_modelRequest.UserID);
+            _mailSendingService.SendMailByAccountRemove(_userModelBase.Email);
             return "Your account successfully removed!";
 
         }
