@@ -43,4 +43,12 @@ export const fetchIsExistUID = async (uid) => {
         throw error;
     }
 }
+export const fetchChangePassword = (password, confirmpassword, uid) => {
+    return fetch(`https://localhost:7257/passwordreset/recoverypage/changepassword?password=${password}&confirmpassword=${confirmpassword}&uid=${uid}`, {
+        method: 'POST',
+    })
+    .then((response) => {
+        return response.json();
+    });
+}
 

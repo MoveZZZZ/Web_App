@@ -47,6 +47,13 @@ public class PasswordResetController : ControllerBase
     {
         return Ok();
     }
+    [HttpPost]
+    [Route("recoverypage/changepassword")]
+    public IActionResult ChangePassword([FromQuery] string password, string confirmpassword, string uid)
+    {
+        string message = _userResetPasswordService.ChangePaswwordUser(password, confirmpassword, uid);
+        return Ok(new { message = message });
+    }
 
 }
 
