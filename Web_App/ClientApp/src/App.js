@@ -13,7 +13,6 @@ const App = () => {
     const [isAuth, setIsAuth] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
-    //////CHANGE AFTER RESPONSE!!!!!!!
     const [isAdmin, setIsAdmin] = useState(false);
 
     const [userID, setUserID] = useState("");
