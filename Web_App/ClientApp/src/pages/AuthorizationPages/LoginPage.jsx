@@ -1,29 +1,40 @@
-﻿import React, { useState, useContext, useEffect } from 'react';
+﻿import React, { useState, useContext, useEffect, useRef} from 'react';
 import { login, } from '../../utils/AuthorizationApi';
 import snoopSec from "../../assets/snoopSec.gif";
 import { AuthContext, UserIDContext, UserTokenContext, UserRefreshTokenContext, } from "../../context";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const LoginPage = () => {
     const [loginUser, setLoginUser] = useState('');
     const [passwordUser, setPasswordUser] = useState('');
     const [errMsg, setErrMsg] = useState('');
+    const recaptcha = useRef();
 
-    const handleLogin = () => {
-        login(loginUser, passwordUser)
-            .then((response) => {
-                if (!response.message) {
-                    // eslint-disable-next-line no-restricted-globals
-                    location.replace("/login");
-                }
-                else {
-                    setErrMsg(response.message);
-                }
-            })
-            .catch((error) => {
-                setErrMsg("*bad login or password")
-            });
-        setLoginUser("");
-        setPasswordUser("");
+    const handleLogin = (e) => {
+        e.preventDefault()
+        const captchaValue = recaptcha.current.getValue();
+        if (!captchaValue) {
+
+            setErrMsg("Please verify the reCAPTCHA!");
+            
+        } else {
+            login(loginUser, passwordUser)
+                .then((response) => {
+                    if (!response.message) {
+                        // eslint-disable-next-line no-restricted-globals
+                        location.replace("/login");
+                    }
+                    else {
+                        setErrMsg(response.message);
+                        recaptcha.current.reset();
+                    }
+                })
+                .catch((error) => {
+                    setErrMsg("*bad login or password")
+                });
+            setLoginUser("");
+            setPasswordUser("");
+        }
     }
     return (
         <section class="border-primary-500  flex items-center justify-center">
@@ -70,8 +81,9 @@ const LoginPage = () => {
                         <p className="text-red text-xs">{errMsg}</p>
                         <button
                             type="submit"
-                            className="w-full block bg-primary-300 hover:bg-primary-200 duration-200 focus:bg-blue-400 text-primary-600 font-semibold rounded-lg px-4 py-3 mt-3"
+                            className="w-full block bg-primary-300 hover:bg-primary-200 duration-200 focus:bg-blue-400 text-primary-600 font-semibold rounded-lg px-4 py-3 mt-3 mb-4"
                             onClick={handleLogin}>Log In</button>
+                        <ReCAPTCHA sitekey="6LcT39soAAAAAGvtx4Pt61bzVpNEYHZXdcvJAo7t" ref={recaptcha} />
                     </form>
 
                     <div class="mt-7 grid grid-cols-3 items-center text-gray-500">

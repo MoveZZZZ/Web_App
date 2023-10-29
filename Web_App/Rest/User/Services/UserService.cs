@@ -14,11 +14,11 @@ namespace Web_App.Rest.User.Services
         private MailSendingService _mailSendingService;
 
 
-        public UserService(IConfiguration conf)
+        public UserService(IConfiguration configuration)
         {
-            _mailSendingService = new MailSendingService(conf);
+            _mailSendingService = new MailSendingService(configuration);
             _userRepository = new UserRepository();
-            _userRegistrationService = new UserRegistrationService();
+            _userRegistrationService = new UserRegistrationService(configuration);
         }
 
         private bool verifyPasswords(string passwords, string passwordFromDB)

@@ -24,7 +24,7 @@ namespace Web_App.Rest.Authorization.Services
             _mailSendingService = new MailSendingService(conf);
             _resetPasswordRepository = new UserResetPasswordRepository();
             _userAuth = new UserAuthorizationRepository();
-            _userRegistrationService = new UserRegistrationService();
+            _userRegistrationService = new UserRegistrationService(conf);
         }
 
         public string checkExistUID(string uid)
