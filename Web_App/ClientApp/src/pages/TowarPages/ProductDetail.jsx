@@ -344,8 +344,26 @@ const ProductDetail = () => {
                                                 <button className="bg-primary-300 text-white rounded-full px-6 py-2 hover:bg-primary-400 focus:outline-none"
                                                     onClick={removeItemsFromCart}>
                                                     Remove from Cart
-                                                </button>
+                                                    </button>
+                                                    {!isAdmin ?
+                                                        <i>{!isFavorite ? <FontAwesomeIcon
+                                                            icon={faHeartCirclePlus}
+                                                            className="fa-2x text-primary-300 hover:text-red cursor-pointer focus:outline-none mx-10 my-2"
+                                                            onClick={() => {
+                                                                addToFavorite();
+                                                            }
+                                                            }
+                                                        /> : <FontAwesomeIcon
+                                                            icon={faHeartCircleXmark}
+                                                            className="fa-2x text-red hover:text-primary-400 cursor-pointer focus:outline-none mx-10 my-2"
+                                                            onClick={() => { removeToFavorite() }
+                                                            }
+                                                        />}
+                                                        </i>
+                                                        : null
+                                                    }
                                             </div>
+                                           
                                         ) : (
                                             <div className="flex gap-6 justify-center w-full max-sm:flex-col max-sm:items-center">
                                                 <button
@@ -377,23 +395,23 @@ const ProductDetail = () => {
                                                         />
                                                     </button>
                                                 </div>
-                                                {!isAdmin ?
-                                                    <i>{!isFavorite ? <FontAwesomeIcon
-                                                        icon={faHeartCirclePlus}
-                                                        className="fa-2x text-primary-300 hover:text-red cursor-pointer focus:outline-none"
-                                                        onClick={() => {
-                                                            addToFavorite();
-                                                        }
-                                                        }
-                                                    /> : <FontAwesomeIcon
-                                                        icon={faHeartCircleXmark}
-                                                        className="fa-2x text-red hover:text-primary-400 cursor-pointer focus:outline-none"
-                                                        onClick={() => { removeToFavorite() }
-                                                        }
-                                                    />}
-                                                    </i>
-                                                    : null
-                                                }
+                                                    {!isAdmin ?
+                                                        <i>{!isFavorite ? <FontAwesomeIcon
+                                                            icon={faHeartCirclePlus}
+                                                            className="fa-2x text-primary-300 hover:text-red cursor-pointer focus:outline-none"
+                                                            onClick={() => {
+                                                                addToFavorite();
+                                                            }
+                                                            }
+                                                        /> : <FontAwesomeIcon
+                                                            icon={faHeartCircleXmark}
+                                                            className="fa-2x text-red hover:text-primary-400 cursor-pointer focus:outline-none"
+                                                            onClick={() => { removeToFavorite() }
+                                                            }
+                                                        />}
+                                                        </i>
+                                                        : null
+                                                    }
                                             </div>
                                         )}
 
