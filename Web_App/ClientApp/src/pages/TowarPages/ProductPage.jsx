@@ -76,16 +76,18 @@ const ProductPage = () => {
 
     return (
         <>
-            <div className="mr-5 mt-5 flex justify-between items-center grid grid-cols-2">
-                <div className="text-3xl flex justify-center ">{errMsg}</div>
-                <div className="flex justify-end mt-3">
-                    <i className="mr-3 mt-2"><FontAwesomeIcon icon={faSearch} /></i>
+            <div className="flex justify-center items-center px-16">
+                <div className="mt-6 w-4/5 flex flex-col justify-between items-center">
+                <div className="flex gap-2 mt-3 w-3/5 max-sm:w-full">
+                    <i className="mt-2"><FontAwesomeIcon icon={faSearch} /></i>
                     <input
                         type="text"
                         placeholder="Search by product name"
                         onChange={handleSearchInputChange}
-                        className=" p-2 mb-2 rounded border border-primary-300 text-secondary placeholder-primary-300"
+                        className="w-full p-2 mb-2 rounded border border-primary-300 text-secondary placeholder-primary-300"
                     />
+                </div>
+                <div className="text-3xl text-center text-red">{errMsg}</div>
                 </div>
             </div>
             {isLoading ?
@@ -94,14 +96,14 @@ const ProductPage = () => {
                     < Spinner />
                 </div>
                 :
-                <div>
+                <div className="mt-16 mb-16 flex justify-center flex-col items-center">
                     {errMsg ? <></>
                         :
-                        <div className="grid grid-cols-5 max-xl:grid-cols-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 gap-6 mx-5">
+                        <div className="w-4/5 flex flex-wrap items-center justify-center gap-6 mx-5">
                             {productes.map((product) => (
                                 <Link to={`/product/${product.id}`} key={product.id}>
-                                    <div key={product.id} className="w-full h-120 bg-primary-100 max-sm:w-min-11/12 max-md:w-full max-lg: shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-2xl border border-primary-200">
-                                        <img className=" w-full h-72 object-fill rounded-t-xl" src={`data:image/jpeg;base64,${product.imageUrl.toString('base64')}`} />
+                                    <div key={product.id} className="w-64 bg-primary-100 max-sm:w-min-11/12 shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-2xl border border-primary-200">
+                                        <img className="w-64 h-64 rounded-t-xl" src={`data:image/jpeg;base64,${product.imageUrl.toString('base64')}`} />
                                         <p className="text-lg font-bold text-proimary-500 truncate block capitalize mx-2">{product.name}</p>
                                         <p className="text-sm text-gray-600 truncate mx-2">{product.description}</p>
                                         <p className="text-lg font-semibold text-primary-500 cursor-auto mx-2 my-5 flex justify-end">{product.cost}$</p>
@@ -111,7 +113,7 @@ const ProductPage = () => {
                         </div>
                     }
                     {!errMsg && !isSearchnig &&
-                        <div className="flex items-center justify-center  hrounded-xl text-gray-600 overflow-hidden">
+                        <div className=" mt-16 flex items-center justify-center  hrounded-xl text-gray-600 overflow-hidden">
                             <button
                                 onClick={() => {
                                     setCurrentPage(currentPage - 1);

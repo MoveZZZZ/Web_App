@@ -45,5 +45,18 @@ namespace Web_App.Rest.Authorization.Repositories
             return isUIDExist;
 
         }
+        public void updatePasswordUser(string uid, string password)
+        {
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "UPDATE user SET password = @pass WHERE id = (SELECT user_id FROM `reset_links` WHERE `reset_links`.uid=@uid); DELETE FROM `reset_links` WHERE uid=@uid";
+                command.Parameters.Add("@pass", MySqlDbType.Text).Value = password;
+                command.Parameters.Add("@uid", MySqlDbType.Text).Value = uid;
+                command.ExecuteNonQuery();
+            }
+        }
     }
 }

@@ -14,20 +14,22 @@ namespace Web_App.Rest.Authorization.Services
 {
     public class UserResetPasswordService
     {
-        private IUserResetPasswordRepository _resetrepo;
+        private IUserResetPasswordRepository _resetPasswordRepository;
         private IUserAuthorizationRepository _userAuth;
         private MailSendingService _mailSendingService;
+        private UserRegistrationService _userRegistrationService;
 
         public UserResetPasswordService(IConfiguration conf)
         {
             _mailSendingService = new MailSendingService(conf);
-            _resetrepo = new UserResetPasswordRepository();
+            _resetPasswordRepository = new UserResetPasswordRepository();
             _userAuth = new UserAuthorizationRepository();
+            _userRegistrationService = new UserRegistrationService();
         }
 
         public string checkExistUID(string uid)
         {
-            if (_resetrepo.isUIDExist(uid))
+            if (_resetPasswordRepository.isUIDExist(uid))
                 return "Valid!";
             return "No valid!";
         }
@@ -45,7 +47,7 @@ namespace Web_App.Rest.Authorization.Services
             int payload = rand.Next(1000000, 9999999);
             string mergedData = user.Password + Convert.ToString(payload) + user.Email;
             string uid = CalculateSHA512Hash(mergedData);
-            _resetrepo.createResetLink(user.Id, uid);
+            _resetPasswordRepository.createResetLink(user.Id, uid);
             reset.UID = uid;
             reset.Email = email;
             return reset;
@@ -65,6 +67,21 @@ namespace Web_App.Rest.Authorization.Services
                 }
                 return hashBuilder.ToString();
             }
+        }
+        public string ChangePaswwordUser (string password, string confirm, string uid)
+        {
+            if (_userRegistrationService.checkSamePassword(password, confirm))
+                return "Password must be same!";
+
+            password = _userRegistrationService.checkPasswordSpaces(password);
+
+            if (_userRegistrationService.checkPasswordLenAndPopular(password))
+                return "Bad new password! The password must be at least 12 characters long, all repeated spaces are replaced by a single space!";
+            password = _userRegistrationService.hashPassword(password);
+
+
+            _resetPasswordRepository.updatePasswordUser(uid, password);
+            return "Your password successfully changed!";
         }
     }
 }

@@ -7,5 +7,6 @@ namespace Web_App.Rest.Authorization.Repositories
     {
         public void createResetLink(int id, string uid);
         public bool isUIDExist(string uid);
+        public void updatePasswordUser(string uid, string password);
     }
 }
