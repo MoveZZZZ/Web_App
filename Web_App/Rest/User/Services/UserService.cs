@@ -13,10 +13,10 @@ namespace Web_App.Rest.User.Services
         private UserRegistrationService _userRegistrationService;
 
 
-        public UserService()
+        public UserService(IConfiguration configuration)
         {
             _userRepository = new UserRepository();
-            _userRegistrationService = new UserRegistrationService();
+            _userRegistrationService = new UserRegistrationService(configuration);
         }
 
         private bool verifyPasswords(string passwords, string passwordFromDB)

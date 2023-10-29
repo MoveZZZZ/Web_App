@@ -17,6 +17,7 @@ import ForgotPasswordPreResetPage from "../pages/AuthorizationPages/PreResetPage
 import ResetPage from "../pages/AuthorizationPages/RecoveryPage";
 import AllOrderPage from "../pages/AdminPage/AllOrdersPage"
 import AdminOrderDetailsPage from "../pages/AdminPage/AdminOrderDetailsPage";
+import VerifyEmailPage from "../pages/AuthorizationPages/VerifyEmailPage";
 
 
 const AppRouter = () => {
@@ -118,6 +119,9 @@ const AppRouter = () => {
                 <Route
                     element={<ResetPage/>}
                     path="/recoverypage/:uid" />
+                <Route
+                    element={< VerifyEmailPage />}
+                    path="/mailverification/:uid" />
                 <Route
                     path="*" element={<Navigate to="/login" />} />
             </Routes>

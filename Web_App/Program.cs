@@ -57,7 +57,7 @@ builder.Services.AddAuthentication(options =>
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         //NOT FOR RELEASE VERSION, RENEW TOKEN AFTER FIX THAT
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("MFswDQYJKoZIhvcNAQEBBQADSgAwRwJAf/GielqHk/+f1YrD2gRRnSHoAae+Ta05ktSA5/x7hpozFsANrUy6SaYMvGgc/t7aqTmMTEHUtrAfIZDY9cWSqwIDAQAB"))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("MIIJKAIBAAKCAgEAr4XOvVKNneUye05zajyxBLIZXqYEg2ojbi2T+kPYCZ9oNdqqBkOnRAsdVnNYk3co8wjam80rOtZqpoamSF05cEpcvwDIrlHzf6gsMDzjr8M7/EE4EgrLpu8754+1SgmwzsOeF3ifv+agNpTsCymFlJ9PAgrgMEC9hTam0a6K7s+VTCWIcC176gbhJLZnGv74P5OcYYkjtS+/mhcYQT8f12S8gA/vkt8nFkPEQnWTKbVQgVp9iFFgVIgZ91cePBVsdAgbwbXt9su8xyNKIzMl+Op+KzZAUqMAE5UEEGdTGs6a8nIuWunuJ8vQXWMom41Vr4/Pk8E6MfD6h8/iaEZh0A1iJpjGf4KUf7ZFItzxMkaodd91K4yiUpBSamT0footwGam/Suuvf76Q8qO01Zo8gm22p1Zd/HDQNU6EmoHT4g9ERs/J7VeEm4tQyO/pMrg4eV6YXSj1vO8YCXFgcqmC1O4521MBsBvnzDjom15OqKQCHl52n93oXRBRQQ0CaaZGFSh+fSXdz3W3wA5OvpcYTRLQdkucOBL7i2m7XbEcYgP9XDENxoMZGAVbs9u6qTFwGtDh6dfuXKUe5XgMgoqRtfFDC639wQglcCGk8Fpu4w7Qp6OTlc4uaxCzF0VFqua8v72fJgtAJw/l2ghmiuQzMiWjh7kYYWSZUUgVgKum8MCAwEAAQKCAgBuHtgnRYzd/Dcgz4Zvp6Yz2P07uZLpVATokiXeBQScfOtnpkm35mghs4tzeqie1ErXt71XtHAj2PROh/n5OqvXvH/VwcsmOvo3JC6dEQaUdjvDNrPT9fvxPvTpgeruiYfpISeleCNZxXrM47/3/NP2+8AY+vPOsj91PWWJ9iTqUUhM3ttr7c1pdWl5nAqyEDd1w8mAFAdYHJ3sMgMgpFb4zxXIjrbzAZhHSrruK0/qAfyBO2G4zb1PK5iG6pxoe9RwM8oeTWL/zLEiiwxvax6uvYfs2nuenO9mWb6UAA9OqULjSym0FkI5q5CNlrGabiDNJb"))
     };
     options.SaveToken = true;
     options.Events = new JwtBearerEvents();

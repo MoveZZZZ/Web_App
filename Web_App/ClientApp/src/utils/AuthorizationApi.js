@@ -51,4 +51,18 @@ export const fetchChangePassword = (password, confirmpassword, uid) => {
         return response.json();
     });
 }
+export const fetchVerifyEmail = async (uid) => {
+    try {
+        const response = await fetch(`https://localhost:7257/registration/verifymail?token=${uid}`, {
+            method: 'POST',
+        });
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}
 

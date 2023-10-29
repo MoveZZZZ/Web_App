@@ -15,13 +15,13 @@ namespace Web_App.Rest.Order.Service
         private IOrderRepository _orderRepository;
         private OrderModel _orderModel;
         private UserService _userService;
-        public OrderService()
+        public OrderService(IConfiguration configuration)
         {
             _orderRepository = new OrderRepository();
             _orderModel = new OrderModel();
             _productService = new ProductService();
             _cartService = new CartService();
-            _userService = new UserService();   
+            _userService = new UserService(configuration);   
         }
 
         public void fillModel(OrderRequestModel orderRequestModel)

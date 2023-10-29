@@ -8,9 +8,9 @@ using Web_App.Rest.Authorization.Services;
 public class RegistrationController : ControllerBase
 {
     private UserRegistrationService _userRegistrationService;
-    public RegistrationController()
+    public RegistrationController(IConfiguration _config)
     {
-        _userRegistrationService = new UserRegistrationService();
+        _userRegistrationService = new UserRegistrationService(_config);
     }
 
     [AllowAnonymous]
@@ -18,12 +18,26 @@ public class RegistrationController : ControllerBase
     [Route("signup")]
     public IActionResult SignUp([FromBody] RegisterModel sign)
     {
-        string errorMessage = _userRegistrationService.checkAllData(sign);
+        string errorMessage = _userRegistrationService.addUserInTempDB(sign);
         if (errorMessage != "")
         {
             return Unauthorized(new { message = errorMessage });
         }
-        return Ok();
+        return Ok(new {message = "Ok"});
     }
+    [HttpPost]
+    [Route("verifymail")]
+    public IActionResult VerifyEmail ([FromQuery] string token) {
+
+        string errorMessage = _userRegistrationService.addUserInDBAfterCheck(token);
+        if (errorMessage != "")
+        {
+            return Unauthorized(new { message = errorMessage });
+        }
+        return Ok(new {message = "Ok"});
+
+
+    }
+    
 }
 

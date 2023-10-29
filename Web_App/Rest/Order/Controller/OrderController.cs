@@ -19,7 +19,7 @@ namespace Web_App.Rest.Order.Controller
         private OrderService _orderService;
         public OrderController(IConfiguration _conf)
         {
-            _orderService = new OrderService();
+            _orderService = new OrderService(_conf);
             _tokenService = new TokenService(_conf);
         }
 
