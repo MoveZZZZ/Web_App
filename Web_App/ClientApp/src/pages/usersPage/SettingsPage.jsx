@@ -19,7 +19,7 @@ const SettingsPage = () => {
     const [modalDeleteAccounteVisability, setModalDeleteAccountVisability] = useState(false)
 
     const [isLoading, setIsLoading] = useState(true);
-   const userID = sessionStorage.getItem('ID');
+    const userID = sessionStorage.getItem('ID');
     const [userProfile, setUserProfile] = useState([])
     const [showPassword, setShowPassword] = useState(false);
 
@@ -169,8 +169,6 @@ const SettingsPage = () => {
                 setUserProfile(data);
             })
             .catch(() => {
-               /* setMessage("Bad data loading");
-                getErrorMessage();*/
             })
             .finally(() => {
                 setTimeout(() => {
