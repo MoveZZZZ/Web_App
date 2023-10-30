@@ -43,10 +43,6 @@ public class PasswordResetController : ControllerBase
         string msg = _userResetPasswordService.checkExistUID(uid);
         return Ok(new { message = msg });
     }
-    public IActionResult ResetPassword([FromBody] string newPassword, [FromQuery] string resetID)
-    {
-        return Ok();
-    }
     [HttpPost]
     [Route("recoverypage/changepassword")]
     public IActionResult ChangePassword([FromQuery] string password, string confirmpassword, string uid)

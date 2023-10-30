@@ -27,8 +27,6 @@ namespace Web_App.Rest.Authorization.Services
             _mailSendingService = new MailSendingService(_configuration);
         }
 
-
-
         //login
         private bool chekUsernameFromDB(string login)
         {
@@ -96,8 +94,6 @@ namespace Web_App.Rest.Authorization.Services
             string hashedPass = BCrypt.Net.BCrypt.HashPassword(password);
             return hashedPass;
         }
-
-
 
         //email
         private bool checkEmailSyntax(string email)
