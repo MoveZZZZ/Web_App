@@ -13,6 +13,7 @@ import OrdersPage from "../pages/TowarPages/OrdersPage";
 import Spinner from '../components/Spinner/Spinner';
 import OrderDetailsPage from "../pages/TowarPages/OrderDetailsPage";
 import SettingsPage from "../pages/usersPage/SettingsPage";
+import VerifyMailBeforeChange from "../pages/usersPage/VerifyMailBeforeChange";
 import ForgotPasswordPreResetPage from "../pages/AuthorizationPages/PreResetPage";
 import ResetPage from "../pages/AuthorizationPages/RecoveryPage";
 import AllOrderPage from "../pages/AdminPage/AllOrdersPage"
@@ -58,6 +59,9 @@ const AppRouter = () => {
                         path="/settings"
                     />
                     <Route
+                        element={< VerifyMailBeforeChange />}
+                        path="/verifychangedmail/:uid" />
+                    <Route
                         path="*"
                         element={<Navigate to="/" />} />
                 </Routes>
@@ -84,11 +88,13 @@ const AppRouter = () => {
                     <Route
                         element={<OrderDetailsPage />}
                         path="/orderdetails" />
-
                     <Route
                         element={<SettingsPage />}
                         path="/settings"
                     />
+                    <Route
+                        element={< VerifyMailBeforeChange />}
+                        path="/verifychangedmail/:uid" />
                     <Route
                         path="*"
                         element={<Navigate to="/" />} />
@@ -126,6 +132,9 @@ const AppRouter = () => {
                 <Route
                     element={< MFAAuthPage />}
                     path="/oauth/:uid" />
+                <Route
+                    element={< VerifyMailBeforeChange />}
+                    path="/verifychangedmail/:uid" />
                 <Route
                     path="*" element={<Navigate to="/login" />} />
             </Routes>

@@ -32,6 +32,25 @@ namespace Web_App.Rest.Authorization.Services
             };
             smtpClient.Send(message);
         }
+        public void SendMailWithEmailVerifyAfterChange(string email, string uid)
+        {
+            MailMessage message = new MailMessage();
+            string mailOrigin = _configuration["MailService:Origin"];
+            string mailAppKey = _configuration["MailService:ApplicationKey"];
+            message.From = new MailAddress(mailOrigin);
+            message.Subject = "Verify Email";
+            message.To.Add(new MailAddress(email));
+            message.Body = ("<html><body><h1>Your email verification link is:</h1>" +
+                "<a href= \"https://localhost:44456/verifychangedmail/" + uid + "\">CLICK ME!</a></body></html>");
+            message.IsBodyHtml = true;
+            var smtpClient = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential(mailOrigin, mailAppKey),
+                EnableSsl = true,
+            };
+            smtpClient.Send(message);
+        }
 
         public void SendMailWithRecoveryLink(string email, string uid)
         {

@@ -3,12 +3,17 @@ import { login, } from '../../utils/AuthorizationApi';
 import snoopSec from "../../assets/snoopSec.gif";
 import { AuthContext, UserIDContext, UserTokenContext, UserRefreshTokenContext, } from "../../context";
 import ReCAPTCHA from "react-google-recaptcha";
+import Message from "../../components/Message/Message";
 
 const LoginPage = () => {
     const [loginUser, setLoginUser] = useState('');
     const [passwordUser, setPasswordUser] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const recaptcha = useRef();
+
+    const [isMessage, setIsMessage] = useState(false);
+    const [message, setMessage] = useState("");
+
 
     const handleLogin = async (e) => {
         e.preventDefault()
@@ -24,7 +29,9 @@ const LoginPage = () => {
                 location.replace("/login");
             }
             if (response.uid) {
-                setTimeout(() => window.open("/oauth/"+ response.uid, "_self"), 1000);
+                setMessage("Hi, verefication code has ben send to your email!")
+                getMessage();
+                setTimeout(() => window.open("/oauth/"+ response.uid, "_self"), 2500);
             }
             else {
                 setErrMsg(response.message);
@@ -34,7 +41,13 @@ const LoginPage = () => {
         setLoginUser("");
         setPasswordUser("");
     }
+    const getMessage = () => {
+        setIsMessage(true);
+        setTimeout(() => setIsMessage(false), 2500);
+    }
     return (
+        <>
+        { isMessage ? <Message param={message} /> : null }
         <section className="border-primary-500  flex items-center justify-center">
             <div className="bg-primary-100 p-5 flex rounded-xl shadow-lg max-w-3xl m-28">
                 <div className="w-1/2 md:block hidden ">
@@ -101,7 +114,8 @@ const LoginPage = () => {
 
 
             </div>
-        </section>
+            </section>
+        </>
     );
 };
 

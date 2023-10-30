@@ -80,6 +80,13 @@ namespace Web_App.Rest.User.Controller
             string message = _userservice.removeAccountByID(model);
             return Ok(new { message = message });
         }
+        [HttpPost]
+        [Route("verifymail")]
+        public IActionResult verifyEmail([FromQuery] string uid)
+        {
+            string msg = _userservice.ChangeEmail(uid);
+            return Ok(new {message = msg});
+        }
 
     }
 }

@@ -13,5 +13,8 @@ namespace Web_App.Rest.User.Repositories
         public void changePasswordByID(int userID, string password);
         public void deleteAccountByID(int userID);
         public int getIDByEmail(string email);
+        public void addUIDInTable(int userID, string mail, string UID);
+        public bool isUIDExist (string uid);
+        public string getEmailViaUIDAndChangeEmail(string uid);
     }
 }
