@@ -23,7 +23,7 @@ const ResetPage = () => {
     const [responsemessage, setResponseMessage] = useState("");
     const [message, setMessage] = useState("");
     const [isMessage, setIsMessage] = useState(false);
-   
+
     const isSuccessChangePassword = (message) => {
         if (message === "Your password successfully changed!") {
             setIsChanged(true);
@@ -45,7 +45,7 @@ const ResetPage = () => {
                 else {
                     setMessage(data.message);
                 }
-                
+
             })
             .catch((error) => {
             })
@@ -80,11 +80,11 @@ const ResetPage = () => {
     }
     useEffect(() => {
         isUidExist();
-    },[])
+    }, [])
 
 
     return (
-            <>
+        <>
             {isLoading ?
                 <div className="flex text-center items-center justify-center w-full h-96">
                     < Spinner />
@@ -130,7 +130,7 @@ const ResetPage = () => {
                                     type="password"
                                     autoComplete="Password-confirm"
                                     required
-                                   
+
                                     value={repeatPassword}
                                     onChange={(e) => setRepeatPassword(e.target.value)}
                                     className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none"
@@ -144,21 +144,21 @@ const ResetPage = () => {
                                 onClick={handleChangPassword}>Change password</button>
 
                         </div>
-                       
+
                         :
                         <div className="text-center my-10">
                             <h1 className="font-bold text-xl">
-                            Your token has been expired. Please, try again!
+                                Your token has been expired. Please, try again!
                             </h1>
                             <a href="/passwordrecovery" className="text-secondary border-b hover:text-primary-400 ease-in-out duration-150 w-auto">Click on this link for try again!</a>
-                                
-                            </div>
+
+                        </div>
                     }
                 </div>
-                }
-            
-            
-            </>
+            }
+
+
+        </>
     )
 };
 

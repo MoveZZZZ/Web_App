@@ -153,7 +153,7 @@ namespace Web_App.Rest.Product.Repository
             {
                 connection.Open();
                 command.Connection = connection;
-                if(model.ImageUrl != null)
+                if (model.ImageUrl != null)
                 {
                     command.CommandText = "UPDATE products SET description=@desc, cost=@cost, image=@img, count=@count WHERE id=@id";
                     command.Parameters.Add("@id", MySqlDbType.Int32).Value = model.Id;
@@ -172,7 +172,7 @@ namespace Web_App.Rest.Product.Repository
                     command.Parameters.Add("@count", MySqlDbType.Int32).Value = model.Count;
                     command.ExecuteNonQuery();
                 }
-               
+
             }
         }
     }

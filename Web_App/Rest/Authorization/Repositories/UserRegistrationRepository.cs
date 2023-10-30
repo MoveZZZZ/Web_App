@@ -88,7 +88,7 @@ namespace Web_App.Rest.Authorization.Repositories
                 command.Connection = connection;
                 command.CommandText = "SELECT * FROM user_registration WHERE username=@uname";
                 command.Parameters.Add("@uname", MySqlDbType.VarChar).Value = username;
-                isExist =  command.ExecuteScalar() == null ? false : true;
+                isExist = command.ExecuteScalar() == null ? false : true;
             }
             return isExist;
         }

@@ -95,7 +95,7 @@ namespace Web_App.Rest.JWT.Services
             var output = new RefreshTokenModel();
             output.UserID = 0;
             var user = TokenVerifyAndExtractInfoFromDatabase(bearerToken);
-            if (user.Login != null) 
+            if (user.Login != null)
             {
                 output.UserID = user.Id;
                 Token token = CreateToken(user);

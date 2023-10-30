@@ -10,9 +10,9 @@ namespace Web_App.Rest.User.Controller
 {
     [Route("user")]
     [ApiController]
-    public class UserController:ControllerBase
+    public class UserController : ControllerBase
     {
-       
+
         public UserService _userservice;
         private readonly ITokenService _tokenService;
 
@@ -31,10 +31,10 @@ namespace Web_App.Rest.User.Controller
             {
                 return BadRequest(new { message = "UnAuthorized Attempt to Access Data belong to Other User!" });
             }
-            UserModel  user = new UserModel();
+            UserModel user = new UserModel();
             user = _userservice.getUnameEmailPhotoByUserID(userID);
 
-            return Ok(new{ mail = user.Email, photo = user.Photo, login = user.Login});
+            return Ok(new { mail = user.Email, photo = user.Photo, login = user.Login });
         }
 
         [Authorize]
@@ -49,7 +49,7 @@ namespace Web_App.Rest.User.Controller
                 return BadRequest(new { message = "UnAuthorized Attempt to Access Data belong to Other User!" });
             }
             message = _userservice.changeUserAvatar(Image, userID);
-            return Ok(new{message = message});
+            return Ok(new { message = message });
         }
 
         [HttpPost]
@@ -57,7 +57,7 @@ namespace Web_App.Rest.User.Controller
         public IActionResult changeUserLogin([FromForm] ModifyUserRequestModel model)
         {
             string message = _userservice.changeLoginByID(model);
-            return Ok(new {message = message});
+            return Ok(new { message = message });
         }
         [HttpPost]
         [Route("changeemail")]

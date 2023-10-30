@@ -89,21 +89,19 @@ const SettingsPage = () => {
                 setMessage("Bad file format!");
                 getErrorMessage();
             }
-           
+
         }
         else if (!checkImageSize()) {
             formData.Image = null;
             setMessage("You image is too long!");
             getErrorMessage();
         }
-        else if (!checkImageFormat())
-        {
+        else if (!checkImageFormat()) {
             formData.Image = null;
             setMessage("The image is in a bad format!");
             getErrorMessage();
         }
-        else
-        {
+        else {
             setMessage("Choise avatar, please!")
             getErrorMessage();
         }

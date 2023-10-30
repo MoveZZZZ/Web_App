@@ -14,7 +14,7 @@ export async function fetchUpdatePhotoUser(formData) {
     const body = new FormData();
     body.append('Image', formData.Image);
     body.append('userID', formData.userid);
-      const params = {
+    const params = {
         method: 'POST',
         credentials: 'include',
         body,

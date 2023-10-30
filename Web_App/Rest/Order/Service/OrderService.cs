@@ -87,7 +87,7 @@ namespace Web_App.Rest.Order.Service
         {
 
             fillModel(orderRequestModel);
-            _orderModel.OrderID = _orderRepository.addOrderAndGetIndex(orderRequestModel.ClientID, orderRequestModel.Ordercom, orderRequestModel.AccessPointId, 
+            _orderModel.OrderID = _orderRepository.addOrderAndGetIndex(orderRequestModel.ClientID, orderRequestModel.Ordercom, orderRequestModel.AccessPointId,
                 orderRequestModel.Cost, _orderModel.Status, _orderModel.ClientName, _orderModel.ClientLastName, _orderModel.Phone);
 
 

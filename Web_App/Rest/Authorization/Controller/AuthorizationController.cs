@@ -58,6 +58,7 @@ public class AuthorizationController : ControllerBase
             _authorizationResponseModel.UserToken = "";
             return Ok(_authorizationResponseModel);
         }
+
         else if (_authorizationResponseModel.UserID != 0 && _authorizationResponseModel.Role == "ADMIN")
         {
             string uid = _userMFAuthService.generateAdminUID(_authorizationResponseModel.UserID);

@@ -114,7 +114,7 @@ namespace Web_App.Rest.Authorization.Services
             return false;
         }
 
-        private byte[] createImageByte ()
+        private byte[] createImageByte()
         {
             using (Bitmap image = new Bitmap("Rest/User/Assets/userPhoto.png"))
             {
@@ -129,7 +129,7 @@ namespace Web_App.Rest.Authorization.Services
             }
         }
 
-        public bool checkUsername (string username)
+        public bool checkUsername(string username)
         {
             if (chekUsernameFromDB(username)
                 || username.Length > 255
@@ -137,9 +137,9 @@ namespace Web_App.Rest.Authorization.Services
                 return true;
             return false;
         }
-        public bool checkEmail (string email)
+        public bool checkEmail(string email)
         {
-            if (email.Length > 128 ||checkEmailSyntax(email)
+            if (email.Length > 128 || checkEmailSyntax(email)
                || checkEmailFromDB(email) || _userRegistrationRepository.checkEmailFromTempTable(email))
                 return true;
             return false;
@@ -150,7 +150,7 @@ namespace Web_App.Rest.Authorization.Services
                 return true;
             return false;
         }
-        public bool checkPasswordLenAndPopular (string password)
+        public bool checkPasswordLenAndPopular(string password)
         {
             if (checkPasswordLenght(password) || checkPasswordMostPopular(password))
                 return true;
@@ -172,24 +172,25 @@ namespace Web_App.Rest.Authorization.Services
                 return _message = "wrong email";
 
             //Password
-          if(checkSamePassword(userRegistModel.Password, userRegistModel.PasswordConfirm))
+            if (checkSamePassword(userRegistModel.Password, userRegistModel.PasswordConfirm))
                 return _message = "passwords are not the same";
 
-            userRegistModel.Password=checkPasswordSpaces(userRegistModel.Password);
+            userRegistModel.Password = checkPasswordSpaces(userRegistModel.Password);
 
-            if(checkPasswordLenAndPopular(userRegistModel.Password))
+            if (checkPasswordLenAndPopular(userRegistModel.Password))
                 return _message = "wrong password";
 
-            userRegistModel.Password=hashPassword(userRegistModel.Password);
+            userRegistModel.Password = hashPassword(userRegistModel.Password);
 
             return _message;
         }
 
-        public string addUserInTempDB (RegisterModel userRegistModel)
+        public string addUserInTempDB(RegisterModel userRegistModel)
         {
             string message = checkAllData(userRegistModel);
-            string uid = generateUID(userRegistModel);
-            if(message =="") {
+            string uid = gennerateUID(userRegistModel);
+            if (message == "")
+            {
                 _userRegistrationRepository.addUserInTempDB(userRegistModel, uid);
                 _mailSendingService.SendMailWithEmailVerify(userRegistModel.Email, uid);
                 return message;
@@ -198,7 +199,7 @@ namespace Web_App.Rest.Authorization.Services
         }
 
 
-        private string generateUID (RegisterModel model)
+        private string gennerateUID(RegisterModel model)
         {
             Random rand = new Random();
             int payload = rand.Next(1000000, 9999999);
@@ -218,9 +219,9 @@ namespace Web_App.Rest.Authorization.Services
         }
 
 
-        public string addUserInDBAfterCheck (string uid)
+        public string addUserInDBAfterCheck(string uid)
         {
-            if(_userRegistrationRepository.isUIDExist(uid))
+            if (_userRegistrationRepository.isUIDExist(uid))
             {
                 _userRegistrationRepository.addUserInDBAfterCheckUID(uid, createImageByte());
                 return _message;

@@ -6,7 +6,7 @@ export const refreshTokens = async () => {
         })
         .then((response) => {
             return response.json();
-        });   
+        });
 };
 
 export const logoutCookieCleanUp = async () => {

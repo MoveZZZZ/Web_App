@@ -33,7 +33,7 @@ namespace Web_App.Rest.Order.Controller
                 return BadRequest(new { message = "UnAuthorized Attempt to Access Data belong to Other User!" });
             }
             string msg = _orderService.checkDataOrder(orderRequestModel);
-            if(msg != "")
+            if (msg != "")
                 return Ok(new { message = msg });
             _orderService.addOrderToDB(orderRequestModel);
             _orderService.addOrderProductToTable(orderRequestModel.TowarCount);
@@ -56,14 +56,14 @@ namespace Web_App.Rest.Order.Controller
         }
         [HttpGet]
         [Route("getallordersuser")]
-        public IActionResult getOrdersUser([FromQuery] int  userID)
+        public IActionResult getOrdersUser([FromQuery] int userID)
         {
             string token = Request.Cookies["AccessToken"];
             if (!_tokenService.IDQueryTokenVerificator(userID, token))
             {
                 return BadRequest(new { message = "UnAuthorized Attempt to Access Data belong to Other User!" });
             }
-            List <OrdersUserModel> model = new List <OrdersUserModel>();
+            List<OrdersUserModel> model = new List<OrdersUserModel>();
             model = _orderService.getOrdersUsers(userID);
 
 
@@ -71,7 +71,7 @@ namespace Web_App.Rest.Order.Controller
         }
 
         [Authorize]
-        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")] 
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
         [HttpGet]
         [Route("admin/getallorder")]
         public IActionResult getAllOrders([FromQuery] int userID)
@@ -122,7 +122,7 @@ namespace Web_App.Rest.Order.Controller
             {
                 return StatusCode(500);
             }
-           
+
         }
 
     }

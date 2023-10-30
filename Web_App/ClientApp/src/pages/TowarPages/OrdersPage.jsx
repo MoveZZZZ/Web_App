@@ -4,7 +4,6 @@ import imageShop from "../../assets/guns-shop.jpeg"
 import { fetchAllUserOrders, } from "../../utils/orderAPI"
 import { UserIDContext, } from "../../context";
 import { Link } from 'react-router-dom';
-
 import Spinner from '../../components/Spinner/Spinner';
 
 const OrdersPage = () => {
@@ -73,17 +72,17 @@ const OrdersPage = () => {
                                                 to='/orderdetails'
                                                 state={{ orderID: item.orderID }}
                                             >
-                                            <div className="flex items-center">
-                                                <div className="flex-shrink-0 w-10 h-10">
-                                                    <img className="w-full h-full rounded-full"
-                                                        src={imageShop}
-                                                        alt="" />
-                                                </div>
-                                                <div className="ml-3">
-                                                    <p className="text-gray-900 whitespace-no-wrap">
-                                                        {item.productsString}
-                                                    </p>
-                                                </div>
+                                                <div className="flex items-center">
+                                                    <div className="flex-shrink-0 w-10 h-10">
+                                                        <img className="w-full h-full rounded-full"
+                                                            src={imageShop}
+                                                            alt="" />
+                                                    </div>
+                                                    <div className="ml-3">
+                                                        <p className="text-gray-900 whitespace-no-wrap">
+                                                            {item.productsString}
+                                                        </p>
+                                                    </div>
                                                 </div>
                                             </Link>
                                         </td>
@@ -92,7 +91,7 @@ const OrdersPage = () => {
                                                 to='/orderdetails'
                                                 state={{ orderID: item.orderID }}
                                             >
-                                            <p className="text-gray-900 whitespace-no-wrap">
+                                                <p className="text-gray-900 whitespace-no-wrap">
                                                     {item.orderID}</p>
                                             </Link>
                                         </td>
@@ -101,8 +100,8 @@ const OrdersPage = () => {
                                                 to='/orderdetails'
                                                 state={{ orderID: item.orderID }}
                                             >
-                                            <p className="text-gray-900 whitespace-no-wrap">
-                                                {item.dateTime.slice(0, 10)}
+                                                <p className="text-gray-900 whitespace-no-wrap">
+                                                    {item.dateTime.slice(0, 10)}
                                                 </p>
                                             </Link>
                                         </td>
@@ -111,11 +110,11 @@ const OrdersPage = () => {
                                                 to='/orderdetails'
                                                 state={{ orderID: item.orderID }}
                                             >
-                                            <span
-                                                className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                                <span aria-hidden
-                                                    className="absolute inset-0 bg-greenLight opacity-50 rounded-full"></span>
-                                                <span className="relative">{item.status}</span>
+                                                <span
+                                                    className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                                    <span aria-hidden
+                                                        className="absolute inset-0 bg-greenLight opacity-50 rounded-full"></span>
+                                                    <span className="relative">{item.status}</span>
                                                 </span>
                                             </Link>
                                         </td>

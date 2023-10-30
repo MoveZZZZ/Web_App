@@ -77,7 +77,7 @@ const SignUpPage = () => {
     }
     useEffect(() => {
         setTimeout(() => setIsLoading(false), 1000);
-    },[])
+    }, [])
     return (
         <>
             {isLoading ?

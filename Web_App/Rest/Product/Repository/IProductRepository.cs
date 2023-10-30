@@ -10,6 +10,6 @@ namespace Web_App.Rest.Product.Repository
         public ProductModel getProductByID(int id);
         public List<ProductModel> getProductsListSearch(string str);
         public void updateProdcutCount(int orderCountProduct, int productID);
-        public void updateProduct (ProductModel model);
+        public void updateProduct(ProductModel model);
     }
 }
