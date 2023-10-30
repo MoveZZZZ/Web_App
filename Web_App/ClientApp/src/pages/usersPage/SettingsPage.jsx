@@ -13,6 +13,8 @@ import { logoutCookieCleanUp } from '../../utils/AuthenticationLogic';
 
 const SettingsPage = () => {
 
+    const allowedFileExtensions = ['jpg', 'jpeg', 'png'];
+
     const [modalLoginChangeVisability, setModalLoginChangeVisability] = useState(false)
     const [modalEmailChangeVisability, setModalEmailChangeVisability] = useState(false)
     const [modalPasswordChangeVisability, setModalPasswordChangeVisability] = useState(false)
@@ -29,8 +31,8 @@ const SettingsPage = () => {
     const [responseMessage, setResponseMessage] = useState("");
 
     const getInitialFormData = () => ({
-            userid: userID,
-            Image: null,
+        userid: userID,
+        Image: null,
     });
     const [formData, setFormData] = useState(getInitialFormData());
     const handleImageChange = (e) => {
@@ -38,6 +40,8 @@ const SettingsPage = () => {
             ...prevData,
             Image: e.target.files[0],
         }));
+
+
     };
 
     const togglePasswordVisibility = () => {
@@ -55,19 +59,55 @@ const SettingsPage = () => {
     });
     const [formDataChange, setFormDataChange] = useState(getInitialFormDataChange());
 
-    const changeAvatar = async (e) => {
-        if (formData.Image) {
-            await fetchUpdatePhotoUser(formData);
-            setFormData(getInitialFormData());
-            uploadUserData();
-            setMessage("You avatar successfully added!")
-            getMessage();
+    const checkImageSize = () => {
+        if (formData.Image && formData.Image.size > 5 * 1024 * 1024) {
+            return false;
         }
-        else {
+        return true;
+    }
+    const checkImageFormat = () => {
+        if (formData.Image) {
+            const fileExtension = formData.Image.name.split('.').pop().toLowerCase();
+            if (!allowedFileExtensions.includes(fileExtension)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    const changeAvatar = async (e) => {
+        if (formData.Image && checkImageSize() && checkImageFormat()) {
+            const a = await fetchUpdatePhotoUser(formData);
+            if (a.message === "Ok") {
+                setFormData(getInitialFormData());
+                uploadUserData();
+                setMessage("You avatar successfully added!")
+                getMessage();
+            }
+            else {
+                setFormData(getInitialFormData());
+                setMessage("Bad file format!");
+                getErrorMessage();
+            }
+           
+        }
+        else if (!checkImageSize()) {
+            formData.Image = null;
+            setMessage("You image is too long!");
+            getErrorMessage();
+        }
+        else if (!checkImageFormat())
+        {
+            formData.Image = null;
+            setMessage("The image is in a bad format!");
+            getErrorMessage();
+        }
+        else
+        {
             setMessage("Choise avatar, please!")
             getErrorMessage();
         }
-       
+
     };
     const handleInputChange = async (e) => {
         const { name, value, type } = e.target;
@@ -113,7 +153,7 @@ const SettingsPage = () => {
             setFormDataChange(getInitialFormDataChange());
             isSuccessChangeEmail(response.message);
         }
-        else 
+        else
             setResponseMessage("Write data!");
     }
     const isSuccessChangePassword = (message) => {
@@ -144,7 +184,7 @@ const SettingsPage = () => {
             setMessage(message)
             getMessage();
             logoutCookieCleanUp();
-            setTimeout(() => 
+            setTimeout(() =>
                 window.open("/", "_self"), 4000)
         }
         else {
@@ -231,12 +271,12 @@ const SettingsPage = () => {
                     <h1 className="text-2xl font-bold text-center hover:text-primary-300 ease-in-out duration-300 mt-20">Settings</h1>
                     <section className="border-primary-500  flex items-center justify-center ">
                         <div className="bg-primary-100 p-5 flex rounded-xl shadow-lg max-w-3xl m-20">
-                            <div class="w-5/12">
+                            <div className="w-5/12">
                                 <p className="text-primary-300 text-xl flex justify-center">Profile photo:</p>
                                 <img
                                     src={`data:image/jpeg;base64,${userProfile.photo.toString('base64')}`}
                                     className="rounded-2xl w-[240px] h-[220px] my-5"
-                                        alt="photoprofile" />
+                                    alt="photoprofile" />
                                 <label htmlFor="Image" className="block text-sm font-medium text-primary-300 mx-2">
                                     Change photo
                                 </label>
@@ -256,24 +296,24 @@ const SettingsPage = () => {
                             </div>
                             <div className="w-1/2 ml-10">
                                 <p className="text-primary-300 text-xl flex justify-center mb-10">Global info:</p>
-                                <div class="border-b border-primary-200 flex-col flex justify-between items-start w-11/12 pb-3 m-5 hover:scale-105 duration-300 cursor-pointer ">
-                                    <div class="w-full flex flex-col justify-start items-center space-y-2">
-                                        <a class="text-sm font-semibold leading-2 text-primary-400 hover:text-secondary" onClick={() => setModalLoginChangeVisability(true)}>Change Login ({userProfile.login})</a>
+                                <div className="border-b border-primary-200 flex-col flex justify-between items-start w-11/12 pb-3 m-5 hover:scale-105 duration-300 cursor-pointer ">
+                                    <div className="w-full flex flex-col justify-start items-center space-y-2">
+                                        <a className="text-sm font-semibold leading-2 text-primary-400 hover:text-secondary" onClick={() => setModalLoginChangeVisability(true)}>Change Login ({userProfile.login})</a>
                                     </div>
                                 </div>
-                                <div class="border-b border-primary-200 flex-col flex justify-between items-start w-11/12 pb-3 m-5 hover:scale-105 duration-300 cursor-pointer">
-                                    <div class="w-full flex flex-col justify-start items-center space-y-2">
-                                        <a class="text-sm font-semibold leading-2 text-primary-400 hover:text-secondary" onClick={() => setModalEmailChangeVisability(true)}>Change Email ({userProfile.mail})</a>
+                                <div className="border-b border-primary-200 flex-col flex justify-between items-start w-11/12 pb-3 m-5 hover:scale-105 duration-300 cursor-pointer">
+                                    <div className="w-full flex flex-col justify-start items-center space-y-2">
+                                        <a className="text-sm font-semibold leading-2 text-primary-400 hover:text-secondary" onClick={() => setModalEmailChangeVisability(true)}>Change Email ({userProfile.mail})</a>
                                     </div>
                                 </div>
-                                <div class="border-b border-primary-200 flex-col flex justify-between items-start w-11/12 pb-3 m-5 hover:scale-105 duration-300 cursor-pointer">
-                                    <div class="w-full flex flex-col justify-start items-center space-y-2">
-                                        <a class="text-sm font-semibold leading-2 text-primary-400 hover:text-secondary" onClick={() => setModalPasswordChangeVisability(true)}>Change password</a>
+                                <div className="border-b border-primary-200 flex-col flex justify-between items-start w-11/12 pb-3 m-5 hover:scale-105 duration-300 cursor-pointer">
+                                    <div className="w-full flex flex-col justify-start items-center space-y-2">
+                                        <a className="text-sm font-semibold leading-2 text-primary-400 hover:text-secondary" onClick={() => setModalPasswordChangeVisability(true)}>Change password</a>
                                     </div>
                                 </div>
-                                <div class="border-b border-primary-200 flex-col flex justify-between items-start w-11/12 pb-3 m-5 hover:scale-105 duration-300 cursor-pointer">
-                                    <div class="w-full flex flex-col justify-start items-center space-y-2">
-                                        <a class="text-sm font-semibold leading-2 text-primary-400 hover:text-secondary" onClick={() => setModalDeleteAccountVisability(true)}>Remove account</a>
+                                <div className="border-b border-primary-200 flex-col flex justify-between items-start w-11/12 pb-3 m-5 hover:scale-105 duration-300 cursor-pointer">
+                                    <div className="w-full flex flex-col justify-start items-center space-y-2">
+                                        <a className="text-sm font-semibold leading-2 text-primary-400 hover:text-secondary" onClick={() => setModalDeleteAccountVisability(true)}>Remove account</a>
                                     </div>
                                 </div>
 
@@ -443,9 +483,9 @@ const SettingsPage = () => {
 
                 </div>
             }
-            </>
+        </>
 
-    
+
     );
 
 };

@@ -9,5 +9,8 @@
         public string OrderComment { get; set; }
         public int AccessPointID { get; set; }
         public double Cost { get; set; }
+        public string ClientName { get; set; }
+        public string ClientLastName { get; set; }
+        public string Phone {  get; set; }
     }
 }

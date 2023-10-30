@@ -6,17 +6,27 @@ const ForgotPasswordPreResetPage = () => {
     const [email, setEmail] = useState('');
     const [errMsg, setErr] = useState('');
 
+    const checkMailLenght = () => {
+        if (email.length > 128)
+            return false;
+        return true;
+    }
+
+
     const handlePreReset = (e) => {
         e.preventDefault();
-        preresetpass(email);
-        setErr("If user with this email address exists, email with recovery link were sent!")
-        setEmail("");
+        if (checkMailLenght()) {
+            preresetpass(email);
+            setErr("If user with this email address exists, email with recovery link were sent!")
+            setEmail("");
+        }
+        setErr("Email has to long!");
     };
 
     return (
-        <section class="border-primary-500  flex items-center justify-center">
-            <div class="bg-primary-100 p-5 flex rounded-xl shadow-lg max-w-6xl m-28">
-                <div class="w-1/2 md:block hidden ">
+        <section className="border-primary-500  flex items-center justify-center">
+            <div className="bg-primary-100 p-5 flex rounded-xl shadow-lg max-w-6xl m-28">
+                <div className="w-1/2 md:block hidden ">
                     <img
                         src={Spooky}
                         className="rounded-2xl w-[400px] h-auto object-cover"
@@ -25,8 +35,8 @@ const ForgotPasswordPreResetPage = () => {
                 <div className="md:w-1/2 px-3  space-y-4">
                     <h2 className="text-2xl font-bold text-primary-300 flex justify-center">Password Reset Page</h2>
                     <form className="mt-3">
-                        <div class="mt-3">
-                            <label class="block text-primary-700">Email</label>
+                        <div className="mt-3">
+                            <label className="block text-primary-700">Email</label>
                             <input
                                 id="email"
                                 name="email"
@@ -44,21 +54,21 @@ const ForgotPasswordPreResetPage = () => {
                             className="w-full block bg-primary-300 hover:bg-primary-200 duration-200 focus:bg-blue-400 text-primary-600 font-semibold rounded-lg px-4 py-3 mt-4"
                             onClick={handlePreReset}>Send Reset Email</button>
                     </form>
-                    <div class="mt-7 grid grid-cols-3 items-center text-gray-500">
-                        <hr class="border-secondary" />
-                        <p class="text-center text-sm text-secondary">OR</p>
-                        <hr class="border-secondary" />
+                    <div className="mt-7 grid grid-cols-3 items-center text-gray-500">
+                        <hr className="border-secondary" />
+                        <p className="text-center text-sm text-secondary">OR</p>
+                        <hr className="border-secondary" />
                     </div>
-                    <div class="text-sm flex justify-between items-center mt-3 text-left">
+                    <div className="text-sm flex justify-between items-center mt-3 text-left">
                         <p>If yor remembered password</p>
                         <a href="/login" >
-                            <button class="py-2 px-5 ml-3 bg-primary-100 border rounded-xl hover:scale-110 duration-300 border-primary-300  ">Login</button>
+                            <button className="py-2 px-5 ml-3 bg-primary-100 border rounded-xl hover:scale-110 duration-300 border-primary-300  ">Login</button>
                         </a>
                     </div>
-                    <div class="text-sm flex justify-between items-center mt-3 text-left">
+                    <div className="text-sm flex justify-between items-center mt-3 text-left">
                         <p>If you don't have an account...</p>
                         <a href="/signup" >
-                            <button class="py-2 px-5 ml-3 bg-primary-100 border rounded-xl hover:scale-110 duration-300 border-primary-300  ">Register</button>
+                            <button className="py-2 px-5 ml-3 bg-primary-100 border rounded-xl hover:scale-110 duration-300 border-primary-300  ">Register</button>
                         </a>
                     </div>
                 </div>

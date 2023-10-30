@@ -91,9 +91,9 @@ const SignUpPage = () => {
                         :
                         <></>
                     }
-                    <section class="border-primary-500  flex items-center justify-center">
-                        <div class="bg-primary-100 p-5 flex rounded-xl shadow-lg max-w-4xl m-28">
-                            <div class="w-1/2 md:block hidden ">
+                    <section className="border-primary-500  flex items-center justify-center">
+                        <div className="bg-primary-100 p-5 flex rounded-xl shadow-lg max-w-4xl m-28">
+                            <div className="w-1/2 md:block hidden ">
                                 <img
                                     src={liveMaggotReaction}
                                     className="rounded-2xl w-full h-auto object-cover"
@@ -103,7 +103,7 @@ const SignUpPage = () => {
                                 <h2 className="text-2xl font-bold text-primary-300 ">Sign Up</h2>
                                 <form className="mt-3">
                                     <div>
-                                        <label class="block text-primary-700">Username</label>
+                                        <label className="block text-primary-700">Username</label>
                                         <input
                                             id="username"
                                             name="username"
@@ -115,8 +115,8 @@ const SignUpPage = () => {
                                             className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none"
                                             placeholder="Username*" />
                                     </div>
-                                    <div class="mt-3">
-                                        <label class="block text-primary-700">Email</label>
+                                    <div className="mt-3">
+                                        <label className="block text-primary-700">Email</label>
                                         <input
                                             id="email"
                                             name="email"
@@ -151,7 +151,7 @@ const SignUpPage = () => {
                                         </div>
                                     </div>
                                     <PasswordStrengthBar password={passwordUser} />
-                                    <div class="mt-3">
+                                    <div className="mt-3">
                                         <label className="block text-primary-700">Password Confirmation</label>
                                         <input
                                             id="passwordConf"
@@ -171,15 +171,15 @@ const SignUpPage = () => {
                                         onClick={handleSignUp}>Create Account</button>
                                     <ReCAPTCHA sitekey="6LcT39soAAAAAGvtx4Pt61bzVpNEYHZXdcvJAo7t" ref={recaptcha} className="flex justify-center" />
                                 </form>
-                                <div class="mt-3 grid grid-cols-3 items-center text-gray-500">
-                                    <hr class="border-secondary" />
-                                    <p class="text-center text-sm text-secondary">OR</p>
-                                    <hr class="border-secondary" />
+                                <div className="mt-3 grid grid-cols-3 items-center text-gray-500">
+                                    <hr className="border-secondary" />
+                                    <p className="text-center text-sm text-secondary">OR</p>
+                                    <hr className="border-secondary" />
                                 </div>
-                                <div class="text-sm flex justify-between items-center text-left">
+                                <div className="text-sm flex justify-between items-center text-left">
                                     <p>Already have an account?</p>
                                     <a href="/login" >
-                                        <button class="py-2 px-5 ml-3 bg-primary-100 border rounded-xl hover:scale-110 duration-300 border-primary-300  ">Log In</button>
+                                        <button className="py-2 px-5 ml-3 bg-primary-100 border rounded-xl hover:scale-110 duration-300 border-primary-300  ">Log In</button>
                                     </a>
                                 </div>
                             </div>
