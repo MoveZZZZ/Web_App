@@ -5,16 +5,19 @@ using static System.Net.Mime.MediaTypeNames;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.Formats.Jpeg;
+using Web_App.Rest.User.Services;
 
 namespace Web_App.Rest.Product.Service
 {
     public class ProductService
     {
         private IProductRepository _productRepository;
+        private UserService _userService;
 
-        public ProductService()
+        public ProductService(IConfiguration _configuration)
         {
             _productRepository = new ProductRepository();
+            _userService = new UserService(_configuration);
         }
 
         public int countTotalPages(int pageSize)
@@ -42,6 +45,22 @@ namespace Web_App.Rest.Product.Service
                 .ToList();
             return paginatedProduct;
         }
+
+        public string validateProductData(ProductRequestModel model)
+        {
+            if (model.Name.Length > 128)
+                return "Name has to long!";
+            if (model.Description.Length > 16777215)
+                return "Description has to long!";
+            if (!_userService.IsAllowedFileType(model.Image))
+                return "Bad image fromat!";
+            if (model.Count <= 0)
+                return "Bad count value!";
+            if (model.Cost <= 0)
+                return "Bad cost value!";
+            return "";
+        }
+
 
         public ProductModel createDBModelProduct(ProductRequestModel model)
         {

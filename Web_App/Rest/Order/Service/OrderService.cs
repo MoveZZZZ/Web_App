@@ -1,4 +1,5 @@
 ﻿using MySqlX.XDevAPI;
+using System.Text.RegularExpressions;
 using Web_App.Rest.Cart.Services;
 using Web_App.Rest.Order.Model;
 using Web_App.Rest.Order.Repository;
@@ -19,9 +20,9 @@ namespace Web_App.Rest.Order.Service
         {
             _orderRepository = new OrderRepository();
             _orderModel = new OrderModel();
-            _productService = new ProductService();
+            _productService = new ProductService(configuration);
             _cartService = new CartService();
-            _userService = new UserService(configuration);   
+            _userService = new UserService(configuration);
         }
 
         public void fillModel(OrderRequestModel orderRequestModel)
@@ -31,6 +32,9 @@ namespace Web_App.Rest.Order.Service
             _orderModel.OrderComment = orderRequestModel.Ordercom;
             _orderModel.AccessPointID = orderRequestModel.AccessPointId;
             _orderModel.Cost = orderRequestModel.Cost;
+            _orderModel.ClientName = orderRequestModel.ClientName;
+            _orderModel.ClientLastName = orderRequestModel.ClientLastName;
+            _orderModel.Phone = orderRequestModel.Phone;
             if (orderRequestModel.PaymentMethod == "Card")
             {
                 _orderModel.Status = "Payment";
@@ -39,10 +43,54 @@ namespace Web_App.Rest.Order.Service
                 _orderModel.Status = "Waiting for payment...";
 
         }
+        private bool checkCommentLenght(string comment)
+        {
+            if (comment.Length > 255)
+                return false;
+            return true;
+        }
+        private bool checkName(string name)
+        {
+            if (name.Length > 128 || name.Length == 0)
+                return false;
+            return true;
+        }
+        private bool checkLastName(string lastName)
+        {
+            if (lastName.Length > 255 || lastName.Length == 0)
+                return false;
+            return true;
+        }
+        private bool checkPhoneNumber(OrderRequestModel model)
+        {
+            model.Phone = model.Phone.Trim()
+                    .Replace(" ", "")
+                    .Replace("-", "")
+                    .Replace("(", "")
+                    .Replace(")", "");
+            return Regex.Match(model.Phone, @"^\+\d{5,15}$").Success;
+        }
+        public string checkDataOrder(OrderRequestModel model)
+        {
+            if (!checkCommentLenght(model.Ordercom))
+                return "Comment is too long!";
+            if (!checkName(model.ClientName))
+                return "Firstname is too long!";
+            if (!checkLastName(model.ClientLastName))
+                return "Lastname is too long!";
+            if (!checkPhoneNumber(model))
+                return "Bad phone number!";
+            return "";
+
+        }
         public void addOrderToDB(OrderRequestModel orderRequestModel)
         {
+
             fillModel(orderRequestModel);
-            _orderModel.OrderID = _orderRepository.addOrderAndGetIndex(orderRequestModel.ClientID, orderRequestModel.Ordercom, orderRequestModel.AccessPointId, orderRequestModel.Cost, _orderModel.Status);
+            _orderModel.OrderID = _orderRepository.addOrderAndGetIndex(orderRequestModel.ClientID, orderRequestModel.Ordercom, orderRequestModel.AccessPointId, 
+                orderRequestModel.Cost, _orderModel.Status, _orderModel.ClientName, _orderModel.ClientLastName, _orderModel.Phone);
+
+
         }
         public void addOrderProductToTable(List<int> countTowarList)
         {
@@ -91,17 +139,17 @@ namespace Web_App.Rest.Order.Service
             _userOrders = _orderRepository.getAllOrdersUser(userID);
             string productStrting;
 
-            for (int i=0; i< _userOrders.Count; i++)
+            for (int i = 0; i < _userOrders.Count; i++)
             {
                 productStrting = "";
                 int j = 0;
                 products = new List<OrderDetailsProductModel>();
                 products = _orderRepository.getAllProductsInOrder(_userOrders[i].OrderID);
-                for(;j<products.Count; j++)
+                for (; j < products.Count; j++)
                 {
                     productStrting = productStrting + ", " + products[j].NameProduct;
                 }
-                _userOrders[i].ProductsString = productStrting.Remove(0,2);
+                _userOrders[i].ProductsString = productStrting.Remove(0, 2);
             }
             return _userOrders;
         }

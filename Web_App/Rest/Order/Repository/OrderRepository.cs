@@ -13,7 +13,7 @@ namespace Web_App.Rest.Order.Repository
 {
     public class OrderRepository : RepositoryBase, IOrderRepository
     {
-        public int addOrderAndGetIndex(int clientID, string comment, int ApID, float cost, string status)
+        public int addOrderAndGetIndex(int clientID, string comment, int ApID, float cost, string status, string name, string lastname, string tel)
         {
             MySqlDataAdapter adapter = new MySqlDataAdapter();
             DataTable table = new DataTable();
@@ -23,13 +23,17 @@ namespace Web_App.Rest.Order.Repository
             {
                 connection.Open();
                 command.Connection = connection;
-                command.CommandText = "INSERT INTO `order`(`user_id`, `status`, `ordercom`, `access_point_id`, `cost`, `order_create`) VALUES (@uid, @status, @com, @apid, @cost, @ocreate); SELECT LAST_INSERT_ID()";
+                command.CommandText = "INSERT INTO `order`(`user_id`, `status`, `ordercom`, `access_point_id`, `cost`, `order_create`, `client_name`, `client_lastname`, `client_phone`) VALUES (@uid, @status, @com, @apid, @cost, @ocreate, @cname, @clastname, @tel); SELECT LAST_INSERT_ID()";
                 command.Parameters.Add("@uid", MySqlDbType.Int32).Value = clientID;
                 command.Parameters.Add("@status", MySqlDbType.String).Value = status;
                 command.Parameters.Add("@com", MySqlDbType.String).Value = comment;
                 command.Parameters.Add("@apid", MySqlDbType.Int32).Value = ApID;
                 command.Parameters.Add("@cost", MySqlDbType.Float).Value = cost;
                 command.Parameters.Add("@ocreate", MySqlDbType.Date).Value = DateTime.UtcNow.Date;
+                command.Parameters.Add("@cname", MySqlDbType.VarChar).Value = name;
+                command.Parameters.Add("@clastname", MySqlDbType.VarChar).Value = lastname;
+                command.Parameters.Add("@tel", MySqlDbType.VarChar).Value = tel;
+
                 adapter.SelectCommand = command;
                 adapter.Fill(table);
                 foreach (DataRow row in table.Rows)
@@ -192,7 +196,7 @@ namespace Web_App.Rest.Order.Repository
             {
                 connection.Open();
                 command.Connection = connection;
-                command.CommandText = "SELECT `order`.status, `order`.cost, access_point.state, access_point.city, access_point.street, access_point.building_num, access_point.post_index FROM `order` JOIN access_point ON `order`.access_point_id=access_point.id WHERE `order`.order_id=@orderid AND `order`.user_id=@userid;";
+                command.CommandText = "SELECT `order`.status, `order`.cost, `order`.client_name, `order`.client_lastname, `order`.client_phone, access_point.state, access_point.city, access_point.street, access_point.building_num, access_point.post_index FROM `order` JOIN access_point ON `order`.access_point_id=access_point.id WHERE `order`.order_id=@orderid AND `order`.user_id=@userid;";
                 command.Parameters.Add("@orderid", MySqlDbType.Int32).Value = orderID;
                 command.Parameters.Add("@userid", MySqlDbType.Int32).Value = clientID;
                 adapter.SelectCommand = command;
@@ -204,6 +208,9 @@ namespace Web_App.Rest.Order.Repository
                 orderModel.OrderID = orderID;
                 orderModel.Status = row["status"].ToString();
                 orderModel.Cost = (float)Convert.ToDouble(row["cost"].ToString());
+                orderModel.ClientName = row["client_name"].ToString();
+                orderModel.ClientLastname = row["client_lastname"].ToString();
+                orderModel.Phones = row["client_phone"].ToString();
                 orderModel.ShopAddress = row["building_num"].ToString() + " " + row["street"].ToString() + " St. "
                     + row["city"].ToString() + " " + row["post_index"].ToString() + " " + row["state"].ToString();
 

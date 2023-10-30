@@ -13,9 +13,9 @@ namespace Web_App.Rest.Product.Controller
     public class ProductsController : ControllerBase
     {
         ProductService _productService;
-        public ProductsController()
+        public ProductsController(IConfiguration _configuration)
         {
-            _productService = new ProductService();
+            _productService = new ProductService(_configuration);
         }
 
         [HttpGet]
@@ -47,10 +47,15 @@ namespace Web_App.Rest.Product.Controller
         [Route("addproduct")]
         public IActionResult AddProduct([FromForm] ProductRequestModel model)
         {
+            string msg = _productService.validateProductData(model);
+            if ( msg != "")
+            {
+                return Ok(new { message = msg });
+            }
             ProductModel modelBase = new ProductModel();
             modelBase = _productService.createDBModelProduct(model);
             _productService.addTowar(modelBase);
-            return Ok();
+            return Ok(new {message = ""});
         }
 
         [HttpPost]

@@ -46,6 +46,10 @@ const ShoppingCartPage = () => {
 
 
     const [orderComment, setOrderComment] = useState("");
+    const [userName, setUserName] = useState("");
+    const [userLastname, setUserLastname] = useState("");
+    const [userPhone, setUserPhone] = useState("");
+    const [isCheckedTerms, setIsCheckedTerms] = useState(false);
 
     const [paymentMethod, setPaymentMethod] = useState("Card");
 
@@ -111,30 +115,43 @@ const ShoppingCartPage = () => {
         }
 
     };
+    const handleChangeTerms = () => {
+        setIsCheckedTerms(!isCheckedTerms);
+    };
     const createOrder = () => {
 
         if (selectedItemList &&
-            choisedAP && !isCreated
+            choisedAP && !isCreated && userName && userLastname && userPhone && isCheckedTerms
         ) {
-            setIsCreated(true);
-            fetchCreateOrder(userID, selectedItemList, selectedItemCountList, totalOrderSum, orderComment, choisedAP.id, paymentMethod)
+            fetchCreateOrder(userID, selectedItemList, selectedItemCountList, totalOrderSum, orderComment, choisedAP.id, paymentMethod, userName, userLastname, userPhone)
                 .then((data) => {
-                    setTimeout(() => {
-                        window.open("/orders", "_self");
+                    if (data.message !== "") {
+                        setMessage(data.message);
+                        getErrorMessage();
+                    }
+                    else {
+                        setIsCreated(true);
+                        setTimeout(() => {
+                            window.open("/orders", "_self");
 
-                        setIsLoading(false);
-                    }, 2000);
-
+                            setIsLoading(false);
+                        }, 2000);
+                        setMessage("Your order successefely added!")
+                        getMessage();
+                    }
                 })
                 .catch(() => {
                     setMessage("Bad data loading");
                     getErrorMessage();
                 })
-            setMessage("Your order successefely added!")
-            getMessage();
+
         }
         else if (!choisedAP) {
             setMessage("Choise addres!")
+            getErrorMessage();
+        }
+        else if (!isCheckedTerms) {
+            setMessage("Accept terms!")
             getErrorMessage();
         }
     };
@@ -151,6 +168,10 @@ const ShoppingCartPage = () => {
         setCitysList([]);
         setAccesspointsList([]);
         setChoisedAP(null);
+        setIsCheckedTerms(false);
+        setUserName("");
+        setUserLastname("");
+        setUserPhone("");
 
     };
     const toggleSelect = (itemId, sum, itemCount) => {
@@ -242,40 +263,40 @@ const ShoppingCartPage = () => {
                         <ErrorMessage param={message} />
                         :
                         <></>}
-                    <div class="bg-white rounded-md w-auto-full align-20[px] ">
-                        <div class=" flex items-center justify-center">
+                    <div className="bg-white rounded-md w-auto-full align-20[px] ">
+                        <div className=" flex items-center justify-center">
                             <div >
-                                <h2 class="text-gray-600 font-semibold">Cart</h2>
+                                <h2 className="text-gray-600 font-semibold">Cart</h2>
                             </div>
                         </div>
                         <div className="flex justify-center items-center">
-                            <div class="-mx-4 sm:-mx-8 px-4 sm:px-4 py-4 overflow-x-auto">
+                            <div className="-mx-4 sm:-mx-8 px-4 sm:px-4 py-4 overflow-x-auto">
                                 <div className="inline-block min-w-full shadow rounded-lg overflow-hidden ">
-                                    <table class="min-w-full leading-normal ">
+                                    <table className="min-w-full leading-normal ">
                                         <thead>
                                             <tr>
                                                 <th
-                                                    class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    className="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                     Product
                                                 </th>
                                                 <th
-                                                    class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    className="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                     Name
                                                 </th>
                                                 <th
-                                                    class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    className="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                     Price
                                                 </th>
                                                 <th
-                                                    class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    className="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                     Count
                                                 </th>
                                                 <th
-                                                    class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    className="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                     Total
                                                 </th>
                                                 <th
-                                                    class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    className="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                     Option
                                                 </th>
                                             </tr>
@@ -284,7 +305,7 @@ const ShoppingCartPage = () => {
                                             {cartItems.map((item) => (
                                                 <tr key={item.towarID} className="hover:hover:bg-lightgrey cursor-pointer">
                                                     <td className="px-5 py-5 border-b border-primary-200 bg-white text-xl">
-                                                        <div class="flex-shrink-0 w-20 h-20">
+                                                        <div className="flex-shrink-0 w-20 h-20">
                                                             <Link to={`/product/${item.towarID}`}>
                                                                 <img
                                                                     src={`data:image/jpeg;base64,${item.image.toString('base64')}`}
@@ -339,25 +360,25 @@ const ShoppingCartPage = () => {
                                     </div>
 
                                     <div className="flex justify-center items-center">
-                                        <div class="-mx-4 sm:-mx-8 px-4 sm:px-4 py-4 overflow-x-auto">
+                                        <div className="-mx-4 sm:-mx-8 px-4 sm:px-4 py-4 overflow-x-auto">
                                             <div className="inline-block min-w-full shadow rounded-lg overflow-hidden ">
                                                 <table className="min-w-full leading-normal">
                                                     <thead>
                                                         <tr>
                                                             <th
-                                                                class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                className="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                                 Title
                                                             </th>
                                                             <th
-                                                                class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                className="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                                 Price
                                                             </th>
                                                             <th
-                                                                class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                className="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                                 Count
                                                             </th>
                                                             <th
-                                                                class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                                className="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                                 Total
                                                             </th>
 
@@ -432,25 +453,66 @@ const ShoppingCartPage = () => {
                                                 <></>
                                             )}
                                     </div>
-                                    {choisedAP &&
-                                        <div className="flex justify-center mt-5 text-xl max-sm:text-sm font-bold">
-                                            <p>Full addres shop:</p>
-                                            <h1 className="ml-5 text-">{choisedAP.buildingNumber} {choisedAP.street} St, {choisedAP.city}, {choisedAP.postIndex}, {choisedAP.state}</h1>
+                                    <div className="grid grid-cols-3 flex justify-center items-between mt-5">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 text-center">Write you firstname*</label>
+                                            <input
+                                                id="firstname"
+                                                    name="firstname"
+                                                    value={userName}
+                                                type="text"
+                                                autoComplete="firstname"
+                                                onChange={(e) => setUserName(e.target.value)}
+                                                required
+                                                placeholder="Your name"
+                                                className="w-11/12 px-4 py-3 mx-2 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none"
+                                            />
                                         </div>
-                                    }
-                                    <div className="flex justify-center">
-                                        <input
-                                            id="uname"
-                                            name="uname"
-                                            value={orderComment}
-                                            type="uname"
-                                            autoComplete="uname"
-                                            onChange={(e) => setOrderComment(e.target.value)}
-                                            required
-                                            placeholder="Write comment to your order"
-                                            className="w-1/2 px-4 py-3 rounded-lg bg-primary-100 mt-5 border focus:border-secondary focus:bg-primary-100 focus:outline-none"
-                                        />
-                                    </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 text-center">Write you lastname*</label>
+                                            <input
+                                                id="lastname"
+                                                    name="lastname"
+                                                    value={userLastname}
+                                                type="text"
+                                                autoComplete="lastname"
+                                                onChange={(e) => setUserLastname(e.target.value)}
+                                                required
+                                                placeholder="Your lastname"
+                                                className="w-11/12 px-4 py-3 mx-2 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 text-center">Write you phone number*</label>
+                                            <input
+                                                id="lastname"
+                                                    name="lastname"
+                                                    value={userPhone}
+                                                type="text"
+                                                autoComplete="lastname"
+                                                onChange={(e) => setUserPhone(e.target.value)}
+                                                required
+                                                placeholder="Your phone"
+                                                className="w-11/12 px-4 py-3 mx-2 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none"
+                                            />
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-center mt-5">
+                                            <div className="w-1/2">
+                                            <label className="block text-sm font-medium text-gray-700 text-center">Write you comment</label>
+                                            <input
+                                                id="uname"
+                                                name="uname"
+                                                value={orderComment}
+                                                type="text"
+                                                autoComplete="uname"
+                                                onChange={(e) => setOrderComment(e.target.value)}
+                                                required
+                                                placeholder="Write comment to your order"
+                                                className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none"
+                                                />
+                                            </div>
+                                        </div>
                                     <p className="flex justify-end mt-2">Payment method:</p>
                                     <div className="flex justify-end">
                                         <select className="w-40 px-4 py-2 text-primary-400 bg-white border rounded-md
@@ -459,9 +521,42 @@ const ShoppingCartPage = () => {
                                             <option key="Card">Card</option>
                                             <option key="Cash">Cash</option>
                                         </select>
-                                    </div>
-                                    <p className="flex justify-end text-xl">Total sum: ${totalOrderSum}</p>
-                                    <div className="flex justify-end">
+                                        </div>
+                                        {userName && userLastname && userPhone.length>9 ?
+                                            <>
+                                             <div className="relative flex py-5 items-center">
+                                            <div className="flex-grow border-t border-primary-400"></div>
+                                            <span className="flex-shrink mx-4 text-primary-400">Order summary</span>
+                                            <div className="flex-grow border-t border-primary-400"></div>
+                                        </div>
+                                        <div className="w-full flex justify-center">
+                                            <div className="grid grot-cols-3 flex justify-center items-center w-1/2">
+                                                {choisedAP &&
+                                                    <div className="flex justify-center mt-5 text-xl max-sm:text-sm font-bold">
+                                                        <p>Full addres shop:</p>
+                                                        <h1 className="ml-5">{choisedAP.buildingNumber} {choisedAP.street} St, {choisedAP.city}, {choisedAP.postIndex}, {choisedAP.state}</h1>
+                                                    </div>
+                                                }
+                                                <div className="flex justify-center mt-5 text-xl max-sm:text-sm font-bold">
+                                                    <p>Client data:</p>
+                                                    <h1 className="ml-5">{userName} {userLastname}, phone: {userPhone}</h1>
+                                                </div>
+                                                <div className="flex justify-center mt-5 text-xl max-sm:text-sm font-bold">
+                                                    <p>Total sum:</p>
+                                                    <h1 className="ml-5">${totalOrderSum}</h1>
+                                                        </div>
+                                                        <label className="block text-xl font-medium text-gray-700 text-center m-5"> Accept terms
+                                                            <input className="ml-5"
+                                                                type="checkbox"
+                                                                checked={isCheckedTerms}
+                                                                onChange={handleChangeTerms}
+                                                            />
+
+                                                        </label>
+                                            </div>
+
+                                        </div>
+                                    <div className="flex justify-center">
                                         <button
                                             onClick={createOrder}
                                             className="bg-primary-500 text-primary-100 px-6 py-2 rounded hover:bg-secondary"
@@ -476,6 +571,10 @@ const ShoppingCartPage = () => {
                                         </button>
 
                                     </div>
+                                    </>
+                                    : null
+                                        }
+                                       
                                 </div>
                             </>
 
