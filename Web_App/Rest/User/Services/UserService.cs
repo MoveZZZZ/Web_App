@@ -7,6 +7,9 @@ using Web_App.Rest.User.Repositories;
 using MimeDetective;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using System.Security.Cryptography;
+using System.Text;
+using System;
 
 namespace Web_App.Rest.User.Services
 {
@@ -105,6 +108,23 @@ namespace Web_App.Rest.User.Services
             _mailSendingService.SendMailByUserAuthDataChange(_userModelBase.Email, "USERNAME");
             return "Login successfully changed";
         }
+        private string gennerateUID(string password, string email)
+        {
+            Random rand = new Random();
+            int payload = rand.Next(1000000, 9999999);
+            string mergedData = password + Convert.ToString(payload) + email;
+            using (SHA512 sha512 = SHA512.Create())
+            {
+                byte[] inputBytes = Encoding.UTF8.GetBytes(mergedData);
+                byte[] hashBytes = sha512.ComputeHash(inputBytes);
+                StringBuilder hashBuilder = new StringBuilder(hashBytes.Length * 2);
+                foreach (byte b in hashBytes)
+                {
+                    hashBuilder.AppendFormat("{0:x2}", b);
+                }
+                return hashBuilder.ToString();
+            }
+        }
         public string changeEmailByID(ModifyUserRequestModel _modelRequest)
         {
             UserModel _userModelBase = new UserModel();
@@ -115,10 +135,27 @@ namespace Web_App.Rest.User.Services
             if (!verifyPasswords(_modelRequest.Password, _userModelBase.Password))
                 return "Bad password!";
 
-            _mailSendingService.SendMailByUserAuthDataChange(_userModelBase.Email, "EMAIL");
-            _userRepository.changeEmailNameByID(_modelRequest.UserID, _modelRequest.Email);
-            return "Email successfully changed";
+            string UID = gennerateUID(_userModelBase.Password, _modelRequest.Email);
+            _userRepository.addUIDInTable(_modelRequest.UserID, _modelRequest.Email, UID);
+
+
+            _mailSendingService.SendMailWithEmailVerifyAfterChange(_modelRequest.Email, UID);
+
+            return "Verification link has ben send, check email!";
         }
+        public string ChangeEmail(string uid)
+        {
+            if(_userRepository.isUIDExist(uid))
+            {
+                string mail = _userRepository.getEmailViaUIDAndChangeEmail(uid);
+                _mailSendingService.SendMailByUserAuthDataChange(mail, "EMAIL");
+                return "Ok";
+            }
+            return "Bad token";
+
+        }
+
+
         public string changePasswordByID(ModifyUserRequestModel _modelRequest)
         {
             UserModel _userModelBase = new UserModel();

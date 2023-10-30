@@ -1,7 +1,10 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Google.Protobuf.WellKnownTypes;
+using Microsoft.Extensions.Hosting;
+using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI;
 using MySqlX.XDevAPI.Relational;
 using System.Data;
+using System.Xml.Linq;
 using Web_App.Rest.DataBase.Repositories;
 using Web_App.Rest.User.Models;
 
@@ -166,6 +169,59 @@ namespace Web_App.Rest.User.Repositories
                 ID = Convert.ToInt32(row["id"].ToString());
             }
             return ID;
+        }
+
+        public void addUIDInTable(int userID, string mail, string UID)
+        {
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "INSERT INTO `change_email` (`user_id`, `uid`, `new_email`, `time_stamp`) VALUES (@id, @uid, @mail, NOW())";
+                command.Parameters.Add("@id", MySqlDbType.Int32).Value = userID;
+                command.Parameters.Add("@uid", MySqlDbType.Text).Value = UID;
+                command.Parameters.Add("@mail", MySqlDbType.VarChar).Value = mail;
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public bool isUIDExist(string uid)
+        {
+            bool isExist;
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "SELECT * FROM change_email WHERE uid=@uid";
+                command.Parameters.Add("@uid", MySqlDbType.Text).Value = uid;
+                isExist = command.ExecuteScalar() == null ? false : true;
+            }
+            return isExist;
+        }
+
+        public string getEmailViaUIDAndChangeEmail(string uid)
+        {
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            DataTable table = new DataTable();
+            string email="";
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "SELECT email FROM user WHERE id=(SELECT user_id FROM `change_email` WHERE uid=@uid);UPDATE user AS dest, (SELECT * FROM `change_email` WHERE `uid`=@uid) AS src SET `dest`.email=`src`.new_email WHERE `dest`.id=`src`.user_id;  DELETE FROM change_email WHERE uid=@uid";
+                command.Parameters.Add("@uid", MySqlDbType.Text).Value = uid;
+                adapter.SelectCommand = command;
+                adapter.Fill(table);
+                foreach (DataRow row in table.Rows)
+                {
+                    email = row["email"].ToString();
+                }
+                connection.Close();
+            }
+            return email;
         }
     }
 }

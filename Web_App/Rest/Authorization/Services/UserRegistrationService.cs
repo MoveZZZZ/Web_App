@@ -208,7 +208,6 @@ namespace Web_App.Rest.Authorization.Services
             {
                 byte[] inputBytes = Encoding.UTF8.GetBytes(mergedData);
                 byte[] hashBytes = sha512.ComputeHash(inputBytes);
-                // Convert the hash to a hexadecimal string
                 StringBuilder hashBuilder = new StringBuilder(hashBytes.Length * 2);
                 foreach (byte b in hashBytes)
                 {

@@ -129,8 +129,8 @@ const OrderDetailsPage = (props) => {
                                         <div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4 xl:mt-8">
                                             <p className="text-base dark:text-white font-semibold leading-4 text-center md:text-left text-gray-800">Shipping Address</p>
                                             <p className="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">{orderDetailData.shopAddress}</p>
-                                            <p className="text-base dark:text-white font-semibold leading-4 text-center md:text-left text-gray-800">Client Data</p>
-                                            <p className="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600 -mt-5">Dear {orderDetailData.clientName} {orderDetailData.clientLastname}, phone: {orderDetailData.phones}</p>
+                                            {/*<p className="text-base dark:text-white font-semibold leading-4 text-center md:text-left text-gray-800">Client Data</p>
+                                            <p className="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600 -mt-5">Dear {orderDetailData.clientName} {orderDetailData.clientLastname}, phone: {orderDetailData.phones}</p>*/}
 
                                         </div>
                                     </div>

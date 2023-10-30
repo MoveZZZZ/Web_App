@@ -82,3 +82,17 @@ export async function fetchUpdateRemoveAccoutUser(formData) {
     });
     return response.json();
 }
+export const fetchVerifyEmailAfterChange = async (uid) => {
+    try {
+        const response = await fetch(`https://localhost:7257/user/verifymail?uid=${uid}`, {
+            method: 'POST',
+        });
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}
