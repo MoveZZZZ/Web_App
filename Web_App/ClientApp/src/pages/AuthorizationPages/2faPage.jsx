@@ -42,6 +42,7 @@ const MFAAuthPage = () => {
             setMessage("You were successfuly verified, redirecting to home page");
             getMessage();
             setTimeout(() => window.open("/", "_self"), 1400);
+            setCode("");
         }
         else {
             setResponseMessage(message);
