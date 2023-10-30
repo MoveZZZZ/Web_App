@@ -58,9 +58,9 @@ namespace Web_App.Rest.Authorization.Services
             string mailOrigin = _configuration["MailService:Origin"];
             string mailAppKey = _configuration["MailService:ApplicationKey"];
             message.From = new MailAddress(mailOrigin);
-            message.Subject = "Your personal data were change";
+            message.Subject = "Your personal data has been changed";
             message.To.Add(new MailAddress(email));
-            message.Body = ("<html><body>Your personal data ("+ subject +") were change, if that was not you, please contact with support</body></html>");
+            message.Body = ("<html><body>Your personal data ("+ subject + ") has been changed, if that was not you, please contact with support</body></html>");
             message.IsBodyHtml = true;
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
@@ -76,9 +76,9 @@ namespace Web_App.Rest.Authorization.Services
             string mailOrigin = _configuration["MailService:Origin"];
             string mailAppKey = _configuration["MailService:ApplicationKey"];
             message.From = new MailAddress(mailOrigin);
-            message.Subject = "Your account were removed";
+            message.Subject = "Your account has been deleted";
             message.To.Add(new MailAddress(email));
-            message.Body = ("<html><body>Your account were successfuly removed, we hope to see you again!</body></html>");
+            message.Body = ("<html><body>Your account has been successfully deleted, we hope to see you again!</body></html>");
             message.IsBodyHtml = true;
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {

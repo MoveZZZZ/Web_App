@@ -19,17 +19,20 @@ const MFAAuthPage = () => {
 
     const handleCodeSubmit = async () => {
         setIsLoading(true);
-        fetchMFAuthCodeSubmit(code, uid)
-            .then((data) => {
-                isCodeSeccessfulySubmited(data.message);
-            })
-            .catch((error) => {
-            })
-            .finally(() => {
-                setTimeout(() => {
-                    setIsLoading(false);
-                }, 500);
-            });
+            if (code === "") {
+                setResponseMessage("Your code is empty!")
+            }
+            else { 
+                    fetchMFAuthCodeSubmit(code, uid)
+                        .then((data) => {
+                                isCodeSeccessfulySubmited(data.message);
+                        })
+                        .catch((error) => {
+                        })
+            }
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 500);
     }
 
     const isCodeSeccessfulySubmited = (message) => {
