@@ -10,31 +10,30 @@ const LoginPage = () => {
     const [errMsg, setErrMsg] = useState('');
     const recaptcha = useRef();
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault()
         const captchaValue = recaptcha.current.getValue();
         if (!captchaValue) {
 
             setErrMsg("Please verify the reCAPTCHA!");
-            
-        } else {
-            login(loginUser, passwordUser)
-                .then((response) => {
-                    if (!response.message) {
-                        // eslint-disable-next-line no-restricted-globals
-                        location.replace("/login");
-                    }
-                    else {
-                        setErrMsg(response.message);
-                        recaptcha.current.reset();
-                    }
-                })
-                .catch((error) => {
-                    setErrMsg("*bad login or password")
-                });
-            setLoginUser("");
-            setPasswordUser("");
+
         }
+        else {
+            let response = await login(loginUser, passwordUser)
+            if (!response.message && !response.uid) {
+                // eslint-disable-next-line no-restricted-globals
+                location.replace("/login");
+            }
+            if (response.uid) {
+                setTimeout(() => window.open("/oauth/"+ response.uid, "_self"), 1000);
+            }
+            else {
+                setErrMsg(response.message);
+                recaptcha.current.reset();
+            }
+        }
+        setLoginUser("");
+        setPasswordUser("");
     }
     return (
         <section class="border-primary-500  flex items-center justify-center">
