@@ -30,7 +30,7 @@ export const fetchRemoveFavoriteItem = (TowarId, ClientID) => {
         body: JSON.stringify({ TowarId, ClientID }),
     };
     return fetchWithAuthentication('https://localhost:7257/favorite/removefavoriteitem', params);
-        
+
 }
 
 export const fetchGetAllClientFavoriteItems = async (clientId) => {

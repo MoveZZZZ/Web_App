@@ -20,7 +20,7 @@ namespace Web_App.Rest.Authorization.Repositories
             {
                 connection.Open();
                 command.Connection = connection;
-                command.CommandText = "INSERT INTO reset_links(uid, user_id, creation_time) SELECT @uid, @id, NOW() WHERE NOT EXISTS(SELECT * FROM reset_links WHERE user_id = @id LIMIT 1)"; 
+                command.CommandText = "INSERT INTO reset_links(uid, user_id, creation_time) SELECT @uid, @id, NOW() WHERE NOT EXISTS(SELECT * FROM reset_links WHERE user_id = @id LIMIT 1)";
                 command.Parameters.Add("@uid", MySqlDbType.Text).Value = uid;
                 command.Parameters.Add("@id", MySqlDbType.Int32).Value = id;
                 //command.Parameters.Add("@time", MySqlDbType.DateTime).Value = DateTime.Now;

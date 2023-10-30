@@ -23,21 +23,22 @@ public class RegistrationController : ControllerBase
         {
             return Unauthorized(new { message = errorMessage });
         }
-        return Ok(new {message = "Ok"});
+        return Ok(new { message = "Ok" });
     }
     [HttpPost]
     [Route("verifymail")]
-    public IActionResult VerifyEmail ([FromQuery] string token) {
+    public IActionResult VerifyEmail([FromQuery] string token)
+    {
 
         string errorMessage = _userRegistrationService.addUserInDBAfterCheck(token);
         if (errorMessage != "")
         {
             return Unauthorized(new { message = errorMessage });
         }
-        return Ok(new {message = "Ok"});
+        return Ok(new { message = "Ok" });
 
 
     }
-    
+
 }
 

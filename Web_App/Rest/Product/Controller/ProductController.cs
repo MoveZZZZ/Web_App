@@ -48,14 +48,14 @@ namespace Web_App.Rest.Product.Controller
         public IActionResult AddProduct([FromForm] ProductRequestModel model)
         {
             string msg = _productService.validateProductData(model);
-            if ( msg != "")
+            if (msg != "")
             {
                 return Ok(new { message = msg });
             }
             ProductModel modelBase = new ProductModel();
             modelBase = _productService.createDBModelProduct(model);
             _productService.addTowar(modelBase);
-            return Ok(new {message = ""});
+            return Ok(new { message = "" });
         }
 
         [HttpPost]

@@ -32,7 +32,7 @@ export async function addProduct(formData) {
     body.append('Name', formData.Name);
     body.append('Description', formData.Description);
     body.append('Cost', formData.Cost.toFixed(2).replace(".", ","));
-    body.append('Count', parseInt(formData.Count,10));
+    body.append('Count', parseInt(formData.Count, 10));
     body.append('Image', formData.Image);
     console.log(body);
     const params = {

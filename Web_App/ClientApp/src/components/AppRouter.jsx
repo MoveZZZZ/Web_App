@@ -13,7 +13,7 @@ import OrdersPage from "../pages/TowarPages/OrdersPage";
 import Spinner from '../components/Spinner/Spinner';
 import OrderDetailsPage from "../pages/TowarPages/OrderDetailsPage";
 import SettingsPage from "../pages/usersPage/SettingsPage";
-import ForgotPasswordPreResetPage from "../pages/AuthorizationPages/PreResetPage"; 
+import ForgotPasswordPreResetPage from "../pages/AuthorizationPages/PreResetPage";
 import ResetPage from "../pages/AuthorizationPages/RecoveryPage";
 import AllOrderPage from "../pages/AdminPage/AllOrdersPage"
 import AdminOrderDetailsPage from "../pages/AdminPage/AdminOrderDetailsPage";
@@ -60,39 +60,39 @@ const AppRouter = () => {
                         path="*"
                         element={<Navigate to="/" />} />
                 </Routes>
-            :
-            <Routes>
-                <Route
-                    element={<HomePage />}
-                    path="/" />
-                <Route
-                    element={< ProductPage />}
-                    path="/product" />
-                <Route
-                    element={<ProductDetail />}
-                    path="/product/:id" />
-                <Route
-                    element={<ShoppingCartPage />}
-                    path="/cart" />
-                <Route
-                    element={<FavoritePage />}
-                    path="/favorite" />
-                <Route
-                    element={<OrdersPage />}
-                    path="/orders" />
-                <Route
-                    element={<OrderDetailsPage />}
-                    path="/orderdetails" />
-              
-                <Route
-                    element={<SettingsPage />}
-                    path="/settings"
-                />
-                <Route
-                    path="*"
-                    element={<Navigate to="/" />} />
+                :
+                <Routes>
+                    <Route
+                        element={<HomePage />}
+                        path="/" />
+                    <Route
+                        element={< ProductPage />}
+                        path="/product" />
+                    <Route
+                        element={<ProductDetail />}
+                        path="/product/:id" />
+                    <Route
+                        element={<ShoppingCartPage />}
+                        path="/cart" />
+                    <Route
+                        element={<FavoritePage />}
+                        path="/favorite" />
+                    <Route
+                        element={<OrdersPage />}
+                        path="/orders" />
+                    <Route
+                        element={<OrderDetailsPage />}
+                        path="/orderdetails" />
 
-            </Routes>
+                    <Route
+                        element={<SettingsPage />}
+                        path="/settings"
+                    />
+                    <Route
+                        path="*"
+                        element={<Navigate to="/" />} />
+
+                </Routes>
             :
             <Routes>
                 <Route
@@ -117,7 +117,7 @@ const AppRouter = () => {
                     element={<ForgotPasswordPreResetPage />}
                     path="/passwordrecovery" />
                 <Route
-                    element={<ResetPage/>}
+                    element={<ResetPage />}
                     path="/recoverypage/:uid" />
                 <Route
                     element={< VerifyEmailPage />}

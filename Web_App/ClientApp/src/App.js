@@ -4,7 +4,7 @@ import { AuthContext, UserIDContext, UserTokenContext, UserRefreshTokenContext, 
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import AppRouter from "./components/AppRouter";
-import { refreshTokens} from "./utils/AuthenticationLogic";
+import { refreshTokens } from "./utils/AuthenticationLogic";
 import { set } from "lodash";
 
 
@@ -20,12 +20,10 @@ const App = () => {
     const [userRefreshToken, setUserRefreshToken] = useState("");
 
     useEffect(() => {
-        const dataLoader = async () => { 
+        const dataLoader = async () => {
             let res = await refreshTokens();
-            if (!res.message)
-            {
-                if (res.userRole === 'ADMIN')
-                {
+            if (!res.message) {
+                if (res.userRole === 'ADMIN') {
                     setIsAdmin(true);
                 }
                 sessionStorage.setItem("ID", res.userID);

@@ -90,7 +90,7 @@ namespace Web_App.Rest.Cart.Repositories
                 connection.Open();
                 command.Connection = connection;
                 command.CommandText = "DELETE FROM cart WHERE user_id=@uid AND products_id=@pid";
-                
+
                 foreach (int tempTowarID in listTowar)
                 {
                     command.Parameters.Add("@uid", MySqlDbType.Int32).Value = userID;
@@ -98,7 +98,7 @@ namespace Web_App.Rest.Cart.Repositories
                     command.ExecuteNonQuery();
                     command.Parameters.Clear();
                 }
-                
+
             }
         }
 

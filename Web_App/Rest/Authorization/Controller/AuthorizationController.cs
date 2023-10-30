@@ -54,7 +54,7 @@ public class AuthorizationController : ControllerBase
             });
             return Ok(_authorizationResponseModel);
         }
-        return Unauthorized(new { message = "bad login or password" });  
+        return Unauthorized(new { message = "bad login or password" });
     }
 
 

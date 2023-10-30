@@ -31,7 +31,7 @@ namespace Web_App.Rest.Favorite.Controller
                 return BadRequest(new { message = "UnAuthorized Attempt to Access Data belong to Other User!" });
             }
             _favoriteService.addToFavorite(model);
-            return Ok(new {message = "Added successfully" });
+            return Ok(new { message = "Added successfully" });
         }
 
         [Authorize]

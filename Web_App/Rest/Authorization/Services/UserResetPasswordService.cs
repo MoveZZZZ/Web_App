@@ -68,7 +68,7 @@ namespace Web_App.Rest.Authorization.Services
                 return hashBuilder.ToString();
             }
         }
-        public string ChangePaswwordUser (string password, string confirm, string uid)
+        public string ChangePaswwordUser(string password, string confirm, string uid)
         {
             if (_userRegistrationService.checkSamePassword(password, confirm))
                 return "Password must be same!";

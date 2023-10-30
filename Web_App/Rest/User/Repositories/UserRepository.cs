@@ -68,7 +68,7 @@ namespace Web_App.Rest.User.Repositories
             }
             return user;
         }
-        public UserModel getDataUser (int userID)
+        public UserModel getDataUser(int userID)
         {
             UserModel user = new UserModel();
             MySqlDataAdapter adapter = new MySqlDataAdapter();

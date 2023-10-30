@@ -1,4 +1,4 @@
-﻿import React, { useState, useContext, useEffect, useRef} from 'react';
+﻿import React, { useState, useContext, useEffect, useRef } from 'react';
 import { login, } from '../../utils/AuthorizationApi';
 import snoopSec from "../../assets/snoopSec.gif";
 import { AuthContext, UserIDContext, UserTokenContext, UserRefreshTokenContext, } from "../../context";
@@ -17,7 +17,7 @@ const LoginPage = () => {
         if (!captchaValue) {
 
             setErrMsg("Please verify the reCAPTCHA!");
-            
+
         } else {
             login(loginUser, passwordUser)
                 .then((response) => {

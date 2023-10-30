@@ -9,7 +9,7 @@ namespace Web_App.Rest.Cart.Controller
 {
     [Route("[controller]")]
     [ApiController]
-    public class CartController:ControllerBase
+    public class CartController : ControllerBase
     {
         CartService _cartService;
         private readonly ITokenService _tokenService;
@@ -30,9 +30,9 @@ namespace Web_App.Rest.Cart.Controller
                 return BadRequest(new { message = "UnAuthorized Attempt to Access Data belong to Other User!" });
             }
             List<CartModelResponse> response = new List<CartModelResponse>();
-            response= _cartService.getCartItem(userID);
+            response = _cartService.getCartItem(userID);
 
-            return Ok( new {Towar = response});
+            return Ok(new { Towar = response });
         }
 
         [Authorize]
@@ -46,8 +46,8 @@ namespace Web_App.Rest.Cart.Controller
                 return BadRequest(new { message = "UnAuthorized Attempt to Access Data belong to Other User!" });
             }
             List<int> response = new List<int>();
-            response=_cartService.getCartIndexesUser(userID);
-            return Ok(new {cartIndexesList = response});
+            response = _cartService.getCartIndexesUser(userID);
+            return Ok(new { cartIndexesList = response });
         }
 
         [Authorize]
@@ -61,7 +61,7 @@ namespace Web_App.Rest.Cart.Controller
                 return BadRequest(new { message = "UnAuthorized Attempt to Access Data belong to Other User!" });
             }
             _cartService.addTowarInCart(model);
-            return Ok(new {message = "zaebis!"});
+            return Ok(new { message = "zaebis!" });
         }
 
         //[Authorize]

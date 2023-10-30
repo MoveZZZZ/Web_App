@@ -458,8 +458,8 @@ const ShoppingCartPage = () => {
                                             <label className="block text-sm font-medium text-gray-700 text-center">Write you firstname*</label>
                                             <input
                                                 id="firstname"
-                                                    name="firstname"
-                                                    value={userName}
+                                                name="firstname"
+                                                value={userName}
                                                 type="text"
                                                 autoComplete="firstname"
                                                 onChange={(e) => setUserName(e.target.value)}
@@ -472,8 +472,8 @@ const ShoppingCartPage = () => {
                                             <label className="block text-sm font-medium text-gray-700 text-center">Write you lastname*</label>
                                             <input
                                                 id="lastname"
-                                                    name="lastname"
-                                                    value={userLastname}
+                                                name="lastname"
+                                                value={userLastname}
                                                 type="text"
                                                 autoComplete="lastname"
                                                 onChange={(e) => setUserLastname(e.target.value)}
@@ -486,8 +486,8 @@ const ShoppingCartPage = () => {
                                             <label className="block text-sm font-medium text-gray-700 text-center">Write you phone number*</label>
                                             <input
                                                 id="lastname"
-                                                    name="lastname"
-                                                    value={userPhone}
+                                                name="lastname"
+                                                value={userPhone}
                                                 type="text"
                                                 autoComplete="lastname"
                                                 onChange={(e) => setUserPhone(e.target.value)}
@@ -495,10 +495,10 @@ const ShoppingCartPage = () => {
                                                 placeholder="Your phone"
                                                 className="w-11/12 px-4 py-3 mx-2 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none"
                                             />
-                                            </div>
                                         </div>
-                                        <div className="flex justify-center mt-5">
-                                            <div className="w-1/2">
+                                    </div>
+                                    <div className="flex justify-center mt-5">
+                                        <div className="w-1/2">
                                             <label className="block text-sm font-medium text-gray-700 text-center">Write you comment</label>
                                             <input
                                                 id="uname"
@@ -510,9 +510,9 @@ const ShoppingCartPage = () => {
                                                 required
                                                 placeholder="Write comment to your order"
                                                 className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none"
-                                                />
-                                            </div>
+                                            />
                                         </div>
+                                    </div>
                                     <p className="flex justify-end mt-2">Payment method:</p>
                                     <div className="flex justify-end">
                                         <select className="w-40 px-4 py-2 text-primary-400 bg-white border rounded-md
@@ -521,60 +521,60 @@ const ShoppingCartPage = () => {
                                             <option key="Card">Card</option>
                                             <option key="Cash">Cash</option>
                                         </select>
-                                        </div>
-                                        {userName && userLastname && userPhone.length>9 ?
-                                            <>
-                                             <div className="relative flex py-5 items-center">
-                                            <div className="flex-grow border-t border-primary-400"></div>
-                                            <span className="flex-shrink mx-4 text-primary-400">Order summary</span>
-                                            <div className="flex-grow border-t border-primary-400"></div>
-                                        </div>
-                                        <div className="w-full flex justify-center">
-                                            <div className="grid grot-cols-3 flex justify-center items-center w-1/2">
-                                                {choisedAP &&
-                                                    <div className="flex justify-center mt-5 text-xl max-sm:text-sm font-bold">
-                                                        <p>Full addres shop:</p>
-                                                        <h1 className="ml-5">{choisedAP.buildingNumber} {choisedAP.street} St, {choisedAP.city}, {choisedAP.postIndex}, {choisedAP.state}</h1>
-                                                    </div>
-                                                }
-                                                <div className="flex justify-center mt-5 text-xl max-sm:text-sm font-bold">
-                                                    <p>Client data:</p>
-                                                    <h1 className="ml-5">{userName} {userLastname}, phone: {userPhone}</h1>
-                                                </div>
-                                                <div className="flex justify-center mt-5 text-xl max-sm:text-sm font-bold">
-                                                    <p>Total sum:</p>
-                                                    <h1 className="ml-5">${totalOrderSum}</h1>
-                                                        </div>
-                                                        <label className="block text-xl font-medium text-gray-700 text-center m-5"> Accept terms
-                                                            <input className="ml-5"
-                                                                type="checkbox"
-                                                                checked={isCheckedTerms}
-                                                                onChange={handleChangeTerms}
-                                                            />
-
-                                                        </label>
-                                            </div>
-
-                                        </div>
-                                    <div className="flex justify-center">
-                                        <button
-                                            onClick={createOrder}
-                                            className="bg-primary-500 text-primary-100 px-6 py-2 rounded hover:bg-secondary"
-                                        >
-                                            Buy
-                                        </button>
-                                        <button
-                                            onClick={removeOrder}
-                                            className="bg-primary-500 text-primary-100 px-6 py-2 rounded hover:bg-secondary ml-10"
-                                        >
-                                            Back
-                                        </button>
-
                                     </div>
-                                    </>
-                                    : null
-                                        }
-                                       
+                                    {userName && userLastname && userPhone.length > 9 ?
+                                        <>
+                                            <div className="relative flex py-5 items-center">
+                                                <div className="flex-grow border-t border-primary-400"></div>
+                                                <span className="flex-shrink mx-4 text-primary-400">Order summary</span>
+                                                <div className="flex-grow border-t border-primary-400"></div>
+                                            </div>
+                                            <div className="w-full flex justify-center">
+                                                <div className="grid grot-cols-3 flex justify-center items-center w-1/2">
+                                                    {choisedAP &&
+                                                        <div className="flex justify-center mt-5 text-xl max-sm:text-sm font-bold">
+                                                            <p>Full addres shop:</p>
+                                                            <h1 className="ml-5">{choisedAP.buildingNumber} {choisedAP.street} St, {choisedAP.city}, {choisedAP.postIndex}, {choisedAP.state}</h1>
+                                                        </div>
+                                                    }
+                                                    <div className="flex justify-center mt-5 text-xl max-sm:text-sm font-bold">
+                                                        <p>Client data:</p>
+                                                        <h1 className="ml-5">{userName} {userLastname}, phone: {userPhone}</h1>
+                                                    </div>
+                                                    <div className="flex justify-center mt-5 text-xl max-sm:text-sm font-bold">
+                                                        <p>Total sum:</p>
+                                                        <h1 className="ml-5">${totalOrderSum}</h1>
+                                                    </div>
+                                                    <label className="block text-xl font-medium text-gray-700 text-center m-5"> Accept terms
+                                                        <input className="ml-5"
+                                                            type="checkbox"
+                                                            checked={isCheckedTerms}
+                                                            onChange={handleChangeTerms}
+                                                        />
+
+                                                    </label>
+                                                </div>
+
+                                            </div>
+                                            <div className="flex justify-center">
+                                                <button
+                                                    onClick={createOrder}
+                                                    className="bg-primary-500 text-primary-100 px-6 py-2 rounded hover:bg-secondary"
+                                                >
+                                                    Buy
+                                                </button>
+                                                <button
+                                                    onClick={removeOrder}
+                                                    className="bg-primary-500 text-primary-100 px-6 py-2 rounded hover:bg-secondary ml-10"
+                                                >
+                                                    Back
+                                                </button>
+
+                                            </div>
+                                        </>
+                                        : null
+                                    }
+
                                 </div>
                             </>
 

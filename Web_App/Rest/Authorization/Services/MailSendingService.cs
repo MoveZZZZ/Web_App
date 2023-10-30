@@ -53,7 +53,7 @@ namespace Web_App.Rest.Authorization.Services
             message.From = new MailAddress(mailOrigin);
             message.Subject = "Your personal data were change";
             message.To.Add(new MailAddress(email));
-            message.Body = ("<html><body>Your personal data ("+ subject +") were change, if that was not you, please contact with support</body></html>");
+            message.Body = ("<html><body>Your personal data (" + subject + ") were change, if that was not you, please contact with support</body></html>");
             message.IsBodyHtml = true;
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
