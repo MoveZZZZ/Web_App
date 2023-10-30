@@ -18,6 +18,7 @@ import ResetPage from "../pages/AuthorizationPages/RecoveryPage";
 import AllOrderPage from "../pages/AdminPage/AllOrdersPage"
 import AdminOrderDetailsPage from "../pages/AdminPage/AdminOrderDetailsPage";
 import VerifyEmailPage from "../pages/AuthorizationPages/VerifyEmailPage";
+import MFAAuthPage from "../pages/AuthorizationPages/2faPage";
 
 
 const AppRouter = () => {
@@ -122,6 +123,9 @@ const AppRouter = () => {
                 <Route
                     element={< VerifyEmailPage />}
                     path="/mailverification/:uid" />
+                <Route
+                    element={< MFAAuthPage />}
+                    path="/oauth/:uid" />
                 <Route
                     path="*" element={<Navigate to="/login" />} />
             </Routes>

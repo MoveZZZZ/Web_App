@@ -43,7 +43,6 @@ namespace Web_App.Rest.Authorization.Repositories
                 isUIDExist = command.ExecuteScalar() == null ? false : true;
             }
             return isUIDExist;
-
         }
         public void updatePasswordUser(string uid, string password)
         {

@@ -27,8 +27,6 @@ namespace Web_App.Rest.Authorization.Services
             _mailSendingService = new MailSendingService(_configuration);
         }
 
-
-
         //login
         private bool chekUsernameFromDB(string login)
         {
@@ -96,8 +94,6 @@ namespace Web_App.Rest.Authorization.Services
             string hashedPass = BCrypt.Net.BCrypt.HashPassword(password);
             return hashedPass;
         }
-
-
 
         //email
         private bool checkEmailSyntax(string email)
@@ -192,7 +188,7 @@ namespace Web_App.Rest.Authorization.Services
         public string addUserInTempDB (RegisterModel userRegistModel)
         {
             string message = checkAllData(userRegistModel);
-            string uid = gennerateUID(userRegistModel);
+            string uid = generateUID(userRegistModel);
             if(message =="") {
                 _userRegistrationRepository.addUserInTempDB(userRegistModel, uid);
                 _mailSendingService.SendMailWithEmailVerify(userRegistModel.Email, uid);
@@ -202,7 +198,7 @@ namespace Web_App.Rest.Authorization.Services
         }
 
 
-        private string gennerateUID (RegisterModel model)
+        private string generateUID (RegisterModel model)
         {
             Random rand = new Random();
             int payload = rand.Next(1000000, 9999999);
