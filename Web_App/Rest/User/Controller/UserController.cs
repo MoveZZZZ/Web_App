@@ -42,13 +42,14 @@ namespace Web_App.Rest.User.Controller
         [Route("changeavatar")]
         public IActionResult changeUserAvatar([FromForm] IFormFile Image, [FromForm] int userID)
         {
+            string message = "";
             string token = Request.Cookies["AccessToken"];
             if (!_tokenService.IDQueryTokenVerificator(userID, token))
             {
                 return BadRequest(new { message = "UnAuthorized Attempt to Access Data belong to Other User!" });
             }
-            _userservice.changeUserAvatar(Image, userID);
-            return Ok(new{message ="OK!"});
+            message = _userservice.changeUserAvatar(Image, userID);
+            return Ok(new{message = message});
         }
 
         [HttpPost]

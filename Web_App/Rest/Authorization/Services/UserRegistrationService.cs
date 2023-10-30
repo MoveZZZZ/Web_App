@@ -143,7 +143,7 @@ namespace Web_App.Rest.Authorization.Services
         }
         public bool checkEmail (string email)
         {
-            if (checkEmailSyntax(email)
+            if (email.Length > 128 ||checkEmailSyntax(email)
                || checkEmailFromDB(email) || _userRegistrationRepository.checkEmailFromTempTable(email))
                 return true;
             return false;

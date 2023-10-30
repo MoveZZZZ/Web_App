@@ -125,37 +125,37 @@ const FavoritePage = () => {
                         :
                         <></>
                     }
-                    <div class="bg-white rounded-md w-full">
-                        <div class=" flex items-center justify-between">
+                    <div className="bg-white rounded-md w-full">
+                        <div className=" flex items-center justify-between">
                             <div>
-                                <h2 class="text-gray-600 font-semibold">Favorite</h2>
+                                <h2 className="text-gray-600 font-semibold">Favorite</h2>
                             </div>
 
                         </div>
                         <div>
-                            <div class="-mx-4 sm:-mx-8 px-4 sm:px-4 py-4 overflow-x-auto">
-                                <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
-                                    <table class="min-w-full leading-normal ">
+                            <div className="-mx-4 sm:-mx-8 px-4 sm:px-4 py-4 overflow-x-auto">
+                                <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
+                                    <table className="min-w-full leading-normal ">
                                         <thead>
                                             <tr>
                                                 <th
-                                                    class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    className="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                     Product
                                                 </th>
                                                 <th
-                                                    class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    className="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                     Name
                                                 </th>
                                                 <th
-                                                    class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    className="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                     Details
                                                 </th>
                                                 <th
-                                                    class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    className="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                     Price
                                                 </th>
                                                 <th
-                                                    class="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    className="px-5 py-3 border-b-2 border-primary-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                     Option
                                                 </th>
                                             </tr>
@@ -163,8 +163,8 @@ const FavoritePage = () => {
                                         <tbody className="text-center break-all">
                                             {favoriteItem.map((item) => (
                                                 <tr key={item.productID}>
-                                                    <td class="px-5 py-5 border-b border-primary-200 bg-white text-xs">
-                                                        <div class="flex-shrink-0 w-20 h-20">
+                                                    <td className="px-5 py-5 border-b border-primary-200 bg-white text-xs">
+                                                        <div className="flex-shrink-0 w-20 h-20">
                                                             <Link to={`/product/${item.productID}`}>
                                                                 <img
                                                                     src={`data:image/jpeg;base64,${item.imageUrl.toString('base64')}`}
@@ -174,12 +174,12 @@ const FavoritePage = () => {
                                                         </div>
 
                                                     </td>
-                                                    <td class="px-2 py-5 border-b border-primary-200 bg-white text-sm">
+                                                    <td className="px-2 py-5 border-b border-primary-200 bg-white text-sm">
                                                         <Link to={`/product/${item.productID}`}>{item.productName}</Link>
                                                     </td>
-                                                    <td class="px-2 py-2 border-b border-primary-200 bg-white text-xs text-justify">{item.description}</td>
-                                                    <td class="px-2 py-2 border-b border-primary-200 bg-white text-sm">${item.cost.toFixed(2)}</td>
-                                                    <td class="px-2 py-2 border-b border-primary-200 bg-white text-sm">
+                                                    <td className="px-2 py-2 border-b border-primary-200 bg-white text-xs text-justify">{item.description}</td>
+                                                    <td className="px-2 py-2 border-b border-primary-200 bg-white text-sm">${item.cost.toFixed(2)}</td>
+                                                    <td className="px-2 py-2 border-b border-primary-200 bg-white text-sm">
                                                         <button
                                                             onClick={() => removeFromFavorite(item.productID)}
                                                             className="text-primary-300 hover:text-red cursor-pointer"

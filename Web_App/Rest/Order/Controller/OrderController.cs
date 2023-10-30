@@ -32,12 +32,15 @@ namespace Web_App.Rest.Order.Controller
             {
                 return BadRequest(new { message = "UnAuthorized Attempt to Access Data belong to Other User!" });
             }
+            string msg = _orderService.checkDataOrder(orderRequestModel);
+            if(msg != "")
+                return Ok(new { message = msg });
             _orderService.addOrderToDB(orderRequestModel);
             _orderService.addOrderProductToTable(orderRequestModel.TowarCount);
             _orderService.removeProductFromCart();
             _orderService.updateCountProducts(orderRequestModel.TowarCount, orderRequestModel.TowarIdList);
 
-            return Ok(new { Message = "Zajebis" });
+            return Ok(new { message = "" });
         }
         [HttpGet]
         public IActionResult getOrderDetails([FromQuery] int orderID, int clientID)

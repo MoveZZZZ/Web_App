@@ -1,5 +1,7 @@
 ﻿import React, { useState } from 'react';
 import { addProduct } from "../../utils/productApi";
+import Message from "../../components/Message/Message";
+import ErrorMessage from "../../components/Message/ErrorMessage";
 
 const AddTowarPage = () => {
     const getInitialFormData = () => ({
@@ -11,13 +13,19 @@ const AddTowarPage = () => {
     });
 
     const [formData, setFormData] = useState(getInitialFormData());
+    const [isMessage, setIsMessage] = useState(false);
+    const [isError, setIsError] = useState(false);
+    const [message, setMessage] = useState("");
+
+
 
     const handleInputChange = (e) => {
         const { name, value, type } = e.target;
         setFormData((prevData) => ({
             ...prevData,
-            [name]: type === 'number' ? parseInt(value, 10) : value,
+            [name]: type === 'number' ? parseFloat(value.replace(",", ".")) : value,
         }));
+       
     };
 
     const handleImageChange = (e) => {
@@ -30,14 +38,36 @@ const AddTowarPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await addProduct(formData);
-            setFormData(getInitialFormData());
+            const response = await addProduct(formData);
+            if (response.message !== "") {
+                setMessage(response.message);
+                setIsError(true);
+                getErrorMessage();
+            }
+            else {
+                setMessage("Towar has be successfly added!");
+                setIsMessage(true);
+                getMessage();
+                setFormData(getInitialFormData());
+            }
         } catch (error) {
         }
     };
+    const getMessage = () => {
+        setIsMessage(true);
+        setTimeout(() => setIsMessage(false), 2500);
+    }
+    const getErrorMessage = () => {
+        setIsError(true);
+        setTimeout(() => setIsError(false), 2500);
+    }
 
     return (
-        <>
+        <> {isMessage ? 
+            <Message param={message} 
+            /> : <></>}
+            {isError ?
+                <ErrorMessage param={message} />:<></>}
             <h1 className="text-2xl font-bold mb-4 flex justify-center p-5">Add Product</h1>
         <div className="px-5 flex justify-center">
 
