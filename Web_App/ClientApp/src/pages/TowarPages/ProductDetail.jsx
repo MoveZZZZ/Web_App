@@ -207,12 +207,12 @@ const ProductDetail = () => {
     const saveChanges = async () => {
         setIsLoading(true);
         const formData = new FormData();
-
         formData.append('Id', id);
         formData.append('Name', editedPrice);
         formData.append('Description', editedDescription);
-        formData.append('Cost', editedPrice);
-        formData.append('Count', editedStock);
+        formData.append('Cost', editedPrice.toString().replace(".", ","));
+        formData.append('Count', parseInt(editedStock));
+        
         if (editedImage) {
             formData.append('Image', editedImage);
             fetchChangeProductData(formData)

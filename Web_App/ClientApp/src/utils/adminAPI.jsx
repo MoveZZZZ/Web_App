@@ -42,6 +42,7 @@ export const fetchChangeProductData = async (formData) => {
     return fetchWithAuthentication(api, params);
 }
 export const fetchChangeProductDataWithoutImage = async (formData) => {
+    console.log(formData);
     const api = `https://localhost:7257/products/productdetails/admin/changeproductwithoutimage`
     const params = {
         method: 'POST',

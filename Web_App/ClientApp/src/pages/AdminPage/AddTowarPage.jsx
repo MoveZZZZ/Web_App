@@ -36,6 +36,7 @@ const AddTowarPage = () => {
     };
 
     const handleSubmit = async (e) => {
+        console.log(formData);
         e.preventDefault();
         try {
             const response = await addProduct(formData);
