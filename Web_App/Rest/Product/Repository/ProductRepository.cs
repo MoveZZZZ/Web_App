@@ -36,7 +36,7 @@ namespace Web_App.Rest.Product.Repository
                 product.Id = Convert.ToInt32(row[0].ToString());
                 product.Name = row[1].ToString();
                 product.Description = row[2].ToString();
-                product.Cost = Convert.ToInt32(row[3].ToString());
+                product.Cost = (float)Convert.ToDouble(row[3].ToString());
                 product.ImageUrl = (byte[])row["image"];
                 product.Count = Convert.ToInt32(row[5].ToString());
                 products.Add(product);
