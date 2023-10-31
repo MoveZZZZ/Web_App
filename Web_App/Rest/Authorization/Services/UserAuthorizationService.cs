@@ -44,6 +44,7 @@ namespace Web_App.Rest.Authorization.Services
             {
                 return true;
             }
+            _userAuth.IncrementLoginFailureByID(_userModel.Id);
             return false;
         }
 
@@ -51,7 +52,16 @@ namespace Web_App.Rest.Authorization.Services
         {
             AuthorizationResponseModel responseModel = new AuthorizationResponseModel();
             responseModel.UserID = 0;
-            if (isUserExist(authorizationModel) && checkPassword(authorizationModel))
+            if (!isUserExist(authorizationModel))
+            {
+                return responseModel;
+            }
+            if (_userModel.isBlocked == 1)
+            {
+                responseModel.UserID = -1;
+                return responseModel;
+            }
+            if (checkPassword(authorizationModel))
             {
                 Token token = _tokenService.CreateToken(_userModel);
                 responseModel.UserToken = token.AccessToken;

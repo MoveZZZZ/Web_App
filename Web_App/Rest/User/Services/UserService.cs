@@ -108,7 +108,7 @@ namespace Web_App.Rest.User.Services
             _mailSendingService.SendMailByUserAuthDataChange(_userModelBase.Email, "USERNAME");
             return "Login successfully changed";
         }
-        private string gennerateUID(string password, string email)
+        private string generateUID(string password, string email)
         {
             Random rand = new Random();
             int payload = rand.Next(1000000, 9999999);
@@ -135,13 +135,15 @@ namespace Web_App.Rest.User.Services
             if (!verifyPasswords(_modelRequest.Password, _userModelBase.Password))
                 return "Bad password!";
 
-            string UID = gennerateUID(_userModelBase.Password, _modelRequest.Email);
+            string UID = generateUID(_userModelBase.Password, _modelRequest.Email);
             _userRepository.addUIDInTable(_modelRequest.UserID, _modelRequest.Email, UID);
 
-
-            _mailSendingService.SendMailWithEmailVerifyAfterChange(_modelRequest.Email, UID);
-
-            return "Verification link has ben send, check email!";
+            if (_userRepository.isUIDExist(UID))
+            {
+                _mailSendingService.SendMailWithEmailVerifyAfterChange(_modelRequest.Email, UID);
+                return "Verification link has ben send, check email!";
+            }
+            return "It looks like you have previously created a request to change your email address, check your email or try again later!";
         }
         public string ChangeEmail(string uid)
         {

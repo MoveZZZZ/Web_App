@@ -39,7 +39,7 @@ public class TokenController : ControllerBase
         {
             this.Response.Cookies.Append("AccessToken", _response.UserToken, new CookieOptions()
             {
-                Expires = DateTimeOffset.Now.AddMinutes(2),
+                Expires = DateTimeOffset.Now.AddSeconds(30),
                 Path = "/",
                 HttpOnly = true,
                 Domain = null,
@@ -49,7 +49,7 @@ public class TokenController : ControllerBase
             });
             this.Response.Cookies.Append("RefreshToken", _response.UserRefreshToken, new CookieOptions()
             {
-                Expires = DateTimeOffset.Now.AddMinutes(4800),
+                Expires = DateTimeOffset.Now.AddMinutes(2880),
                 Path = "/token/",
                 HttpOnly = true,
                 Domain = null,

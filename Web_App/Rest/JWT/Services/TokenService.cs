@@ -43,7 +43,7 @@ namespace Web_App.Rest.JWT.Services
             };
 
 
-            DateTime Expiration = DateTime.Now.AddMinutes(2);
+            DateTime Expiration = DateTime.Now.AddSeconds(30);
             JwtSecurityToken securityToken = new JwtSecurityToken(
                 issuer: _configuration["Token:Issuer"],
                 audience: _configuration["Token:Audience"],
@@ -76,7 +76,7 @@ namespace Web_App.Rest.JWT.Services
             };
 
 
-            DateTime Expiration = DateTime.Now.AddMinutes(4800);
+            DateTime Expiration = DateTime.Now.AddMinutes(2880);
             JwtSecurityToken securityToken = new JwtSecurityToken(
                 issuer: _configuration["Token:Issuer"],
                 audience: _configuration["Token:Audience"],
