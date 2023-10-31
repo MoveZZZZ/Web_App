@@ -18,17 +18,28 @@ namespace Web_App.Rest.AccessPoint.Controller
         {
             _accessPointService = new AccessPointService();
         }
-
         [HttpGet]
-        [Route("getallaccesspointstate")]
-        public IActionResult GetAllAccessPointState()
+        [Route("getallaccesspointcountry")]
+        public IActionResult GetAllAccessPointCountry()
         {
             List<string> response = new List<string>();
-            response = _accessPointService.getAllPointsState();
+            response = _accessPointService.getAllPointsCountry();
+            return Ok(new { Countries = response });
+        }
 
+
+
+
+        [HttpGet]
+        [Route("getallaccesspointstatethecountry")]
+        public IActionResult GetAllAccessPointState([FromQuery] string Country)
+        {
+            List<string> response = new List<string>();
+            response = _accessPointService.getAllPointsStateTheCountry(Country);
 
             return Ok(new { States = response });
         }
+
         [HttpGet]
         [Route("getallaccesspointcity")]
         public IActionResult GetAccessPointCity()
