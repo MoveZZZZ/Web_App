@@ -116,7 +116,7 @@ namespace Web_App.Rest.Authorization.Repositories
             {
                 connection.Open();
                 command.Connection = connection;
-                command.CommandText = "INSERT INTO user(`username`, `password`, `email`, `role`, `photo`) SELECT username, password, email, @role, @photo FROM `user_registration` WHERE uid=@uid; DELETE FROM user_registration WHERE uid=@uid";
+                command.CommandText = "INSERT INTO user(`username`, `password`, `email`, `role`, `photo`, `blocked`) SELECT username, password, email, @role, @photo, 0 FROM `user_registration` WHERE uid=@uid; DELETE FROM user_registration WHERE uid=@uid";
                 command.Parameters.Add("@uid", MySqlDbType.Text).Value = uid;
                 command.Parameters.Add("@role", MySqlDbType.VarChar).Value = "USER";
                 command.Parameters.Add("@photo", MySqlDbType.TinyBlob).Value = img;
