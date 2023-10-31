@@ -74,7 +74,7 @@ namespace Web_App.Rest.Order.Controller
         [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
         [HttpGet]
         [Route("admin/getallorder")]
-        public IActionResult getAllOrders([FromQuery] int userID)
+        public IActionResult getAllOrders()
         {
 
             List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
@@ -100,7 +100,17 @@ namespace Web_App.Rest.Order.Controller
         public IActionResult getOrderDetailsAdmin([FromBody] OrderUserDataModel userModel)
         {
             OrderDetailsModel orderDetailsModel = new OrderDetailsModel();
-            orderDetailsModel = _orderService.getOrderDetailsModelAdmin( Convert.ToInt32(userModel.orderID), userModel.email);
+            orderDetailsModel = _orderService.getOrderDetailsModelAdmin(Convert.ToInt32(userModel.orderID), userModel.email, "");
+            return Ok(orderDetailsModel);
+        }
+        [Authorize]
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
+        [HttpGet]
+        [Route("admin/orderdetails/archive")]
+        public IActionResult getOrderDetailsArchiveAdmin([FromQuery] int orderID, string username)
+        {
+            OrderDetailsModel orderDetailsModel = new OrderDetailsModel();
+            orderDetailsModel = _orderService.getOrderDetailsModelAdmin(orderID, "" ,username);
             return Ok(orderDetailsModel);
         }
         [Authorize]
@@ -120,6 +130,87 @@ namespace Web_App.Rest.Order.Controller
             }
 
         }
+        [Authorize]
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
+        [HttpGet]
+        [Route("admin/getallarchiveorder")]
+        public IActionResult getAllOrdersArchiveAdmin()
+        {
+            List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
+            model = _orderService.getAllArchiveOrders();
+            return Ok(model);
+        }
+        [Authorize]
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
+        [HttpGet]
+        [Route("admin/getallarchiveorder/searchusername")]
+        public IActionResult getAllOrdersArchiveByUsernameAdmin([FromQuery] string username)
+        {
+            List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
+            model = _orderService.getAllArchiveOrdersByUsername(username);
+            return Ok(model);
+        }
+        [Authorize]
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
+        [HttpGet]
+        [Route("admin/getallorder/lastday")]
+        public IActionResult getAllOrdersLastDay()
+        {
+            List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
+            model = _orderService.getAllOrdersLastDay();
+            return Ok(model);
+        }
+        [Authorize]
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
+        [HttpGet]
+        [Route("admin/getallorder/lastmonath")]
+        public IActionResult getAllOrdersLastMonath()
+        {
+            List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
+            model = _orderService.getAllOrdersLastMonath();
+            return Ok(model);
+        }
+        [Authorize]
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
+        [HttpGet]
+        [Route("admin/getallorder/lastyear")]
+        public IActionResult getAllOrdersLastYear()
+        {
+            List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
+            model = _orderService.getAllOrdersLastYear();
+            return Ok(model);
+        }
+        [Authorize]
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
+        [HttpGet]
+        [Route("admin/getallorder/today")]
+        public IActionResult getAllOrdersToday()
+        {
+            List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
+            model = _orderService.getAllOrdersToday();
+            return Ok(model);
+        }
+        [Authorize]
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
+        [HttpGet]
+        [Route("admin/getallorder/thismonath")]
+        public IActionResult getAllOrdersThisMonath()
+        {
+            List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
+            model = _orderService.getAllOrdersThisMon();
+            return Ok(model);
+        }
+        [Authorize]
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
+        [HttpGet]
+        [Route("admin/getallorder/thisyear")]
+        public IActionResult getAllOrdersThisYear()
+        {
+            List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
+            model = _orderService.getAllOrdersThisYear();
+            return Ok(model);
+        }
+
 
     }
 }

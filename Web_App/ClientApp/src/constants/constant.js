@@ -1,4 +1,4 @@
-﻿import { faStore, faCartShopping, faHeart, faBagShopping, faSquarePlus } from "@fortawesome/free-solid-svg-icons";
+﻿import { faStore, faCartShopping, faHeart, faBagShopping, faSquarePlus, faBoxArchive} from "@fortawesome/free-solid-svg-icons";
 
 export const menuLinks = [
     { id: 1, title: "Shop", link: "/product", icon: faStore, isAdmin: true, isUser: true },
@@ -10,5 +10,6 @@ export const menuLinks = [
 export const menuAdminLinks = [
     { id: 1, title: "Shop", link: "/product", icon: faStore },
     { id: 2, title: "All Orders", link: "/admin/getallorder", icon: faBagShopping },
+    { id: 2, title: "Orders Archive", link: "/admin/getallorderarchive", icon: faBoxArchive },
     { id: 3, title: "Add towar", link: "/admin/addtowar", icon: faSquarePlus },
 ]
