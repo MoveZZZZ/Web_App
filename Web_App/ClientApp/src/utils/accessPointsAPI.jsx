@@ -1,7 +1,17 @@
 ﻿import { fetchWithAuthentication, } from './AuthenticationLogic';
 
-export const fetchGetAllAPState = () => {
-    const api = 'https://localhost:7257/accesspoint/getallaccesspointstate';
+export const fetchGetAllCountry = () => {
+    const api = 'https://localhost:7257/accesspoint/getallaccesspointcountry';
+    const params = {
+        credentials: 'include',
+        method: 'GET',
+    };
+    return fetchWithAuthentication(api, params);
+}
+
+
+export const fetchGetAllAPStateCountry = (Country) => {
+    const api = `https://localhost:7257/accesspoint/getallaccesspointstatethecountry?Country=${Country}`;
     const params = {
         credentials: 'include',
         method: 'GET',

@@ -18,6 +18,8 @@ import ForgotPasswordPreResetPage from "../pages/AuthorizationPages/PreResetPage
 import ResetPage from "../pages/AuthorizationPages/RecoveryPage";
 import AllOrderPage from "../pages/AdminPage/AllOrdersPage"
 import AdminOrderDetailsPage from "../pages/AdminPage/AdminOrderDetailsPage";
+import AllOrdersArchivePage from "../pages/AdminPage/AllOrdersArchivePage";
+import AdminOrderDetailsArchivePage from "../pages/AdminPage/AdminOrderDetailsArchivePage";
 import VerifyEmailPage from "../pages/AuthorizationPages/VerifyEmailPage";
 import MFAAuthPage from "../pages/AuthorizationPages/2faPage";
 
@@ -40,11 +42,17 @@ const AppRouter = () => {
                         element={<AdminOrderDetailsPage />}
                         path="/admin/orderdetails" />
                     <Route
+                        element={<AdminOrderDetailsArchivePage />}
+                        path="/admin/orderdetails/archive" />
+                    <Route
                         element={<AddTowarPage />}
                         path="admin/addtowar" />
                     <Route
                         element={<AllOrderPage />}
                         path="/admin/getallorder" />
+                    <Route
+                        element={<AllOrdersArchivePage />}
+                        path="/admin/getallorderarchive" />
                     <Route
                         element={<HomePage />}
                         path="/" />

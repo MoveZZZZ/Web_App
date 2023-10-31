@@ -6,7 +6,7 @@ import { fetchCreateOrder, } from "../../utils/orderAPI"
 import Message from "../../components/Message/Message";
 import ErrorMessage from "../../components/Message/ErrorMessage";
 
-import { fetchGetAllAPCity, fetchGetAllAPTheCity, fetchGetAllAPState, fetchGetAllAPTheState, fetchGetAllCitysTheState, fetchGetAllAPTheStateAndCity } from "../../utils/accessPointsAPI"
+import { fetchGetAllAPCity, fetchGetAllAPTheCity, fetchGetAllAPState, fetchGetAllAPTheState, fetchGetAllCitysTheState, fetchGetAllAPTheStateAndCity, fetchGetAllCountry, fetchGetAllAPStateCountry } from "../../utils/accessPointsAPI"
 
 const ShoppingCartPage = () => {
 
@@ -35,7 +35,7 @@ const ShoppingCartPage = () => {
 
     const [totalOrderSum, setTotalOrderSum] = useState(0);
 
-
+    const [coutryList, setCountryList] = useState([]);
     const [statesList, setStatesList] = useState([]);
     const [citysList, setCitysList] = useState([]);
     const [accesspointsList, setAccesspointsList] = useState([]);
@@ -70,10 +70,10 @@ const ShoppingCartPage = () => {
                 }, 100);
             });
     }
-    const uploadStates = async () => {
-        fetchGetAllAPState()
+    const uploadCoutry = async () => {
+        fetchGetAllCountry()
             .then((response) => {
-                setStatesList(response.states);
+                setCountryList(response.countries);
             })
             .catch(() => {
                 setMessage("Bad data loading");
@@ -81,9 +81,10 @@ const ShoppingCartPage = () => {
             })
     }
 
+
     useEffect(() => {
         uploadData();
-        uploadStates();
+        uploadCoutry();
     }, []);
 
 
@@ -207,10 +208,19 @@ const ShoppingCartPage = () => {
             });
 
     }
+    const uploadStates = async (country) => {
+        fetchGetAllAPStateCountry(country)
+            .then((response) => {
+                setStatesList(response.states);
+            })
+            .catch(() => {
+                setMessage("Bad data loading");
+                getErrorMessage();
+            })
+    }
     const uploadCitys = async (state) => {
         fetchGetAllCitysTheState(state)
             .then((response) => {
-
                 setCitysList(response.citys);
             })
             .catch(() => {
@@ -218,7 +228,16 @@ const ShoppingCartPage = () => {
                 getErrorMessage();
             });
     }
-
+    const handleSelectCountry = (event) => {
+        if (event.target.value != "None") {
+            uploadStates(event.target.value)
+        } else {
+            setCitysList([]);
+            setStatesList([]);
+            setAccesspointsList([]);
+        }
+        setChoisedState(event.target.value)
+    }
     const handleSelectState = (event) => {
         if (event.target.value != "None") {
             uploadCitys(event.target.value)
@@ -405,8 +424,18 @@ const ShoppingCartPage = () => {
                                         </div>
                                     </div>
                                     <h1 className="flex justify-center">Choise shop address</h1>
-                                    <div className="flex justify-center items-center gap-6 mt-5">
-
+                                        <div className="flex justify-center items-center gap-6 mt-5">
+                                            <div>
+                                                <select className="w-40 max-sm:w-20 text-primary-400 bg-white border rounded-md 
+                                        shadow-sm outline-none appearance-none focus:border-secondary text-center py-2 bg-white text-xs"
+                                                    onChange={handleSelectCountry}>
+                                                    <option key="None">None</option>
+                                                    {coutryList.map((countryItem) => (
+                                                        <option key={countryItem}>{countryItem}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                            {statesList.length ?(
                                         <div>
                                             <select className="w-40 max-sm:w-20 text-primary-400 bg-white border rounded-md 
                                         shadow-sm outline-none appearance-none focus:border-secondary text-center py-2 bg-white text-xs"
@@ -416,8 +445,8 @@ const ShoppingCartPage = () => {
                                                     <option key={stateItem}>{stateItem}</option>
                                                 ))}
                                             </select>
-                                        </div>
-
+                                            </div>
+                                        ):(<></>)}
                                         {citysList.length ? (
                                             <div>
                                                 <select className="w-40 max-sm:w-20 text-primary-400 bg-white border rounded-md 
@@ -533,8 +562,8 @@ const ShoppingCartPage = () => {
                                                 <div className="grid grot-cols-3 flex justify-center items-center w-1/2">
                                                     {choisedAP &&
                                                         <div className="flex justify-center mt-5 text-xl max-sm:text-sm font-bold">
-                                                            <p>Full addres shop:</p>
-                                                            <h1 className="ml-5">{choisedAP.buildingNumber} {choisedAP.street} St, {choisedAP.city}, {choisedAP.postIndex}, {choisedAP.state}</h1>
+                                                                <p>Full addres shop:</p>
+                                                                <h1 className="ml-5">{choisedAP.buildingNumber} {choisedAP.street} St, {choisedAP.city}, {choisedAP.postIndex}, {choisedAP.state}, {choisedAP.country}</h1>
                                                         </div>
                                                     }
                                                     <div className="flex justify-center mt-5 text-xl max-sm:text-sm font-bold">

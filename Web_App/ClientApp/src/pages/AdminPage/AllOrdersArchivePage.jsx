@@ -1,28 +1,23 @@
 ﻿import React, { useState, useContext, } from 'react';
 import { useEffect } from 'react';
-import {
-    fetchAllOrders, fetchAllOrderByEmail, fetchDeleteOrderByID, fetchAllOrdersThisDay
-    , fetchAllOrdersLastDay, fetchAllOrdersLastMonth, fetchAllOrdersThisMonth, fetchAllOrdersThisYear, fetchAllOrdersLastYear} from "../../utils/adminAPI"
+import { fetchAllArchiveOrders, fetchAllArchiveOrderByUsername } from "../../utils/adminAPI"
 import { Link } from 'react-router-dom';
 import _, { remove } from "lodash";
 import Spinner from '../../components/Spinner/Spinner';
 
 
 
-const AllOrdersPage = () => {
+const AllOrdersArchivePage = () => {
     const [ordersList, setOrdersList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
 
     const [searchQuery, setSearchQuery] = useState('');
 
-    const [sortList, setSortList] = useState(["Current day", "Last day", "Current month", "Last month", "Current year","Last year"])
- 
 
     const handleOrdersUser = async () => {
-        fetchAllOrders()
+        fetchAllArchiveOrders()
             .then((data) => {
-                setIsLoading(true);
                 setOrdersList(data);
             })
             .catch((error) => {
@@ -34,9 +29,9 @@ const AllOrdersPage = () => {
                 }, 1000)
             })
     }
-    const searchOrderByEmail = async (query) => {
+    const searchOrderByUsername = async (query) => {
         if (query) {
-            fetchAllOrderByEmail(query)
+            fetchAllArchiveOrderByUsername(query)
                 .then((data) => {
                     setOrdersList(data);
                     setIsLoading(true);
@@ -55,131 +50,8 @@ const AllOrdersPage = () => {
         }
     };
 
-    const removeOrder = async (orderid) => {
-        setIsLoading(true);
-        fetchDeleteOrderByID(orderid)
-            .then((data) => {
-            })
-            .catch((error) => {
-                console.error(error);
-            })
-            .finally(() => {
-                setTimeout(() => {
-                    setIsLoading(false);
-                }, 1500)
-                handleOrdersUser();
-            })
-    }
-    const getOrderThisDay = async () => {
-        fetchAllOrdersThisDay()
-            .then((data) => {
-                setOrdersList(data);
-                setIsLoading(true);
-            })
-            .catch((error) => {
-                console.error(error);
-            })
-            .finally(() => {
-                setTimeout(() => {
-                    setIsLoading(false);
-                }, 1000)
-            })
-    }
-    const getOrderLastDay = async () => {
-        fetchAllOrdersLastDay()
-            .then((data) => {
-                setOrdersList(data);
-                setIsLoading(true);
-            })
-            .catch((error) => {
-                console.error(error);
-            })
-            .finally(() => {
-                setTimeout(() => {
-                    setIsLoading(false);
-                }, 1000)
-            })
-    }
-    const getOrderThisMonth = async () => {
-        fetchAllOrdersThisMonth()
-            .then((data) => {
-                setOrdersList(data);
-                setIsLoading(true);
-            })
-            .catch((error) => {
-                console.error(error);
-            })
-            .finally(() => {
-                setTimeout(() => {
-                    setIsLoading(false);
-                }, 1000)
-            })
-    }
-    const getOrderLastMonth = async () => {
-        fetchAllOrdersLastMonth()
-            .then((data) => {
-                setOrdersList(data);
-                setIsLoading(true);
-            })
-            .catch((error) => {
-                console.error(error);
-            })
-            .finally(() => {
-                setTimeout(() => {
-                    setIsLoading(false);
-                }, 1000)
-            })
-    }
-    const getOrderThisYear = async () => {
-        fetchAllOrdersThisYear()
-            .then((data) => {
-                setOrdersList(data);
-                setIsLoading(true);
-            })
-            .catch((error) => {
-                console.error(error);
-            })
-            .finally(() => {
-                setTimeout(() => {
-                    setIsLoading(false);
-                }, 1000)
-            })
-    }
-    const getOrderLastYear = async () => {
-        fetchAllOrdersLastYear()
-            .then((data) => {
-                setOrdersList(data);
-                setIsLoading(true);
-            })
-            .catch((error) => {
-                console.error(error);
-            })
-            .finally(() => {
-                setTimeout(() => {
-                    setIsLoading(false);
-                }, 1000)
-            })
-    }
-    const handleSort = async (event) => {
-        const option = event.target.value;
-        if (option === "Current day")
-            getOrderThisDay();
-        else if (option === "Last day")
-            getOrderLastDay();
-        else if (option === "Current month")
-            getOrderThisMonth();
-        else if (option === "Last month")
-            getOrderLastMonth();
-        else if (option === "Current year")
-            getOrderThisYear();
-        else if (option === "Last year")
-            getOrderLastYear();
-        else
-            handleOrdersUser();
-    }
-
     useEffect(() => {
-        searchOrderByEmail(searchQuery);
+        searchOrderByUsername(searchQuery);
     }, [searchQuery]);
 
     useEffect(() => {
@@ -195,16 +67,6 @@ const AllOrdersPage = () => {
                 </div>
                 <div className="flex items-center justify-between">
                     <div className="flex bg-gray-50 items-center p-2 rounded-md">
-                        <div>
-                            <select className="w-40 max-sm:w-20 mx-24 text-primary-400 bg-white border rounded-md 
-                                        shadow-sm outline-none appearance-none focus:border-secondary text-center py-2 bg-white text-xs"
-                                onChange={handleSort}>
-                                <option key="All time">All time</option>
-                                {sortList.map((sort) => (
-                                    <option key={sort}>{sort}</option>
-                                ))}
-                            </select>
-                        </div>
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20"
                             fill="currentColor">
                             <path fillRule="evenodd"
@@ -230,7 +92,7 @@ const AllOrdersPage = () => {
                                         <tr>
                                             <th
                                                 className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                User Email
+                                                Username
                                             </th>
                                             <th
                                                 className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -244,10 +106,6 @@ const AllOrdersPage = () => {
                                                 className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                                 Status
                                             </th>
-                                            <th
-                                                className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                Remove order
-                                            </th>
 
                                         </tr>
                                     </thead>
@@ -256,14 +114,14 @@ const AllOrdersPage = () => {
                                             <tr key={item.id} className="hover:hover:bg-lightgrey cursor-pointer">
                                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm ">
                                                     <Link
-                                                        to='/admin/orderdetails'
+                                                        to='/admin/orderdetails/archive'
                                                         state={{ orderID: item.orderID, userEmail: item.userEmail }}
                                                     >
                                                         <div className="flex items-center">
                                                             <div className="flex-shrink-0 w-10 h-10">
-                                                                <img className="w-full h-full rounded-full"
+{/*                                                                <img className="w-full h-full rounded-full"
                                                                     src={`data:image/jpeg;base64,${item.userPhoto.toString('base64')}`}
-                                                                    alt="" />
+                                                                    alt="" />*/}
                                                             </div>
                                                             <div className="ml-3">
                                                                 <p className="text-gray-900 whitespace-no-wrap">
@@ -275,7 +133,7 @@ const AllOrdersPage = () => {
                                                 </td>
                                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                     <Link
-                                                        to='/admin/orderdetails'
+                                                        to='/admin/orderdetails/archive'
                                                         state={{ orderID: item.orderID, userEmail: item.userEmail }}
                                                     >
                                                         <p className="text-gray-900 whitespace-no-wrap">
@@ -284,7 +142,7 @@ const AllOrdersPage = () => {
                                                 </td>
                                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                     <Link
-                                                        to='/admin/orderdetails'
+                                                        to='/admin/orderdetails/archive'
                                                         state={{ orderID: item.orderID, userEmail: item.userEmail }}
                                                     >
                                                         <p className="text-gray-900 whitespace-no-wrap">
@@ -294,24 +152,16 @@ const AllOrdersPage = () => {
                                                 </td>
                                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                                     <Link
-                                                        to='/admin/orderdetails'
+                                                        to='/admin/orderdetails/archive'
                                                         state={{ orderID: item.orderID, userEmail: item.userEmail }}
                                                     >
                                                         <span
                                                             className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                                                             <span aria-hidden
-                                                                className="absolute inset-0 bg-greenLight opacity-50 rounded-full"></span>
+                                                                className="absolute inset-0 bg-primary-300 opacity-50 rounded-full"></span>
                                                             <span className="relative">{item.status}</span>
                                                         </span>
                                                     </Link>
-                                                </td>
-                                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                    {item.status !== "Payment" ?
-                                                        <button className="bg-red rounded-full px-4 py-1 hover:bg-greenLight" onClick={() => {
-                                                            removeOrder(item.orderID);
-                                                        }}>
-                                                            Remove</button>
-                                                        : null}
                                                 </td>
                                             </tr>
                                         ))}
@@ -330,4 +180,4 @@ const AllOrdersPage = () => {
 
 
 }
-export default AllOrdersPage;
+export default AllOrdersArchivePage;

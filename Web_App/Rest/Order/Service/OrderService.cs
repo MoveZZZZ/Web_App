@@ -6,6 +6,7 @@ using Web_App.Rest.Order.Repository;
 using Web_App.Rest.Product.Service;
 using Web_App.Rest.User.Models;
 using Web_App.Rest.User.Services;
+using static MimeDetective.Definitions.Default.FileTypes;
 
 namespace Web_App.Rest.Order.Service
 {
@@ -168,24 +169,83 @@ namespace Web_App.Rest.Order.Service
             return _userOrders;
         }
 
-        public OrderDetailsModel getOrderDetailsModelAdmin(int orderID, string emailUser)
+        public OrderDetailsModel getOrderDetailsModelAdmin(int orderID, string emailUser, string username)
         {
-            int clientID = _userService.getIDByEmail(emailUser);
 
             OrderDetailsModel orderDetailsModel = new OrderDetailsModel();
             UserModel userModel = new UserModel();
-            orderDetailsModel = _orderRepository.getOrderDetailsByUserIdAndOrderID(orderID, clientID);
-            orderDetailsModel.ProductOrderList = getAllProductsInOrder(orderID);
-            orderDetailsModel.TotalOrdersClient = _orderRepository.getTotalOrdersClient(clientID);
-            userModel = _userService.getUsernamePhotoByID(clientID);
-            orderDetailsModel.UserName = userModel.Login;
-            orderDetailsModel.ClientPhoto = userModel.Photo;
+            
+            if(emailUser != "")
+            {
+                int clientID = _userService.getIDByEmail(emailUser);
+                orderDetailsModel = _orderRepository.getOrderDetailsByUserIdAndOrderID(orderID, clientID);
+                orderDetailsModel.ProductOrderList = getAllProductsInOrder(orderID);
+                orderDetailsModel.TotalOrdersClient = _orderRepository.getTotalOrdersClient(clientID);
+                userModel = _userService.getUsernamePhotoByID(clientID);
+                orderDetailsModel.UserName = userModel.Login;
+                orderDetailsModel.ClientPhoto = userModel.Photo;
+                return orderDetailsModel;
+            }
+            orderDetailsModel = _orderRepository.getOrderDetailsByUserNameAndOrderID(orderID, username);
+            orderDetailsModel.ProductOrderList = _orderRepository.getAllProductsInOrderArchive(orderID);
+            orderDetailsModel.TotalOrdersClient = _orderRepository.getTotalOrdersArchiveClient(username);
+            orderDetailsModel.UserName = username;
             return orderDetailsModel;
+
+
         }
         public void removeOrderAdmin(int orderID)
         {
             _orderRepository.removeOrderByID(orderID);
         }
+        public List<AllOrderAdminModel> getAllArchiveOrders()
+        {
+            List<AllOrderAdminModel> _userOrders = new List<AllOrderAdminModel>();
+            _userOrders = _orderRepository.getAllArchiveOrders();
+            return _userOrders;
+        }
+        public List<AllOrderAdminModel> getAllArchiveOrdersByUsername(string username)
+        {
+            List<AllOrderAdminModel> _userOrders = new List<AllOrderAdminModel>();
+            _userOrders = _orderRepository.getAllArchiveOrdersByUsername(username);
+            return _userOrders;
 
+        }
+        public List<AllOrderAdminModel> getAllOrdersLastDay()
+        {
+            List<AllOrderAdminModel> _userOrders = new List<AllOrderAdminModel>();
+            _userOrders = _orderRepository.getAllOrderLastDay();
+            return _userOrders;
+        }
+        public List<AllOrderAdminModel> getAllOrdersLastMonath()
+        {
+            List<AllOrderAdminModel> _userOrders = new List<AllOrderAdminModel>();
+            _userOrders = _orderRepository.getAllOrderLastMonath();
+            return _userOrders;
+        }
+        public List<AllOrderAdminModel> getAllOrdersLastYear()
+        {
+            List<AllOrderAdminModel> _userOrders = new List<AllOrderAdminModel>();
+            _userOrders = _orderRepository.getAllOrderLastYear();
+            return _userOrders;
+        }
+        public List<AllOrderAdminModel> getAllOrdersToday()
+        {
+            List<AllOrderAdminModel> _userOrders = new List<AllOrderAdminModel>();
+            _userOrders = _orderRepository.getAllOrderThisDay();
+            return _userOrders;
+        }
+        public List<AllOrderAdminModel> getAllOrdersThisMon()
+        {
+            List<AllOrderAdminModel> _userOrders = new List<AllOrderAdminModel>();
+            _userOrders = _orderRepository.getAllOrderThisMonath();
+            return _userOrders;
+        }
+        public List<AllOrderAdminModel> getAllOrdersThisYear()
+        {
+            List<AllOrderAdminModel> _userOrders = new List<AllOrderAdminModel>();
+            _userOrders = _orderRepository.getAllOrderThisYear();
+            return _userOrders;
+        }
     }
 }
