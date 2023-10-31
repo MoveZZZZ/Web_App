@@ -30,11 +30,12 @@ export async function fetchUpdateEmailUser(formData) {
     body.append('Password', formData.Password);
     body.append('NewPassword', null);
     body.append('RepeatNewPassword', null);
-    const response = await fetch(apiUrl, {
+    const params = {
         method: 'POST',
+        credentials: 'include',
         body,
-    });
-    return response.json();
+    };
+    return fetchWithAuthentication(apiUrl, params);
 }
 
 export async function fetchUpdateLoginUser(formData) {
@@ -46,11 +47,12 @@ export async function fetchUpdateLoginUser(formData) {
     body.append('Password', formData.Password);
     body.append('NewPassword', null);
     body.append('RepeatNewPassword', null);
-    const response = await fetch(apiUrl, {
+    const params = {
         method: 'POST',
+        credentials: 'include',
         body,
-    });
-    return response.json();
+    };
+    return fetchWithAuthentication(apiUrl, params);
 }
 export async function fetchUpdatePasswordUser(formData) {
     const apiUrl = 'https://localhost:7257/user/changepassword';
@@ -61,11 +63,12 @@ export async function fetchUpdatePasswordUser(formData) {
     body.append('Password', formData.Password);
     body.append('NewPassword', formData.NewPassword);
     body.append('RepeatNewPassword', formData.RepeatNewPassword);
-    const response = await fetch(apiUrl, {
+    const params = {
         method: 'POST',
+        credentials: 'include',
         body,
-    });
-    return response.json();
+    };
+    return fetchWithAuthentication(apiUrl, params);
 }
 export async function fetchUpdateRemoveAccoutUser(formData) {
     const apiUrl = 'https://localhost:7257/user/deleteaccount';
@@ -76,16 +79,21 @@ export async function fetchUpdateRemoveAccoutUser(formData) {
     body.append('Password', formData.Password);
     body.append('NewPassword', null);
     body.append('RepeatNewPassword', null);
-    const response = await fetch(apiUrl, {
+    const params = {
         method: 'POST',
+        credentials: 'include',
         body,
-    });
-    return response.json();
+    };
+    return fetchWithAuthentication(apiUrl, params);
 }
-export const fetchVerifyEmailAfterChange = async (uid) => {
+export const fetchVerifyEmailAfterChange = async (UID) => {
     try {
-        const response = await fetch(`https://localhost:7257/user/verifymail?uid=${uid}`, {
+        const response = await fetch(`https://localhost:7257/user/verifymail`, {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ UID }),
         });
         if (!response.ok) {
             throw new Error('Network response was not ok');

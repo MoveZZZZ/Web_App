@@ -178,7 +178,7 @@ namespace Web_App.Rest.User.Repositories
             {
                 connection.Open();
                 command.Connection = connection;
-                command.CommandText = "INSERT INTO `change_email` (`user_id`, `uid`, `new_email`, `time_stamp`) VALUES (@id, @uid, @mail, NOW())";
+                command.CommandText = "INSERT INTO change_email(user_id, uid, new_email, time_stamp) SELECT @id, @uid, @mail, NOW() WHERE NOT EXISTS(SELECT * FROM change_email WHERE user_id = @id LIMIT 1)";
                 command.Parameters.Add("@id", MySqlDbType.Int32).Value = userID;
                 command.Parameters.Add("@uid", MySqlDbType.Text).Value = UID;
                 command.Parameters.Add("@mail", MySqlDbType.VarChar).Value = mail;

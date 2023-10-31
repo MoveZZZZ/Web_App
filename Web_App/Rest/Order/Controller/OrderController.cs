@@ -85,26 +85,22 @@ namespace Web_App.Rest.Order.Controller
         }
         [Authorize]
         [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
-        [HttpGet]
+        [HttpPost]
         [Route("admin/getallorderbyemail")]
-        public IActionResult getAllOrdersByEmail([FromQuery] string userEmail)
+        public IActionResult getAllOrdersByEmail([FromBody] OrderUserDataModel userModel)
         {
-
             List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
-
-            model = _orderService.getAllOrdersByUserEmail(userEmail);
-
-
+            model = _orderService.getAllOrdersByUserEmail(userModel.email);
             return Ok(model);
         }
         [Authorize]
         [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
-        [HttpGet]
+        [HttpPost]
         [Route("admin/orderdetails")]
-        public IActionResult getOrderDetailsAdmin([FromQuery] int orderID, string emailUser)
+        public IActionResult getOrderDetailsAdmin([FromBody] OrderUserDataModel userModel)
         {
             OrderDetailsModel orderDetailsModel = new OrderDetailsModel();
-            orderDetailsModel = _orderService.getOrderDetailsModelAdmin(orderID, emailUser, "");
+            orderDetailsModel = _orderService.getOrderDetailsModelAdmin(Convert.ToInt32(userModel.orderID), userModel.email, "");
             return Ok(orderDetailsModel);
         }
         [Authorize]

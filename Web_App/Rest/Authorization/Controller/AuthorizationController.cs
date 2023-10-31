@@ -32,11 +32,15 @@ public class AuthorizationController : ControllerBase
     public IActionResult Login([FromBody] AuthorizationModel loginModel)
     {
         AuthorizationResponseModel _authorizationResponseModel = _userAuthorizationService.checkUser(loginModel);
+        if (_authorizationResponseModel.UserID == -1)
+        {
+            return Unauthorized(new { message = "Account is temporary blocked, try again later!" });
+        }
         if (_authorizationResponseModel.UserID != 0 && _authorizationResponseModel.Role != "ADMIN")
         {
             this.Response.Cookies.Append("AccessToken", _authorizationResponseModel.UserToken, new CookieOptions()
             {
-                Expires = DateTimeOffset.Now.AddMinutes(2),
+                Expires = DateTimeOffset.Now.AddSeconds(30),
                 Path = "/",
                 HttpOnly = true,
                 Domain = null,
@@ -46,7 +50,7 @@ public class AuthorizationController : ControllerBase
             });
             this.Response.Cookies.Append("RefreshToken", _authorizationResponseModel.UserRefreshToken, new CookieOptions()
             {
-                Expires = DateTimeOffset.Now.AddMinutes(4800),
+                Expires = DateTimeOffset.Now.AddMinutes(2880),
                 Path = "/token/",
                 HttpOnly = true,
                 Domain = null,

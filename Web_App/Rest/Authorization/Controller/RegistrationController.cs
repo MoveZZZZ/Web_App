@@ -27,10 +27,10 @@ public class RegistrationController : ControllerBase
     }
     [HttpPost]
     [Route("verifymail")]
-    public IActionResult VerifyEmail([FromQuery] string token)
+    public IActionResult VerifyEmail([FromBody] MFAuthModel model)
     {
 
-        string errorMessage = _userRegistrationService.addUserInDBAfterCheck(token);
+        string errorMessage = _userRegistrationService.addUserInDBAfterCheck(model.UID);
         if (errorMessage != "")
         {
             return Unauthorized(new { message = errorMessage });

@@ -17,10 +17,10 @@ const ForgotPasswordPreResetPage = () => {
         e.preventDefault();
         if (checkMailLenght()) {
             preresetpass(email);
-            setErr("If user with this email address exists, email with recovery link were sent!")
+            setErr("If user with this email address exists, email with recovery link has been sent!")
             setEmail("");
         }
-        setErr("Email has to long!");
+        setErr("Wrong Email!");
     };
 
     return (

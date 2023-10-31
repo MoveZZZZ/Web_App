@@ -19,7 +19,7 @@ const VerifyEmailPage = () => {
         if (message === "Ok") {
             setIsValid(true);
             setIsMessage(true);
-            setMessage("Yor mail succesfly veryfied. You will be redirected to the login page after 5 sekund!");
+            setMessage("Yor mail succesfly veryfied. You will be redirected to the login page in 5 seconds!");
             getMessage();
             setTimeout(() => window.open("/login", "_self"), 4000);
         }
