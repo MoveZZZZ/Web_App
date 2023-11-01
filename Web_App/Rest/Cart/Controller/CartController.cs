@@ -64,7 +64,7 @@ namespace Web_App.Rest.Cart.Controller
             return Ok(new { message = "zaebis!" });
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpDelete]
         [Route("removefromcart")]
         public IActionResult RemoveItemFromCart([FromBody] CartModelRequest model)
