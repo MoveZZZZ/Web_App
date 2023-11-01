@@ -13,7 +13,6 @@ public class RegistrationController : ControllerBase
         _userRegistrationService = new UserRegistrationService(_config);
     }
 
-    [AllowAnonymous]
     [HttpPost]
     [Route("signup")]
     public IActionResult SignUp([FromBody] RegisterModel sign)
@@ -25,6 +24,7 @@ public class RegistrationController : ControllerBase
         }
         return Ok(new { message = "Ok" });
     }
+
     [HttpPost]
     [Route("verifymail")]
     public IActionResult VerifyEmail([FromBody] MFAuthModel model)
@@ -36,9 +36,6 @@ public class RegistrationController : ControllerBase
             return Unauthorized(new { message = errorMessage });
         }
         return Ok(new { message = "Ok" });
-
-
     }
-
 }
 

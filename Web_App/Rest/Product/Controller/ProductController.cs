@@ -58,6 +58,8 @@ namespace Web_App.Rest.Product.Controller
             return Ok(new { message = "" });
         }
 
+        [Authorize]
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
         [HttpPost]
         [Route("productdetails/admin/changeproduct")]
         public IActionResult ChangeDataProduct([FromForm] ProductUpdateModel model)
@@ -66,8 +68,10 @@ namespace Web_App.Rest.Product.Controller
             modelBase = _productService.createDBModelProductUpdateProduct(model);
             _productService.updateTowar(modelBase);
             return Ok();
-
         }
+
+        [Authorize]
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
         [HttpPost]
         [Route("productdetails/admin/changeproductwithoutimage")]
         public IActionResult ChangeDataProductWithoutImage([FromForm] ProductUpdateWithoutImageModel model)
@@ -76,10 +80,7 @@ namespace Web_App.Rest.Product.Controller
             modelBase = _productService.createDBModelProductUpdateProductWithoutImage(model);
             _productService.updateTowar(modelBase);
             return Ok();
-
         }
-
     }
-
 }
 
