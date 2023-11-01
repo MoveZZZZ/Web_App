@@ -135,7 +135,7 @@ const SettingsPage = () => {
             setResponseMessage("Write data!");
     }
     const isSuccessChangeEmail = (message) => {
-        if (message === "Verification link has ben send, check email!") {
+        if (message === "Verification link has been send, check email!") {
             setModalEmailChangeVisability(false);
             setMessage(message)
             getMessage();

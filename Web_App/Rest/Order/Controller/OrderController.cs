@@ -70,7 +70,6 @@ namespace Web_App.Rest.Order.Controller
             return Ok(model);
         }
 
-        [Authorize]
         [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
         [HttpGet]
         [Route("admin/getallorder")]
@@ -83,31 +82,24 @@ namespace Web_App.Rest.Order.Controller
 
             return Ok(model);
         }
-        [Authorize]
         [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
-        [HttpGet]
+        [HttpPost]
         [Route("admin/getallorderbyemail")]
-        public IActionResult getAllOrdersByEmail([FromQuery] string userEmail)
+        public IActionResult getAllOrdersByEmail([FromBody] OrderUserDataModel userModel)
         {
-
             List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
-
-            model = _orderService.getAllOrdersByUserEmail(userEmail);
-
-
+            model = _orderService.getAllOrdersByUserEmail(userModel.email);
             return Ok(model);
         }
-        [Authorize]
         [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
-        [HttpGet]
+        [HttpPost]
         [Route("admin/orderdetails")]
-        public IActionResult getOrderDetailsAdmin([FromQuery] int orderID, string emailUser)
+        public IActionResult getOrderDetailsAdmin([FromBody] OrderUserDataModel userModel)
         {
             OrderDetailsModel orderDetailsModel = new OrderDetailsModel();
-            orderDetailsModel = _orderService.getOrderDetailsModelAdmin(orderID, emailUser, "");
+            orderDetailsModel = _orderService.getOrderDetailsModelAdmin(Convert.ToInt32(userModel.orderID), userModel.email, "");
             return Ok(orderDetailsModel);
         }
-        [Authorize]
         [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
         [HttpGet]
         [Route("admin/orderdetails/archive")]
@@ -117,7 +109,6 @@ namespace Web_App.Rest.Order.Controller
             orderDetailsModel = _orderService.getOrderDetailsModelAdmin(orderID, "" ,username);
             return Ok(orderDetailsModel);
         }
-        [Authorize]
         [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
         [HttpDelete]
         [Route("admin/removeorder")]
@@ -134,7 +125,6 @@ namespace Web_App.Rest.Order.Controller
             }
 
         }
-        [Authorize]
         [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
         [HttpGet]
         [Route("admin/getallarchiveorder")]
@@ -144,7 +134,6 @@ namespace Web_App.Rest.Order.Controller
             model = _orderService.getAllArchiveOrders();
             return Ok(model);
         }
-        [Authorize]
         [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
         [HttpGet]
         [Route("admin/getallarchiveorder/searchusername")]
@@ -154,7 +143,6 @@ namespace Web_App.Rest.Order.Controller
             model = _orderService.getAllArchiveOrdersByUsername(username);
             return Ok(model);
         }
-        [Authorize]
         [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
         [HttpGet]
         [Route("admin/getallorder/lastday")]
@@ -164,7 +152,6 @@ namespace Web_App.Rest.Order.Controller
             model = _orderService.getAllOrdersLastDay();
             return Ok(model);
         }
-        [Authorize]
         [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
         [HttpGet]
         [Route("admin/getallorder/lastmonath")]
@@ -174,7 +161,6 @@ namespace Web_App.Rest.Order.Controller
             model = _orderService.getAllOrdersLastMonath();
             return Ok(model);
         }
-        [Authorize]
         [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
         [HttpGet]
         [Route("admin/getallorder/lastyear")]
@@ -184,7 +170,6 @@ namespace Web_App.Rest.Order.Controller
             model = _orderService.getAllOrdersLastYear();
             return Ok(model);
         }
-        [Authorize]
         [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
         [HttpGet]
         [Route("admin/getallorder/today")]
@@ -194,7 +179,6 @@ namespace Web_App.Rest.Order.Controller
             model = _orderService.getAllOrdersToday();
             return Ok(model);
         }
-        [Authorize]
         [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
         [HttpGet]
         [Route("admin/getallorder/thismonath")]
@@ -204,7 +188,6 @@ namespace Web_App.Rest.Order.Controller
             model = _orderService.getAllOrdersThisMon();
             return Ok(model);
         }
-        [Authorize]
         [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
         [HttpGet]
         [Route("admin/getallorder/thisyear")]

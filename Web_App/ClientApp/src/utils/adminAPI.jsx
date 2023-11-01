@@ -8,18 +8,29 @@ export const fetchAllOrders = async () => {
     return fetchWithAuthentication(api, params);
 }
 
-export const fetchAllOrderByEmail = async (search) => {
+export const fetchAllOrderByEmail = async (Email) => {
+    const api = `https://localhost:7257/order/admin/getallorderbyemail`;
+    //let email = encodeURIComponent(search);
     const params = {
-        method: 'GET',
+        method: 'POST',
         credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ Email }),
     };
-    return fetchWithAuthentication(`https://localhost:7257/order/admin/getallorderbyemail?userEmail=${encodeURIComponent(search)}`, params);
+    return fetchWithAuthentication(api, params);
 };
 
-export const fetchOrderDetailsAdmin = async (orderID, userEmail) => {
-    const api = `https://localhost:7257/order/admin/orderdetails?orderID=${orderID}&emailUser=${userEmail}`;
+export const fetchOrderDetailsAdmin = async (orderID, email) => {
+    const api = `https://localhost:7257/order/admin/orderdetails`;
     const params = {
+        method: 'POST',
         credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ orderID, email }),
     };
     return fetchWithAuthentication(api, params);
 }

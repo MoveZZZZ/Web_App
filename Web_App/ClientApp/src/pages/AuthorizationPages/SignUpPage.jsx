@@ -58,7 +58,7 @@ const SignUpPage = () => {
             setIsMessage(true);
             setPasswordUser("");
             setPasswordConfUser("");
-            setMessage("Yor account succesfly created. You will be redirected to the login page after 5 sekund! If you want use service, check your email!");
+            setMessage("Yor account succesfly created. You will be redirected to the login page in 5 seconds! If you want use service, check your email!");
             getMessage();
             setTimeout(() => window.open("/login", "_self"), 4000);
         }

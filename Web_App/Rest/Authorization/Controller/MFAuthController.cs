@@ -24,24 +24,24 @@ public class MFAuthController : ControllerBase
 
     [HttpPost]
     [Route("checklink")]
-    public IActionResult ValidateMFAuthLink([FromQuery] string uid)
+    public IActionResult ValidateMFAuthLink([FromBody] MFAuthModel model)
     {
-        string msg = _userMFAuth.checkExistMFAuthUID(uid);
+        string msg = _userMFAuth.checkExistMFAuthUID(model.UID);
         return Ok(new { message = msg });
     }
 
     [HttpPost]
     [Route("codesubmit")]
-    public IActionResult MFAuthCodeSubmit([FromQuery] string code, string uid) 
+    public IActionResult MFAuthCodeSubmit([FromBody] MFAuthModel model) 
     {
-        AuthorizationResponseModel responseModel = _userMFAuth.codeSubmit(code, uid);
+        AuthorizationResponseModel responseModel = _userMFAuth.codeSubmit(model.Code, model.UID);
         if (responseModel.UserID == 0) 
         {
             return Unauthorized(new { message = "Some verification errors appear, please, try again." });
         }
         this.Response.Cookies.Append("AccessToken", responseModel.UserToken, new CookieOptions()
         {
-            Expires = DateTimeOffset.Now.AddMinutes(2),
+            Expires = DateTimeOffset.Now.AddSeconds(30),
             Path = "/",
             HttpOnly = true,
             Domain = null,
@@ -51,7 +51,7 @@ public class MFAuthController : ControllerBase
         });
         this.Response.Cookies.Append("RefreshToken", responseModel.UserRefreshToken, new CookieOptions()
         {
-            Expires = DateTimeOffset.Now.AddMinutes(4800),
+            Expires = DateTimeOffset.Now.AddMinutes(2880),
             Path = "/token/",
             HttpOnly = true,
             Domain = null,

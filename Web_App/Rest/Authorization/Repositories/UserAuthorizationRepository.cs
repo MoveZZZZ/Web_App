@@ -33,8 +33,22 @@ namespace Web_App.Rest.Authorization.Repositories
                 userModel.Password = row[2].ToString();
                 userModel.Email = row[3].ToString();
                 userModel.Role = row[4].ToString();
+                userModel.isBlocked = Convert.ToInt32(row[6].ToString());
             }
             return userModel;
+        }
+
+        public void IncrementLoginFailureByID(int user_ID)
+        {
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "INSERT INTO login_failures(user_id, time_stamp) VALUES (@id, NOW()); UPDATE user SET blocked = 1 WHERE id=@id AND (SELECT COUNT(*) FROM login_failures WHERE user_id=@id) >= 15";
+                command.Parameters.Add("@id", MySqlDbType.Int32).Value = user_ID;
+                command.ExecuteNonQuery();
+            }
         }
 
         public UserModel getUserDataFromDBviaID(int userID)
