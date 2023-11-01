@@ -20,7 +20,6 @@ public class AuthorizationController : ControllerBase
     private UserAuthorizationService _userAuthorizationService;
     private UserMFAuthService _userMFAuthService;
 
-
     public AuthorizationController(ITokenService tokenService, IConfiguration _conf)
     {
         _tokenService = tokenService;
@@ -62,7 +61,6 @@ public class AuthorizationController : ControllerBase
             _authorizationResponseModel.UserToken = "";
             return Ok(_authorizationResponseModel);
         }
-
         else if (_authorizationResponseModel.UserID != 0 && _authorizationResponseModel.Role == "ADMIN")
         {
             string uid = _userMFAuthService.generateAdminUID(_authorizationResponseModel.UserID);
@@ -74,6 +72,4 @@ public class AuthorizationController : ControllerBase
         }
         return Unauthorized(new { message = "bad login or password" });  
     }
-
-
 }

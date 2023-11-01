@@ -10,14 +10,13 @@ namespace Web_App.Rest.AccessPoint.Controller
     [Authorize]
     public class AccessPointController : ControllerBase
     {
-
         AccessPointService _accessPointService = new AccessPointService();
-
 
         public AccessPointController()
         {
             _accessPointService = new AccessPointService();
         }
+
         [HttpGet]
         [Route("getallaccesspointcountry")]
         public IActionResult GetAllAccessPointCountry()
@@ -26,9 +25,6 @@ namespace Web_App.Rest.AccessPoint.Controller
             response = _accessPointService.getAllPointsCountry();
             return Ok(new { Countries = response });
         }
-
-
-
 
         [HttpGet]
         [Route("getallaccesspointstatethecountry")]
@@ -48,7 +44,6 @@ namespace Web_App.Rest.AccessPoint.Controller
             response = _accessPointService.getAllPointsCity();
             return Ok(new { Citys = response });
         }
-
 
         [HttpPost]
         [Route("getallaccesspointthestate")]
