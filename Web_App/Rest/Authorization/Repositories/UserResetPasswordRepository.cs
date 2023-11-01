@@ -28,6 +28,21 @@ namespace Web_App.Rest.Authorization.Repositories
             }
         }
 
+        public bool isRequestForIdExists(int user_ID)
+        {
+            bool isExist;
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "SELECT * FROM reset_links WHERE user_id=@id";
+                command.Parameters.Add("@id", MySqlDbType.Int32).Value = user_ID;
+                isExist = command.ExecuteScalar() == null ? false : true;
+            }
+            return isExist;
+        }
+
         public bool isUIDExist(string uid)
         {
             bool isUIDExist;
