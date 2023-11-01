@@ -39,6 +39,12 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 builder.Services.AddTransient<MySqlConnection>(_ =>
     new MySqlConnection(builder.Configuration.GetConnectionString("Default")));
 
+builder.Services.AddControllers();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+
 
 builder.Services.AddTransient<IBraintreeService, BraintreeService>();
 builder.Services.AddAuthentication(options =>
@@ -90,6 +96,8 @@ app.UseRouting();
 app.UseCors();
 app.UseCookiePolicy();
 app.UseAuthentication();
+app.UseSwagger();
+app.UseSwaggerUI();
 app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
