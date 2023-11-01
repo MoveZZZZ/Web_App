@@ -50,7 +50,7 @@ namespace Web_App.Rest.Favorite.Controller
         }
 
         [Authorize]
-        [HttpPost]
+        [HttpDelete]
         [Route("removefavoriteitem")]
         public IActionResult RemoveFavoriteItem([FromBody] FavoriteRequestModel model)
         {

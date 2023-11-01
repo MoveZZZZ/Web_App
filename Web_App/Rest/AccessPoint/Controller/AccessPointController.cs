@@ -26,10 +26,6 @@ namespace Web_App.Rest.AccessPoint.Controller
             response = _accessPointService.getAllPointsCountry();
             return Ok(new { Countries = response });
         }
-
-
-
-
         [HttpGet]
         [Route("getallaccesspointstatethecountry")]
         public IActionResult GetAllAccessPointState([FromQuery] string Country)
@@ -41,25 +37,6 @@ namespace Web_App.Rest.AccessPoint.Controller
         }
 
         [HttpGet]
-        [Route("getallaccesspointcity")]
-        public IActionResult GetAccessPointCity()
-        {
-            List<string> response = new List<string>();
-            response = _accessPointService.getAllPointsCity();
-            return Ok(new { Citys = response });
-        }
-
-
-        [HttpPost]
-        [Route("getallaccesspointthestate")]
-        public IActionResult GetAccessPointTheState([FromQuery] string State)
-        {
-            List<AccessPointModel> response = new List<AccessPointModel>();
-            response = _accessPointService.getAllPointsTheState(State);
-            return Ok(new { AccesPoints = response });
-        }
-
-        [HttpPost]
         [Route("getallaccesspointthestateandcity")]
         public IActionResult GetAccessPointsTheStateAndCity([FromQuery] string State, string City)
         {
@@ -68,7 +45,7 @@ namespace Web_App.Rest.AccessPoint.Controller
             return Ok(new { AccesPoints = response });
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("getallcitysthestate")]
         public IActionResult GetAllCitysAPTheState([FromQuery] string State)
         {

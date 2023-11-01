@@ -45,67 +45,6 @@ namespace Web_App.Rest.AccessPoint.Repository
             return list;
         }
 
-        public List<AccessPointModel> GetAllAccessPointState(string state)
-        {
-            List<AccessPointModel> list = new List<AccessPointModel>();
-            AccessPointModel accessModel;
-
-            MySqlDataAdapter adapter = new MySqlDataAdapter();
-            DataTable table = new DataTable();
-
-            using (var connection = GetConnection())
-            using (var command = new MySqlCommand())
-            {
-                connection.Open();
-                command.Connection = connection;
-                command.CommandText = "SELECT * FROM access_point WHERE state=@state";
-                command.Parameters.Add("@state", MySqlDbType.VarChar).Value = state;
-                adapter.SelectCommand = command;
-                adapter.Fill(table);
-            }
-            foreach (DataRow row in table.Rows)
-            {
-
-                accessModel = new AccessPointModel();
-
-                accessModel.ID = Convert.ToInt32(row["id"]);
-                accessModel.Name = row["name"].ToString();
-                accessModel.State = row["state"].ToString();
-                accessModel.City = row["city"].ToString();
-                accessModel.Street = row["street"].ToString();
-                accessModel.BuildingNumber = row["building_num"].ToString();
-                accessModel.PostIndex = row["post_index"].ToString();
-                list.Add(accessModel);
-            }
-            return list;
-        }
-
-        public List<string> GetAllCityAccessPoint()
-        {
-            List<string> list = new List<string>();
-            string temp;
-
-            MySqlDataAdapter adapter = new MySqlDataAdapter();
-            DataTable table = new DataTable();
-
-            using (var connection = GetConnection())
-            using (var command = new MySqlCommand())
-            {
-                connection.Open();
-                command.Connection = connection;
-                command.CommandText = "SELECT city FROM access_point ";
-                adapter.SelectCommand = command;
-                adapter.Fill(table);
-            }
-            foreach (DataRow row in table.Rows)
-            {
-                temp = row["city"].ToString();
-                list.Add(temp);
-                temp = "";
-            }
-            return list;
-        }
-
         public List<string> GetAllCitysAPTheState(string state)
         {
             List<string> list = new List<string>();

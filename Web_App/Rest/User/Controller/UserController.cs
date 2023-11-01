@@ -37,7 +37,7 @@ namespace Web_App.Rest.User.Controller
         }
 
         [Authorize]
-        [HttpPost]
+        [HttpPatch]
         [Route("changeavatar")]
         public IActionResult changeUserAvatar([FromForm] IFormFile Image, [FromForm] int userID)
         {
@@ -52,7 +52,7 @@ namespace Web_App.Rest.User.Controller
         }
 
         [Authorize]
-        [HttpPost]
+        [HttpPatch]
         [Route("changelogin")]
         public IActionResult changeUserLogin([FromForm] ModifyUserRequestModel model)
         {
@@ -65,7 +65,7 @@ namespace Web_App.Rest.User.Controller
             return Ok(new { message = message });
         }
         [Authorize]
-        [HttpPost]
+        [HttpPatch]
         [Route("changeemail")]
         public IActionResult changeUserEmail([FromForm] ModifyUserRequestModel model)
         {
@@ -78,7 +78,7 @@ namespace Web_App.Rest.User.Controller
             return Ok(new { message = message });
         }
         [Authorize]
-        [HttpPost]
+        [HttpPatch]
         [Route("changepassword")]
         public IActionResult changeUserPassword([FromForm] ModifyUserRequestModel model)
         {
@@ -91,7 +91,7 @@ namespace Web_App.Rest.User.Controller
             return Ok(new { message = message });
         }
         [Authorize]
-        [HttpPost]
+        [HttpDelete]
         [Route("deleteaccount")]
         public IActionResult deleteUserAccountByID([FromForm] ModifyUserRequestModel model)
         {

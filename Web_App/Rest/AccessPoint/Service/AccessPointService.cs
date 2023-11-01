@@ -26,18 +26,6 @@ namespace Web_App.Rest.AccessPoint.Service
             data = _accessPointRepository.GetAllStateAPTheCoutry(country);
             return data;
         }
-        public List<string> getAllPointsCity()
-        {
-            List<string> data = new List<string>();
-            data = _accessPointRepository.GetAllCityAccessPoint();
-            return data;
-        }
-        public List<AccessPointModel> getAllPointsTheState(string state)
-        {
-            List<AccessPointModel> data = new List<AccessPointModel>();
-            data = _accessPointRepository.GetAllAccessPointState(state);
-            return data;
-        }
         public List<AccessPointModel> getAllPointsTheCity(string state, string city)
         {
             List<AccessPointModel> accessPointModels = new List<AccessPointModel>();

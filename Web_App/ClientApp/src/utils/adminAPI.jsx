@@ -53,7 +53,7 @@ export const fetchDeleteOrderByID = async (orderID) => {
 export const fetchChangeProductData = async (formData) => {
     const api = `https://localhost:7257/products/productdetails/admin/changeproduct`
     const params = {
-        method: 'POST',
+        method: 'PUT',
         body: formData,
         credentials: 'include',
     };
@@ -62,7 +62,7 @@ export const fetchChangeProductData = async (formData) => {
 export const fetchChangeProductDataWithoutImage = async (formData) => {
     const api = `https://localhost:7257/products/productdetails/admin/changeproductwithoutimage`
     const params = {
-        method: 'POST',
+        method: 'PATCH',
         body: formData,
         credentials: 'include',
     };

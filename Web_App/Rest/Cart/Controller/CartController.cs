@@ -65,7 +65,7 @@ namespace Web_App.Rest.Cart.Controller
         }
 
         //[Authorize]
-        [HttpPost]
+        [HttpDelete]
         [Route("removefromcart")]
         public IActionResult RemoveItemFromCart([FromBody] CartModelRequest model)
         {

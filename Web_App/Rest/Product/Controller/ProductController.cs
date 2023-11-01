@@ -58,7 +58,7 @@ namespace Web_App.Rest.Product.Controller
             return Ok(new { message = "" });
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("productdetails/admin/changeproduct")]
         public IActionResult ChangeDataProduct([FromForm] ProductUpdateModel model)
         {
@@ -68,7 +68,7 @@ namespace Web_App.Rest.Product.Controller
             return Ok();
 
         }
-        [HttpPost]
+        [HttpPatch]
         [Route("productdetails/admin/changeproductwithoutimage")]
         public IActionResult ChangeDataProductWithoutImage([FromForm] ProductUpdateWithoutImageModel model)
         {
