@@ -13,14 +13,13 @@ const ForgotPasswordPreResetPage = () => {
     }
 
 
-    const handlePreReset = (e) => {
+    const handlePreReset = async(e) => {
         e.preventDefault();
         if (checkMailLenght()) {
-            preresetpass(email);
-            setErr("If user with this email address exists, email with recovery link has been sent!")
+            let res = await preresetpass(email);
+            setErr(res.message)
             setEmail("");
         }
-        setErr("Wrong Email!");
     };
 
     return (

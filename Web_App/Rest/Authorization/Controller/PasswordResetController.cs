@@ -27,14 +27,16 @@ public class PasswordResetController : ControllerBase
     [Route("genresetmail")]
     public IActionResult GenereteResetMail([FromBody] ResetPasswordModel model)
     {
+        bool isSuccessfullySent = false;
         try
         {
-            _userResetPasswordService.processingUserResetPasswordRequest(model.Email);
+            isSuccessfullySent = _userResetPasswordService.processingUserResetPasswordRequest(model.Email);
         }
         catch
         {
             return Unauthorized(new { message = "Wrong Email!" });
         }
+        if (!isSuccessfullySent) { return Unauthorized(new { message = "Email was sent earlier, please check your email!" }); }
         return Ok(new { message = "Email were successfuly send!" });
     }
 

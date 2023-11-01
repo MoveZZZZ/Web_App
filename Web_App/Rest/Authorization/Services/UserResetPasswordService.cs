@@ -33,16 +33,25 @@ namespace Web_App.Rest.Authorization.Services
                 return "Valid!";
             return "No valid!";
         }
-        public void processingUserResetPasswordRequest(string email)
+        public bool processingUserResetPasswordRequest(string email)
         {
             ResetPasswordModel user = createResetLink(email);
+            if (user.UID == null)
+            {
+                return false;
+            }
             _mailSendingService.SendMailWithRecoveryLink(user.Email, user.UID);
+            return true;
         }
 
         private ResetPasswordModel createResetLink(string email)
         {
             ResetPasswordModel reset = new ResetPasswordModel();
             UserModel user = _userAuth.getUserDataFromDBviaEmail(email);
+            if (_resetPasswordRepository.isRequestForIdExists(user.Id))
+            {
+                return reset;
+            }
             Random rand = new Random();
             int payload = rand.Next(1000000, 9999999);
             string mergedData = user.Password + Convert.ToString(payload) + user.Email;
@@ -52,6 +61,8 @@ namespace Web_App.Rest.Authorization.Services
             reset.Email = email;
             return reset;
         }
+
+
 
         static string CalculateSHA512Hash(string input)
         {

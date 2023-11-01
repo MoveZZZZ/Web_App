@@ -25,14 +25,17 @@ export const signup = (login, email, password, passwordConfirm) => {
         });
 };
 
-export const preresetpass = (Email) => {
-    return fetch(`https://localhost:7257/passwordreset/genresetmail`, {
+export const preresetpass = async (Email) => {
+    return await fetch(`https://localhost:7257/passwordreset/genresetmail`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({ Email }),
-    })
+    }).then((response) => {
+        return response.json();
+    });
+
 };
 
 export const fetchIsExistUID = async (UID) => {
