@@ -6,7 +6,7 @@ import { fetchCreateOrder, } from "../../utils/orderAPI"
 import Message from "../../components/Message/Message";
 import ErrorMessage from "../../components/Message/ErrorMessage";
 
-import { fetchGetAllAPCity, fetchGetAllAPTheCity, fetchGetAllAPState, fetchGetAllAPTheState, fetchGetAllCitysTheState, fetchGetAllAPTheStateAndCity, fetchGetAllCountry, fetchGetAllAPStateCountry } from "../../utils/accessPointsAPI"
+import { fetchGetAllCitysTheState, fetchGetAllAPTheStateAndCity, fetchGetAllCountry, fetchGetAllAPStateCountry } from "../../utils/accessPointsAPI"
 
 const ShoppingCartPage = () => {
 
