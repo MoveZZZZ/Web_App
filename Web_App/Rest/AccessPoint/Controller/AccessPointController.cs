@@ -10,14 +10,13 @@ namespace Web_App.Rest.AccessPoint.Controller
     [Authorize]
     public class AccessPointController : ControllerBase
     {
-
         AccessPointService _accessPointService = new AccessPointService();
-
 
         public AccessPointController()
         {
             _accessPointService = new AccessPointService();
         }
+
         [HttpGet]
         [Route("getallaccesspointcountry")]
         public IActionResult GetAllAccessPointCountry()
@@ -37,6 +36,7 @@ namespace Web_App.Rest.AccessPoint.Controller
         }
 
         [HttpGet]
+
         [Route("getallaccesspointthestateandcity")]
         public IActionResult GetAccessPointsTheStateAndCity([FromQuery] string State, string City)
         {

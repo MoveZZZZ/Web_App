@@ -10,6 +10,7 @@ namespace Web_App.Rest.Favorite.Controller
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class FavoriteController : ControllerBase
     {
         FavoriteService _favoriteService;
@@ -20,7 +21,6 @@ namespace Web_App.Rest.Favorite.Controller
             _tokenService = new TokenService(_conf);
         }
 
-        [Authorize]
         [HttpPost]
         [Route("addfavorite")]
         public IActionResult AddFavorite([FromBody] FavoriteRequestModel model)
@@ -34,7 +34,6 @@ namespace Web_App.Rest.Favorite.Controller
             return Ok(new { message = "Added successfully" });
         }
 
-        [Authorize]
         [HttpGet]
         [Route("getlistfavorite")]
         public IActionResult GetIndexFavorite([FromQuery] int clientId)
@@ -49,7 +48,7 @@ namespace Web_App.Rest.Favorite.Controller
             return Ok(new { ListIndex = indexes });
         }
 
-        [Authorize]
+
         [HttpDelete]
         [Route("removefavoriteitem")]
         public IActionResult RemoveFavoriteItem([FromBody] FavoriteRequestModel model)
@@ -63,7 +62,6 @@ namespace Web_App.Rest.Favorite.Controller
             return Ok(new { message = "Deleted successfully" });
         }
 
-        [Authorize]
         [HttpGet]
         [Route("getallfavoriteuser")]
         public IActionResult GetAllFavoriteItem(int userID)
@@ -76,11 +74,7 @@ namespace Web_App.Rest.Favorite.Controller
             List<FavoritePageResponseModel> response = new List<FavoritePageResponseModel>();
             response = _favoriteService.getAllUserFavorite(userID);
             float sum = response.Sum(t => t.Cost);
-
             return Ok(new { towars = response, summary = sum });
         }
     }
-
-
-
 }

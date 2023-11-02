@@ -27,16 +27,19 @@ public class PasswordResetController : ControllerBase
     [Route("genresetmail")]
     public IActionResult GenereteResetMail([FromBody] ResetPasswordModel model)
     {
+        bool isSuccessfullySent = false;
         try
         {
-            _userResetPasswordService.processingUserResetPasswordRequest(model.Email);
+            isSuccessfullySent = _userResetPasswordService.processingUserResetPasswordRequest(model.Email);
         }
         catch
         {
             return Unauthorized(new { message = "Wrong Email!" });
         }
+        if (!isSuccessfullySent) { return Unauthorized(new { message = "Email was sent earlier, please check your email!" }); }
         return Ok(new { message = "Email were successfuly send!" });
     }
+
     [HttpPost]
     [Route("checklink")]
     public IActionResult ValidateRecoveryLink([FromBody] ResetPasswordModel model)
@@ -44,6 +47,7 @@ public class PasswordResetController : ControllerBase
         string msg = _userResetPasswordService.checkExistUID(model.UID);
         return Ok(new { message = msg });
     }
+
     [HttpPost]
     [Route("recoverypage/changepassword")]
     public IActionResult ChangePassword([FromBody] ResetPasswordModel model)
@@ -51,6 +55,5 @@ public class PasswordResetController : ControllerBase
         string message = _userResetPasswordService.ChangePaswwordUser(model.Password, model.ConfirmPassword, model.UID);
         return Ok(new { message = message });
     }
-
 }
 

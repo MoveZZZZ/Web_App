@@ -9,6 +9,7 @@ namespace Web_App.Rest.Cart.Controller
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class CartController : ControllerBase
     {
         CartService _cartService;
@@ -19,7 +20,6 @@ namespace Web_App.Rest.Cart.Controller
             _tokenService = new TokenService(_conf);
         }
 
-        [Authorize]
         [HttpGet]
         [Route("getlistcart")]
         public IActionResult GetCartItemsList([FromQuery] int userID)
@@ -35,7 +35,6 @@ namespace Web_App.Rest.Cart.Controller
             return Ok(new { Towar = response });
         }
 
-        [Authorize]
         [HttpGet]
         [Route("getindexlistcart")]
         public IActionResult GetIndexCartList([FromQuery] int userID)
@@ -50,7 +49,6 @@ namespace Web_App.Rest.Cart.Controller
             return Ok(new { cartIndexesList = response });
         }
 
-        [Authorize]
         [HttpPost]
         [Route("addtocart")]
         public IActionResult AddToCart([FromBody] CartModelRequest model)
@@ -64,7 +62,6 @@ namespace Web_App.Rest.Cart.Controller
             return Ok(new { message = "zaebis!" });
         }
 
-        [Authorize]
         [HttpDelete]
         [Route("removefromcart")]
         public IActionResult RemoveItemFromCart([FromBody] CartModelRequest model)
@@ -75,7 +72,6 @@ namespace Web_App.Rest.Cart.Controller
                 return BadRequest(new { message = "UnAuthorized Attempt to Access Data belong to Other User!" });
             }
             _cartService.removeTowarFromCart(model);
-
             return Ok(new { message = "jebnia!" });
         }
     }

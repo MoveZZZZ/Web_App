@@ -9,9 +9,9 @@ namespace Web_App.Rest.User.Controller
 {
     [Route("user")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
-
         public UserService _userservice;
         private readonly ITokenService _tokenService;
 
@@ -21,7 +21,6 @@ namespace Web_App.Rest.User.Controller
             _tokenService = new TokenService(_conf);
         }
 
-        [Authorize]
         [HttpGet]
         public IActionResult GetUserData([FromQuery] int userID)
         {
@@ -51,7 +50,7 @@ namespace Web_App.Rest.User.Controller
             return Ok(new { message = message });
         }
 
-        [Authorize]
+
         [HttpPatch]
         [Route("changelogin")]
         public IActionResult changeUserLogin([FromForm] ModifyUserRequestModel model)
@@ -64,7 +63,6 @@ namespace Web_App.Rest.User.Controller
             string message = _userservice.changeLoginByID(model);
             return Ok(new { message = message });
         }
-        [Authorize]
         [HttpPatch]
         [Route("changeemail")]
         public IActionResult changeUserEmail([FromForm] ModifyUserRequestModel model)
@@ -77,7 +75,7 @@ namespace Web_App.Rest.User.Controller
             string message = _userservice.changeEmailByID(model);
             return Ok(new { message = message });
         }
-        [Authorize]
+
         [HttpPatch]
         [Route("changepassword")]
         public IActionResult changeUserPassword([FromForm] ModifyUserRequestModel model)
@@ -90,7 +88,7 @@ namespace Web_App.Rest.User.Controller
             string message = _userservice.changePasswordByID(model);
             return Ok(new { message = message });
         }
-        [Authorize]
+
         [HttpDelete]
         [Route("deleteaccount")]
         public IActionResult deleteUserAccountByID([FromForm] ModifyUserRequestModel model)
@@ -103,6 +101,8 @@ namespace Web_App.Rest.User.Controller
             string message = _userservice.removeAccountByID(model);
             return Ok(new { message = message });
         }
+
+        [AllowAnonymous]
         [HttpPost]
         [Route("verifymail")]
         public IActionResult verifyEmail([FromBody] MFAuthModel model)
@@ -110,6 +110,5 @@ namespace Web_App.Rest.User.Controller
             string msg = _userservice.ChangeEmail(model.UID);
             return Ok(new {message = msg});
         }
-
     }
 }

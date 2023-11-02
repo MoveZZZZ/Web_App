@@ -86,6 +86,7 @@ export async function fetchUpdateRemoveAccoutUser(formData) {
     };
     return fetchWithAuthentication(apiUrl, params);
 }
+
 export const fetchVerifyEmailAfterChange = async (UID) => {
     try {
         const response = await fetch(`https://localhost:7257/user/verifymail`, {
