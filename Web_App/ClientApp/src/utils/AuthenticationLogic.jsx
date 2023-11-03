@@ -1,5 +1,5 @@
 export const refreshTokens = async () => {
-    return await fetch('https://localhost:7257/token/refresh_access_token',
+    return await fetch(`${process.env.REACT_APP_API_IP}/token/refresh_access_token`,
         {
             method: 'GET',
             credentials: 'include'
@@ -10,7 +10,7 @@ export const refreshTokens = async () => {
 };
 
 export const logoutCookieCleanUp = async () => {
-    await fetch('https://localhost:7257/token/logout',
+    await fetch(`${process.env.REACT_APP_API_IP}/token/logout`,
         {
             method: 'GET',
             credentials: 'include'

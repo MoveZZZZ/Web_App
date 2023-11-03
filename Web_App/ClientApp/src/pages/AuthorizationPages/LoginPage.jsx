@@ -94,7 +94,7 @@ const LoginPage = () => {
                             type="submit"
                             className="w-full block bg-primary-300 hover:bg-primary-200 duration-200 focus:bg-blue-400 text-primary-600 font-semibold rounded-lg px-4 py-3 mt-3 mb-4"
                             onClick={handleLogin}>Log In</button>
-                        <ReCAPTCHA sitekey="6LcT39soAAAAAGvtx4Pt61bzVpNEYHZXdcvJAo7t" ref={recaptcha} />
+                            <ReCAPTCHA sitekey={process.env.REACT_APP_SITE_KEY} ref={recaptcha} />
                     </form>
 
                     <div className="mt-7 grid grid-cols-3 items-center text-gray-500">
