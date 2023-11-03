@@ -1,6 +1,6 @@
 export const fetchDetailsProduct = async (id) => {
     try {
-        const response = await fetch(`https://localhost:7257/products/getproductinfo?id=${id}`);
+        const response = await fetch(`${process.env.REACT_APP_API_IP}/products/getproductinfo?id=${id}`);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }

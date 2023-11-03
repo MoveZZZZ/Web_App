@@ -169,7 +169,7 @@ const SignUpPage = () => {
                                         type="submit"
                                         className="w-full block bg-primary-300 hover:bg-primary-200 duration-200 focus:bg-blue-400 text-primary-600 font-semibold rounded-lg px-4 py-3 mt-4 mb-4"
                                         onClick={handleSignUp}>Create Account</button>
-                                    <ReCAPTCHA sitekey="6LcT39soAAAAAGvtx4Pt61bzVpNEYHZXdcvJAo7t" ref={recaptcha} className="flex justify-center" />
+                                    <ReCAPTCHA sitekey={process.env.REACT_APP_SITE_KEY } ref={recaptcha} className="flex justify-center" />
                                 </form>
                                 <div className="mt-3 grid grid-cols-3 items-center text-gray-500">
                                     <hr className="border-secondary" />

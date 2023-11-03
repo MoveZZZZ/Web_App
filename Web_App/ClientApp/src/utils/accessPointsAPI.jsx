@@ -1,7 +1,7 @@
 ﻿import { fetchWithAuthentication, } from './AuthenticationLogic';
 
 export const fetchGetAllCountry = () => {
-    const api = 'https://localhost:7257/accesspoint/getallaccesspointcountry';
+    const api = `${process.env.REACT_APP_API_IP}/accesspoint/getallaccesspointcountry`;
     const params = {
         credentials: 'include',
         method: 'GET',
@@ -11,7 +11,7 @@ export const fetchGetAllCountry = () => {
 
 
 export const fetchGetAllAPStateCountry = (Country) => {
-    const api = `https://localhost:7257/accesspoint/getallaccesspointstatethecountry?Country=${Country}`;
+    const api = `${process.env.REACT_APP_API_IP}/accesspoint/getallaccesspointstatethecountry?Country=${Country}`;
     const params = {
         credentials: 'include',
         method: 'GET',
@@ -20,7 +20,7 @@ export const fetchGetAllAPStateCountry = (Country) => {
 }
 
 export const fetchGetAllCitysTheState = (State) => {
-    const api = `https://localhost:7257/accesspoint/getallcitysthestate?State=${State}`;
+    const api = `${process.env.REACT_APP_API_IP}/accesspoint/getallcitysthestate?State=${State}`;
     const params = {
         method: 'GET',
         credentials: 'include',
@@ -29,7 +29,7 @@ export const fetchGetAllCitysTheState = (State) => {
 }
 
 export const fetchGetAllAPTheStateAndCity = (State, City) => {
-    const api = `https://localhost:7257/accesspoint/getallaccesspointthestateandcity?State=${State}&City=${City}`;
+    const api = `${process.env.REACT_APP_API_IP}/accesspoint/getallaccesspointthestateandcity?State=${State}&City=${City}`;
     const params = {
         method: 'GET',
         credentials: 'include',

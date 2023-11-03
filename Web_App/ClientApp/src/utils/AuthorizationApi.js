@@ -1,5 +1,5 @@
 ﻿export const login = (login, password) => {
-    return fetch('https://localhost:7257/Authorization/login', {
+    return fetch(`${process.env.REACT_APP_API_IP}/Authorization/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -13,7 +13,7 @@
 };
 
 export const signup = (login, email, password, passwordConfirm) => {
-    return fetch('https://localhost:7257/registration/signup', {
+    return fetch(`${process.env.REACT_APP_API_IP}/registration/signup`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -25,8 +25,8 @@ export const signup = (login, email, password, passwordConfirm) => {
         });
 };
 
-export const preresetpass = async (Email) => {
-    return await fetch(`https://localhost:7257/passwordreset/genresetmail`, {
+export const preresetpass = (Email) => {
+    return fetch(`${process.env.REACT_APP_API_IP}/passwordreset/genresetmail`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ export const preresetpass = async (Email) => {
 
 export const fetchIsExistUID = async (UID) => {
     try {
-        const response = await fetch(`https://localhost:7257/passwordreset/checklink`, {
+        const response = await fetch(`${process.env.REACT_APP_API_IP}/passwordreset/checklink`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ export const fetchIsExistUID = async (UID) => {
 }
 
 export const fetchChangePassword = (Password, ConfirmPassword, UID) => {
-    return fetch(`https://localhost:7257/passwordreset/recoverypage/changepassword`, {
+    return fetch(`${process.env.REACT_APP_API_IP}/passwordreset/recoverypage/changepassword`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ export const fetchChangePassword = (Password, ConfirmPassword, UID) => {
 
 export const fetchIsExistOAuthUID = async (UID) => {
     try {
-        const response = await fetch(`https://localhost:7257/mfauth/checklink`, {
+        const response = await fetch(`${process.env.REACT_APP_API_IP}/mfauth/checklink`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ export const fetchIsExistOAuthUID = async (UID) => {
 }
 
 export const fetchMFAuthCodeSubmit = async (Code, UID) => {
-    return fetch(`https://localhost:7257/mfauth/codesubmit`, {
+    return fetch(`${process.env.REACT_APP_API_IP}/mfauth/codesubmit`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -105,7 +105,7 @@ export const fetchMFAuthCodeSubmit = async (Code, UID) => {
 
 export const fetchVerifyEmail = async (UID) => {
     try {
-        const response = await fetch(`https://localhost:7257/registration/verifymail`, {
+        const response = await fetch(`${process.env.REACT_APP_API_IP}/registration/verifymail`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
