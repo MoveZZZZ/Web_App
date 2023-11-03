@@ -10,6 +10,6 @@ export const menuLinks = [
 export const menuAdminLinks = [
     { id: 1, title: "Shop", link: "/product", icon: faStore },
     { id: 2, title: "All Orders", link: "/admin/getallorder", icon: faBagShopping },
-    { id: 2, title: "Orders Archive", link: "/admin/getallorderarchive", icon: faBoxArchive },
-    { id: 3, title: "Add towar", link: "/admin/addtowar", icon: faSquarePlus },
+    { id: 3, title: "Orders Archive", link: "/admin/getallorderarchive", icon: faBoxArchive },
+    { id: 4, title: "Add towar", link: "/admin/addtowar", icon: faSquarePlus },
 ]

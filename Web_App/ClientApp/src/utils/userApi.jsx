@@ -1,7 +1,7 @@
 ﻿import { fetchWithAuthentication, } from './AuthenticationLogic';
 
 export const fetchGetUserDataProfile = async (userID) => {
-    const api = `https://localhost:7257/user/?userID=${userID}`;
+    const api = `${process.env.REACT_APP_API_IP}/user/?userID=${userID}`;
     const params = {
         method: 'GET',
         credentials: 'include',
@@ -10,19 +10,19 @@ export const fetchGetUserDataProfile = async (userID) => {
 }
 
 export async function fetchUpdatePhotoUser(formData) {
-    const api = 'https://localhost:7257/user/changeavatar';
+    const api = `${process.env.REACT_APP_API_IP}/user/changeavatar`;
     const body = new FormData();
     body.append('Image', formData.Image);
     body.append('userID', formData.userid);
     const params = {
-        method: 'POST',
+        method: 'PATCH',
         credentials: 'include',
         body,
     };
     return fetchWithAuthentication(api, params);
 }
 export async function fetchUpdateEmailUser(formData) {
-    const apiUrl = 'https://localhost:7257/user/changeemail';
+    const apiUrl = `${process.env.REACT_APP_API_IP}/user/changeemail`;
     const body = new FormData();
     body.append('UserID', formData.UserID);
     body.append('UserName', null);
@@ -31,7 +31,7 @@ export async function fetchUpdateEmailUser(formData) {
     body.append('NewPassword', null);
     body.append('RepeatNewPassword', null);
     const params = {
-        method: 'POST',
+        method: 'PATCH',
         credentials: 'include',
         body,
     };
@@ -39,7 +39,7 @@ export async function fetchUpdateEmailUser(formData) {
 }
 
 export async function fetchUpdateLoginUser(formData) {
-    const apiUrl = 'https://localhost:7257/user/changelogin';
+    const apiUrl = `${process.env.REACT_APP_API_IP}/user/changelogin`;
     const body = new FormData();
     body.append('UserID', formData.UserID);
     body.append('UserName', formData.UserName);
@@ -48,14 +48,14 @@ export async function fetchUpdateLoginUser(formData) {
     body.append('NewPassword', null);
     body.append('RepeatNewPassword', null);
     const params = {
-        method: 'POST',
+        method: 'PATCH',
         credentials: 'include',
         body,
     };
     return fetchWithAuthentication(apiUrl, params);
 }
 export async function fetchUpdatePasswordUser(formData) {
-    const apiUrl = 'https://localhost:7257/user/changepassword';
+    const apiUrl = `${process.env.REACT_APP_API_IP}/user/changepassword`;
     const body = new FormData();
     body.append('UserID', formData.UserID);
     body.append('UserName', null);
@@ -64,14 +64,14 @@ export async function fetchUpdatePasswordUser(formData) {
     body.append('NewPassword', formData.NewPassword);
     body.append('RepeatNewPassword', formData.RepeatNewPassword);
     const params = {
-        method: 'POST',
+        method: 'PATCH',
         credentials: 'include',
         body,
     };
     return fetchWithAuthentication(apiUrl, params);
 }
 export async function fetchUpdateRemoveAccoutUser(formData) {
-    const apiUrl = 'https://localhost:7257/user/deleteaccount';
+    const apiUrl = `${process.env.REACT_APP_API_IP}/user/deleteaccount`;
     const body = new FormData();
     body.append('UserID', formData.UserID);
     body.append('UserName', null);
@@ -80,7 +80,7 @@ export async function fetchUpdateRemoveAccoutUser(formData) {
     body.append('NewPassword', null);
     body.append('RepeatNewPassword', null);
     const params = {
-        method: 'POST',
+        method: 'DELETE',
         credentials: 'include',
         body,
     };
@@ -89,7 +89,7 @@ export async function fetchUpdateRemoveAccoutUser(formData) {
 
 export const fetchVerifyEmailAfterChange = async (UID) => {
     try {
-        const response = await fetch(`https://localhost:7257/user/verifymail`, {
+        const response = await fetch(`${process.env.REACT_APP_API_IP}/user/verifymail`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -2,7 +2,7 @@ import { fetchWithAuthentication, } from './AuthenticationLogic';
 
 export const fetchProducts = async (page, pageSize) => {
     try {
-        const response = await fetch(`https://localhost:7257/products?page=${page}&pageSize=${pageSize}`);
+        const response = await fetch(`${process.env.REACT_APP_API_IP}/products?page=${page}&pageSize=${pageSize}`);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
@@ -15,7 +15,7 @@ export const fetchProducts = async (page, pageSize) => {
 
 export const fetchProductsByName = async (name) => {
     try {
-        const response = await fetch(`https://localhost:7257/products/search?name=${encodeURIComponent(name)}`);
+        const response = await fetch(`${process.env.REACT_APP_API_IP}/products/search?name=${encodeURIComponent(name)}`);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
@@ -25,9 +25,8 @@ export const fetchProductsByName = async (name) => {
         throw error;
     }
 };
-
 export async function addProduct(formData) {
-    const apiUrl = 'https://localhost:7257/products/addproduct';
+    const apiUrl = `${process.env.REACT_APP_API_IP}/products/addproduct`;
     const body = new FormData();
     body.append('Name', formData.Name);
     body.append('Description', formData.Description);

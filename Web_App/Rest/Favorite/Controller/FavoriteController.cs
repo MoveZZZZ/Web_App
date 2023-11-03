@@ -48,7 +48,8 @@ namespace Web_App.Rest.Favorite.Controller
             return Ok(new { ListIndex = indexes });
         }
 
-        [HttpPost]
+
+        [HttpDelete]
         [Route("removefavoriteitem")]
         public IActionResult RemoveFavoriteItem([FromBody] FavoriteRequestModel model)
         {

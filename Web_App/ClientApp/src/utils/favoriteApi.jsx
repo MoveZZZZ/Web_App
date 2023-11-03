@@ -9,7 +9,7 @@ export const fetchAddToFavorite = (TowarId, ClientID) => {
         credentials: 'include',
         body: JSON.stringify({ TowarId, ClientID }),
     }
-    return fetchWithAuthentication('https://localhost:7257/favorite/addfavorite', params);
+    return fetchWithAuthentication(`${process.env.REACT_APP_API_IP}/favorite/addfavorite`, params);
 }
 
 export const fetchGetAllIndexClientFavorite = (clientId) => {
@@ -17,23 +17,23 @@ export const fetchGetAllIndexClientFavorite = (clientId) => {
         method: 'GET',
         credentials: 'include',
     };
-    return fetchWithAuthentication(`https://localhost:7257/favorite/getlistfavorite?clientId=${clientId}`, params);
+    return fetchWithAuthentication(`${process.env.REACT_APP_API_IP}/favorite/getlistfavorite?clientId=${clientId}`, params);
 }
 
 export const fetchRemoveFavoriteItem = (TowarId, ClientID) => {
     const params = {
-        method: 'POST',
+        method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
         },
         credentials: 'include',
         body: JSON.stringify({ TowarId, ClientID }),
     };
-    return fetchWithAuthentication('https://localhost:7257/favorite/removefavoriteitem', params);
+    return fetchWithAuthentication(`${process.env.REACT_APP_API_IP}/favorite/removefavoriteitem`, params);
 
 }
 
 export const fetchGetAllClientFavoriteItems = async (clientId) => {
     const params = { credentials: 'include' };
-    return fetchWithAuthentication(`https://localhost:7257/favorite/getallfavoriteuser?userID=${clientId}`, params);
+    return fetchWithAuthentication(`${process.env.REACT_APP_API_IP}/favorite/getallfavoriteuser?userID=${clientId}`, params);
 }

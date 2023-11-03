@@ -1,7 +1,7 @@
 ﻿import { fetchWithAuthentication, } from './AuthenticationLogic';
 
 export const fetchAllOrders = async () => {
-    const api = `https://localhost:7257/order/admin/getallorder`;
+    const api = `${process.env.REACT_APP_API_IP}/order/admin/getallorder`;
     const params = {
         credentials: 'include',
     };
@@ -9,7 +9,7 @@ export const fetchAllOrders = async () => {
 }
 
 export const fetchAllOrderByEmail = async (Email) => {
-    const api = `https://localhost:7257/order/admin/getallorderbyemail`;
+    const api = `${process.env.REACT_APP_API_IP}/order/admin/getallorderbyemail`;
     //let email = encodeURIComponent(search);
     const params = {
         method: 'POST',
@@ -23,7 +23,7 @@ export const fetchAllOrderByEmail = async (Email) => {
 };
 
 export const fetchOrderDetailsAdmin = async (orderID, email) => {
-    const api = `https://localhost:7257/order/admin/orderdetails`;
+    const api = `${process.env.REACT_APP_API_IP}/order/admin/orderdetails`;
     const params = {
         method: 'POST',
         credentials: 'include',
@@ -35,14 +35,14 @@ export const fetchOrderDetailsAdmin = async (orderID, email) => {
     return fetchWithAuthentication(api, params);
 }
 export const fetchOrderArchiveDetailsAdmin = async (orderID, username) => {
-    const api = `https://localhost:7257/order/admin/orderdetails/archive?orderID=${orderID}&username=${username}`;
+    const api = `${process.env.REACT_APP_API_IP}/order/admin/orderdetails/archive?orderID=${orderID}&username=${username}`;
     const params = {
         credentials: 'include',
     };
     return fetchWithAuthentication(api, params);
 }
 export const fetchDeleteOrderByID = async (orderID) => {
-    const api = `https://localhost:7257/order/admin/removeorder?orderID=${orderID}`;
+    const api = `${process.env.REACT_APP_API_IP}/order/admin/removeorder?orderID=${orderID}`;
     const params = {
         method: 'DELETE',
         credentials: 'include',
@@ -51,25 +51,25 @@ export const fetchDeleteOrderByID = async (orderID) => {
 }
 
 export const fetchChangeProductData = async (formData) => {
-    const api = `https://localhost:7257/products/productdetails/admin/changeproduct`
+    const api = `${process.env.REACT_APP_API_IP}/products/productdetails/admin/changeproduct`
     const params = {
-        method: 'POST',
+        method: 'PUT',
         body: formData,
         credentials: 'include',
     };
     return fetchWithAuthentication(api, params);
 }
 export const fetchChangeProductDataWithoutImage = async (formData) => {
-    const api = `https://localhost:7257/products/productdetails/admin/changeproductwithoutimage`
+    const api = `${process.env.REACT_APP_API_IP}/products/productdetails/admin/changeproductwithoutimage`
     const params = {
-        method: 'POST',
+        method: 'PATCH',
         body: formData,
         credentials: 'include',
     };
     return fetchWithAuthentication(api, params);
 }
 export const fetchAllArchiveOrders = async () => {
-    const api = `https://localhost:7257/order/admin/getallarchiveorder`;
+    const api = `${process.env.REACT_APP_API_IP}/order/admin/getallarchiveorder`;
     const params = {
         credentials: 'include',
     };
@@ -80,45 +80,45 @@ export const fetchAllArchiveOrderByUsername = async (search) => {
         method: 'GET',
         credentials: 'include',
     };
-    return fetchWithAuthentication(`https://localhost:7257/order/admin/getallarchiveorder/searchusername?username=${encodeURIComponent(search)}`, params);
+    return fetchWithAuthentication(`${process.env.REACT_APP_API_IP}/order/admin/getallarchiveorder/searchusername?username=${encodeURIComponent(search)}`, params);
 };
 export const fetchAllOrdersLastDay = async () => {
-    const api = `https://localhost:7257/order/admin/getallorder/lastday`;
+    const api = `${process.env.REACT_APP_API_IP}/order/admin/getallorder/lastday`;
     const params = {
         credentials: 'include',
     };
     return fetchWithAuthentication(api, params);
 }
 export const fetchAllOrdersLastMonth = async () => {
-    const api = `https://localhost:7257/order/admin/getallorder/lastmonath`;
+    const api = `${process.env.REACT_APP_API_IP}/order/admin/getallorder/lastmonath`;
     const params = {
         credentials: 'include',
     };
     return fetchWithAuthentication(api, params);
 }
 export const fetchAllOrdersLastYear = async () => {
-    const api = `https://localhost:7257/order/admin/getallorder/lastyear`;
+    const api = `${process.env.REACT_APP_API_IP}/order/admin/getallorder/lastyear`;
     const params = {
         credentials: 'include',
     };
     return fetchWithAuthentication(api, params);
 }
 export const fetchAllOrdersThisDay = async () => {
-    const api = `https://localhost:7257/order/admin/getallorder/today`;
+    const api = `${process.env.REACT_APP_API_IP}/order/admin/getallorder/today`;
     const params = {
         credentials: 'include',
     };
     return fetchWithAuthentication(api, params);
 }
 export const fetchAllOrdersThisMonth = async () => {
-    const api = `https://localhost:7257/order/admin/getallorder/thismonath`;
+    const api = `${process.env.REACT_APP_API_IP}/order/admin/getallorder/thismonath`;
     const params = {
         credentials: 'include',
     };
     return fetchWithAuthentication(api, params);
 }
 export const fetchAllOrdersThisYear = async () => {
-    const api = `https://localhost:7257/order/admin/getallorder/thisyear`;
+    const api = `${process.env.REACT_APP_API_IP}/order/admin/getallorder/thisyear`;
     const params = {
         credentials: 'include',
     };
