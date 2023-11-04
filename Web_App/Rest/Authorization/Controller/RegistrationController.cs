@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Web_App.Rest.Authorization.Models;
 using Web_App.Rest.Authorization.Services;
-
+[EnableCors("AllowSpecificOrigins")]
 [Route("[controller]")]
 [ApiController]
 public class RegistrationController : ControllerBase

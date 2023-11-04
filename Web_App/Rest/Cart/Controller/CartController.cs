@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Drawing;
 using Web_App.Rest.Cart.Model;
@@ -7,6 +8,7 @@ using Web_App.Rest.JWT.Services;
 
 namespace Web_App.Rest.Cart.Controller
 {
+    [EnableCors("AllowSpecificOrigins")]
     [Route("[controller]")]
     [ApiController]
     [Authorize]
