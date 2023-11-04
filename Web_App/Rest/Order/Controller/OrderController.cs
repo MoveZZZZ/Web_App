@@ -1,5 +1,6 @@
 ﻿using Braintree.Exceptions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using MySqlX.XDevAPI;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using Web_App.Rest.Order.Service;
 
 namespace Web_App.Rest.Order.Controller
 {
+    [EnableCors("AllowSpecificOrigins")]
     [Route("order")]
     [ApiController]
     [Authorize]

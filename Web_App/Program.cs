@@ -19,7 +19,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(builder =>
+    options.AddPolicy("AllowSpecificOrigins", builder =>
     {
         builder.WithOrigins("https://localhost:44456")
             .WithMethods("GET", "POST", "DELETE", "PATCH", "PUT")

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using MySql.Data.MySqlClient;
@@ -11,7 +12,7 @@ using Web_App.Rest.JWT.Model;
 using Web_App.Rest.JWT.Services;
 using Web_App.Rest.User.Models;
 
-
+[EnableCors("AllowSpecificOrigins")]
 [Route("[controller]")]
 [ApiController]
 public class TokenController : ControllerBase

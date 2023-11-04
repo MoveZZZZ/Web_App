@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Runtime.CompilerServices;
@@ -8,6 +9,7 @@ using Web_App.Rest.Product.Service;
 
 namespace Web_App.Rest.Product.Controller
 {
+    [EnableCors("AllowSpecificOrigins")]
     [Route("products")]
     [ApiController]
     public class ProductsController : ControllerBase

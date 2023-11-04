@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Web_App.Rest.AccessPoint.Model;
 using Web_App.Rest.AccessPoint.Service;
 
 namespace Web_App.Rest.AccessPoint.Controller
 {
+    [EnableCors("AllowSpecificOrigins")]
     [Route("accesspoint")]
     [ApiController]
     [Authorize]
