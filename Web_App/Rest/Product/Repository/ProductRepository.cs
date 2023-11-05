@@ -36,7 +36,7 @@ namespace Web_App.Rest.Product.Repository
                 product.Id = Convert.ToInt32(row[0].ToString());
                 product.Name = row[1].ToString();
                 product.Description = row[2].ToString();
-                product.Cost = (float)Convert.ToDouble(row[3].ToString());
+                product.Cost = Convert.ToDouble(row[3].ToString());
                 product.ImageUrl = (byte[])row["image"];
                 product.Count = Convert.ToInt32(row[5].ToString());
                 products.Add(product);
@@ -68,7 +68,7 @@ namespace Web_App.Rest.Product.Repository
                 command.CommandText = "INSERT INTO products(`name`, `description`, `cost`, `image`, `count`) VALUES(@name, @des, @cost, @img, @cnt)";
                 command.Parameters.Add("@name", MySqlDbType.VarChar).Value = model.Name;
                 command.Parameters.Add("@des", MySqlDbType.TinyText).Value = model.Description;
-                command.Parameters.Add("@cost", MySqlDbType.Float).Value = model.Cost;
+                command.Parameters.Add("@cost", MySqlDbType.Double).Value = model.Cost;
                 command.Parameters.Add("@img", MySqlDbType.Blob).Value = model.ImageUrl;
                 command.Parameters.Add("@cnt", MySqlDbType.Int32).Value = model.Count;
                 command.ExecuteNonQuery();
@@ -96,7 +96,7 @@ namespace Web_App.Rest.Product.Repository
                 product.Id = Convert.ToInt32(row[0].ToString());
                 product.Name = row[1].ToString();
                 product.Description = row[2].ToString();
-                product.Cost = (float)Convert.ToDouble(row[3].ToString());
+                product.Cost = Convert.ToDouble(row[3].ToString());
                 product.ImageUrl = (byte[])row["image"];
                 product.Count = Convert.ToInt32(row[5].ToString());
             }
@@ -126,7 +126,7 @@ namespace Web_App.Rest.Product.Repository
                 product.Id = Convert.ToInt32(row[0].ToString());
                 product.Name = row[1].ToString();
                 product.Description = row[2].ToString();
-                product.Cost = (float)Convert.ToDouble(row[3].ToString());
+                product.Cost = Convert.ToDouble(row[3].ToString());
                 product.ImageUrl = (byte[])row["image"];
                 product.Count = Convert.ToInt32(row[5].ToString());
                 products.Add(product);
@@ -158,7 +158,7 @@ namespace Web_App.Rest.Product.Repository
                     command.CommandText = "UPDATE products SET description=@desc, cost=@cost, image=@img, count=@count WHERE id=@id";
                     command.Parameters.Add("@id", MySqlDbType.Int32).Value = model.Id;
                     command.Parameters.Add("@desc", MySqlDbType.MediumText).Value = model.Description;
-                    command.Parameters.Add("@cost", MySqlDbType.Float).Value = model.Cost;
+                    command.Parameters.Add("@cost", MySqlDbType.Double).Value = model.Cost;
                     command.Parameters.Add("@img", MySqlDbType.LongBlob).Value = model.ImageUrl;
                     command.Parameters.Add("@count", MySqlDbType.Int32).Value = model.Count;
                     command.ExecuteNonQuery();
@@ -168,7 +168,7 @@ namespace Web_App.Rest.Product.Repository
                     command.CommandText = "UPDATE products SET description=@desc, cost=@cost, count=@count WHERE id=@id";
                     command.Parameters.Add("@id", MySqlDbType.Int32).Value = model.Id;
                     command.Parameters.Add("@desc", MySqlDbType.MediumText).Value = model.Description;
-                    command.Parameters.Add("@cost", MySqlDbType.Float).Value = model.Cost;
+                    command.Parameters.Add("@cost", MySqlDbType.Double).Value = model.Cost;
                     command.Parameters.Add("@count", MySqlDbType.Int32).Value = model.Count;
                     command.ExecuteNonQuery();
                 }

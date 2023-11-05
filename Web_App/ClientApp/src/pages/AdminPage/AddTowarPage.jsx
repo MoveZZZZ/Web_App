@@ -20,10 +20,11 @@ const AddTowarPage = () => {
 
 
     const handleInputChange = (e) => {
+        e.preventDefault();
         const { name, value, type } = e.target;
         setFormData((prevData) => ({
             ...prevData,
-            [name]: type === 'number' ? parseFloat(value.replace(",", ".")) : value,
+            [name]: type === 'number' ? value.toString().replace(",", ".") : value,
         }));
 
     };

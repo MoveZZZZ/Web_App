@@ -8,6 +8,12 @@ using Microsoft.Extensions.Configuration;
 using Web_App.Rest.JWT.Model;
 using Web_App.Rest.JWT.Services;
 using Web_App.Rest.Payments.Service;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System.Globalization;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,7 +50,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var supportedCultures = new[]
+{
+    new CultureInfo("en-US")
+};
 
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.DefaultRequestCulture = new RequestCulture("en-US"); 
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+});
 
 builder.Services.AddTransient<IBraintreeService, BraintreeService>();
 builder.Services.AddAuthentication(options =>
@@ -96,6 +112,7 @@ app.UseRouting();
 app.UseCors();
 app.UseCookiePolicy();
 app.UseAuthentication();
+app.UseRequestLocalization();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseAuthorization();

@@ -75,7 +75,7 @@ namespace Web_App.Rest.Favorite.Controller
             }
             List<FavoritePageResponseModel> response = new List<FavoritePageResponseModel>();
             response = _favoriteService.getAllUserFavorite(userID);
-            float sum = response.Sum(t => t.Cost);
+            double sum = response.Sum(t => t.Cost);
             return Ok(new { towars = response, summary = sum });
         }
     }

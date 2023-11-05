@@ -46,10 +46,10 @@ namespace Web_App.Rest.Cart.Repositories
 
                 cartModelResponse.TowarID = Convert.ToInt32(row[0].ToString());
                 cartModelResponse.TowarName = row[1].ToString();
-                cartModelResponse.TowarPrice = (float)Convert.ToDouble(row[2].ToString());
+                cartModelResponse.TowarPrice = Convert.ToDouble(row[2].ToString());
                 cartModelResponse.Image = (byte[])row["image"];
                 cartModelResponse.Count = Convert.ToInt32(row[4].ToString());
-                cartModelResponse.SumPrice = (float)(cartModelResponse.TowarPrice * cartModelResponse.Count);
+                cartModelResponse.SumPrice = (cartModelResponse.TowarPrice * cartModelResponse.Count);
 
                 cartModelResponsesList.Add(cartModelResponse);
 

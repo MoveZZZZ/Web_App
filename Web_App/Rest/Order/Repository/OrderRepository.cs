@@ -15,7 +15,7 @@ namespace Web_App.Rest.Order.Repository
 {
     public class OrderRepository : RepositoryBase, IOrderRepository
     {
-        public int addOrderAndGetIndex(int clientID, string comment, int ApID, float cost, string status, string name, string lastname, string tel)
+        public int addOrderAndGetIndex(int clientID, string comment, int ApID, double cost, string status, string name, string lastname, string tel)
         {
             MySqlDataAdapter adapter = new MySqlDataAdapter();
             DataTable table = new DataTable();
@@ -30,7 +30,7 @@ namespace Web_App.Rest.Order.Repository
                 command.Parameters.Add("@status", MySqlDbType.String).Value = status;
                 command.Parameters.Add("@com", MySqlDbType.String).Value = comment;
                 command.Parameters.Add("@apid", MySqlDbType.Int32).Value = ApID;
-                command.Parameters.Add("@cost", MySqlDbType.Float).Value = cost;
+                command.Parameters.Add("@cost", MySqlDbType.Double).Value = cost;
                 command.Parameters.Add("@ocreate", MySqlDbType.Date).Value = DateTime.UtcNow.Date;
                 command.Parameters.Add("@cname", MySqlDbType.VarChar).Value = name;
                 command.Parameters.Add("@clastname", MySqlDbType.VarChar).Value = lastname;
@@ -443,8 +443,8 @@ namespace Web_App.Rest.Order.Repository
                 _model.IdProduct = Convert.ToInt32(row["id"].ToString());
                 _model.NameProduct = row["name"].ToString();
                 _model.CountProduct = Convert.ToInt32(row["count"].ToString());
-                _model.ProductCost = (float)Convert.ToDouble(row["cost"].ToString());
-                _model.ProductCostSummary = (float)(Convert.ToDouble(row["cost"].ToString()) * Convert.ToInt32(row["count"].ToString()));
+                _model.ProductCost = Convert.ToDouble(row["cost"].ToString());
+                _model.ProductCostSummary = (Convert.ToDouble(row["cost"].ToString()) * Convert.ToInt32(row["count"].ToString()));
                 _model.ImageUrl = (byte[])row["image"];
                 _modelList.Add(_model);
             }
@@ -473,8 +473,8 @@ namespace Web_App.Rest.Order.Repository
                 _model.IdProduct = Convert.ToInt32(row["id"].ToString());
                 _model.NameProduct = row["name"].ToString();
                 _model.CountProduct = Convert.ToInt32(row["towar_count"].ToString());
-                _model.ProductCost = (float)Convert.ToDouble(row["cost"].ToString());
-                _model.ProductCostSummary = (float)(Convert.ToDouble(row["cost"].ToString()) * Convert.ToInt32(row["towar_count"].ToString()));
+                _model.ProductCost = Convert.ToDouble(row["cost"].ToString());
+                _model.ProductCostSummary = (Convert.ToDouble(row["cost"].ToString()) * Convert.ToInt32(row["towar_count"].ToString()));
                 _model.ImageUrl = (byte[])row["image"];
                 _modelList.Add(_model);
             }
@@ -503,7 +503,7 @@ namespace Web_App.Rest.Order.Repository
                 orderModel.ClientID = clientID;
                 orderModel.OrderID = orderID;
                 orderModel.Status = row["status"].ToString();
-                orderModel.Cost = (float)Convert.ToDouble(row["cost"].ToString());
+                orderModel.Cost = Convert.ToDouble(row["cost"].ToString());
                 orderModel.ClientName = row["client_name"].ToString();
                 orderModel.ClientLastname = row["client_lastname"].ToString();
                 orderModel.Phones = row["client_phone"].ToString();
@@ -537,7 +537,7 @@ namespace Web_App.Rest.Order.Repository
 
                 orderModel.OrderID = orderID;
                 orderModel.Status = "Archive";
-                orderModel.Cost = (float)Convert.ToDouble(row["cost"].ToString());
+                orderModel.Cost = Convert.ToDouble(row["cost"].ToString());
                 orderModel.ClientName = row["name"].ToString();
                 orderModel.ClientLastname = row["lastname"].ToString();
                 orderModel.Phones = row["phone"].ToString();
