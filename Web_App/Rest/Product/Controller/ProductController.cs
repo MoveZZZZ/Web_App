@@ -83,6 +83,14 @@ namespace Web_App.Rest.Product.Controller
             _productService.updateTowar(modelBase);
             return Ok();
         }
+        [HttpGet]
+        [Route("gettop3products")]
+        public IActionResult GetTopThreeProduct()
+        {
+            List <ProductModel> model = new List<ProductModel>();
+            model = _productService.getTopThreeProducts();
+            return Ok(model);
+        }
     }
 }
 

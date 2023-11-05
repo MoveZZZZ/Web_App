@@ -11,5 +11,6 @@ namespace Web_App.Rest.Product.Repository
         public List<ProductModel> getProductsListSearch(string str);
         public void updateProdcutCount(int orderCountProduct, int productID);
         public void updateProduct(ProductModel model);
+        List<ProductModel> getTop3View();
     }
 }

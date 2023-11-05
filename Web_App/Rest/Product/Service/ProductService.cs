@@ -180,5 +180,9 @@ namespace Web_App.Rest.Product.Service
         {
             _productRepository.updateProduct(product);
         }
+        public List<ProductModel> getTopThreeProducts()
+        {
+            return _productRepository.getTop3View();
+        }
     }
 }
