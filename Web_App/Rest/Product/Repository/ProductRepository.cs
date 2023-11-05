@@ -175,5 +175,32 @@ namespace Web_App.Rest.Product.Repository
 
             }
         }
+        public List<ProductModel> getTop3View()
+        {
+            List<ProductModel> products = new List<ProductModel>();
+            ProductModel product;
+
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            DataTable table = new DataTable();
+
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "SELECT * FROM top_3_products";
+                adapter.SelectCommand = command;
+                adapter.Fill(table);
+            }
+            foreach (DataRow row in table.Rows)
+            {
+                product = new ProductModel();
+                product.Id = Convert.ToInt32(row["id"].ToString());
+                product.Name = row["name"].ToString();
+                product.ImageUrl = (byte[])row["image"];
+                products.Add(product);
+            }
+            return products;
+        }
     }
 }

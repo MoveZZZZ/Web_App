@@ -41,3 +41,15 @@ export async function addProduct(formData) {
     };
     return fetchWithAuthentication(apiUrl, params);
 };
+export const fetchGetTop3Products = async () => {
+    try {
+        const response = await fetch(`${process.env.REACT_APP_API_IP}/products/gettop3products`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}
