@@ -49,6 +49,7 @@ namespace Web_App.Rest.Product.Controller
         [Route("addproduct")]
         public IActionResult AddProduct([FromForm] ProductRequestModel model)
         {
+            model.Cost = Math.Round(model.Cost, 2);
             string msg = _productService.validateProductData(model);
             if (msg != "")
             {
@@ -66,6 +67,7 @@ namespace Web_App.Rest.Product.Controller
         [Route("productdetails/admin/changeproduct")]
         public IActionResult ChangeDataProduct([FromForm] ProductUpdateModel model)
         {
+            model.Cost = Math.Round(model.Cost, 2);
             ProductModel modelBase = new ProductModel();
             modelBase = _productService.createDBModelProductUpdateProduct(model);
             _productService.updateTowar(modelBase);
@@ -78,6 +80,7 @@ namespace Web_App.Rest.Product.Controller
         [Route("productdetails/admin/changeproductwithoutimage")]
         public IActionResult ChangeDataProductWithoutImage([FromForm] ProductUpdateWithoutImageModel model)
         {
+            model.Cost = Math.Round(model.Cost, 2);
             ProductModel modelBase = new ProductModel();
             modelBase = _productService.createDBModelProductUpdateProductWithoutImage(model);
             _productService.updateTowar(modelBase);
