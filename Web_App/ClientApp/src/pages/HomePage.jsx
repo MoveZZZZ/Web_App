@@ -109,33 +109,33 @@ const HomePage = () => {
                                 Most Popular
                             </h2>
                             <div className="flex max-lg:flex-col justify-center my-10">
-                                    <div className="flex flex-col w-1/4 h-1/2 max-lg:w-5/6 mt-4 max-md:mt-0 mx-0 max-lg:mx-auto bg-white ease-in-out duration-300 cursor-default">
+                                    <div className="flex flex-col w-1/4 h-96 max-lg:w-5/6 mt-4 max-md:mt-0 mx-0 max-lg:mx-auto bg-white ease-in-out duration-300 cursor-default">
                                     <div className="flex-1 bg-primary-100 text-primary-400 rounded-lg overflow-hidden shadow-xl max-lg:mb-10 max-lg:scale-100 max-lg:hover:scale-105 scale-105 hover:scale-110 ease-in-out duration-300">
-                                        <Link to={`/product/${topProducst[0].id}`}>
-                                            <div className="p-8 text-3xl max-2xl:text-xl font-bold text-center ease-in-out duration-300 cursor-default">
-                                                {topProducst[0].name}
-                                            </div>
-                                            <img src={`data:image/jpeg;base64,${topProducst[0].imageUrl.toString('base64')}`} className="w-auto h-1/2 rounded-lg"></img>
-                                        </Link>
-                                    </div>
-                                </div>
-                                <div className="flex flex-col w-1/3 h-1/2 max-lg:w-5/6 -mt-6 mx-0 max-lg:mx-auto mt-4 max-sm:-mt-6 shadow-lg z-10 ease-in-out duration-300 cursor-default">
-                                        <div className="flex-1 bg-primary-100 rounded-lg overflow-hidden shadow-xl hover:scale-105 ease-in-out duration-300 cursor-default">
                                         <Link to={`/product/${topProducst[1].id}`}>
-                                            <div className="w-full p-8 text-3xl max-2xl:text-xl font-bold text-center ease-in-out duration-300 cursor-default">
+                                            <div className="p-8 text-3xl max-2xl:text-xl font-bold text-center ease-in-out duration-300 cursor-default">
                                                 {topProducst[1].name}
                                             </div>
-                                                <img src={`data:image/jpeg;base64,${topProducst[1].imageUrl.toString('base64')}`} className="w-auto h-1/2 rounded-lg"></img>
+                                                <img src={`data:image/jpeg;base64,${topProducst[1].imageUrl.toString('base64')}`} className="w-full h-80 rounded-lg"></img>
                                         </Link>
                                     </div>
                                 </div>
-                                    <div className="flex flex-col w-1/4 h-1/2 max-lg:w-5/6 mt-4 max-md:mt-6 mx-0 max-lg:mx-auto bg-white ease-in-out duration-300 cursor-default">
+                                <div className="flex flex-col w-1/3 h-fit max-lg:w-5/6 -mt-7 mx-0 max-lg:mx-auto mt-4 max-sm:-mt-6 shadow-lg z-10 ease-in-out duration-300 cursor-default">
+                                        <div className="flex-1 bg-primary-100 rounded-lg overflow-hidden shadow-xl hover:scale-105 ease-in-out duration-300 cursor-default">
+                                            <Link to={`/product/${topProducst[0].id}`} className="h-full">
+                                            <div className="w-full p-8 text-3xl max-2xl:text-xl font-bold text-center ease-in-out duration-300 cursor-default">
+                                                {topProducst[0].name}
+                                            </div>
+                                                <img src={`data:image/jpeg;base64,${topProducst[0].imageUrl.toString('base64')}`} className="w-full h-80 bg-cover rounded-lg p-0"></img>
+                                        </Link>
+                                    </div>
+                                </div>
+                                    <div className="flex flex-col w-1/4 h-96 max-lg:w-5/6 mt-4 max-md:mt-6 mx-0 max-lg:mx-auto bg-white ease-in-out duration-300 cursor-default">
                                     <div className="flex-1 bg-primary-100 text-primary-400 rounded-lg overflow-hidden shadow-xl max-lg:scale-100 max-lg:hover:scale-105 scale-105 hover:scale-110 ease-in-out duration-300 cursor-default">
                                         <Link to={`/product/${topProducst[2].id}`}>
                                             <div className="p-8 text-3xl max-2xl:text-xl font-bold text-center ease-in-out duration-300 cursor-default">
                                                 {topProducst[2].name}
                                             </div>
-                                                <img src={`data:image/jpeg;base64,${topProducst[2].imageUrl.toString('base64')}`} className="w-auto h-1/2 rounded-lg"></img>
+                                                <img src={`data:image/jpeg;base64,${topProducst[2].imageUrl.toString('base64')}`} className="w-full h-80 rounded-lg"></img>
                                         </Link>
                                     </div>
                                 </div>
