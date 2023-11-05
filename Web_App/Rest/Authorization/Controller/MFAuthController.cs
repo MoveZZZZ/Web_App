@@ -11,7 +11,9 @@ using Web_App.Rest.Authorization.Services;
 using Web_App.Rest.JWT.Model;
 using Web_App.Rest.JWT.Services;
 using Web_App.Rest.User.Models;
+using Microsoft.AspNetCore.Cors;
 
+[EnableCors("AllowSpecificOrigins")]
 [Route("[controller]")]
 [ApiController]
 public class MFAuthController : ControllerBase

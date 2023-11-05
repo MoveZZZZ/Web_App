@@ -4,9 +4,11 @@ using Web_App.Rest.User.Models;
 using Web_App.Rest.User.Services;
 using Microsoft.AspNetCore.Authorization;
 using Web_App.Rest.Authorization.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace Web_App.Rest.User.Controller
 {
+    [EnableCors("AllowSpecificOrigins")]
     [Route("user")]
     [ApiController]
     [Authorize]

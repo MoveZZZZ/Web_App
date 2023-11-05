@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.Contracts;
 using System.Drawing;
@@ -8,6 +9,7 @@ using Web_App.Rest.JWT.Services;
 
 namespace Web_App.Rest.Favorite.Controller
 {
+    [EnableCors("AllowSpecificOrigins")]
     [Route("[controller]")]
     [ApiController]
     [Authorize]
