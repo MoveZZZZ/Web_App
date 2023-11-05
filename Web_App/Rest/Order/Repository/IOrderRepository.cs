@@ -4,7 +4,7 @@ namespace Web_App.Rest.Order.Repository
 {
     public interface IOrderRepository
     {
-        public int addOrderAndGetIndex(int clientID, string comment, int ApID, float cost, string status, string name, string lastname, string tel);
+        public int addOrderAndGetIndex(int clientID, string comment, int ApID, double cost, string status, string name, string lastname, string tel);
         public void addToOrderProductTable(int orderID, List<int> productID, List<int> countProduct);
         public OrderDetailsModel getOrderDetailsByUserIdAndOrderID(int orderID, int clientID);
         public OrderDetailsModel getOrderDetailsByUserNameAndOrderID(int orderID, string username);

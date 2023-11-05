@@ -210,7 +210,7 @@ const ProductDetail = () => {
         formData.append('Id', id);
         formData.append('Name', editedPrice);
         formData.append('Description', editedDescription);
-        formData.append('Cost', editedPrice.toString().replace(".", ","));
+        formData.append('Cost', editedPrice.toString().replace(",", "."));
         formData.append('Count', parseInt(editedStock));
         
         if (editedImage) {
