@@ -106,7 +106,7 @@ const ProductPage = () => {
                                         <img className="w-64 h-64 rounded-t-xl" src={`data:image/jpeg;base64,${product.imageUrl.toString('base64')}`} />
                                         <p className="text-lg font-bold text-proimary-500 truncate block capitalize mx-2">{product.name}</p>
                                         <p className="text-sm text-gray-600 truncate mx-2">{product.description}</p>
-                                        <p className="text-lg font-semibold text-primary-500 cursor-auto mx-2 my-5 flex justify-end">{product.cost}$</p>
+                                        <p className="text-lg font-semibold text-primary-500 cursor-auto mx-2 my-5 flex justify-end">{parseFloat(product.cost).toFixed(2)}$</p>
                                     </div>
                                 </Link>
                             ))}
