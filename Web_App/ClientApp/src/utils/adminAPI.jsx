@@ -53,7 +53,7 @@ export const fetchDeleteOrderByID = async (orderID) => {
 export const fetchChangeProductData = async (formData) => {
     const api = `${process.env.REACT_APP_API_IP}/products/productdetails/admin/changeproduct`
     const params = {
-        method: 'PUT',
+        method: 'POST',
         body: formData,
         credentials: 'include',
     };
@@ -62,7 +62,7 @@ export const fetchChangeProductData = async (formData) => {
 export const fetchChangeProductDataWithoutImage = async (formData) => {
     const api = `${process.env.REACT_APP_API_IP}/products/productdetails/admin/changeproductwithoutimage`
     const params = {
-        method: 'PATCH',
+        method: 'POST',
         body: formData,
         credentials: 'include',
     };
