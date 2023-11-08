@@ -61,7 +61,7 @@ namespace Web_App.Rest.Product.Controller
             return Ok(new { message = "" });
         }
 
-        [HttpPut]
+        [HttpPost]
         [Authorize]
         [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
         [Route("productdetails/admin/changeproduct")]
@@ -74,7 +74,7 @@ namespace Web_App.Rest.Product.Controller
             return Ok();
         }
 
-        [HttpPatch]
+        [HttpPost]
         [Authorize]
         [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
         [Route("productdetails/admin/changeproductwithoutimage")]
