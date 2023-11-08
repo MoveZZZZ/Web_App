@@ -7,7 +7,8 @@ namespace Web_App.Rest.Authorization.Services
     public class MailSendingService
     {
         private readonly IConfiguration _configuration;
-        
+        private readonly string IP = "https://localhost:44456";
+
         public MailSendingService(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -22,7 +23,7 @@ namespace Web_App.Rest.Authorization.Services
             message.Subject = "Verify Email";
             message.To.Add(new MailAddress(email));
             message.Body = ("<html><body><h1>Your email verification link is:</h1>" +
-                "<a href= \"https://localhost:44456/mailverification/" + uid + "\">CLICK ME!</a></body></html>");
+                "<a href= \""+IP+"/mailverification/" + uid + "\">CLICK ME!</a></body></html>");
             message.IsBodyHtml = true;
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
@@ -41,7 +42,7 @@ namespace Web_App.Rest.Authorization.Services
             message.Subject = "Verify Email";
             message.To.Add(new MailAddress(email));
             message.Body = ("<html><body><h1>Your email verification link is:</h1>" +
-                "<a href= \"https://localhost:44456/verifychangedmail/" + uid + "\">CLICK ME!</a></body></html>");
+                "<a href= \""+IP+"/verifychangedmail/" + uid + "\">CLICK ME!</a></body></html>");
             message.IsBodyHtml = true;
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
@@ -61,7 +62,7 @@ namespace Web_App.Rest.Authorization.Services
             message.Subject = "Password Recovery Link";
             message.To.Add(new MailAddress(email));
             message.Body = ("<html><body><h1>Your password recovery link is:</h1> " +
-                "<a href= \"https://localhost:44456/recoverypage/" + uid + "\">CLICK ME!</a></body></html>");
+                "<a href= \""+IP+"/recoverypage/" + uid + "\">CLICK ME!</a></body></html>");
             message.IsBodyHtml = true;
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {

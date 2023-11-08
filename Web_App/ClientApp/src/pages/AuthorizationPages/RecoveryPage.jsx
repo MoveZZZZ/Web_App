@@ -27,7 +27,7 @@ const ResetPage = () => {
     const isSuccessChangePassword = (message) => {
         if (message === "Your password successfully changed!") {
             setIsChanged(true);
-            setMessage("Yor password succesfly changed. You will be redirected to the login page after 5 sekund!");
+            setMessage("Your password succesfly changed. You will be redirected to the login page after 5 seconds!");
             getMessage();
             setTimeout(() => window.open("/login", "_self"), 4000);
         }
