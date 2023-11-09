@@ -22,6 +22,7 @@ const App = () => {
     useEffect(() => {
         const dataLoader = async () => {
             let res = await refreshTokens();
+            setTimeout(() => 2500);
             if (!res.message) {
                 if (res.userRole === 'ADMIN') {
                     setIsAdmin(true);

@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using System.Security.Principal;
 using System.Collections.Specialized;
+using Web_App.Rest.Authorization.Services;
 
 namespace Web_App.Rest.JWT.Services
 {
@@ -20,9 +21,11 @@ namespace Web_App.Rest.JWT.Services
     {
         private readonly IConfiguration _configuration;
         private IUserAuthorizationRepository _userAuthorizationRepository;
+        private MailSendingService _mailSendingService;
         public TokenService(IConfiguration configuration)
         {
             _configuration = configuration;
+            _mailSendingService = new MailSendingService(configuration);
             _userAuthorizationRepository = new UserAuthorizationRepository();
         }
 
@@ -97,11 +100,14 @@ namespace Web_App.Rest.JWT.Services
             var user = TokenVerifyAndExtractInfoFromDatabase(bearerToken);
             if (user.Login != null)
             {
-                output.UserID = user.Id;
-                Token token = CreateToken(user);
-                output.UserToken = token.AccessToken;
-                output.UserRefreshToken = token.RefreshToken;
-                output.UserRole = user.Role;
+                if (userAntiAutomationCheck(user))
+                { 
+                    output.UserID = user.Id;
+                    Token token = CreateToken(user);
+                    output.UserToken = token.AccessToken;
+                    output.UserRefreshToken = token.RefreshToken;
+                    output.UserRole = user.Role;
+                }
             }
             return output;
         }
@@ -113,6 +119,15 @@ namespace Web_App.Rest.JWT.Services
                 if (user.Id == userID) return true;
             }
             return false;
+        }
+        private bool userAntiAutomationCheck(UserModel user)
+        {
+            if (!_userAuthorizationRepository.processAntiAutomationCheckDB(user.Id))
+            {
+                _mailSendingService.sendAutomationDetectedNotification(user.Email);
+                return false;
+            }
+            return true;
         }
         private UserModel TokenVerifyAndExtractInfoFromDatabase(string bearerToken)
         {
