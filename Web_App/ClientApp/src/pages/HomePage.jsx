@@ -39,12 +39,12 @@ const HomePage = () => {
             </div >) : (
                 <>
                     <div className="mt-16 w-full">
-                        <h1 className="text-5xl font-bold text-center hover:text-primary-300 ease-in-out duration-300 cursor-default max-2xl:text-3xl">K*rwa Shop Top</h1>
+                            <h1 className="text-5xl font-bold text-center hover:text-primary-300 ease-in-out duration-300 cursor-default max-2xl:text-3xl">BigGuns Shop Top</h1>
                         <div className="container mx-auto w-2/3 gap-14 px-3 flex items-center mt-10 max-xl:flex-col">
                             <div className="flex flex-col w-1/2 max-xl:w-full justify-center items-start text-center md:text-left hover:scale-105 ease-in-out duration-300 cursor-default">
-                                <p className="uppercase text-2xl max-2xl:text-lg text-center tracking-loose w-full ease-in-out duration-300">Unleash Your Inner Hero with Confidence at K*rwa!</p>
+                                <p className="uppercase text-2xl max-2xl:text-lg text-center tracking-loose w-full ease-in-out duration-300">Unleash Your Inner Hero with Confidence at BigGuns!</p>
                                 <h1 className="my-4 text-xl max-2xl:text-base font-bold text-center leading-tight ease-in-out duration-300">
-                                    At K*rwa, we're not just in the business of selling firearms – we're in the business of empowering heroes. Our commitment to safety, expertise, and unwavering integrity sets us apart as the ultimate destination for all your firearm needs. With our fully licensed and dedicated team, we're your trusted partner in self-defense, sport shooting, and safeguarding what matters most.
+                                    At BigGuns, we're not just in the business of selling firearms – we're in the business of empowering heroes. Our commitment to safety, expertise, and unwavering integrity sets us apart as the ultimate destination for all your firearm needs. With our fully licensed and dedicated team, we're your trusted partner in self-defense, sport shooting, and safeguarding what matters most.
                                 </h1>
                             </div>
                             <div className="w-1/2 max-xl:w-full flex justify-center text-center">
@@ -54,7 +54,7 @@ const HomePage = () => {
                     </div>
                     <div className="w-2/3 mx-auto mt-16">
                         <h2 className="w-full text-5xl max-2xl:text-3xl font-bold leading-tight text-center text-primary-300 hover:text-black ease-in-out duration-300 cursor-default">
-                            Why Choose K*rwa?
+                            Why Choose BigGuns?
                         </h2>
                         <div className="flex items-center max-xl:text-center max-xl:flex-col w-full gap-14 mt-10">
                             <div className="w-1/2 max-xl:w-full flex flex-col gap-6">
