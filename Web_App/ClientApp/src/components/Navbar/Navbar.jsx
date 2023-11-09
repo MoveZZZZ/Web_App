@@ -81,7 +81,7 @@ const Navbar = () => {
                         <img src={snoopNavbar}
                             className="h-12 mr-3"
                             alt="Logo" />
-                        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white ">K*rwa</span>
+                        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white ">BigGuns</span>
                     </Link>
                     <div className="flex max-md:hidden">
                         {!isAdmin ? (

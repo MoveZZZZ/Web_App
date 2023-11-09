@@ -15,7 +15,7 @@ export async function fetchUpdatePhotoUser(formData) {
     body.append('Image', formData.Image);
     body.append('userID', formData.userid);
     const params = {
-        method: 'PATCH',
+        method: 'POST',
         credentials: 'include',
         body,
     };
@@ -31,7 +31,7 @@ export async function fetchUpdateEmailUser(formData) {
     body.append('NewPassword', null);
     body.append('RepeatNewPassword', null);
     const params = {
-        method: 'PATCH',
+        method: 'POST',
         credentials: 'include',
         body,
     };
@@ -48,7 +48,7 @@ export async function fetchUpdateLoginUser(formData) {
     body.append('NewPassword', null);
     body.append('RepeatNewPassword', null);
     const params = {
-        method: 'PATCH',
+        method: 'POST',
         credentials: 'include',
         body,
     };
@@ -64,7 +64,7 @@ export async function fetchUpdatePasswordUser(formData) {
     body.append('NewPassword', formData.NewPassword);
     body.append('RepeatNewPassword', formData.RepeatNewPassword);
     const params = {
-        method: 'PATCH',
+        method: 'POST',
         credentials: 'include',
         body,
     };
