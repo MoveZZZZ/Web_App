@@ -80,7 +80,7 @@ public class TokenController : ControllerBase
             Secure = true,
             SameSite = SameSiteMode.Strict
         });
-        return Unauthorized(new { message = "Invalid token" });
+        return BadRequest(new { message = "Invalid token" });
     }
 
     [HttpGet("logout")]

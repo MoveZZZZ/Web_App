@@ -52,7 +52,6 @@ namespace Web_App.Rest.Authorization.Services
             };
             smtpClient.Send(message);
         }
-
         public void SendMailWithRecoveryLink(string email, string uid)
         {
             MailMessage message = new MailMessage();
@@ -108,7 +107,6 @@ namespace Web_App.Rest.Authorization.Services
             };
             smtpClient.Send(message);
         }
-
         public void SendMailWithOTP(string email, string uid, string otp)
         {
             MailMessage message = new MailMessage();
@@ -119,6 +117,24 @@ namespace Web_App.Rest.Authorization.Services
             message.To.Add(new MailAddress(email));
             message.Body = ("<html><body><h1> " + otp + " </h1>Is your authentication code for page:" +
                 "<a href= \"https://localhost:44456/oauth/" + uid + "\">Authentication page</a></body></html>");
+            message.IsBodyHtml = true;
+            var smtpClient = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential(mailOrigin, mailAppKey),
+                EnableSsl = true,
+            };
+            smtpClient.Send(message);
+        }
+        public void sendAutomationDetectedNotification(string email)
+        {
+            MailMessage message = new MailMessage();
+            string mailOrigin = _configuration["MailService:Origin"];
+            string mailAppKey = _configuration["MailService:ApplicationKey"];
+            message.From = new MailAddress(mailOrigin);
+            message.Subject = "Suspicious activity has been detected on the account";
+            message.To.Add(new MailAddress(email));
+            message.Body = ("<html><body>Due to the fact that increased (suspicious) activity was noticed over a long period of time, the account has been logged out!</body></html>");
             message.IsBodyHtml = true;
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {

@@ -26,6 +26,7 @@ export async function fetchWithAuthentication(url, params) {
         }
         else {
             sessionStorage.removeItem("ID");
+            setTimeout(() => 2500);
             // eslint-disable-next-line no-restricted-globals
             location.replace("/login");
         }

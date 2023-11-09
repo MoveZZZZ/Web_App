@@ -38,6 +38,23 @@ namespace Web_App.Rest.Authorization.Repositories
             return userModel;
         }
 
+        public bool processAntiAutomationCheckDB(int ID)
+        {
+            bool response = false;
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            DataTable table = new DataTable();
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "SELECT web_base.sessionTime(@id)";
+                command.Parameters.Add("@id", MySqlDbType.Int32).Value = ID;
+                response = Convert.ToInt32(command.ExecuteScalar()) == 0 ? false : true;
+            }
+            return response;
+        }
+
         public void IncrementLoginFailureByID(int user_ID)
         {
             using (var connection = GetConnection())
