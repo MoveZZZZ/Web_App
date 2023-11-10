@@ -9,7 +9,7 @@ namespace Web_App.Rest.Authorization.Repositories
         UserModel getUserDataFromDB(AuthorizationModel authModel);
         UserModel getUserDataFromDBviaID(int ID);
         public UserModel getUserDataFromDBviaEmail(string email);
-        public bool processAntiAutomationCheckDB(int ID);
+        public int processAntiAutomationCheckDB(int ID);
         public void IncrementLoginFailureByID(int authorizationModel);
     }
 }
