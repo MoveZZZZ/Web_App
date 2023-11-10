@@ -38,9 +38,9 @@ namespace Web_App.Rest.Authorization.Repositories
             return userModel;
         }
 
-        public bool processAntiAutomationCheckDB(int ID)
+        public int processAntiAutomationCheckDB(int ID)
         {
-            bool response = false;
+            int response = -2;
             MySqlDataAdapter adapter = new MySqlDataAdapter();
             DataTable table = new DataTable();
             using (var connection = GetConnection())
@@ -50,7 +50,7 @@ namespace Web_App.Rest.Authorization.Repositories
                 command.Connection = connection;
                 command.CommandText = "SELECT web_base.sessionTime(@id)";
                 command.Parameters.Add("@id", MySqlDbType.Int32).Value = ID;
-                response = Convert.ToInt32(command.ExecuteScalar()) == 0 ? false : true;
+                response = Convert.ToInt32(command.ExecuteScalar());
             }
             return response;
         }

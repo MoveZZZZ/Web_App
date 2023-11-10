@@ -122,9 +122,10 @@ namespace Web_App.Rest.JWT.Services
         }
         private bool userAntiAutomationCheck(UserModel user)
         {
-            if (!_userAuthorizationRepository.processAntiAutomationCheckDB(user.Id))
+            int checkResult = _userAuthorizationRepository.processAntiAutomationCheckDB(user.Id);
+            if (checkResult < 1)
             {
-                _mailSendingService.sendAutomationDetectedNotification(user.Email);
+                if (checkResult == 0) _mailSendingService.sendAutomationDetectedNotification(user.Email);
                 return false;
             }
             return true;
