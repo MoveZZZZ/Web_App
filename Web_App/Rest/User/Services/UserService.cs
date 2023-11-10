@@ -188,7 +188,7 @@ namespace Web_App.Rest.User.Services
             if (!verifyPasswords(_modelRequest.Password, _userModelBase.Password))
                 return "Wrong current password!";
             _userRepository.deleteAccountByID(_modelRequest.UserID);
-            _mailSendingService.SendMailByAccountRemove(_userModelBase.Email);
+            _mailSendingService.SendMailByAccountRemove(_userModelBase.Email, _userModelBase.Login);
             return "Your account successfully removed!";
 
         }
