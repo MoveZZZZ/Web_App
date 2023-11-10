@@ -22,8 +22,12 @@ namespace Web_App.Rest.Authorization.Services
             message.From = new MailAddress(mailOrigin);
             message.Subject = "Verify Email";
             message.To.Add(new MailAddress(email));
-            message.Body = ("<html><body><h1>Your email verification link is:</h1>" +
-                "<a href= \""+IP+"/mailverification/" + uid + "\">CLICK ME!</a></body></html>");
+            using (StreamReader reader = System.IO.File.OpenText("Rest/Authorization/MailResources/VerifyEmail.html"))
+            {
+                string mailBody = reader.ReadToEnd();
+                mailBody = mailBody.Replace("VERIFYEMAIL", IP + "/mailverification/" + uid);
+                message.Body = mailBody;
+            }
             message.IsBodyHtml = true;
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
@@ -41,8 +45,12 @@ namespace Web_App.Rest.Authorization.Services
             message.From = new MailAddress(mailOrigin);
             message.Subject = "Verify Email";
             message.To.Add(new MailAddress(email));
-            message.Body = ("<html><body><h1>Your email verification link is:</h1>" +
-                "<a href= \""+IP+"/verifychangedmail/" + uid + "\">CLICK ME!</a></body></html>");
+            using (StreamReader reader = System.IO.File.OpenText("Rest/Authorization/MailResources/VerifyEmail.html"))
+            {
+                string mailBody = reader.ReadToEnd();
+                mailBody = mailBody.Replace("VERIFYEMAIL", IP + "/verifychangedmail/" + uid);
+                message.Body = mailBody;
+            }
             message.IsBodyHtml = true;
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
@@ -60,8 +68,12 @@ namespace Web_App.Rest.Authorization.Services
             message.From = new MailAddress(mailOrigin);
             message.Subject = "Password Recovery Link";
             message.To.Add(new MailAddress(email));
-            message.Body = ("<html><body><h1>Your password recovery link is:</h1> " +
-                "<a href= \""+IP+"/recoverypage/" + uid + "\">CLICK ME!</a></body></html>");
+            using (StreamReader reader = System.IO.File.OpenText("Rest/Authorization/MailResources/RecoveryPassword.html"))
+            {
+                string mailBody = reader.ReadToEnd();
+                mailBody = mailBody.Replace("RECOVERYLINK", IP+"/recoverypage/"+uid);
+                message.Body = mailBody;
+            }
             message.IsBodyHtml = true;
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
@@ -77,9 +89,14 @@ namespace Web_App.Rest.Authorization.Services
             string mailOrigin = _configuration["MailService:Origin"];
             string mailAppKey = _configuration["MailService:ApplicationKey"];
             message.From = new MailAddress(mailOrigin);
-            message.Subject = "Your personal data has been changed";
+            message.Subject = "Your "+subject.ToLower()+"  has been changed";
             message.To.Add(new MailAddress(email));
-            message.Body = ("<html><body>Your personal data ("+ subject + ") has been changed, if that was not you, please contact with support</body></html>");
+            using (StreamReader reader = System.IO.File.OpenText("Rest/Authorization/MailResources/DataChange.html"))
+            {
+                string mailBody = reader.ReadToEnd();
+                mailBody = mailBody.Replace("DATACHANGE", subject.ToLower());
+                message.Body = mailBody;
+            }
             message.IsBodyHtml = true;
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
@@ -89,7 +106,7 @@ namespace Web_App.Rest.Authorization.Services
             };
             smtpClient.Send(message);
         }
-        public void SendMailByAccountRemove(string email)
+        public void SendMailByAccountRemove(string email, string username)
         {
             MailMessage message = new MailMessage();
             string mailOrigin = _configuration["MailService:Origin"];
@@ -97,7 +114,12 @@ namespace Web_App.Rest.Authorization.Services
             message.From = new MailAddress(mailOrigin);
             message.Subject = "Your account has been deleted";
             message.To.Add(new MailAddress(email));
-            message.Body = ("<html><body>Your account has been successfully deleted, we hope to see you again!</body></html>");
+            using (StreamReader reader = System.IO.File.OpenText("Rest/Authorization/MailResources/RemoveAccount.html"))
+            {
+                string mailBody = reader.ReadToEnd();
+                mailBody = mailBody.Replace("USERNAME", username);
+                message.Body = mailBody;
+            }
             message.IsBodyHtml = true;
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
@@ -115,8 +137,14 @@ namespace Web_App.Rest.Authorization.Services
             message.From = new MailAddress(mailOrigin);
             message.Subject = "2-Step authentication code";
             message.To.Add(new MailAddress(email));
-            message.Body = ("<html><body><h1> " + otp + " </h1>Is your authentication code for page:" +
-                "<a href= \"https://localhost:44456/oauth/" + uid + "\">Authentication page</a></body></html>");
+            using (StreamReader reader = System.IO.File.OpenText("Rest/Authorization/MailResources/Admin2Step.html"))
+            {
+                string mailBody = reader.ReadToEnd();
+                string authLink = IP + uid;
+                mailBody = mailBody.Replace("httpsLINK", IP + "/oauth/" + uid);
+                mailBody = mailBody.Replace("VER_CODE", otp);
+                message.Body = mailBody;
+            }
             message.IsBodyHtml = true;
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {
@@ -128,13 +156,15 @@ namespace Web_App.Rest.Authorization.Services
         }
         public void sendAutomationDetectedNotification(string email)
         {
+
             MailMessage message = new MailMessage();
             string mailOrigin = _configuration["MailService:Origin"];
             string mailAppKey = _configuration["MailService:ApplicationKey"];
             message.From = new MailAddress(mailOrigin);
             message.Subject = "Suspicious activity has been detected on the account";
             message.To.Add(new MailAddress(email));
-            message.Body = ("<html><body>Due to the fact that increased (suspicious) activity was noticed over a long period of time, the account has been logged out!</body></html>");
+            using (StreamReader reader = System.IO.File.OpenText("Rest/Authorization/MailResources/BlockAccount.html"))
+                message.Body = reader.ReadToEnd();
             message.IsBodyHtml = true;
             var smtpClient = new SmtpClient("smtp.gmail.com")
             {

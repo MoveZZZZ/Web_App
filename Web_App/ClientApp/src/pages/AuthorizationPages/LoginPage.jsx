@@ -110,9 +110,6 @@ const LoginPage = () => {
                         </a>
                     </div>
                 </div>
-
-
-
             </div>
             </section>
         </>
