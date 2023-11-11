@@ -1,4 +1,4 @@
-﻿import { fetchWithAuthentication, } from './AuthenticationLogic';
+﻿import { fetchWithAuthentication, } from './authenticationLogic';
 
 export const fetchGetAllCountry = () => {
     const api = `${process.env.REACT_APP_API_IP}/accesspoint/getallaccesspointcountry`;

@@ -1,4 +1,4 @@
-﻿import { fetchWithAuthentication, } from './AuthenticationLogic';
+﻿import { fetchWithAuthentication, } from './authenticationLogic';
 
 export const fetchGetUserDataProfile = async (userID) => {
     const api = `${process.env.REACT_APP_API_IP}/user/?userID=${userID}`;

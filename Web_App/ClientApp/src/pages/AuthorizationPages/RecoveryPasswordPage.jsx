@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { fetchChangePassword, fetchIsExistUID } from "../../utils/AuthorizationApi"
+import { fetchChangePassword, fetchIsExistUID } from "../../utils/authorizationApi"
 import Spooky from "../../assets/KABAN.gif";
 import Spinner from '../../components/Spinner/Spinner';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

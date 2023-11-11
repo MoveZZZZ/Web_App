@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { signup, } from '../../utils/AuthorizationApi';
+import { signup, } from '../../utils/authorizationApi';
 import liveMaggotReaction from "../../assets/V1.gif";
 import PasswordStrengthBar from 'react-password-strength-bar';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,6 +17,7 @@ const SignUpPage = () => {
     const [passwordConfUser, setPasswordConfUser] = useState('');
 
     const [showPassword, setShowPassword] = useState(false);
+    const [showRepeatPassword, setShowRepeatPassword] = useState(false);
     const recaptcha = useRef();
     const [errMsg, setErrMsg] = useState('');
 
@@ -70,6 +71,9 @@ const SignUpPage = () => {
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
+    };
+    const toggleRepeatPasswordVisibility = () => {
+        setShowRepeatPassword(!showRepeatPassword);
     };
     const getMessage = () => {
         setIsMessage(true);
@@ -151,18 +155,24 @@ const SignUpPage = () => {
                                         </div>
                                     </div>
                                     <PasswordStrengthBar password={passwordUser} />
-                                    <div className="mt-3">
+                                    <div className="mt-3 relative">
                                         <label className="block text-primary-700">Password Confirmation</label>
                                         <input
                                             id="passwordConf"
                                             name="passwordConf"
-                                            type="password"
+                                            type={showRepeatPassword ? 'text' : 'password'}
                                             autoComplete="Password-confirm"
                                             required
                                             value={passwordConfUser}
                                             onChange={(e) => setPasswordConfUser(e.target.value)}
-                                            className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none"
+                                            className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none relative"
                                             placeholder="Repeat your password*" />
+                                        <span
+                                            className="absolute right-3 top-4 mt-7 cursor-pointer text-primary-400"
+                                            onClick={toggleRepeatPasswordVisibility}
+                                        >
+                                            {showRepeatPassword ? <i><FontAwesomeIcon icon={faEyeSlash} /></i> : <i><FontAwesomeIcon icon={faEye} /></i>}
+                                        </span>
                                     </div>
                                     <p className="text-red text-xs">{errMsg}</p>
                                     <button

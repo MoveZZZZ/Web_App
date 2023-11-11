@@ -7,7 +7,7 @@ import React, { useContext, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import LogoutModal from "../MyModal/LogOutModal";
 import cursedCat from "../../assets/cat.gif";
-import { logoutCookieCleanUp, } from '../../utils/AuthenticationLogic';
+import { logoutCookieCleanUp, } from '../../utils/authenticationLogic';
 import { menuLinks, menuAdminLinks } from '../../constants/constant';
 import { fetchGetUserDataProfile, } from "../../utils/userApi"
 import { useEffect } from 'react';

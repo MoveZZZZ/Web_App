@@ -1,4 +1,4 @@
-﻿import { fetchWithAuthentication, } from './AuthenticationLogic';
+﻿import { fetchWithAuthentication, } from './authenticationLogic';
 
 export const fetchAllOrders = async () => {
     const api = `${process.env.REACT_APP_API_IP}/order/admin/getallorder`;

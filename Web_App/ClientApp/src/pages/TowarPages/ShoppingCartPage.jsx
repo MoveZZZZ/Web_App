@@ -93,10 +93,12 @@ const ShoppingCartPage = () => {
 
         fetchRemoveFromCart(userID, itemId)
             .then((data) => {
-
                 setMessage("Your item removed from Cart!");
                 getMessage();
                 uploadData();
+                setSelectedItemCountList([]);
+                setSelectedItemList([]);
+                setTotalOrderSum();
                 setTimeout(() => {
                     setIsLoading(false);
                 }, 1000);

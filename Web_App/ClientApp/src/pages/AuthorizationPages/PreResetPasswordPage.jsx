@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
-import { preresetpass } from '../../utils/AuthorizationApi';
+import React, { useState, useEffect } from 'react';
+import { preresetpass } from '../../utils/authorizationApi';
 import Spooky from "../../assets/KABAN.gif";
+import Message from "../../components/Message/Message";
+import Spinner from '../../components/Spinner/Spinner';
 
 const ForgotPasswordPreResetPage = () => {
     const [email, setEmail] = useState('');
     const [errMsg, setErr] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
+
+    const [isMessage, setIsMessage] = useState(false);
+    const [isClick, setIsClick] = useState(false);
+    const [message, setMessage] = useState("");
+
 
     const checkMailLenght = () => {
         if (email.length > 128)
@@ -15,14 +23,44 @@ const ForgotPasswordPreResetPage = () => {
 
     const handlePreReset = async(e) => {
         e.preventDefault();
-        if (checkMailLenght()) {
+        if (checkMailLenght() && !isClick) {
+            setIsClick(true)
             let res = await preresetpass(email);
-            setErr(res.message)
-            setEmail("");
+            if (res.message === "Wrong Email!") {
+                setErr(res.message);
+                setIsClick(false);
+                setEmail("");
+            }
+            else {
+                setMessage(res.message)
+                getMessage();
+                setEmail("");
+            }
+
         }
     };
+    const getMessage = () => {
+        setIsMessage(true);
+        setTimeout(() => setIsMessage(false), 4000);
+    }
+
+    useEffect(() => {
+        setTimeout(() => setIsLoading(false), 1000);
+    }, [])
 
     return (
+        <>
+        { isLoading?
+                <div className="flex text-center items-center justify-center w-full h-96">
+                    < Spinner />
+                </div >
+                :
+                <div>
+                    {isMessage ?
+                        <Message param={message} />
+                        :
+                        <></>
+                    }
         <section className="border-primary-500  flex items-center justify-center">
             <div className="bg-primary-100 p-5 flex rounded-xl shadow-lg max-w-6xl m-28">
                 <div className="w-1/2 md:block hidden ">
@@ -72,7 +110,11 @@ const ForgotPasswordPreResetPage = () => {
                     </div>
                 </div>
             </div>
-        </section>
+                    </section>
+                </div>
+
+            }   
+        </>
     )
 };
 

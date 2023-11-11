@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams} from 'react-router-dom';
-import { fetchMFAuthCodeSubmit, fetchIsExistOAuthUID } from "../../utils/AuthorizationApi"
+import { fetchMFAuthCodeSubmit, fetchIsExistOAuthUID } from "../../utils/authorizationApi"
 import Spinner from '../../components/Spinner/Spinner';
 import Message from "../../components/Message/Message";
 
@@ -34,7 +34,6 @@ const MFAAuthPage = () => {
             setIsLoading(false);
         }, 500);
     }
-
     const isCodeSeccessfulySubmited = (message) => {
         if (!message) {
             setIsChanged(true);

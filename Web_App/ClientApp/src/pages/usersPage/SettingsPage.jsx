@@ -8,7 +8,7 @@ import { fetchGetUserDataProfile, fetchUpdatePhotoUser, fetchUpdateEmailUser, fe
 import Spinner from '../../components/Spinner/Spinner';
 import Message from "../../components/Message/Message";
 import ErrorMessage from "../../components/Message/ErrorMessage";
-import { logoutCookieCleanUp } from '../../utils/AuthenticationLogic';
+import { logoutCookieCleanUp } from '../../utils/authenticationLogic';
 
 
 const SettingsPage = () => {
@@ -24,6 +24,7 @@ const SettingsPage = () => {
     const userID = sessionStorage.getItem('ID');
     const [userProfile, setUserProfile] = useState([])
     const [showPassword, setShowPassword] = useState(false);
+    const [showRepeatPassword, setShowRepeatPassword] = useState(false);
 
     const [isMessage, setIsMessage] = useState(false);
     const [isError, setIsError] = useState(false);
@@ -48,7 +49,9 @@ const SettingsPage = () => {
         setShowPassword(!showPassword);
     };
 
-
+    const togglePasswordRepeatVisibility = () => {
+        setShowRepeatPassword(!showRepeatPassword);
+    };
     const getInitialFormDataChange = () => ({
         UserID: userID,
         UserName: "",
@@ -225,6 +228,7 @@ const SettingsPage = () => {
     const clearData = () => {
         setFormDataChange(getInitialFormDataChange());
         setShowPassword(false);
+        setShowRepeatPassword(false);
         setResponseMessage("");
     }
 
@@ -434,17 +438,23 @@ const SettingsPage = () => {
                                     {showPassword ? <i><FontAwesomeIcon icon={faEyeSlash} /></i> : <i><FontAwesomeIcon icon={faEye} /></i>}
                                 </span>
                             </div>
-                            <div>
+                            <div className="relative">
                                 <input
                                     id="RepeatNewPassword"
                                     name="RepeatNewPassword"
-                                    type="password"
+                                    type={showRepeatPassword ? 'text' : 'password'}
                                     required
                                     onChange={handleInputChange}
                                     value={formDataChange.RepeatNewPassword}
                                     placeholder="Repeat new password*"
                                     className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none hover:scale-105 duration-200"
                                 />
+                                <span
+                                    className="absolute right-3 top-4 mt-1 cursor-pointer text-primary-400"
+                                    onClick={togglePasswordRepeatVisibility}
+                                >
+                                    {showRepeatPassword ? <i><FontAwesomeIcon icon={faEyeSlash} /></i> : <i><FontAwesomeIcon icon={faEye} /></i>}
+                                </span>
                                 <p className="flex justify-start text-sm text-red">{responseMessage}</p>
                                 <div className="flex justify-center">
                                     <button className="w-6/12 text-center bg-primary-200 rounded-lg px-4 py-2 mt-2 hover:bg-secondary duration-200 hover:text-primary-100"
