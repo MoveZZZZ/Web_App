@@ -4,7 +4,7 @@ import { fetchGetTop3Products } from "../utils/productApi"
 import shopPhoto from "../assets/guns-shop.jpeg"
 import shopPhoto1 from "../assets/guns_1.jpg"
 import shopPhoto2 from "../assets/guns_2.jpg"
-import { refreshTokens, } from '../utils/AuthorizationApi';
+import { refreshTokens, } from '../utils/authorizationApi';
 import Spinner from '../components/Spinner/Spinner';
 import { Link } from 'react-router-dom';
 

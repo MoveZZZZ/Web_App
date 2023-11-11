@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react';
 import { AuthContext } from "../context";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/AuthorizationPages/LoginPage";
-import SignUpPage from "../pages/AuthorizationPages/SignUpPage";
+import SignUpPage from "../pages/AuthorizationPages/RegistrationPage";
 import ProductPage from "../pages/TowarPages/ProductPage";
 import ProductDetail from "../pages/TowarPages/ProductDetail";
 import ShoppingCartPage from "../pages/TowarPages/ShoppingCartPage";
@@ -14,14 +14,14 @@ import Spinner from '../components/Spinner/Spinner';
 import OrderDetailsPage from "../pages/TowarPages/OrderDetailsPage";
 import SettingsPage from "../pages/usersPage/SettingsPage";
 import VerifyMailBeforeChange from "../pages/usersPage/VerifyMailBeforeChange";
-import ForgotPasswordPreResetPage from "../pages/AuthorizationPages/PreResetPage";
-import ResetPage from "../pages/AuthorizationPages/RecoveryPage";
+import ForgotPasswordPreResetPage from "../pages/AuthorizationPages/PreResetPasswordPage";
+import ResetPage from "../pages/AuthorizationPages/RecoveryPasswordPage";
 import AllOrderPage from "../pages/AdminPage/AllOrdersPage"
 import AdminOrderDetailsPage from "../pages/AdminPage/AdminOrderDetailsPage";
 import AllOrdersArchivePage from "../pages/AdminPage/AllOrdersArchivePage";
 import AdminOrderDetailsArchivePage from "../pages/AdminPage/AdminOrderDetailsArchivePage";
 import VerifyEmailPage from "../pages/AuthorizationPages/VerifyEmailPage";
-import MFAAuthPage from "../pages/AuthorizationPages/2faPage";
+import MFAAuthPage from "../pages/AuthorizationPages/2FA_VerificationCodePage";
 
 
 const AppRouter = () => {

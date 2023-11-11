@@ -2,7 +2,7 @@
 import { useParams, } from 'react-router-dom';
 import Spinner from '../../components/Spinner/Spinner';
 import Message from "../../components/Message/Message";
-import { fetchVerifyEmail } from "../../utils/AuthorizationApi"
+import { fetchVerifyEmail } from "../../utils/authorizationApi"
 
 const VerifyEmailPage = () => {
 

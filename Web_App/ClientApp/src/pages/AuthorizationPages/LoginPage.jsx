@@ -1,5 +1,5 @@
 ﻿import React, { useState, useRef } from 'react';
-import { login, } from '../../utils/AuthorizationApi';
+import { login, } from '../../utils/authorizationApi';
 import snoopSec from "../../assets/snoopSec.gif";
 import ReCAPTCHA from "react-google-recaptcha";
 import Message from "../../components/Message/Message";

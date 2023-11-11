@@ -1,4 +1,4 @@
-import { fetchWithAuthentication, } from './AuthenticationLogic';
+import { fetchWithAuthentication, } from './authenticationLogic';
 
 export const fetchProducts = async (page, pageSize) => {
     try {

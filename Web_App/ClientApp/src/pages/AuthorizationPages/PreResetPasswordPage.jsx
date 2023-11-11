@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { preresetpass } from '../../utils/AuthorizationApi';
+import { preresetpass } from '../../utils/authorizationApi';
 import Spooky from "../../assets/KABAN.gif";
 import Message from "../../components/Message/Message";
 import Spinner from '../../components/Spinner/Spinner';
@@ -26,9 +26,17 @@ const ForgotPasswordPreResetPage = () => {
         if (checkMailLenght() && !isClick) {
             setIsClick(true)
             let res = await preresetpass(email);
-            setMessage(res.message)
-            getMessage();
-            setEmail("");
+            if (res.message === "Wrong Email!") {
+                setErr(res.message);
+                setIsClick(false);
+                setEmail("");
+            }
+            else {
+                setMessage(res.message)
+                getMessage();
+                setEmail("");
+            }
+
         }
     };
     const getMessage = () => {
