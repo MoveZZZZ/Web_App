@@ -1,9 +1,10 @@
-﻿import React, { useState, useContext, useEffect, useRef } from 'react';
+﻿import React, { useState, useRef } from 'react';
 import { login, } from '../../utils/AuthorizationApi';
 import snoopSec from "../../assets/snoopSec.gif";
-import { AuthContext, UserIDContext, UserTokenContext, UserRefreshTokenContext, } from "../../context";
 import ReCAPTCHA from "react-google-recaptcha";
 import Message from "../../components/Message/Message";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const LoginPage = () => {
     const [loginUser, setLoginUser] = useState('');
@@ -13,7 +14,7 @@ const LoginPage = () => {
 
     const [isMessage, setIsMessage] = useState(false);
     const [message, setMessage] = useState("");
-
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleLogin = async (e) => {
         e.preventDefault()
@@ -45,6 +46,9 @@ const LoginPage = () => {
         setIsMessage(true);
         setTimeout(() => setIsMessage(false), 2500);
     }
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
     return (
         <>
         { isMessage ? <Message param={message} /> : null }
@@ -72,18 +76,24 @@ const LoginPage = () => {
                                 className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none"
                                 placeholder="Username*" />
                         </div>
-                        <div className="mt-4">
+                            <div className="mt-4 relative" >
                             <label className="block text-primary-700">Password</label>
                             <input
                                 id="password"
                                 name="password"
-                                type="password"
+                                    type={showPassword ? 'text' : 'password'}
                                 autoComplete="current-password"
                                 required
                                 value={passwordUser}
                                 onChange={(e) => setPasswordUser(e.target.value)}
-                                className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none"
-                                placeholder="Password*" />
+                                className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none relative"
+                                    placeholder="Password*" />
+                                <span
+                                    className="absolute right-3 top-4 mt-7 cursor-pointer text-primary-400"
+                                    onClick={togglePasswordVisibility}
+                                >
+                                    {showPassword ? <i><FontAwesomeIcon icon={faEyeSlash} /></i> : <i><FontAwesomeIcon icon={faEye} /></i>}
+                                </span>
                         </div>
                         <div className="text-right mt-2">
                             <a href="/passwordrecovery"
