@@ -9,6 +9,7 @@ const MyModal = ({ children, visible, setVisible }) => {
         rootClasses.push(cl.active);
     }
 
+
     return (
         <div className={rootClasses.join(' ')}
             onClick={() => setVisible(false)

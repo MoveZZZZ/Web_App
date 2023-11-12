@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebook, faTwitter, faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
+
 const Footer = () => {
     return (
         <footer className="relative bg-primary-200 pt-8 pb-6 shadow-4 mt-5">
@@ -22,13 +23,13 @@ const Footer = () => {
                                 <span className="block uppercase text-primary-500 text-sm font-semibold mb-2 content-right">Other Resources</span>
                                 <ul className="list-unstyled">
                                     <li>
-                                        <a className="text-primary-500 hover:hover:text-secondary font-semibold block pb-2 text-sm" href="https://creative-tim.com/terms?ref=njs-profile">Terms &amp; Conditions</a>
+                                        <a className="text-primary-500 hover:hover:text-secondary font-semibold block pb-2 text-sm" href="/">Terms &amp; Conditions</a>
                                     </li>
                                     <li>
-                                        <a className="text-primary-500 hover:hover:text-secondary font-semibold block pb-2 text-sm" href="https://creative-tim.com/privacy?ref=njs-profile">Privacy Policy</a>
+                                        <a className="text-primary-500 hover:hover:text-secondary font-semibold block pb-2 text-sm" href="/">Privacy Policy</a>
                                     </li>
                                     <li>
-                                        <a className="text-primary-500 hover:hover:text-secondary font-semibold block pb-2 text-sm" href="https://creative-tim.com/contact-us?ref=njs-profile">Contact Us</a>
+                                        <a className="text-primary-500 hover:hover:text-secondary font-semibold block pb-2 text-sm" href="/">Contact Us</a>
                                     </li>
                                 </ul>
                             </div>

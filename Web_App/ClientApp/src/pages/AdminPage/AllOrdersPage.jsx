@@ -1,10 +1,9 @@
-﻿import React, { useState, useContext, } from 'react';
-import { useEffect } from 'react';
+﻿import React, { useState, useEffect} from 'react';
 import {
     fetchAllOrders, fetchAllOrderByEmail, fetchDeleteOrderByID, fetchAllOrdersThisDay
     , fetchAllOrdersLastDay, fetchAllOrdersLastMonth, fetchAllOrdersThisMonth, fetchAllOrdersThisYear, fetchAllOrdersLastYear} from "../../utils/adminAPI"
 import { Link } from 'react-router-dom';
-import _, { remove } from "lodash";
+import _ from "lodash";
 import Spinner from '../../components/Spinner/Spinner';
 
 
@@ -34,6 +33,7 @@ const AllOrdersPage = () => {
                 }, 1000)
             })
     }
+
     const searchOrderByEmail = async (query) => {
         if (query) {
             fetchAllOrderByEmail(query)
@@ -70,6 +70,7 @@ const AllOrdersPage = () => {
                 handleOrdersUser();
             })
     }
+
     const getOrderThisDay = async () => {
         fetchAllOrdersThisDay()
             .then((data) => {
@@ -85,6 +86,7 @@ const AllOrdersPage = () => {
                 }, 1000)
             })
     }
+
     const getOrderLastDay = async () => {
         fetchAllOrdersLastDay()
             .then((data) => {
@@ -100,6 +102,7 @@ const AllOrdersPage = () => {
                 }, 1000)
             })
     }
+
     const getOrderThisMonth = async () => {
         fetchAllOrdersThisMonth()
             .then((data) => {
@@ -115,6 +118,7 @@ const AllOrdersPage = () => {
                 }, 1000)
             })
     }
+
     const getOrderLastMonth = async () => {
         fetchAllOrdersLastMonth()
             .then((data) => {
@@ -130,6 +134,7 @@ const AllOrdersPage = () => {
                 }, 1000)
             })
     }
+
     const getOrderThisYear = async () => {
         fetchAllOrdersThisYear()
             .then((data) => {
@@ -145,6 +150,7 @@ const AllOrdersPage = () => {
                 }, 1000)
             })
     }
+
     const getOrderLastYear = async () => {
         fetchAllOrdersLastYear()
             .then((data) => {
@@ -160,6 +166,7 @@ const AllOrdersPage = () => {
                 }, 1000)
             })
     }
+
     const handleSort = async (event) => {
         const option = event.target.value;
         if (option === "Current day")
@@ -185,6 +192,7 @@ const AllOrdersPage = () => {
     useEffect(() => {
         handleOrdersUser();
     }, [])
+
     const handleSearchInputChange = _.debounce((e) => setSearchQuery(e.target.value), 1000);
 
     return (
@@ -221,7 +229,6 @@ const AllOrdersPage = () => {
                 </div >
                 :
                 <div className="bg-white p-8 rounded-md w-full">
-
                     <div>
                         <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
                             <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">

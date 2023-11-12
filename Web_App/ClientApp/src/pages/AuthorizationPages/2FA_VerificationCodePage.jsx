@@ -34,6 +34,7 @@ const MFAAuthPage = () => {
             setIsLoading(false);
         }, 500);
     }
+
     const isCodeSeccessfulySubmited = (message) => {
         if (!message) {
             setIsChanged(true);
@@ -126,10 +127,7 @@ const MFAAuthPage = () => {
                     }
                 </div>
             }
-
-
         </>
     )
 };
-
 export default MFAAuthPage;

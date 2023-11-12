@@ -1,6 +1,5 @@
-﻿import React, { useEffect } from 'react'
-import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+﻿import React, { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom';
 import { fetchOrderDetails, } from "../../utils/orderAPI"
 import Spinner from '../../components/Spinner/Spinner';
 
@@ -8,15 +7,9 @@ const OrderDetailsPage = (props) => {
 
     const userID = sessionStorage.getItem('ID');
     const location = useLocation();
-
-    const [orderID, setOrderID] = useState(1);
-
     const [orderDetailData, setOrderDetailData] = useState();
     const [orderDetailProducts, setorderDetailProducts] = useState([]);
-
     const [isLoading, setIsLoading] = useState(true);
-
-
 
     const handleOrderDetails = async () => {
         setIsLoading(true);
@@ -35,7 +28,6 @@ const OrderDetailsPage = (props) => {
                 }, 500);
             });
     }
-
 
     useEffect(() => {
         handleOrderDetails();
@@ -77,10 +69,6 @@ const OrderDetailsPage = (props) => {
                                     </div >
 
                                 )}
-
-
-
-
                             </div>
                             <div className="flex justify-center flex-col md:flex-row flex-col items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
                                 <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
@@ -129,9 +117,6 @@ const OrderDetailsPage = (props) => {
                                         <div className="flex justify-center md:justify-start items-center md:items-start flex-col space-y-4 xl:mt-8">
                                             <p className="text-base dark:text-white font-semibold leading-4 text-center md:text-left text-gray-800">Shipping Address</p>
                                             <p className="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600">{orderDetailData.shopAddress}</p>
-                                            {/*<p className="text-base dark:text-white font-semibold leading-4 text-center md:text-left text-gray-800">Client Data</p>
-                                            <p className="w-48 lg:w-full dark:text-gray-300 xl:w-48 text-center md:text-left text-sm leading-5 text-gray-600 -mt-5">Dear {orderDetailData.clientName} {orderDetailData.clientLastname}, phone: {orderDetailData.phones}</p>*/}
-
                                         </div>
                                     </div>
                                 </div>
@@ -142,11 +127,6 @@ const OrderDetailsPage = (props) => {
                 </div>
             }
         </>
-
-
     );
-
-
-
 };
 export default OrderDetailsPage;

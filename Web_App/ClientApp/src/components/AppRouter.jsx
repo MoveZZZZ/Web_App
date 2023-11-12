@@ -1,5 +1,5 @@
 ﻿import { Routes, Route, Navigate } from "react-router-dom";
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { AuthContext } from "../context";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/AuthorizationPages/LoginPage";
@@ -146,8 +146,6 @@ const AppRouter = () => {
                 <Route
                     path="*" element={<Navigate to="/login" />} />
             </Routes>
-
-
     )
 
 }

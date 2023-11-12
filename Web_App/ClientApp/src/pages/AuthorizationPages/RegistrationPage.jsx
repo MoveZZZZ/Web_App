@@ -11,21 +11,16 @@ import { useEffect } from 'react';
 
 
 const SignUpPage = () => {
+
     const [loginUser, setLoginUser] = useState('');
     const [emailUser, setEmailUser] = useState('');
     const [passwordUser, setPasswordUser] = useState('');
     const [passwordConfUser, setPasswordConfUser] = useState('');
-
     const [showPassword, setShowPassword] = useState(false);
     const [showRepeatPassword, setShowRepeatPassword] = useState(false);
     const recaptcha = useRef();
     const [errMsg, setErrMsg] = useState('');
-
-
     const [isLoading, setIsLoading] = useState(true);
-    const [isValid, setIsValid] = useState(false);
-
-
     const [message, setMessage] = useState("");
     const [isMessage, setIsMessage] = useState(false);
 
@@ -53,9 +48,9 @@ const SignUpPage = () => {
                 });
         }
     };
+
     const isSuccessCreateAccount = (message) => {
         if (message === "Ok") {
-            setIsValid(true);
             setIsMessage(true);
             setPasswordUser("");
             setPasswordConfUser("");
@@ -65,23 +60,26 @@ const SignUpPage = () => {
         }
         else {
             setErrMsg(message);
-            setIsValid(false);
         }
     }
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
+
     const toggleRepeatPasswordVisibility = () => {
         setShowRepeatPassword(!showRepeatPassword);
     };
+
     const getMessage = () => {
         setIsMessage(true);
         setTimeout(() => setIsMessage(false), 4000);
     }
+
     useEffect(() => {
         setTimeout(() => setIsLoading(false), 1000);
     }, [])
+
     return (
         <>
             {isLoading ?

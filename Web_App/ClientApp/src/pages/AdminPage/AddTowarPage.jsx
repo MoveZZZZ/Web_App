@@ -55,10 +55,12 @@ const AddTowarPage = () => {
         } catch (error) {
         }
     };
+
     const getMessage = () => {
         setIsMessage(true);
         setTimeout(() => setIsMessage(false), 2500);
     }
+
     const getErrorMessage = () => {
         setIsError(true);
         setTimeout(() => setIsError(false), 2500);
@@ -72,7 +74,6 @@ const AddTowarPage = () => {
                 <ErrorMessage param={message} /> : <></>}
             <h1 className="text-2xl font-bold mb-4 flex justify-center p-5">Add Product</h1>
             <div className="px-5 flex justify-center">
-
                 <form onSubmit={handleSubmit} className="w-1/2">
                     <div className="mb-4">
                         <label htmlFor="Name" className="block text-sm font-medium text-gray-700">
@@ -87,7 +88,6 @@ const AddTowarPage = () => {
                             className="border border-gray-300 rounded-lg p-2 w-full"
                         />
                     </div>
-
                     <div className="mb-4">
                         <label htmlFor="Description" className="block text-sm font-medium text-gray-700">
                             Description
@@ -101,7 +101,6 @@ const AddTowarPage = () => {
                             className="border border-gray-300 rounded-lg p-2 w-full"
                         />
                     </div>
-
                     <div className="mb-4">
                         <label htmlFor="Cost" className="block text-sm font-medium text-gray-700">
                             Cost
@@ -115,7 +114,6 @@ const AddTowarPage = () => {
                             className="border border-gray-300 rounded-lg p-2 w-full"
                         />
                     </div>
-
                     <div className="mb-4">
                         <label htmlFor="Count" className="block text-sm font-medium text-gray-700">
                             Count
@@ -129,7 +127,6 @@ const AddTowarPage = () => {
                             className="border border-gray-300 rounded-lg p-2 w-full"
                         />
                     </div>
-
                     <div className="mb-4">
                         <label htmlFor="Image" className="block text-sm font-medium text-gray-700">
                             Image
@@ -143,7 +140,6 @@ const AddTowarPage = () => {
                             className="border border-gray-300 rounded-lg p-2 w-full"
                         />
                     </div>
-
                     <button type="submit" className="bg-greenLight rounded-full text-primary-500 py-1 px-4 rounded-md">
                         Add Product
                     </button>
@@ -152,8 +148,6 @@ const AddTowarPage = () => {
         </>
     );
 };
-
-
 export default AddTowarPage;
 
 

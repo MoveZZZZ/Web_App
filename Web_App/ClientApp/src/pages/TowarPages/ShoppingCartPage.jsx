@@ -13,47 +13,29 @@ const ShoppingCartPage = () => {
 
     const [cartItems, setCartItems] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-
     const [selectedItemList, setSelectedItemList] = useState([]);
     const [selectedItemCountList, setSelectedItemCountList] = useState([]);
-
-
     const [isPlaceOrderClick, setIsPlaceOrderClick] = useState(false);
-
-
     const userID = sessionStorage.getItem('ID');
-
-
     const [isMessage, setIsMessage] = useState(false);
-
-
     const [message, setMessage] = useState("");
-
-
     const [isError, setIsError] = useState(false);
-
-
     const [totalOrderSum, setTotalOrderSum] = useState(0);
-
     const [coutryList, setCountryList] = useState([]);
     const [statesList, setStatesList] = useState([]);
     const [citysList, setCitysList] = useState([]);
     const [accesspointsList, setAccesspointsList] = useState([]);
-
     const [choisedState, setChoisedState] = useState();
     const [choisedCity, setChoisedCity] = useState();
     const [choisedAP, setChoisedAP] = useState(null);
-
-
     const [orderComment, setOrderComment] = useState("");
     const [userName, setUserName] = useState("");
     const [userLastname, setUserLastname] = useState("");
     const [userPhone, setUserPhone] = useState("");
     const [isCheckedTerms, setIsCheckedTerms] = useState(false);
-
     const [paymentMethod, setPaymentMethod] = useState("Card");
-
     const [isCreated, setIsCreated] = useState(false);
+
     const uploadData = async () => {
         setIsLoading(true);
         fetchGetAllClientCartItems(userID)
@@ -70,6 +52,7 @@ const ShoppingCartPage = () => {
                 }, 100);
             });
     }
+
     const uploadCoutry = async () => {
         fetchGetAllCountry()
             .then((response) => {
@@ -80,14 +63,6 @@ const ShoppingCartPage = () => {
                 getErrorMessage();
             })
     }
-
-
-    useEffect(() => {
-        uploadData();
-        uploadCoutry();
-    }, []);
-
-
 
     const removeFromCart = (itemId) => {
 
@@ -108,6 +83,7 @@ const ShoppingCartPage = () => {
 
 
     };
+
     const placeOrder = () => {
         if (selectedItemList.length) {
             setIsPlaceOrderClick(true);
@@ -118,9 +94,11 @@ const ShoppingCartPage = () => {
         }
 
     };
+
     const handleChangeTerms = () => {
         setIsCheckedTerms(!isCheckedTerms);
     };
+
     const createOrder = () => {
 
         if (selectedItemList &&
@@ -158,6 +136,7 @@ const ShoppingCartPage = () => {
             getErrorMessage();
         }
     };
+
     const removeOrder = () => {
         setIsPlaceOrderClick(false);
         setOrderComment("");
@@ -177,6 +156,7 @@ const ShoppingCartPage = () => {
         setUserPhone("");
 
     };
+
     const toggleSelect = (itemId, sum, itemCount) => {
         if (selectedItemList.includes(itemId)) {
             setSelectedItemList(selectedItemList.filter((item) => item !== itemId));
@@ -188,16 +168,16 @@ const ShoppingCartPage = () => {
             setTotalOrderSum(totalOrderSum + sum);
         }
     };
+
     const getMessage = () => {
         setIsMessage(true);
         setTimeout(() => setIsMessage(false), 2500);
     }
+
     const getErrorMessage = () => {
         setIsError(true);
         setTimeout(() => setIsError(false), 2500);
     }
-
-
 
     const uploadAccessPoints = async (city) => {
         fetchGetAllAPTheStateAndCity(choisedState, city)
@@ -210,6 +190,7 @@ const ShoppingCartPage = () => {
             });
 
     }
+
     const uploadStates = async (country) => {
         fetchGetAllAPStateCountry(country)
             .then((response) => {
@@ -220,6 +201,7 @@ const ShoppingCartPage = () => {
                 getErrorMessage();
             })
     }
+
     const uploadCitys = async (state) => {
         fetchGetAllCitysTheState(state)
             .then((response) => {
@@ -230,6 +212,7 @@ const ShoppingCartPage = () => {
                 getErrorMessage();
             });
     }
+
     const handleSelectCountry = (event) => {
         if (event.target.value != "None") {
             uploadStates(event.target.value)
@@ -240,6 +223,7 @@ const ShoppingCartPage = () => {
         }
         setChoisedState(event.target.value)
     }
+
     const handleSelectState = (event) => {
         if (event.target.value != "None") {
             uploadCitys(event.target.value)
@@ -250,6 +234,7 @@ const ShoppingCartPage = () => {
         }
         setChoisedState(event.target.value)
     }
+
     const handleSelectCity = (event) => {
         if (event.target.value != "None") {
             uploadAccessPoints(event.target.value);
@@ -260,14 +245,22 @@ const ShoppingCartPage = () => {
         setChoisedCity(event.target.value)
 
     }
+
     const handleSelectAP = (event) => {
         const name = event.target.value;
         const selectedAPinMethod = accesspointsList.find((ap) => ap.name === name);
         setChoisedAP(selectedAPinMethod);
     }
+
     const handlePaymentMethod = (event) => {
         setPaymentMethod(event.target.value);
     }
+
+    useEffect(() => {
+        uploadData();
+        uploadCoutry();
+    }, []);
+
     return (
         <>
             {isLoading ?
@@ -426,29 +419,29 @@ const ShoppingCartPage = () => {
                                         </div>
                                     </div>
                                     <h1 className="flex justify-center">Choise shop address</h1>
-                                        <div className="flex justify-center items-center gap-6 mt-5">
-                                            <div>
-                                                <select className="w-40 max-sm:w-20 text-primary-400 bg-white border rounded-md 
-                                        shadow-sm outline-none appearance-none focus:border-secondary text-center py-2 bg-white text-xs"
-                                                    onChange={handleSelectCountry}>
-                                                    <option key="None">None</option>
-                                                    {coutryList.map((countryItem) => (
-                                                        <option key={countryItem}>{countryItem}</option>
-                                                    ))}
-                                                </select>
-                                            </div>
-                                            {statesList.length ?(
+                                    <div className="flex justify-center items-center gap-6 mt-5">
                                         <div>
                                             <select className="w-40 max-sm:w-20 text-primary-400 bg-white border rounded-md 
                                         shadow-sm outline-none appearance-none focus:border-secondary text-center py-2 bg-white text-xs"
-                                                onChange={handleSelectState}>
+                                                onChange={handleSelectCountry}>
                                                 <option key="None">None</option>
-                                                {statesList.map((stateItem) => (
-                                                    <option key={stateItem}>{stateItem}</option>
+                                                {coutryList.map((countryItem) => (
+                                                    <option key={countryItem}>{countryItem}</option>
                                                 ))}
                                             </select>
+                                        </div>
+                                        {statesList.length ? (
+                                            <div>
+                                                <select className="w-40 max-sm:w-20 text-primary-400 bg-white border rounded-md 
+                                        shadow-sm outline-none appearance-none focus:border-secondary text-center py-2 bg-white text-xs"
+                                                    onChange={handleSelectState}>
+                                                    <option key="None">None</option>
+                                                    {statesList.map((stateItem) => (
+                                                        <option key={stateItem}>{stateItem}</option>
+                                                    ))}
+                                                </select>
                                             </div>
-                                        ):(<></>)}
+                                        ) : (<></>)}
                                         {citysList.length ? (
                                             <div>
                                                 <select className="w-40 max-sm:w-20 text-primary-400 bg-white border rounded-md 
@@ -564,8 +557,8 @@ const ShoppingCartPage = () => {
                                                 <div className="grid grot-cols-3 flex justify-center items-center w-1/2">
                                                     {choisedAP &&
                                                         <div className="flex justify-center mt-5 text-xl max-sm:text-sm font-bold">
-                                                                <p>Full addres shop:</p>
-                                                                <h1 className="ml-5">{choisedAP.buildingNumber} {choisedAP.street} St, {choisedAP.city}, {choisedAP.postIndex}, {choisedAP.state}, {choisedAP.country}</h1>
+                                                            <p>Full addres shop:</p>
+                                                            <h1 className="ml-5">{choisedAP.buildingNumber} {choisedAP.street} St, {choisedAP.city}, {choisedAP.postIndex}, {choisedAP.state}, {choisedAP.country}</h1>
                                                         </div>
                                                     }
                                                     <div className="flex justify-center mt-5 text-xl max-sm:text-sm font-bold">

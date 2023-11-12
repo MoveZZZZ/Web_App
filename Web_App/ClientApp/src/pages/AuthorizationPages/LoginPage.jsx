@@ -7,11 +7,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const LoginPage = () => {
+
     const [loginUser, setLoginUser] = useState('');
     const [passwordUser, setPasswordUser] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const recaptcha = useRef();
-
     const [isMessage, setIsMessage] = useState(false);
     const [message, setMessage] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -42,13 +42,16 @@ const LoginPage = () => {
         setLoginUser("");
         setPasswordUser("");
     }
+
     const getMessage = () => {
         setIsMessage(true);
         setTimeout(() => setIsMessage(false), 2500);
     }
+
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
+
     return (
         <>
         { isMessage ? <Message param={message} /> : null }
@@ -106,13 +109,11 @@ const LoginPage = () => {
                             onClick={handleLogin}>Log In</button>
                             <ReCAPTCHA sitekey={process.env.REACT_APP_SITE_KEY} ref={recaptcha} />
                     </form>
-
                     <div className="mt-7 grid grid-cols-3 items-center text-gray-500">
                         <hr className="border-secondary" />
                         <p className="text-center text-sm text-secondary">OR</p>
                         <hr className="border-secondary" />
                     </div>
-
                     <div className="text-sm flex justify-between items-center mt-3 text-left">
                         <p>If you don't have an account...</p>
                         <a href="/signup" >
@@ -125,5 +126,4 @@ const LoginPage = () => {
         </>
     );
 };
-
 export default LoginPage;
