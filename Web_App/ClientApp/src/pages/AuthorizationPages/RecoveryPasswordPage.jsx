@@ -9,17 +9,14 @@ import PasswordStrengthBar from 'react-password-strength-bar';
 import Message from "../../components/Message/Message";
 
 const ResetPage = () => {
+
     const { uid } = useParams();
     const [isLoading, setIsLoading] = useState(true);
     const [isValid, setIsValid] = useState(false);
-
-
     const [password, setPassword] = useState("");
     const [repeatPassword, setRepeatPassword] = useState("");
-
     const [showPassword, setShowPassword] = useState(false);
     const [isChanged, setIsChanged] = useState(false);
-
     const [responsemessage, setResponseMessage] = useState("");
     const [message, setMessage] = useState("");
     const [isMessage, setIsMessage] = useState(false);
@@ -35,6 +32,7 @@ const ResetPage = () => {
             setResponseMessage(message);
         }
     }
+
     const isUidExist = async () => {
         setIsLoading(true);
         fetchIsExistUID(uid)
@@ -55,6 +53,7 @@ const ResetPage = () => {
                 }, 500);
             });
     }
+
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
@@ -74,10 +73,12 @@ const ResetPage = () => {
                 }, 500);
             });
     }
+
     const getMessage = () => {
         setIsMessage(true);
         setTimeout(() => setIsMessage(false), 4000);
     }
+
     useEffect(() => {
         isUidExist();
     }, [])
@@ -156,10 +157,7 @@ const ResetPage = () => {
                     }
                 </div>
             }
-
-
         </>
     )
 };
-
 export default ResetPage;

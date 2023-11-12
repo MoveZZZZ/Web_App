@@ -1,5 +1,4 @@
-﻿import React, { useState } from 'react';
-import { useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { fetchGetAllClientFavoriteItems, fetchRemoveFavoriteItem } from '../../utils/favoriteApi';
 import Spinner from '../../components/Spinner/Spinner';
@@ -10,22 +9,11 @@ import { faMoneyBill, faTrash, faCartShopping } from "@fortawesome/free-solid-sv
 
 const FavoritePage = () => {
     const [favoriteItem, setFavoriteItem] = useState([]);
-
-    const [totalSum, setTotalSum] = useState();
-
     const [isLoading, setIsLoading] = useState(true);
-
     const userID = sessionStorage.getItem('ID');
-
     const [cartID, setCartID] = useState([]);
-    const [isCart, setIsCart] = useState(false);
-
-
     const [isMessage, setIsMessage] = useState(false);
-
-
     const [successMessage, setSuccessMessage] = useState("");
-
     const navigate = useNavigate();
 
     const handleCartItems = async () => {
@@ -38,19 +26,18 @@ const FavoritePage = () => {
             })
     }
 
-
     const isInCart = (id) => {
         if (cartID.includes(parseInt(id, 10))) {
             return true;
         }
         return false;
     }
+
     const uploadData = async () => {
         setIsLoading(true);
         fetchGetAllClientFavoriteItems(userID)
             .then((data) => {
                 setFavoriteItem(data.towars);
-                setTotalSum(data.summary);
             })
             .catch((error) => {
                 console.error('Error fetching products:', error);
@@ -61,10 +48,6 @@ const FavoritePage = () => {
                 }, 100);
             });
     }
-    useEffect(() => {
-        handleCartItems();
-        uploadData();
-    }, []);
 
     const removeFromFavorite = (itemId) => {
         fetchRemoveFavoriteItem(itemId, userID)
@@ -86,7 +69,6 @@ const FavoritePage = () => {
                 handleCartItems();
                 setSuccessMessage("Your item removed from Cart!");
                 getMessage();
-                setIsCart(false);
             })
             .catch((error) => {
                 console.error('Error fetching products:', error);
@@ -95,23 +77,16 @@ const FavoritePage = () => {
                 uploadData();
             });
     }
+
     const getMessage = () => {
         setIsMessage(true);
         setTimeout(() => setIsMessage(false), 5000);
     }
-    const toggleSelect = (itemId) => {
-        const updatedFavorite = favoriteItem.map((item) => {
-            if (item.id === itemId) {
-                item.selected = !item.selected;
-            }
-            return item;
-        });
-        setFavoriteItem(updatedFavorite);
-    };
 
-
-
-
+    useEffect(() => {
+        handleCartItems();
+        uploadData();
+    }, []);
 
     return (
         <>
@@ -198,8 +173,6 @@ const FavoritePage = () => {
                                                             <FontAwesomeIcon icon={faMoneyBill} className="mx-2 mt-5 h-5" />
 
                                                         </button>}
-
-
                                                     </td>
                                                 </tr>
                                             ))}

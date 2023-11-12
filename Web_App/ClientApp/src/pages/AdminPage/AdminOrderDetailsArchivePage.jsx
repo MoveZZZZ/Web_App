@@ -1,23 +1,15 @@
-﻿import React, { useEffect } from 'react'
-import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+﻿import React, { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom';
 import { fetchOrderArchiveDetailsAdmin, } from "../../utils/adminAPI"
 import Spinner from '../../components/Spinner/Spinner';
 import baseImage from "../../assets/userPhoto.png"
 
 const AdminOrderDetailsArchivePage = () => {
 
-    const userID = sessionStorage.getItem('ID');
     const location = useLocation();
-
-    const [orderID, setOrderID] = useState(1);
-
     const [orderDetailData, setOrderDetailData] = useState();
     const [orderDetailProducts, setorderDetailProducts] = useState([]);
-
     const [isLoading, setIsLoading] = useState(true);
-
-
 
     const handleOrderDetails = async () => {
         setIsLoading(true);
@@ -36,7 +28,6 @@ const AdminOrderDetailsArchivePage = () => {
                 }, 500);
             });
     }
-
 
     useEffect(() => {
         handleOrderDetails();
@@ -57,7 +48,6 @@ const AdminOrderDetailsArchivePage = () => {
                         <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">
                             <div className="flex flex-col justify-start items-start dark:bg-gray-800 bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full">
                                 <p className="text-lg md:text-xl dark:text-white font-semibold leading-6 xl:leading-5 text-gray-800">Customer’s Cart</p>
-
                                 {orderDetailProducts.map((items) =>
                                     <div className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full">
                                         <div className="pb-4 md:pb-4 w-full md:w-40">
@@ -78,10 +68,6 @@ const AdminOrderDetailsArchivePage = () => {
                                     </div >
 
                                 )}
-
-
-
-
                             </div>
                             <div className="flex justify-center flex-col md:flex-row flex-col items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
                                 <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
@@ -137,16 +123,10 @@ const AdminOrderDetailsArchivePage = () => {
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             }
         </>
-
-
     );
-
-
-
 };
 export default AdminOrderDetailsArchivePage;

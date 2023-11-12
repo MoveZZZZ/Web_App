@@ -1,5 +1,4 @@
 ﻿import React, { useState, useEffect } from 'react';
-import { Select, Option } from "@material-tailwind/react";
 import { Link } from 'react-router-dom';
 import { fetchProducts, fetchProductsByName, } from '../../utils/productApi';
 import _ from "lodash";
@@ -13,10 +12,7 @@ const ProductPage = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [searchQuery, setSearchQuery] = useState('');
     const [errMsg, setErrMsg] = useState('');
-
     const [isSearchnig, setIsSearching] = useState(false);
-
-
     const [isLoading, setIsLoading] = useState(true);
 
 
@@ -36,6 +32,7 @@ const ProductPage = () => {
                 }, 500);
             });
     };
+
     const searchProductsByName = (query) => {
         setErrMsg("");
         if (query) {
@@ -64,6 +61,7 @@ const ProductPage = () => {
             loadProducts();
         }
     };
+
     useEffect(() => {
         searchProductsByName(searchQuery);
     }, [searchQuery]);
@@ -91,7 +89,6 @@ const ProductPage = () => {
                 </div>
             </div>
             {isLoading ?
-
                 <div className="flex text-center items-center justify-center w-full h-96">
                     < Spinner />
                 </div>
@@ -161,5 +158,4 @@ const ProductPage = () => {
         </>
     );
 };
-
 export default ProductPage;

@@ -1,22 +1,14 @@
-﻿import React, { useEffect } from 'react'
-import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+﻿import React, { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom';
 import { fetchOrderDetailsAdmin, } from "../../utils/adminAPI"
 import Spinner from '../../components/Spinner/Spinner';
 
 const AdminOrderDetailsPage = () => {
 
-    const userID = sessionStorage.getItem('ID');
     const location = useLocation();
-
-    const [orderID, setOrderID] = useState(1);
-
     const [orderDetailData, setOrderDetailData] = useState();
     const [orderDetailProducts, setorderDetailProducts] = useState([]);
-
     const [isLoading, setIsLoading] = useState(true);
-
-
 
     const handleOrderDetails = async () => {
         setIsLoading(true);
@@ -35,7 +27,6 @@ const AdminOrderDetailsPage = () => {
                 }, 500);
             });
     }
-
 
     useEffect(() => {
         handleOrderDetails();
@@ -75,12 +66,7 @@ const AdminOrderDetailsPage = () => {
                                             </div>
                                         </div>
                                     </div >
-
                                 )}
-
-
-
-
                             </div>
                             <div className="flex justify-center flex-col md:flex-row flex-col items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
                                 <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
@@ -136,16 +122,10 @@ const AdminOrderDetailsPage = () => {
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             }
         </>
-
-
     );
-
-
-
 };
 export default AdminOrderDetailsPage;

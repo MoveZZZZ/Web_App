@@ -1,10 +1,8 @@
-﻿import React, { useState, useContext, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import LogoutModal from "../../components/MyModal/LogOutModal";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { fetchGetUserDataProfile, fetchUpdatePhotoUser, fetchUpdateEmailUser, fetchUpdateLoginUser, fetchUpdatePasswordUser, fetchUpdateRemoveAccoutUser } from "../../utils/userApi"
-
 import Spinner from '../../components/Spinner/Spinner';
 import Message from "../../components/Message/Message";
 import ErrorMessage from "../../components/Message/ErrorMessage";
@@ -35,14 +33,25 @@ const SettingsPage = () => {
         userid: userID,
         Image: null,
     });
+
     const [formData, setFormData] = useState(getInitialFormData());
+
+    const getInitialFormDataChange = () => ({
+        UserID: userID,
+        UserName: "",
+        Email: "",
+        Password: "",
+        NewPassword: "",
+        RepeatNewPassword: "",
+    });
+
+    const [formDataChange, setFormDataChange] = useState(getInitialFormDataChange());
+
     const handleImageChange = (e) => {
         setFormData((prevData) => ({
             ...prevData,
             Image: e.target.files[0],
         }));
-
-
     };
 
     const togglePasswordVisibility = () => {
@@ -52,15 +61,6 @@ const SettingsPage = () => {
     const togglePasswordRepeatVisibility = () => {
         setShowRepeatPassword(!showRepeatPassword);
     };
-    const getInitialFormDataChange = () => ({
-        UserID: userID,
-        UserName: "",
-        Email: "",
-        Password: "",
-        NewPassword: "",
-        RepeatNewPassword: "",
-    });
-    const [formDataChange, setFormDataChange] = useState(getInitialFormDataChange());
 
     const checkImageSize = () => {
         if (formData.Image && formData.Image.size > 5 * 1024 * 1024) {
@@ -68,6 +68,7 @@ const SettingsPage = () => {
         }
         return true;
     }
+
     const checkImageFormat = () => {
         if (formData.Image) {
             const fileExtension = formData.Image.name.split('.').pop().toLowerCase();
@@ -110,6 +111,7 @@ const SettingsPage = () => {
         }
 
     };
+
     const handleInputChange = async (e) => {
         const { name, value, type } = e.target;
         setFormDataChange((prevData) => ({
@@ -117,6 +119,7 @@ const SettingsPage = () => {
             [name]: type === 'number' ? parseInt(value, 10) : value,
         }));
     };
+
     const isSuccesChangeLogin = (message) => {
         if (message === "Login successfully changed") {
             setModalLoginChangeVisability(false);
@@ -128,6 +131,7 @@ const SettingsPage = () => {
             setResponseMessage(message);
         }
     }
+
     const changeLogin = async () => {
         if (formDataChange.UserID && formDataChange.UserName && formDataChange.Password) {
             const response = await fetchUpdateLoginUser(formDataChange);
@@ -137,6 +141,7 @@ const SettingsPage = () => {
         else
             setResponseMessage("Write data!");
     }
+
     const isSuccessChangeEmail = (message) => {
         if (message === "Verification link has been send, check email!") {
             setModalEmailChangeVisability(false);
@@ -148,6 +153,7 @@ const SettingsPage = () => {
             setResponseMessage(message);
         }
     }
+
     const changeEmail = async () => {
         if (formDataChange.UserID && formDataChange.Email && formDataChange.Password) {
             const response = await fetchUpdateEmailUser(formDataChange);
@@ -157,6 +163,7 @@ const SettingsPage = () => {
         else
             setResponseMessage("Write data!");
     }
+
     const isSuccessChangePassword = (message) => {
         if (message === "Your password successfully changed!") {
             setModalPasswordChangeVisability(false);
@@ -168,6 +175,7 @@ const SettingsPage = () => {
             setResponseMessage(message);
         }
     }
+
     const changePassword = async () => {
 
         if (formDataChange.UserID && formDataChange.Password && formDataChange.NewPassword && formDataChange.RepeatNewPassword) {
@@ -179,6 +187,7 @@ const SettingsPage = () => {
             setResponseMessage("Write data!");
 
     }
+
     const isSuccessDeleteAccount = (message) => {
         if (message === "Your account successfully removed!") {
             setModalDeleteAccountVisability(false);
@@ -192,6 +201,7 @@ const SettingsPage = () => {
             setResponseMessage(message);
         }
     }
+
     const removeAccount = async () => {
         if (formDataChange.UserID && formDataChange.Password) {
             const response = await fetchUpdateRemoveAccoutUser(formDataChange);
@@ -201,7 +211,6 @@ const SettingsPage = () => {
         else
             setResponseMessage("Write data!");
     }
-
 
     const uploadUserData = async () => {
         setIsLoading(true);
@@ -217,14 +226,17 @@ const SettingsPage = () => {
                 }, 500);
             });
     }
+
     const getMessage = () => {
         setIsMessage(true);
         setTimeout(() => setIsMessage(false), 4000);
     }
+
     const getErrorMessage = () => {
         setIsError(true);
         setTimeout(() => setIsError(false), 4000);
     }
+
     const clearData = () => {
         setFormDataChange(getInitialFormDataChange());
         setShowPassword(false);
@@ -247,8 +259,6 @@ const SettingsPage = () => {
     useEffect(() => {
         clearData();
     }, [modalDeleteAccounteVisability]);
-
-
 
     useEffect(() => {
         uploadUserData();
@@ -418,7 +428,6 @@ const SettingsPage = () => {
                                     className="w-full px-4 py-3 pr-10 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none hover:scale-105 duration-200"
                                     placeholder="Current password*"
                                 />
-
                             </div>
                             <div className="relative">
                                 <input
@@ -478,7 +487,6 @@ const SettingsPage = () => {
                                     className="w-full px-4 py-3 pr-10 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none hover:scale-105 duration-200"
                                     placeholder="Current password*"
                                 />
-
                             </div>
                             <p className="flex justify-start text-sm text-red">{responseMessage}</p>
                             <div className="flex justify-center">

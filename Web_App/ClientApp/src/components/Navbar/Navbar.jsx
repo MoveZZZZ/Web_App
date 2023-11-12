@@ -1,7 +1,6 @@
 import snoopNavbar from "../../assets/snoopDogTr.gif";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faX } from "@fortawesome/free-solid-svg-icons";
-import LoginPage from "../../pages/AuthorizationPages/LoginPage";
 import { AuthContext } from "../../context";
 import React, { useContext, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -84,40 +83,43 @@ const Navbar = () => {
                         <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white ">BigGuns</span>
                     </Link>
                     <div className="flex max-md:hidden">
-                        {!isAdmin ? (
-                            menuLinks.map((item) => (
-                                <Link
-                                    key={item.id}
-                                    to={item.link}
-                                    className={` ${location.pathname === item.link
-                                        ? 'text-secondary mx-3'
-                                        : 'text-primary-500 hover:text-primary-300 ease-in-out hover:text-secondary transition-transform mx-3 transition duration-200 hover:scale-110'
-                                        }`}>
-                                    {item.title}
-                                    <i><FontAwesomeIcon icon={item.icon} className="ml-2" /></i>
-                                </Link>
+                        {!isAdmin
+                            ?
+                            (
+                                menuLinks.map((item) => (
+                                    <Link
+                                        key={item.id}
+                                        to={item.link}
+                                        className={` ${location.pathname === item.link
+                                            ? 'text-secondary mx-3'
+                                            : 'text-primary-500 hover:text-primary-300 ease-in-out hover:text-secondary transition-transform mx-3 transition duration-200 hover:scale-110'
+                                            }`}>
+                                        {item.title}
+                                        <i><FontAwesomeIcon icon={item.icon} className="ml-2" /></i>
+                                    </Link>
+                                ))
+                            )
+                            :
+                            (
+                                menuAdminLinks.map((item) => (
+                                    <Link
+                                        key={item.id}
+                                        to={item.link}
+                                        className={` ${location.pathname === item.link
+                                            ? 'text-secondary mx-3'
+                                            : 'text-primary-500 hover:text-primary-300 ease-in-out hover:text-secondary transition-transform mx-3 transition duration-200 ease-in-out hover:scale-110'
+                                            }`}>
+                                        {item.title}
+                                        <i><FontAwesomeIcon icon={item.icon} className="ml-2" /></i>
+                                    </Link>
 
-                            ))
-                        ) : (
-                            menuAdminLinks.map((item) => (
-                                <Link
-                                    key={item.id}
-                                    to={item.link}
-                                    className={` ${location.pathname === item.link
-                                        ? 'text-secondary mx-3'
-                                        : 'text-primary-500 hover:text-primary-300 ease-in-out hover:text-secondary transition-transform mx-3 transition duration-200 ease-in-out hover:scale-110'
-                                        }`}>
-                                    {item.title}
-                                    <i><FontAwesomeIcon icon={item.icon} className="ml-2" /></i>
-                                </Link>
-
-                            ))
-                        )}
+                                ))
+                            )}
 
                     </div>
                     {isAuth && !isLoading
-                        ? (
-
+                        ?
+                        (
                             <div className="flex space-x-2 max-md:hidden">
                                 <div>
                                     <button
@@ -171,7 +173,8 @@ const Navbar = () => {
                                 </LogoutModal>
                             </div>
                         )
-                        : (
+                        :
+                        (
                             <div className="flex space-x-2 max-md:hidden">
                                 <ul className="flex space-x-2">
                                     <li>
@@ -187,106 +190,118 @@ const Navbar = () => {
                             </div>
                         )
                     }
-                    {isToggle ? (
-                        <div
-                            onClick={handleToggle}
-                            className="hidden max-md:block"
-                        >
-                            <i className="text-2xl">
-                                <FontAwesomeIcon
-                                    icon={faX}
-                                    className="hover:text-secondary ease-in-out duration-150 cursor-pointer"
-                                />
-                            </i>
-                        </div>
-                    ) : (
-                        <div
-                            onClick={handleToggle}
-                            className="hidden max-md:block"
-                        >
-                            <i className="text-2xl">
-                                <FontAwesomeIcon
-                                    icon={faBars}
-                                    className="hover:text-secondary ease-in-out duration-150 cursor-pointer"
-                                />
-                            </i>
-                        </div>
-                    )
-                    }
-                    {isToggle ? (
-                        <div className="z-10 hidden max-md:block shadow-xl bg-primary-100 absolute top-24 right-0 w-72 h-98 border-2 border-primary-200">
-                            <div className="flex gap-4 flex-col items-center">
-                                {isAuth ? (
-                                    <div className="px-5 py-3 text-sm text-primary-500 flex justify-center items-center">
-                                        <img className="w-8 h-8 rounded-full mr-3" src={`data:image/jpeg;base64,${userProfile.photo.toString('base64')}`} alt="user photo" />
-                                        <div className="font-medium truncate">{userProfile.mail}</div>
-                                    </div>
-                                ) : (
-                                    <></>
-
-                                )}
-                                {isAdmin ? (
-                                    menuAdminLinks.map((item) => (
-                                        <Link
-                                            key={item.id}
-                                            to={item.link}
-                                            className={` ${location.pathname === item.link
-                                                ? 'text-secondary mx-3'
-                                                : 'text-primary-500 hover:text-primary-300 ease-in-out hover:text-secondary transition-transform mx-3 transition duration-200 hover:scale-110'
-                                                } text-lg`}
-                                            onClick={() => setIsToggle(false)}
-                                        >
-                                            {item.title}
-                                            <i><FontAwesomeIcon icon={item.icon} className="ml-2" /></i>
-
-                                        </Link>
-                                    ))) : (
-                                    menuLinks.map((item) => (
-                                        <Link
-                                            key={item.id}
-                                            to={item.link}
-                                            className={` ${location.pathname === item.link
-                                                ? 'text-secondary mx-3'
-                                                : 'text-primary-500 hover:text-primary-300 ease-in-out hover:text-secondary transition-transform mx-3 transition duration-200 hover:scale-110'
-                                                } text-lg`}
-                                            onClick={() => setIsToggle(false)}
-                                        >
-                                            {item.title}
-                                            <i><FontAwesomeIcon icon={item.icon} className="ml-2" /></i>
-                                        </Link>
-                                    )))
-                                }
-                                <div className="border-2 w-4/5 rounded-full border-primary-200" />
-                                {isAuth ? (
-                                    <div className="flex flex-col gap-4">
-                                        <ul className="text-base text-primary-500" aria-labelledby="dropdownUserAvatarButton">
-                                            <li>
-                                                <a href="/settings" className="block px-4 hover:text-secondary" onClick={closeMenu}>
-                                                    Settings
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <div className="mb-4">
-                                            <a className=" cursor-pointer block px-4 text-base text-primary-500 hover:text-secondary" onClick={() => setModalVisability(true)}>
-                                                Sign out
-                                            </a>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <div className="flex gap-4 justify-evenly mb-6">
-                                        <Link>Sign In</Link>
-                                        <p>|</p>
-                                        <Link>Sign Up</Link>
-                                    </div>)
-
-                                }
-
+                    {isToggle ?
+                        (
+                            <div
+                                onClick={handleToggle}
+                                className="hidden max-md:block">
+                                <i className="text-2xl">
+                                    <FontAwesomeIcon
+                                        icon={faX}
+                                        className="hover:text-secondary ease-in-out duration-150 cursor-pointer"
+                                    />
+                                </i>
                             </div>
-                        </div>
-                    ) : (
-                        <>
-                        </>
-                    )
+                        )
+                        :
+                        (
+                            <div
+                                onClick={handleToggle}
+                                className="hidden max-md:block">
+                                <i className="text-2xl">
+                                    <FontAwesomeIcon
+                                        icon={faBars}
+                                        className="hover:text-secondary ease-in-out duration-150 cursor-pointer"
+                                    />
+                                </i>
+                            </div>
+                        )
+                    }
+                    {isToggle ?
+                        (
+                            <div className="z-10 hidden max-md:block shadow-xl bg-primary-100 absolute top-24 right-0 w-72 h-98 border-2 border-primary-200">
+                                <div className="flex gap-4 flex-col items-center">
+                                    {isAuth ? (
+                                        <div className="px-5 py-3 text-sm text-primary-500 flex justify-center items-center">
+                                            <img className="w-8 h-8 rounded-full mr-3" src={`data:image/jpeg;base64,${userProfile.photo.toString('base64')}`} alt="user photo" />
+                                            <div className="font-medium truncate">{userProfile.mail}</div>
+                                        </div>
+                                    )
+                                        :
+                                        (
+                                            <></>
+
+                                        )
+                                    }
+                                    {isAdmin ?
+                                        (
+                                            menuAdminLinks.map((item) => (
+                                                <Link
+                                                    key={item.id}
+                                                    to={item.link}
+                                                    className={` ${location.pathname === item.link
+                                                        ? 'text-secondary mx-3'
+                                                        : 'text-primary-500 hover:text-primary-300 ease-in-out hover:text-secondary transition-transform mx-3 transition duration-200 hover:scale-110'
+                                                        } text-lg`}
+                                                    onClick={() => setIsToggle(false)}>
+                                                    {item.title}
+                                                    <i><FontAwesomeIcon icon={item.icon} className="ml-2" /></i>
+                                                </Link>
+                                            ))
+                                        )
+                                        :
+                                        (
+                                            menuLinks.map((item) => (
+                                                <Link
+                                                    key={item.id}
+                                                    to={item.link}
+                                                    className={` ${location.pathname === item.link
+                                                        ? 'text-secondary mx-3'
+                                                        : 'text-primary-500 hover:text-primary-300 ease-in-out hover:text-secondary transition-transform mx-3 transition duration-200 hover:scale-110'
+                                                        } text-lg`}
+                                                    onClick={() => setIsToggle(false)}>
+                                                    {item.title}
+                                                    <i><FontAwesomeIcon icon={item.icon} className="ml-2" /></i>
+                                                </Link>
+                                            ))
+                                        )
+                                    }
+                                    <div className="border-2 w-4/5 rounded-full border-primary-200" />
+                                    {isAuth ?
+                                        (
+                                            <div className="flex flex-col gap-4">
+                                                <ul className="text-base text-primary-500" aria-labelledby="dropdownUserAvatarButton">
+                                                    <li>
+                                                        <a href="/settings" className="block px-4 hover:text-secondary" onClick={closeMenu}>
+                                                            Settings
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                                <div className="mb-4">
+                                                    <a className=" cursor-pointer block px-4 text-base text-primary-500 hover:text-secondary" onClick={() => setModalVisability(true)}>
+                                                        Sign out
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        )
+                                        :
+                                        (
+                                            <div className="flex gap-4 justify-evenly mb-6">
+                                                <Link>Sign In</Link>
+                                                <p>|</p>
+                                                <Link>Sign Up</Link>
+                                            </div>
+                                        )
+                                    }
+
+                                </div>
+                            </div>
+                        )
+                        :
+                        (
+                            <>
+                            </>
+                        )
                     }
                 </div>
             </div>

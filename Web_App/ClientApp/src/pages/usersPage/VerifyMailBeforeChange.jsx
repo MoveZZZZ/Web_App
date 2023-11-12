@@ -9,11 +9,8 @@ const VerifyMailBeforeChange = () => {
     const { uid } = useParams();
     const [isLoading, setIsLoading] = useState(true);
     const [isValid, setIsValid] = useState(false);
-
-
     const [message, setMessage] = useState("");
     const [isMessage, setIsMessage] = useState(false);
-
 
     const isSuccessChangePassword = (message) => {
         if (message === "Ok") {
@@ -42,10 +39,12 @@ const VerifyMailBeforeChange = () => {
                 }, 500);
             });
     }
+
     const getMessage = () => {
         setIsMessage(true);
         setTimeout(() => setIsMessage(false), 4000);
     }
+
     useEffect(() => {
         handleVerifyEmail();
     }, [])
@@ -79,12 +78,7 @@ const VerifyMailBeforeChange = () => {
                     }
                 </div>
             }
-
-
         </>
-
-
     );
-
 }
 export default VerifyMailBeforeChange;

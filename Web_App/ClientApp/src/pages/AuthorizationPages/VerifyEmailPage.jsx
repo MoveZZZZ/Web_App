@@ -9,8 +9,6 @@ const VerifyEmailPage = () => {
     const { uid } = useParams();
     const [isLoading, setIsLoading] = useState(true);
     const [isValid, setIsValid] = useState(false);
-
-
     const [message, setMessage] = useState("");
     const [isMessage, setIsMessage] = useState(false);
 
@@ -42,10 +40,12 @@ const VerifyEmailPage = () => {
                 }, 500);
             });
     }
+
     const getMessage = () => {
         setIsMessage(true);
         setTimeout(() => setIsMessage(false), 4000);
     }
+
     useEffect(() => {
         handleVerifyEmail();
     }, [])
@@ -79,12 +79,7 @@ const VerifyEmailPage = () => {
                     }
                 </div>
             }
-
-
         </>
-
-
     );
-
 }
 export default VerifyEmailPage;

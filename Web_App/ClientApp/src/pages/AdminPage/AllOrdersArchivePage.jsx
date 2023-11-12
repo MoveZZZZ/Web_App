@@ -1,10 +1,9 @@
-﻿import React, { useState, useContext, } from 'react';
-import { useEffect } from 'react';
+﻿import React, { useState, useEffect, } from 'react';
 import { fetchAllArchiveOrders, fetchAllArchiveOrderByUsername } from "../../utils/adminAPI"
 import { Link } from 'react-router-dom';
-import _, { remove } from "lodash";
+import _ from "lodash";
 import Spinner from '../../components/Spinner/Spinner';
-
+import userPhoto from "../../assets/userPhoto.png"
 
 
 const AllOrdersArchivePage = () => {
@@ -13,7 +12,6 @@ const AllOrdersArchivePage = () => {
 
 
     const [searchQuery, setSearchQuery] = useState('');
-
 
     const handleOrdersUser = async () => {
         fetchAllArchiveOrders()
@@ -29,6 +27,7 @@ const AllOrdersArchivePage = () => {
                 }, 1000)
             })
     }
+
     const searchOrderByUsername = async (query) => {
         if (query) {
             fetchAllArchiveOrderByUsername(query)
@@ -57,6 +56,7 @@ const AllOrdersArchivePage = () => {
     useEffect(() => {
         handleOrdersUser();
     }, [])
+
     const handleSearchInputChange = _.debounce((e) => setSearchQuery(e.target.value), 1000);
 
     return (
@@ -83,7 +83,6 @@ const AllOrdersArchivePage = () => {
                 </div >
                 :
                 <div className="bg-white p-8 rounded-md w-full">
-
                     <div>
                         <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
                             <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
@@ -118,10 +117,10 @@ const AllOrdersArchivePage = () => {
                                                         state={{ orderID: item.orderID, userEmail: item.userEmail }}
                                                     >
                                                         <div className="flex items-center">
-                                                            <div className="flex-shrink-0 w-10 h-10">
-{/*                                                                <img className="w-full h-full rounded-full"
-                                                                    src={`data:image/jpeg;base64,${item.userPhoto.toString('base64')}`}
-                                                                    alt="" />*/}
+                                                            <div className="flex-shrink-0 w-8 h-8">
+                                                                <img className="w-full h-full rounded-full"
+                                                                    src={userPhoto}
+                                                                    alt="" />
                                                             </div>
                                                             <div className="ml-3">
                                                                 <p className="text-gray-900 whitespace-no-wrap">
