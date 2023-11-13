@@ -141,6 +141,10 @@ namespace Web_App.Rest.JWT.Services
             var securityToken = (JwtSecurityToken)tokenHandler.ReadToken(bearerToken);
             var IDfromToken = Convert.ToInt32(securityToken.Claims.FirstOrDefault((c => c.Type == "userID"))?.Value);
             response = _userAuthorizationRepository.getUserDataFromDBviaID(IDfromToken);
+            if (!_userAuthorizationRepository.activityRateLimiterCheck(response.Id))
+            {
+                return new UserModel();
+            }
             return response;
         }
         private bool ValidateToken(string authToken)

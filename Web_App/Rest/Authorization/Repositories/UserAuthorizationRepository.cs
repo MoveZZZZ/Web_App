@@ -54,7 +54,22 @@ namespace Web_App.Rest.Authorization.Repositories
             }
             return response;
         }
-
+        public bool activityRateLimiterCheck(int ID)
+        {
+            bool response = false;
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            DataTable table = new DataTable();
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "SELECT web_base.activityHandler(@id)";
+                command.Parameters.Add("@id", MySqlDbType.Int32).Value = ID;
+                response = (Convert.ToInt32(command.ExecuteScalar()) == 1) ? true : false;
+            }
+            return response;
+        }
         public void IncrementLoginFailureByID(int user_ID)
         {
             using (var connection = GetConnection())
@@ -67,7 +82,6 @@ namespace Web_App.Rest.Authorization.Repositories
                 command.ExecuteNonQuery();
             }
         }
-
         public UserModel getUserDataFromDBviaID(int userID)
         {
             UserModel userModel = new UserModel();
@@ -94,7 +108,6 @@ namespace Web_App.Rest.Authorization.Repositories
             }
             return userModel;
         }
-
         public UserModel getUserDataFromDBviaEmail(string email)
         {
             UserModel userModel = new UserModel();
