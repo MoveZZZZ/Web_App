@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { fetchDetailsProduct, } from '../../utils/productDetailsApi';
 import { fetchAddToCart, fetchGetAllIndexClientCart, fetchRemoveFromCart, } from '../../utils/cartApi';
 import { fetchAddToFavorite, fetchGetAllIndexClientFavorite, fetchRemoveFavoriteItem } from "../../utils/favoriteApi"
@@ -7,8 +7,6 @@ import { fetchChangeProductData, fetchChangeProductDataWithoutImage } from "../.
 import Spinner from '../../components/Spinner/Spinner';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeartCirclePlus, faHeartCircleXmark, faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
-import { add } from 'lodash';
-import { UserIDContext } from "../../context";
 import Message from "../../components/Message/Message";
 import { AuthContext } from "../../context";
 
@@ -20,22 +18,13 @@ const ProductDetail = () => {
     const userID = sessionStorage.getItem('ID');
     const [count, setCount] = useState(0);
     const [productDetails, setProductDetails] = useState([]);
-
     const [isLoading, setIsLoading] = useState(true);
-
     const [favoriteID, setFavoriteID] = useState([]);
     const [isFavorite, setIsFavorite] = useState(false);
-
     const [cartID, setCartID] = useState([]);
     const [isCart, setIsCart] = useState(false);
-
-
     const [isMessage, setIsMessage] = useState(false);
-
     const [successMessage, setSuccessMessage] = useState("");
-
-
-
     const [isEditing, setIsEditing] = useState(false);
     const [editedDescription, setEditedDescription] = useState(productDetails.description);
     const [editedImage, setEditedImage] = useState('');
@@ -48,6 +37,7 @@ const ProductDetail = () => {
             setCount(count + 1);
         }
     }
+
     const decreaseCount = () => {
         if (count > 1) {
             setCount(count - 1);
@@ -73,34 +63,12 @@ const ProductDetail = () => {
             });
     }
 
-    useEffect(() => {
-        handleData();
-        if (userID) {
-            handleFavorite();
-            handleCartItems();
-        }
-    }, []);
-
-    useEffect(() => {
-        if (userID) {
-            const isFav = isInFavorite();
-            setIsFavorite(isFav)
-        }
-    }, [favoriteID]);
-
     const isInFavorite = () => {
         if (favoriteID.includes(parseInt(id, 10))) {
             return true;
         }
         return false;
     }
-
-    useEffect(() => {
-        if (userID) {
-            const isAdded = isInCart();
-            setIsCart(isAdded)
-        }
-    }, [cartID]);
 
     const isInCart = () => {
         if (cartID.includes(parseInt(id, 10))) {
@@ -146,6 +114,7 @@ const ProductDetail = () => {
                 }, 200);
             });
     }
+
     const removeToFavorite = async () => {
         fetchRemoveFavoriteItem(id, userID)
             .then((data) => {
@@ -207,12 +176,12 @@ const ProductDetail = () => {
     const saveChanges = async () => {
         setIsLoading(true);
         const formData = new FormData();
-
         formData.append('Id', id);
         formData.append('Name', editedPrice);
         formData.append('Description', editedDescription);
-        formData.append('Cost', editedPrice);
-        formData.append('Count', editedStock);
+        formData.append('Cost', editedPrice.toString().replace(",", "."));
+        formData.append('Count', parseInt(editedStock));
+
         if (editedImage) {
             formData.append('Image', editedImage);
             fetchChangeProductData(formData)
@@ -239,6 +208,28 @@ const ProductDetail = () => {
         }, 1000);
         setIsEditing(false);
     };
+
+    useEffect(() => {
+        handleData();
+        if (userID) {
+            handleFavorite();
+            handleCartItems();
+        }
+    }, []);
+
+    useEffect(() => {
+        if (userID) {
+            const isFav = isInFavorite();
+            setIsFavorite(isFav)
+        }
+    }, [favoriteID]);
+
+    useEffect(() => {
+        if (userID) {
+            const isAdded = isInCart();
+            setIsCart(isAdded)
+        }
+    }, [cartID]);
 
     return (
         <>
@@ -286,7 +277,6 @@ const ProductDetail = () => {
                                     {productDetails.description}
                                 </p>
                             )}
-
                             <div className="flex justify-between mb-4">
                                 {isEditing ? (
                                     <input
@@ -299,7 +289,6 @@ const ProductDetail = () => {
                                 ) : (
                                     <span className="text-primary-600 font-bold">Price: ${productDetails.cost.toFixed(2)}</span>
                                 )}
-
                                 {isEditing ? (
                                     <>
                                         <input
@@ -317,7 +306,7 @@ const ProductDetail = () => {
                                 {isAdmin ? (
                                     <div className="flex w-full justify-center items-center">
                                         {isEditing ? (
-  
+
                                             <button
                                                 className="w-72 bg-primary-300 text-white rounded-full px-6 py-2 hover:bg-primary-400 focus:outline-none"
                                                 onClick={saveChanges}
@@ -332,11 +321,8 @@ const ProductDetail = () => {
                                                 Edit
                                             </button>
                                         )}
-
                                     </div>
-
                                 ) : null}
-
                                 {!isAdmin ? (
                                     <>
                                         {isCart ? (
@@ -344,32 +330,31 @@ const ProductDetail = () => {
                                                 <button className="bg-primary-300 text-white rounded-full px-6 py-2 hover:bg-primary-400 focus:outline-none"
                                                     onClick={removeItemsFromCart}>
                                                     Remove from Cart
-                                                    </button>
-                                                    {!isAdmin ?
-                                                        <i>{!isFavorite ? <FontAwesomeIcon
-                                                            icon={faHeartCirclePlus}
-                                                            className="fa-2x text-primary-300 hover:text-red cursor-pointer focus:outline-none mx-10 my-2"
-                                                            onClick={() => {
-                                                                addToFavorite();
-                                                            }
-                                                            }
-                                                        /> : <FontAwesomeIcon
-                                                            icon={faHeartCircleXmark}
-                                                            className="fa-2x text-red hover:text-primary-400 cursor-pointer focus:outline-none mx-10 my-2"
-                                                            onClick={() => { removeToFavorite() }
-                                                            }
-                                                        />}
-                                                        </i>
-                                                        : null
-                                                    }
+                                                </button>
+                                                {!isAdmin ?
+                                                    <i>{!isFavorite ? <FontAwesomeIcon
+                                                        icon={faHeartCirclePlus}
+                                                        className="fa-2x text-primary-300 hover:text-red cursor-pointer focus:outline-none mx-10 my-2"
+                                                        onClick={() => {
+                                                            addToFavorite();
+                                                        }
+                                                        }
+                                                    /> : <FontAwesomeIcon
+                                                        icon={faHeartCircleXmark}
+                                                        className="fa-2x text-red hover:text-primary-400 cursor-pointer focus:outline-none mx-10 my-2"
+                                                        onClick={() => { removeToFavorite() }
+                                                        }
+                                                    />}
+                                                    </i>
+                                                    : null
+                                                }
                                             </div>
-                                           
                                         ) : (
                                             <div className="flex gap-6 justify-center w-full max-sm:flex-col max-sm:items-center">
                                                 <button
                                                     className={`${count === 0
                                                         ? 'bg-primary-300 text-white rounded-full px-6 py-2 hover:bg-primary-400 focus:outline-none cursor-not-allowed'
-                                                            : 'bg-primary-300 text-white rounded-full px-6 py-2 hover:bg-primary-400 focus:outline-none'}
+                                                        : 'bg-primary-300 text-white rounded-full px-6 py-2 hover:bg-primary-400 focus:outline-none'}
                                                         max-sm:w-72`}
                                                     disabled={count === 0}
                                                     onClick={addItemsToCart}>
@@ -395,26 +380,25 @@ const ProductDetail = () => {
                                                         />
                                                     </button>
                                                 </div>
-                                                    {!isAdmin ?
-                                                        <i>{!isFavorite ? <FontAwesomeIcon
-                                                            icon={faHeartCirclePlus}
-                                                            className="fa-2x text-primary-300 hover:text-red cursor-pointer focus:outline-none"
-                                                            onClick={() => {
-                                                                addToFavorite();
-                                                            }
-                                                            }
-                                                        /> : <FontAwesomeIcon
-                                                            icon={faHeartCircleXmark}
-                                                            className="fa-2x text-red hover:text-primary-400 cursor-pointer focus:outline-none"
-                                                            onClick={() => { removeToFavorite() }
-                                                            }
-                                                        />}
-                                                        </i>
-                                                        : null
-                                                    }
+                                                {!isAdmin ?
+                                                    <i>{!isFavorite ? <FontAwesomeIcon
+                                                        icon={faHeartCirclePlus}
+                                                        className="fa-2x text-primary-300 hover:text-red cursor-pointer focus:outline-none"
+                                                        onClick={() => {
+                                                            addToFavorite();
+                                                        }
+                                                        }
+                                                    /> : <FontAwesomeIcon
+                                                        icon={faHeartCircleXmark}
+                                                        className="fa-2x text-red hover:text-primary-400 cursor-pointer focus:outline-none"
+                                                        onClick={() => { removeToFavorite() }
+                                                        }
+                                                    />}
+                                                    </i>
+                                                    : null
+                                                }
                                             </div>
                                         )}
-
                                     </>
                                 )
                                     : null}
@@ -424,8 +408,6 @@ const ProductDetail = () => {
                 </div>
             }
         </>
-
-
     );
 };
 

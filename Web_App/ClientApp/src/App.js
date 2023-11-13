@@ -1,12 +1,9 @@
-import { Routes, Route } from "react-router-dom";
-import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext, UserIDContext, UserTokenContext, UserRefreshTokenContext, } from "./context";
+import React, { useEffect, useState } from 'react';
+import { AuthContext,} from "./context";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import AppRouter from "./components/AppRouter";
-import { refreshTokens} from "./utils/AuthenticationLogic";
-import { set } from "lodash";
-
+import { refreshTokens } from "./utils/authenticationLogic";
 
 
 const App = () => {
@@ -20,18 +17,16 @@ const App = () => {
     const [userRefreshToken, setUserRefreshToken] = useState("");
 
     useEffect(() => {
-        const dataLoader = async () => { 
+        const dataLoader = async () => {
             let res = await refreshTokens();
-            if (!res.message)
-            {
-                if (res.userRole === 'ADMIN')
-                {
+            setTimeout(() => 2500);
+            if (!res.message) {
+                if (res.userRole === 'ADMIN') {
                     setIsAdmin(true);
                 }
                 sessionStorage.setItem("ID", res.userID);
             }
             if (sessionStorage.getItem("ID")) {
-                //REMOVE LATER
                 setIsAuth(true);
                 setUserID(sessionStorage.getItem("ID"));
             }
@@ -42,35 +37,19 @@ const App = () => {
 
 
     return (
-        <UserRefreshTokenContext.Provider value={{
-            userRefreshToken,
-            setUserRefreshToken
+        <AuthContext.Provider value={{
+            isAuth,
+            setIsAuth,
+            isLoading,
+            isAdmin,
+            setIsAdmin
         }}>
-            <UserTokenContext.Provider value={{
-                userToken,
-                setUserToken
-            }}>
-                <UserIDContext.Provider value={{
-                    userID,
-                    setUserID
-                }}>
-                    <AuthContext.Provider value={{
-                        isAuth,
-                        setIsAuth,
-                        isLoading,
-                        isAdmin,
-                        setIsAdmin
-                    }}>
-                        <>
-                            <Navbar />
-                            <AppRouter />
-                            <Footer />
-                        </>
-                    </AuthContext.Provider>
-                </UserIDContext.Provider>
-            </UserTokenContext.Provider>
-        </UserRefreshTokenContext.Provider>
+            <>
+                <Navbar />
+                <AppRouter />
+                <Footer />
+            </>
+        </AuthContext.Provider>
     )
 }
-
 export default App;

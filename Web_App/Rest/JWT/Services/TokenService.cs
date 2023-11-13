@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using System.Security.Principal;
 using System.Collections.Specialized;
+using Web_App.Rest.Authorization.Services;
 
 namespace Web_App.Rest.JWT.Services
 {
@@ -20,9 +21,11 @@ namespace Web_App.Rest.JWT.Services
     {
         private readonly IConfiguration _configuration;
         private IUserAuthorizationRepository _userAuthorizationRepository;
+        private MailSendingService _mailSendingService;
         public TokenService(IConfiguration configuration)
         {
             _configuration = configuration;
+            _mailSendingService = new MailSendingService(configuration);
             _userAuthorizationRepository = new UserAuthorizationRepository();
         }
 
@@ -43,7 +46,7 @@ namespace Web_App.Rest.JWT.Services
             };
 
 
-            DateTime Expiration = DateTime.Now.AddMinutes(2);
+            DateTime Expiration = DateTime.Now.AddSeconds(30);
             JwtSecurityToken securityToken = new JwtSecurityToken(
                 issuer: _configuration["Token:Issuer"],
                 audience: _configuration["Token:Audience"],
@@ -76,7 +79,7 @@ namespace Web_App.Rest.JWT.Services
             };
 
 
-            DateTime Expiration = DateTime.Now.AddMinutes(4800);
+            DateTime Expiration = DateTime.Now.AddMinutes(2880);
             JwtSecurityToken securityToken = new JwtSecurityToken(
                 issuer: _configuration["Token:Issuer"],
                 audience: _configuration["Token:Audience"],
@@ -95,13 +98,16 @@ namespace Web_App.Rest.JWT.Services
             var output = new RefreshTokenModel();
             output.UserID = 0;
             var user = TokenVerifyAndExtractInfoFromDatabase(bearerToken);
-            if (user.Login != null) 
+            if (user.Login != null)
             {
-                output.UserID = user.Id;
-                Token token = CreateToken(user);
-                output.UserToken = token.AccessToken;
-                output.UserRefreshToken = token.RefreshToken;
-                output.UserRole = user.Role;
+                if (userAntiAutomationCheck(user))
+                { 
+                    output.UserID = user.Id;
+                    Token token = CreateToken(user);
+                    output.UserToken = token.AccessToken;
+                    output.UserRefreshToken = token.RefreshToken;
+                    output.UserRole = user.Role;
+                }
             }
             return output;
         }
@@ -114,6 +120,16 @@ namespace Web_App.Rest.JWT.Services
             }
             return false;
         }
+        private bool userAntiAutomationCheck(UserModel user)
+        {
+            int checkResult = _userAuthorizationRepository.processAntiAutomationCheckDB(user.Id);
+            if (checkResult < 1)
+            {
+                if (checkResult == 0) _mailSendingService.sendAutomationDetectedNotification(user.Email);
+                return false;
+            }
+            return true;
+        }
         private UserModel TokenVerifyAndExtractInfoFromDatabase(string bearerToken)
         {
             var response = new UserModel();
@@ -125,6 +141,10 @@ namespace Web_App.Rest.JWT.Services
             var securityToken = (JwtSecurityToken)tokenHandler.ReadToken(bearerToken);
             var IDfromToken = Convert.ToInt32(securityToken.Claims.FirstOrDefault((c => c.Type == "userID"))?.Value);
             response = _userAuthorizationRepository.getUserDataFromDBviaID(IDfromToken);
+            if (!_userAuthorizationRepository.activityRateLimiterCheck(response.Id))
+            {
+                return new UserModel();
+            }
             return response;
         }
         private bool ValidateToken(string authToken)

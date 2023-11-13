@@ -1,5 +1,7 @@
 ﻿using Org.BouncyCastle.Asn1.Pkcs;
 using System.Data;
+using System.Security.Cryptography;
+using System.Text;
 using Web_App.Rest.Authorization.Models;
 using Web_App.Rest.Authorization.Repositories;
 using Web_App.Rest.JWT.Model;
@@ -12,24 +14,20 @@ namespace Web_App.Rest.Authorization.Services
     {
         private string _message = "";
 
-
         private readonly ITokenService _tokenService;
         private IUserAuthorizationRepository _userAuth;
-
+        private MailSendingService _mailSendingService;
 
         private UserModel _userModel;
 
-
-
-
-        public UserAuthorizationService(ITokenService tokenService)
+        public UserAuthorizationService(ITokenService tokenService, IConfiguration _configuration)
         {
+            _mailSendingService = new MailSendingService(_configuration);
             _tokenService = tokenService;
             _userAuth = new UserAuthorizationRepository();
             _userModel = new UserModel();
 
         }
-
 
         public bool isUserExist(AuthorizationModel authorizationModel)
         {
@@ -46,6 +44,7 @@ namespace Web_App.Rest.Authorization.Services
             {
                 return true;
             }
+            _userAuth.IncrementLoginFailureByID(_userModel.Id);
             return false;
         }
 
@@ -53,14 +52,26 @@ namespace Web_App.Rest.Authorization.Services
         {
             AuthorizationResponseModel responseModel = new AuthorizationResponseModel();
             responseModel.UserID = 0;
-            if (isUserExist(authorizationModel) && checkPassword(authorizationModel))
+            if (!isUserExist(authorizationModel))
+            {
+                return responseModel;
+            }
+            if (_userModel.isBlocked == 1)
+            {
+                responseModel.UserID = -1;
+                return responseModel;
+            }
+            if (checkPassword(authorizationModel))
             {
                 Token token = _tokenService.CreateToken(_userModel);
                 responseModel.UserToken = token.AccessToken;
                 responseModel.UserRefreshToken = token.RefreshToken;
                 responseModel.UserID = _userModel.Id;
+                responseModel.Role = _userModel.Role;
             }
             return responseModel;
         }
+
+        
     }
 }

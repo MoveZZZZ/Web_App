@@ -9,11 +9,11 @@ namespace Web_App.Rest.Cart.Services
         private ICartRepository _repository;
 
         public CartService()
-        { 
+        {
             _repository = new CartRepository();
         }
 
-        public void addTowarInCart (CartModelRequest requestModel)
+        public void addTowarInCart(CartModelRequest requestModel)
         {
             _repository.addToCart(requestModel);
         }
@@ -23,8 +23,8 @@ namespace Web_App.Rest.Cart.Services
         }
         public List<CartModelResponse> getCartItem(int userID)
         {
-            List<CartModelResponse> response = new List<CartModelResponse>(); 
-            response= _repository.getCartListTowar(userID);
+            List<CartModelResponse> response = new List<CartModelResponse>();
+            response = _repository.getCartListTowar(userID);
             return response;
         }
         public void updateCountTowar(CartModelRequest requestModel)

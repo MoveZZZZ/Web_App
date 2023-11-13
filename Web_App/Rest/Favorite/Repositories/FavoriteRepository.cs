@@ -70,7 +70,7 @@ namespace Web_App.Rest.Favorite.Repositories
                 _favoriteResponseModel.ProductID = Convert.ToInt32(row[0].ToString());
                 _favoriteResponseModel.ProductName = row[1].ToString();
                 _favoriteResponseModel.Description = row[2].ToString();
-                _favoriteResponseModel.Cost = (float)Convert.ToDouble(row[3].ToString());
+                _favoriteResponseModel.Cost = Convert.ToDouble(row[3].ToString());
                 _favoriteResponseModel.ImageUrl = (byte[])row["image"];
 
 

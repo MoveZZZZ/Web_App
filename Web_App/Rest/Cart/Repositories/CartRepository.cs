@@ -46,10 +46,10 @@ namespace Web_App.Rest.Cart.Repositories
 
                 cartModelResponse.TowarID = Convert.ToInt32(row[0].ToString());
                 cartModelResponse.TowarName = row[1].ToString();
-                cartModelResponse.TowarPrice = (float)Convert.ToDouble(row[2].ToString());
+                cartModelResponse.TowarPrice = Convert.ToDouble(row[2].ToString());
                 cartModelResponse.Image = (byte[])row["image"];
                 cartModelResponse.Count = Convert.ToInt32(row[4].ToString());
-                cartModelResponse.SumPrice = (float)(cartModelResponse.TowarPrice * cartModelResponse.Count);
+                cartModelResponse.SumPrice = (cartModelResponse.TowarPrice * cartModelResponse.Count);
 
                 cartModelResponsesList.Add(cartModelResponse);
 
@@ -90,7 +90,7 @@ namespace Web_App.Rest.Cart.Repositories
                 connection.Open();
                 command.Connection = connection;
                 command.CommandText = "DELETE FROM cart WHERE user_id=@uid AND products_id=@pid";
-                
+
                 foreach (int tempTowarID in listTowar)
                 {
                     command.Parameters.Add("@uid", MySqlDbType.Int32).Value = userID;
@@ -98,7 +98,7 @@ namespace Web_App.Rest.Cart.Repositories
                     command.ExecuteNonQuery();
                     command.Parameters.Clear();
                 }
-                
+
             }
         }
 

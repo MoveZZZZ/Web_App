@@ -1,5 +1,4 @@
 ﻿import React, { useState, useEffect } from 'react';
-import { Select, Option } from "@material-tailwind/react";
 import { Link } from 'react-router-dom';
 import { fetchProducts, fetchProductsByName, } from '../../utils/productApi';
 import _ from "lodash";
@@ -13,10 +12,7 @@ const ProductPage = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [searchQuery, setSearchQuery] = useState('');
     const [errMsg, setErrMsg] = useState('');
-
     const [isSearchnig, setIsSearching] = useState(false);
-
-
     const [isLoading, setIsLoading] = useState(true);
 
 
@@ -36,6 +32,7 @@ const ProductPage = () => {
                 }, 500);
             });
     };
+
     const searchProductsByName = (query) => {
         setErrMsg("");
         if (query) {
@@ -64,6 +61,7 @@ const ProductPage = () => {
             loadProducts();
         }
     };
+
     useEffect(() => {
         searchProductsByName(searchQuery);
     }, [searchQuery]);
@@ -78,20 +76,19 @@ const ProductPage = () => {
         <>
             <div className="flex justify-center items-center px-16">
                 <div className="mt-6 w-4/5 flex flex-col justify-between items-center">
-                <div className="flex gap-2 mt-3 w-3/5 max-sm:w-full">
-                    <i className="mt-2"><FontAwesomeIcon icon={faSearch} /></i>
-                    <input
-                        type="text"
-                        placeholder="Search by product name"
-                        onChange={handleSearchInputChange}
-                        className="w-full p-2 mb-2 rounded border border-primary-300 text-secondary placeholder-primary-300"
-                    />
-                </div>
-                <div className="text-3xl text-center text-red">{errMsg}</div>
+                    <div className="flex gap-2 mt-3 w-3/5 max-sm:w-full">
+                        <i className="mt-2"><FontAwesomeIcon icon={faSearch} /></i>
+                        <input
+                            type="text"
+                            placeholder="Search by product name"
+                            onChange={handleSearchInputChange}
+                            className="w-full p-2 mb-2 rounded border border-primary-300 text-secondary placeholder-primary-300"
+                        />
+                    </div>
+                    <div className="text-3xl text-center text-red">{errMsg}</div>
                 </div>
             </div>
             {isLoading ?
-
                 <div className="flex text-center items-center justify-center w-full h-96">
                     < Spinner />
                 </div>
@@ -106,7 +103,7 @@ const ProductPage = () => {
                                         <img className="w-64 h-64 rounded-t-xl" src={`data:image/jpeg;base64,${product.imageUrl.toString('base64')}`} />
                                         <p className="text-lg font-bold text-proimary-500 truncate block capitalize mx-2">{product.name}</p>
                                         <p className="text-sm text-gray-600 truncate mx-2">{product.description}</p>
-                                        <p className="text-lg font-semibold text-primary-500 cursor-auto mx-2 my-5 flex justify-end">{product.cost}$</p>
+                                        <p className="text-lg font-semibold text-primary-500 cursor-auto mx-2 my-5 flex justify-end">{parseFloat(product.cost).toFixed(2)}$</p>
                                     </div>
                                 </Link>
                             ))}
@@ -131,7 +128,7 @@ const ProductPage = () => {
                                     key={index}
                                     onClick={() => {
                                         setCurrentPage(index + 1);
-                                        window.scrollTo(0, 0); 
+                                        window.scrollTo(0, 0);
                                     }}
                                     className={`mx-2 p-2 rounded ${currentPage === index + 1
                                         ? 'bg-primary-100 text-primary-500 cursor-not-allowed'
@@ -144,7 +141,7 @@ const ProductPage = () => {
                             <button
                                 onClick={() => {
                                     setCurrentPage(currentPage + 1);
-                                    window.scrollTo(0, 0); 
+                                    window.scrollTo(0, 0);
                                 }}
                                 className={`mx-2 my-2 p-2 rounded ${currentPage === totalPages
                                     ? 'bg-white border border-primary-500 cursor-not-allowed'
@@ -161,5 +158,4 @@ const ProductPage = () => {
         </>
     );
 };
-
 export default ProductPage;

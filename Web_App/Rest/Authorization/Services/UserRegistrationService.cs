@@ -10,7 +10,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using SixLabors.ImageSharp.Formats;
-
+using System.Text;
+using System.Security.Cryptography;
 
 namespace Web_App.Rest.Authorization.Services
 {
@@ -18,13 +19,13 @@ namespace Web_App.Rest.Authorization.Services
     {
         private string _message = "";
         private IUserRegistrationRepository _userRegistrationRepository;
+        private MailSendingService _mailSendingService;
 
-        public UserRegistrationService()
+        public UserRegistrationService(IConfiguration _configuration)
         {
             _userRegistrationRepository = new UserRegistrationRepository();
+            _mailSendingService = new MailSendingService(_configuration);
         }
-
-
 
         //login
         private bool chekUsernameFromDB(string login)
@@ -94,8 +95,6 @@ namespace Web_App.Rest.Authorization.Services
             return hashedPass;
         }
 
-
-
         //email
         private bool checkEmailSyntax(string email)
         {
@@ -115,7 +114,7 @@ namespace Web_App.Rest.Authorization.Services
             return false;
         }
 
-        private byte[] createImageByte ()
+        private byte[] createImageByte()
         {
             using (Bitmap image = new Bitmap("Rest/User/Assets/userPhoto.png"))
             {
@@ -130,18 +129,18 @@ namespace Web_App.Rest.Authorization.Services
             }
         }
 
-        public bool checkUsername (string username)
+        public bool checkUsername(string username)
         {
             if (chekUsernameFromDB(username)
                 || username.Length > 255
-                || checkDefaultAccountName(username))
+                || checkDefaultAccountName(username) || _userRegistrationRepository.checkUsernameFromTempTable(username))
                 return true;
             return false;
         }
-        public bool checkEmail (string email)
+        public bool checkEmail(string email)
         {
-            if (checkEmailSyntax(email)
-               || checkEmailFromDB(email))
+            if (email.Length > 128 || checkEmailSyntax(email)
+               || checkEmailFromDB(email) || _userRegistrationRepository.checkEmailFromTempTable(email))
                 return true;
             return false;
         }
@@ -151,14 +150,12 @@ namespace Web_App.Rest.Authorization.Services
                 return true;
             return false;
         }
-        public bool checkPasswordLenAndPopular (string password)
+        public bool checkPasswordLenAndPopular(string password)
         {
             if (checkPasswordLenght(password) || checkPasswordMostPopular(password))
                 return true;
             return false;
         }
-
-
 
 
 
@@ -175,26 +172,61 @@ namespace Web_App.Rest.Authorization.Services
                 return _message = "wrong email";
 
             //Password
-          if(checkSamePassword(userRegistModel.Password, userRegistModel.PasswordConfirm))
+            if (checkSamePassword(userRegistModel.Password, userRegistModel.PasswordConfirm))
                 return _message = "passwords are not the same";
 
-            userRegistModel.Password=checkPasswordSpaces(userRegistModel.Password);
+            userRegistModel.Password = checkPasswordSpaces(userRegistModel.Password);
 
-            if(checkPasswordLenAndPopular(userRegistModel.Password))
+            if (checkPasswordLenAndPopular(userRegistModel.Password))
                 return _message = "wrong password";
 
-            userRegistModel.Password=hashPassword(userRegistModel.Password);
+            userRegistModel.Password = hashPassword(userRegistModel.Password);
 
-
-
-
-
-            _userRegistrationRepository.addUserInDB(userRegistModel, createImageByte());
             return _message;
         }
 
+        public string addUserInTempDB(RegisterModel userRegistModel)
+        {
+            string message = checkAllData(userRegistModel);
+            string uid = gennerateUID(userRegistModel);
+            if (message == "")
+            {
+                _userRegistrationRepository.addUserInTempDB(userRegistModel, uid);
+                _mailSendingService.SendMailWithEmailVerify(userRegistModel.Email, uid);
+                return message;
+            }
+            return message;
+        }
 
 
+        private string gennerateUID(RegisterModel model)
+        {
+            Random rand = new Random();
+            int payload = rand.Next(1000000, 9999999);
+            string mergedData = model.Password + Convert.ToString(payload) + model.Email;
+            using (SHA512 sha512 = SHA512.Create())
+            {
+                byte[] inputBytes = Encoding.UTF8.GetBytes(mergedData);
+                byte[] hashBytes = sha512.ComputeHash(inputBytes);
+                StringBuilder hashBuilder = new StringBuilder(hashBytes.Length * 2);
+                foreach (byte b in hashBytes)
+                {
+                    hashBuilder.AppendFormat("{0:x2}", b);
+                }
+                return hashBuilder.ToString();
+            }
+        }
+
+
+        public string addUserInDBAfterCheck(string uid)
+        {
+            if (_userRegistrationRepository.isUIDExist(uid))
+            {
+                _userRegistrationRepository.addUserInDBAfterCheckUID(uid, createImageByte());
+                return _message;
+            }
+            else { return "Bad token"; }
+        }
 
     }
 }

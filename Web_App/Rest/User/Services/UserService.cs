@@ -4,6 +4,12 @@ using Web_App.Rest.Authorization.Models;
 using Web_App.Rest.Authorization.Services;
 using Web_App.Rest.User.Models;
 using Web_App.Rest.User.Repositories;
+using MimeDetective;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
+using System;
 
 namespace Web_App.Rest.User.Services
 {
@@ -11,12 +17,14 @@ namespace Web_App.Rest.User.Services
     {
         private IUserRepository _userRepository;
         private UserRegistrationService _userRegistrationService;
+        private MailSendingService _mailSendingService;
 
 
-        public UserService()
+        public UserService(IConfiguration configuration)
         {
+            _mailSendingService = new MailSendingService(configuration);
             _userRepository = new UserRepository();
-            _userRegistrationService = new UserRegistrationService();
+            _userRegistrationService = new UserRegistrationService(configuration);
         }
 
         private bool verifyPasswords(string passwords, string passwordFromDB)
@@ -25,8 +33,8 @@ namespace Web_App.Rest.User.Services
             {
                 return true;
             }
-           return false;
-            
+            return false;
+
         }
 
 
@@ -37,8 +45,9 @@ namespace Web_App.Rest.User.Services
             return userModel;
         }
 
-        public UserModel getUnameEmailPhotoByUserID (int id) { 
-            UserModel user = new UserModel();  
+        public UserModel getUnameEmailPhotoByUserID(int id)
+        {
+            UserModel user = new UserModel();
             user = _userRepository.getUnameEmailPhotoByUserID(id);
             return user;
         }
@@ -64,11 +73,11 @@ namespace Web_App.Rest.User.Services
                 return compressedImageStream.ToArray();
             }
         }
-        public void changeUserAvatar (IFormFile file, int userID)
+        public string changeUserAvatar(IFormFile file, int userID)
         {
-            byte[] newImage;
-            try
+            if (file != null && IsAllowedFileType(file))
             {
+                byte[] newImage;
                 using (var stream = new MemoryStream())
                 {
                     file.CopyToAsync(stream);
@@ -78,30 +87,44 @@ namespace Web_App.Rest.User.Services
                     newImage = CompressImage(imageData, 800, 600, 100);
                 }
                 _userRepository.changeAvatarByID(newImage, userID);
+                return "Ok";
             }
-            catch (Exception ex)
-            {
-
-            }
+            else
+                return "Bad";
 
         }
-
-
         public string changeLoginByID(ModifyUserRequestModel _modelRequest)
         {
             UserModel _userModelBase = new UserModel();
             _userModelBase = _userRepository.getDataUser(_modelRequest.UserID);
 
-            if(_userRegistrationService.checkUsername(_modelRequest.UserName))
+            if (_userRegistrationService.checkUsername(_modelRequest.UserName))
                 return "Bad login!";
 
             if (!verifyPasswords(_modelRequest.Password, _userModelBase.Password))
                 return "Bad password!";
 
             _userRepository.changeUserNameByID(_modelRequest.UserID, _modelRequest.UserName);
+            _mailSendingService.SendMailByUserAuthDataChange(_userModelBase.Email, "USERNAME");
             return "Login successfully changed";
         }
-
+        private string generateUID(string password, string email)
+        {
+            Random rand = new Random();
+            int payload = rand.Next(1000000, 9999999);
+            string mergedData = password + Convert.ToString(payload) + email;
+            using (SHA512 sha512 = SHA512.Create())
+            {
+                byte[] inputBytes = Encoding.UTF8.GetBytes(mergedData);
+                byte[] hashBytes = sha512.ComputeHash(inputBytes);
+                StringBuilder hashBuilder = new StringBuilder(hashBytes.Length * 2);
+                foreach (byte b in hashBytes)
+                {
+                    hashBuilder.AppendFormat("{0:x2}", b);
+                }
+                return hashBuilder.ToString();
+            }
+        }
         public string changeEmailByID(ModifyUserRequestModel _modelRequest)
         {
             UserModel _userModelBase = new UserModel();
@@ -111,9 +134,29 @@ namespace Web_App.Rest.User.Services
                 return "Bad email";
             if (!verifyPasswords(_modelRequest.Password, _userModelBase.Password))
                 return "Bad password!";
-            _userRepository.changeEmailNameByID(_modelRequest.UserID, _modelRequest.Email);
-            return "Email successfully changed";
+
+            string UID = generateUID(_userModelBase.Password, _modelRequest.Email);
+            _userRepository.addUIDInTable(_modelRequest.UserID, _modelRequest.Email, UID);
+
+            if (_userRepository.isUIDExist(UID))
+            {
+                _mailSendingService.SendMailWithEmailVerifyAfterChange(_modelRequest.Email, UID);
+                return "Verification link has ben send, check email!";
+            }
+            return "It looks like you have previously created a request to change your email address, check your email or try again later!";
         }
+        public string ChangeEmail(string uid)
+        {
+            if(_userRepository.isUIDExist(uid))
+            {
+                string mail = _userRepository.getEmailViaUIDAndChangeEmail(uid);
+                _mailSendingService.SendMailByUserAuthDataChange(mail, "EMAIL");
+                return "Ok";
+            }
+            return "Bad token";
+
+        }
+
 
         public string changePasswordByID(ModifyUserRequestModel _modelRequest)
         {
@@ -133,10 +176,11 @@ namespace Web_App.Rest.User.Services
             _modelRequest.NewPassword = _userRegistrationService.hashPassword(_modelRequest.NewPassword);
 
             _userRepository.changePasswordByID(_modelRequest.UserID, _modelRequest.NewPassword);
+            _mailSendingService.SendMailByUserAuthDataChange(_userModelBase.Email, "PASSWORD");
             return "Your password successfully changed!";
 
         }
-        public string removeAccountByID (ModifyUserRequestModel _modelRequest)
+        public string removeAccountByID(ModifyUserRequestModel _modelRequest)
         {
             UserModel _userModelBase = new UserModel();
             _userModelBase = _userRepository.getDataUser(_modelRequest.UserID);
@@ -144,14 +188,66 @@ namespace Web_App.Rest.User.Services
             if (!verifyPasswords(_modelRequest.Password, _userModelBase.Password))
                 return "Wrong current password!";
             _userRepository.deleteAccountByID(_modelRequest.UserID);
+            _mailSendingService.SendMailByAccountRemove(_userModelBase.Email, _userModelBase.Login);
             return "Your account successfully removed!";
 
         }
-        public int getIDByEmail (string email)
+        public int getIDByEmail(string email)
         {
             int ID = 0;
             ID = _userRepository.getIDByEmail(email);
             return ID;
+        }
+        public bool IsAllowedFileType(IFormFile file)
+        {
+            if (isPNG(file) || isJPGorJPEG(file))
+                return true;
+            return false;
+
+        }
+        private static bool isPNG(IFormFile file)
+        {
+            byte[] pngMagicNumber = new byte[] { 137, 80, 78, 71, 13, 10, 26, 10 };
+            using (var stream = file.OpenReadStream())
+            {
+                byte[] buffer = new byte[8];
+                stream.Read(buffer, 0, 8);
+                if (ByteArrayCompare(buffer, pngMagicNumber))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        private static bool isJPGorJPEG(IFormFile file)
+        {
+            byte[] jpegMagicNumber = new byte[] { 255, 216, 255 };
+            byte[] jpgMagicNumber = new byte[] { 255, 216, 255 };
+            using (var stream = file.OpenReadStream())
+            {
+                byte[] buffer = new byte[3];
+                stream.Read(buffer, 0, 3);
+                if (ByteArrayCompare(buffer, jpegMagicNumber) || ByteArrayCompare(buffer, jpgMagicNumber))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private static bool ByteArrayCompare(byte[] a1, byte[] a2)
+        {
+            if (a1.Length != a2.Length)
+                return false;
+
+            for (int i = 0; i < a1.Length; i++)
+            {
+                if (a1[i] != a2[i])
+                    return false;
+            }
+
+            return true;
         }
     }
 }

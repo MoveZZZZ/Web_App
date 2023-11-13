@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { fetchChangePassword, fetchIsExistUID } from "../../utils/AuthorizationApi"
+import { fetchChangePassword, fetchIsExistUID } from "../../utils/authorizationApi"
 import Spooky from "../../assets/KABAN.gif";
 import Spinner from '../../components/Spinner/Spinner';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,25 +9,22 @@ import PasswordStrengthBar from 'react-password-strength-bar';
 import Message from "../../components/Message/Message";
 
 const ResetPage = () => {
+
     const { uid } = useParams();
     const [isLoading, setIsLoading] = useState(true);
     const [isValid, setIsValid] = useState(false);
-
-
     const [password, setPassword] = useState("");
     const [repeatPassword, setRepeatPassword] = useState("");
-
     const [showPassword, setShowPassword] = useState(false);
     const [isChanged, setIsChanged] = useState(false);
-
     const [responsemessage, setResponseMessage] = useState("");
     const [message, setMessage] = useState("");
     const [isMessage, setIsMessage] = useState(false);
-   
+
     const isSuccessChangePassword = (message) => {
         if (message === "Your password successfully changed!") {
             setIsChanged(true);
-            setMessage("Yor password succesfly changed. You will be redirected to the login page after 5 sekund!");
+            setMessage("Your password succesfly changed. You will be redirected to the login page after 5 seconds!");
             getMessage();
             setTimeout(() => window.open("/login", "_self"), 4000);
         }
@@ -35,6 +32,7 @@ const ResetPage = () => {
             setResponseMessage(message);
         }
     }
+
     const isUidExist = async () => {
         setIsLoading(true);
         fetchIsExistUID(uid)
@@ -45,7 +43,7 @@ const ResetPage = () => {
                 else {
                     setMessage(data.message);
                 }
-                
+
             })
             .catch((error) => {
             })
@@ -55,6 +53,7 @@ const ResetPage = () => {
                 }, 500);
             });
     }
+
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
@@ -74,17 +73,19 @@ const ResetPage = () => {
                 }, 500);
             });
     }
+
     const getMessage = () => {
         setIsMessage(true);
         setTimeout(() => setIsMessage(false), 4000);
     }
+
     useEffect(() => {
         isUidExist();
-    },[])
+    }, [])
 
 
     return (
-            <>
+        <>
             {isLoading ?
                 <div className="flex text-center items-center justify-center w-full h-96">
                     < Spinner />
@@ -130,7 +131,7 @@ const ResetPage = () => {
                                     type="password"
                                     autoComplete="Password-confirm"
                                     required
-                                   
+
                                     value={repeatPassword}
                                     onChange={(e) => setRepeatPassword(e.target.value)}
                                     className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none"
@@ -144,22 +145,19 @@ const ResetPage = () => {
                                 onClick={handleChangPassword}>Change password</button>
 
                         </div>
-                       
+
                         :
                         <div className="text-center my-10">
                             <h1 className="font-bold text-xl">
-                            Your token has been expired. Please, try again!
+                                Your token has been expired. Please, try again!
                             </h1>
                             <a href="/passwordrecovery" className="text-secondary border-b hover:text-primary-400 ease-in-out duration-150 w-auto">Click on this link for try again!</a>
-                                
-                            </div>
+
+                        </div>
                     }
                 </div>
-                }
-            
-            
-            </>
+            }
+        </>
     )
 };
-
 export default ResetPage;
