@@ -27,6 +27,7 @@ namespace Web_App.Rest.AccessPoint.Controller
             response = _accessPointService.getAllPointsCountry();
             return Ok(new { Countries = response });
         }
+
         [HttpGet]
         [Route("getallaccesspointstatethecountry")]
         public IActionResult GetAllAccessPointState([FromQuery] string Country)
@@ -38,7 +39,6 @@ namespace Web_App.Rest.AccessPoint.Controller
         }
 
         [HttpGet]
-
         [Route("getallaccesspointthestateandcity")]
         public IActionResult GetAccessPointsTheStateAndCity([FromQuery] string State, string City)
         {

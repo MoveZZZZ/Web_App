@@ -34,10 +34,10 @@ public class MFAuthController : ControllerBase
 
     [HttpPost]
     [Route("codesubmit")]
-    public IActionResult MFAuthCodeSubmit([FromBody] MFAuthModel model) 
+    public IActionResult MFAuthCodeSubmit([FromBody] MFAuthModel model)
     {
         AuthorizationResponseModel responseModel = _userMFAuth.codeSubmit(model.Code, model.UID);
-        if (responseModel.UserID == 0) 
+        if (responseModel.UserID == 0)
         {
             return Unauthorized(new { message = "Some verification errors appear, please, try again." });
         }

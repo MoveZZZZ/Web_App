@@ -72,6 +72,6 @@ namespace Web_App.Rest.Authorization.Services
             return responseModel;
         }
 
-        
+
     }
 }
