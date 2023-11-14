@@ -19,7 +19,6 @@ namespace Web_App.Rest.AccessPoint.Service
             return data;
         }
 
-
         public List<string> getAllPointsStateTheCountry(string country)
         {
             List<string> data = new List<string>();

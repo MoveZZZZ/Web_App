@@ -69,8 +69,8 @@ public class AuthorizationController : ControllerBase
             {
                 return Ok(new { message = "Please, check your mailbox to proceed with 2-step verification" });
             }
-            return Ok(new { UID = uid});
+            return Ok(new { UID = uid });
         }
-        return Unauthorized(new { message = "bad login or password" });  
+        return Unauthorized(new { message = "bad login or password" });
     }
 }

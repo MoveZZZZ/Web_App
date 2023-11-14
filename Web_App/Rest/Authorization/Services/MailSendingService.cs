@@ -71,7 +71,7 @@ namespace Web_App.Rest.Authorization.Services
             using (StreamReader reader = System.IO.File.OpenText("Rest/Authorization/MailResources/RecoveryPassword.html"))
             {
                 string mailBody = reader.ReadToEnd();
-                mailBody = mailBody.Replace("RECOVERYLINK", IP+"/recoverypage/"+uid);
+                mailBody = mailBody.Replace("RECOVERYLINK", IP + "/recoverypage/" + uid);
                 message.Body = mailBody;
             }
             message.IsBodyHtml = true;
@@ -89,7 +89,7 @@ namespace Web_App.Rest.Authorization.Services
             string mailOrigin = _configuration["MailService:Origin"];
             string mailAppKey = _configuration["MailService:ApplicationKey"];
             message.From = new MailAddress(mailOrigin);
-            message.Subject = "Your "+subject.ToLower()+"  has been changed";
+            message.Subject = "Your " + subject.ToLower() + "  has been changed";
             message.To.Add(new MailAddress(email));
             using (StreamReader reader = System.IO.File.OpenText("Rest/Authorization/MailResources/DataChange.html"))
             {
