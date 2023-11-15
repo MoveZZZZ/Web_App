@@ -79,9 +79,9 @@
 5.3.3 <looks like there are no way to perform XSS from client-side inputs, need to be inspected deeper>
 5.3.4 +
 5.3.5 +
-5.3.6
+5.3.6 +?
 5.3.7 we dont have ldap
-5.3.8
+5.3.8 +?
 5.3.9 all requests included into route file, any other request redirects user to main or login page
 5.3.10 We are not using xml requests
 ====================================================
@@ -95,7 +95,7 @@
 7.1.1 +
 7.1.2 +
 ====================================================
-7.4.1
+7.4.1 +?
 ====================================================
 8.2.1 Data is not cached
 8.2.2 +
