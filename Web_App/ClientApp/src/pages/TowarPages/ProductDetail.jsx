@@ -244,11 +244,11 @@ const ProductDetail = () => {
                         <></>
                     }
                     <div className="w-full flex justify-center max-lg:items-center gap-6 max-lg:flex-col mt-16 mb-16">
-                        <div className="flex flex-col justify-between gap-6">
+                        <div className="flex flex-col justify-between gap-6 p-6">
                             <img
                                 src={`data:image/jpeg;base64,${productDetails.imageUrl.toString('base64')}`}
                                 alt={productDetails.name}
-                                className="w-96 h-96 rounded-md shadow-md  object-center "
+                                className=" w-full h-80 rounded-md shadow-md"
                             />
                             {isEditing ? (
                                 <input
