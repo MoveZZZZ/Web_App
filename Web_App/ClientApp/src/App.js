@@ -44,9 +44,11 @@ const App = () => {
             isAdmin,
             setIsAdmin
         }}>
-            <Navbar />
-            <AppRouter />
-            <Footer />
+            <>
+                <Navbar />
+                <AppRouter />
+                <Footer />
+            </>
         </AuthContext.Provider>
     )
 }
