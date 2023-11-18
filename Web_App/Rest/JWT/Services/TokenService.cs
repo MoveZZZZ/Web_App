@@ -39,9 +39,7 @@ namespace Web_App.Rest.JWT.Services
 
             var claims = new[]
            {
-                new Claim("sub", user.Login),
                 new Claim("userID", Convert.ToString(user.Id)),
-                //new Claim("mail", user.Email),
                 new Claim("role", user.Role)
             };
 
@@ -67,13 +65,11 @@ namespace Web_App.Rest.JWT.Services
         public string CreateRefreshToken(UserModel user)
         {
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"]));
-            //SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(user.Password));
 
             SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
            {
-                new Claim("sub", user.Login),
                 new Claim("userID", Convert.ToString(user.Id)),
                 new Claim("role", user.Role)
             };
@@ -160,12 +156,12 @@ namespace Web_App.Rest.JWT.Services
         {
             return new TokenValidationParameters()
             {
-                ValidateLifetime = true, // Because there is no expiration in the generated token
-                ValidateAudience = true, // Because there is no audiance in the generated token
-                ValidateIssuer = true,   // Because there is no issuer in the generated token
+                ValidateLifetime = true, 
+                ValidateAudience = true, 
+                ValidateIssuer = true,   
                 ValidIssuer = "259156@student.pwr.edu.pl",
                 ValidAudience = "www.MOVEZZZZ.com",
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"])) // The same key as the one that generate the token
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:SecurityKey"])) 
             };
         }
     }
