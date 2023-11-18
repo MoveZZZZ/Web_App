@@ -22,7 +22,7 @@ export const fetchGetAllIndexClientFavorite = (clientId) => {
 
 export const fetchRemoveFavoriteItem = (TowarId, ClientID) => {
     const params = {
-        method: 'DELETE',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },

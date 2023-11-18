@@ -91,7 +91,7 @@ namespace Web_App.Rest.User.Controller
             return Ok(new { message = message });
         }
 
-        [HttpDelete]
+        [HttpPost]
         [Route("deleteaccount")]
         public IActionResult deleteUserAccountByID([FromForm] ModifyUserRequestModel model)
         {

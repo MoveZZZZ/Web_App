@@ -140,7 +140,7 @@ namespace Web_App.Rest.Product.Repository
             {
                 connection.Open();
                 command.Connection = connection;
-                command.CommandText = "UPDATE products SET count=count-@ordercount WHERE id=@pid";
+                command.CommandText = "UPDATE products SET count=count-@ordercount WHERE id=@pid AND count-@ordercount>-1";
                 command.Parameters.Add("@ordercount", MySqlDbType.Int32).Value = orderCountProduct;
                 command.Parameters.Add("@pid", MySqlDbType.Int32).Value = productID;
                 command.ExecuteNonQuery();
@@ -201,6 +201,21 @@ namespace Web_App.Rest.Product.Repository
                 products.Add(product);
             }
             return products;
+        }
+        public bool isCountCurrent (int id, int count)
+        {
+            bool isExist;
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "SELECT * FROM products WHERE id=@id AND count-@count>-1";
+                command.Parameters.Add("@id", MySqlDbType.Int32).Value = id;
+                command.Parameters.Add("@count", MySqlDbType.Int32).Value = count;
+                isExist = command.ExecuteScalar() == null ? false : true;
+            }
+            return isExist;
         }
     }
 }

@@ -44,7 +44,7 @@ export const fetchOrderArchiveDetailsAdmin = async (orderID, username) => {
 export const fetchDeleteOrderByID = async (orderID) => {
     const api = `${process.env.REACT_APP_API_IP}/order/admin/removeorder?orderID=${orderID}`;
     const params = {
-        method: 'DELETE',
+        method: 'POST',
         credentials: 'include',
     };
     return fetchWithAuthentication(api, params);

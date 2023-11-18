@@ -80,7 +80,7 @@ export async function fetchUpdateRemoveAccoutUser(formData) {
     body.append('NewPassword', null);
     body.append('RepeatNewPassword', null);
     const params = {
-        method: 'DELETE',
+        method: 'POST',
         credentials: 'include',
         body,
     };

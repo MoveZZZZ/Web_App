@@ -73,6 +73,22 @@ const Navbar = () => {
     return (
 
         <nav className="p-4 shadow-lg p-6 bg-primary-100">
+            <LogoutModal visible={modalVisability} setVisible={setModalVisability}>
+                <div className="space-y-4 z-10 max-sm:w-80 max-sm:h-96">
+                    <div className="flex justify-center text-2xl max-sm:text-lg font-semibold whitespace-nowrap dark:text-white">You are about to log out! Are you sure?</div>
+                    <div className="flex justify-center mt-4">
+                        <img src={cursedCat}
+                            className="rounded-2xl w-full h-auto max-sm:w-64 max-sm:h-64 flex justify-center"
+                            alt="I know your secret (0)_(0)" />
+                    </div>
+                    <div className="flex justify-center w-full space-x-2" >
+                        <button className="w-full max-sm:text-sm max-sm:w-32 px-4 py-3 rounded-lg bg-primary-100 mt-2 border font-semibold focus:border-secondary focus:bg-primary-100 focus:outline-none"
+                            onClick={logout}>Yes, log me out NOW!</button>
+                        <button className="w-full max-sm:text-sm max-sm:w-32 px-4 py-3 rounded-lg bg-primary-100 mt-2 border font-semibold focus:border-secondary focus:bg-primary-100 focus:outline-none"
+                            onClick={() => setModalVisability(false)}>I'll better to stay logged.</button>
+                    </div>
+                </div>
+            </LogoutModal>
             <div className="mx-3">
                 <div className="flex justify-between items-center ">
                     <Link to="/"
@@ -155,22 +171,6 @@ const Navbar = () => {
                                         </div>
                                     )}
                                 </div>
-                                <LogoutModal visible={modalVisability} setVisible={setModalVisability}>
-                                    <div className="space-y-4 z-10">
-                                        <div className="flex justify-center text-2xl font-semibold whitespace-nowrap dark:text-white">You are about to log out! Are you sure?</div>
-                                        <div className="flex justify-center mt-4">
-                                            <img src={cursedCat}
-                                                className="rounded-2xl w-full h-auto flex justify-center"
-                                                alt="I know your secret (0)_(0)" />
-                                        </div>
-                                        <div className="flex justify-center w-full space-x-2" >
-                                            <button className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border font-semibold focus:border-secondary focus:bg-primary-100 focus:outline-none"
-                                                onClick={logout}>Yes, log me out NOW!</button>
-                                            <button className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border font-semibold focus:border-secondary focus:bg-primary-100 focus:outline-none"
-                                                onClick={() => setModalVisability(false)}>I'll better to stay logged.</button>
-                                        </div>
-                                    </div>
-                                </LogoutModal>
                             </div>
                         )
                         :

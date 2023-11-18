@@ -18,7 +18,7 @@ export const fetchGetAllClientCartItems = async (clientId) => {
 
 export const fetchRemoveFromCart = (IdClient, IdTowar) => {
     const params = {
-        method: 'DELETE',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },

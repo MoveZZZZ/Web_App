@@ -14,7 +14,6 @@ const HomePage = () => {
         setIsLoading(true);
         fetchGetTop3Products()
             .then((data) => {
-                console.log(data);
                 setTopProducts(data);
             })
             .catch((error) => {
