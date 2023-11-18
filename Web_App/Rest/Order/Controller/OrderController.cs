@@ -112,7 +112,7 @@ namespace Web_App.Rest.Order.Controller
         }
 
         [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
-        [HttpDelete]
+        [HttpPost]
         [Route("admin/removeorder")]
         public IActionResult removeOrderAdmin([FromQuery] int orderID)
         {
