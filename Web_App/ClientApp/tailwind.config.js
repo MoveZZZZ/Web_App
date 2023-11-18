@@ -21,6 +21,12 @@ module.exports = {
             
         },
         extend: {
+            width: {
+                'xl': '40rem'
+            },
+            height: {
+                'xl': '30rem'
+            }
         },
 
     },

@@ -44,11 +44,13 @@ const App = () => {
             isAdmin,
             setIsAdmin
         }}>
-            <>
-                <Navbar />
-                <AppRouter />
-                <Footer />
-            </>
+            <div className="flex flex-col">
+                <div className="h-screen">
+                    <Navbar />
+                    <AppRouter />
+                </div>
+                <Footer/>
+            </div>
         </AuthContext.Provider>
     )
 }

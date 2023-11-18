@@ -282,8 +282,8 @@ const SettingsPage = () => {
                         <></>}
                     <h1 className="text-2xl font-bold text-center hover:text-primary-300 ease-in-out duration-300 mt-20">Settings</h1>
                     <section className="border-primary-500  flex items-center justify-center ">
-                        <div className="bg-primary-100 p-5 flex rounded-xl shadow-lg max-w-3xl m-20">
-                            <div className="w-5/12">
+                        <div className="bg-primary-100 p-5 flex max-md:flex-col max-md:space-y-6 max-md:items-center max-md:justify-center rounded-xl shadow-lg max-w-3xl m-20">
+                            <div className="w-5/12 max-md:w-full flex flex-col items-center justify-center">
                                 <p className="text-primary-300 text-xl flex justify-center">Profile photo:</p>
                                 <img
                                     src={`data:image/jpeg;base64,${userProfile.photo.toString('base64')}`}
@@ -306,24 +306,24 @@ const SettingsPage = () => {
 
                                 </button>
                             </div>
-                            <div className="w-1/2 ml-10">
+                            <div className="w-1/2 max-md:w-full ml-10 max-md:ml-0 flex flex-col items-center space-y-4">
                                 <p className="text-primary-300 text-xl flex justify-center mb-10">Global info:</p>
-                                <div className="border-b border-primary-200 flex-col flex justify-between items-start w-11/12 pb-3 m-5 hover:scale-105 duration-300 cursor-pointer ">
+                                <div className="border-b border-primary-200 flex-col flex justify-between items-start w-11/12 pb-3 m-5 max-md:m-0 hover:scale-105 duration-300 cursor-pointer ">
                                     <div className="w-full flex flex-col justify-start items-center space-y-2">
                                         <a className="text-sm font-semibold leading-2 text-primary-400 hover:text-secondary" onClick={() => setModalLoginChangeVisability(true)}>Change Login ({userProfile.login})</a>
                                     </div>
                                 </div>
-                                <div className="border-b border-primary-200 flex-col flex justify-between items-start w-11/12 pb-3 m-5 hover:scale-105 duration-300 cursor-pointer">
+                                <div className="border-b border-primary-200 flex-col flex justify-between items-start w-11/12 pb-3 m-5 max-md:m-0 hover:scale-105 duration-300 cursor-pointer">
                                     <div className="w-full flex flex-col justify-start items-center space-y-2">
-                                        <a className="text-sm font-semibold leading-2 text-primary-400 hover:text-secondary" onClick={() => setModalEmailChangeVisability(true)}>Change Email ({userProfile.mail})</a>
+                                        <a className="text-center text-sm font-semibold leading-2 text-primary-400 hover:text-secondary" onClick={() => setModalEmailChangeVisability(true)}>Change Email ({userProfile.mail})</a>
                                     </div>
                                 </div>
-                                <div className="border-b border-primary-200 flex-col flex justify-between items-start w-11/12 pb-3 m-5 hover:scale-105 duration-300 cursor-pointer">
+                                <div className="border-b border-primary-200 flex-col flex justify-between items-start w-11/12 pb-3 m-5 max-md:m-0 hover:scale-105 duration-300 cursor-pointer">
                                     <div className="w-full flex flex-col justify-start items-center space-y-2">
                                         <a className="text-sm font-semibold leading-2 text-primary-400 hover:text-secondary" onClick={() => setModalPasswordChangeVisability(true)}>Change password</a>
                                     </div>
                                 </div>
-                                <div className="border-b border-primary-200 flex-col flex justify-between items-start w-11/12 pb-3 m-5 hover:scale-105 duration-300 cursor-pointer">
+                                <div className="border-b border-primary-200 flex-col flex justify-between items-start w-11/12 pb-3 m-5 max-md:m-0 hover:scale-105 duration-300 cursor-pointer">
                                     <div className="w-full flex flex-col justify-start items-center space-y-2">
                                         <a className="text-sm font-semibold leading-2 text-primary-400 hover:text-secondary" onClick={() => setModalDeleteAccountVisability(true)}>Remove account</a>
                                     </div>
