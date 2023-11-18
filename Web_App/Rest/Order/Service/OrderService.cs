@@ -17,6 +17,7 @@ namespace Web_App.Rest.Order.Service
         private IOrderRepository _orderRepository;
         private OrderModel _orderModel;
         private UserService _userService;
+        private List<int> _badCountsCartItemList;
         public OrderService(IConfiguration configuration)
         {
             _orderRepository = new OrderRepository();
@@ -24,6 +25,7 @@ namespace Web_App.Rest.Order.Service
             _productService = new ProductService(configuration);
             _cartService = new CartService();
             _userService = new UserService(configuration);
+            _badCountsCartItemList = new List<int>();
         }
 
         public void fillModel(OrderRequestModel orderRequestModel)
@@ -84,13 +86,27 @@ namespace Web_App.Rest.Order.Service
             return "";
 
         }
+        public string checkTowarCountBeforAdd (OrderRequestModel model)
+        {
+            fillModel(model);
+            for(int i = 0; i<model.TowarIdList.Count; i++)
+            {
+                if(!_productService.isCountProductCurrent(model.TowarIdList[i], model.TowarCount[i]))
+                    _badCountsCartItemList.Add(model.TowarIdList[i]);  
+            }
+            if (_badCountsCartItemList.Count> 0)
+                return "Bad towar count/s!";
+            return "";
+        }
+        public void removeBadTowarCountList()
+        {
+            _cartService.removeTowarFromCartAfterAddOrder(_orderModel.UserID, _badCountsCartItemList);
+        }
         public void addOrderToDB(OrderRequestModel orderRequestModel)
         {
 
-            fillModel(orderRequestModel);
             _orderModel.OrderID = _orderRepository.addOrderAndGetIndex(orderRequestModel.ClientID, orderRequestModel.Ordercom, orderRequestModel.AccessPointId,
                 orderRequestModel.Cost, _orderModel.Status, _orderModel.ClientName, _orderModel.ClientLastName, _orderModel.Phone);
-
 
         }
         public void addOrderProductToTable(List<int> countTowarList)
@@ -103,7 +119,7 @@ namespace Web_App.Rest.Order.Service
         {
             _cartService.removeTowarFromCartAfterAddOrder(_orderModel.UserID, _orderModel.ProductIDList);
         }
-        public void updateCountProducts(List<int> orderCountTowar, List<int> ProductID)
+        public void updateCountProducts(List<int> orderCountTowar, List<int> ProductID) //HERE
         {
             for (int i = 0; i < ProductID.Count; i++)
             {

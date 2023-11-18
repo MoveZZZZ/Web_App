@@ -184,5 +184,9 @@ namespace Web_App.Rest.Product.Service
         {
             return _productRepository.getTop3View();
         }
+        public bool isCountProductCurrent (int id, int count)
+        {
+            return _productRepository.isCountCurrent(id, count);
+        }
     }
 }

@@ -34,9 +34,15 @@ namespace Web_App.Rest.Order.Controller
             {
                 return BadRequest(new { message = "UnAuthorized Attempt to Access Data belong to Other User!" });
             }
+            string msgCount = _orderService.checkTowarCountBeforAdd(orderRequestModel);
             string msg = _orderService.checkDataOrder(orderRequestModel);
             if (msg != "")
                 return Ok(new { message = msg });
+            if (msgCount != "")
+            {
+                _orderService.removeBadTowarCountList();
+                return Ok(new { message = msgCount });
+            }
             _orderService.addOrderToDB(orderRequestModel);
             _orderService.addOrderProductToTable(orderRequestModel.TowarCount);
             _orderService.removeProductFromCart();

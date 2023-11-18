@@ -33,7 +33,6 @@ export async function addProduct(formData) {
     body.append('Cost', formData.Cost);
     body.append('Count', parseInt(formData.Count, 10));
     body.append('Image', formData.Image);
-    console.log(body);
     const params = {
         method: 'POST',
         credentials: 'include',

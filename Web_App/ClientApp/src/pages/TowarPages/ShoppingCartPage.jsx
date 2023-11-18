@@ -109,6 +109,9 @@ const ShoppingCartPage = () => {
                     if (data.message !== "") {
                         setMessage(data.message);
                         getErrorMessage();
+                        setTimeout(() => {
+                            window.location.reload(false);
+                        }, 2000) 
                     }
                     else {
                         setIsCreated(true);

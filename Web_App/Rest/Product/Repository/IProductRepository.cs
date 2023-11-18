@@ -12,5 +12,6 @@ namespace Web_App.Rest.Product.Repository
         public void updateProdcutCount(int orderCountProduct, int productID);
         public void updateProduct(ProductModel model);
         List<ProductModel> getTop3View();
+        bool isCountCurrent (int id, int count);
     }
 }
