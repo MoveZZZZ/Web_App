@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { useParams } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
 import { fetchDetailsProduct, } from '../../utils/productDetailsApi';
 import { fetchAddToCart, fetchGetAllIndexClientCart, fetchRemoveFromCart, } from '../../utils/cartApi';
 import { fetchAddToFavorite, fetchGetAllIndexClientFavorite, fetchRemoveFavoriteItem } from "../../utils/favoriteApi"
@@ -48,6 +48,9 @@ const ProductDetail = () => {
         setIsLoading(true);
         fetchDetailsProduct(id)
             .then((data) => {
+                if (data.imageUrl === null) {
+                    window.open("/product", "_self")
+                }
                 setProductDetails(data);
                 setEditedDescription(data.description);
                 setEditedPrice(data.cost);
