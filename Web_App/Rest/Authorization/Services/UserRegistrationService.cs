@@ -6,8 +6,11 @@ using System.Net;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging.Abstractions;
 using System.Data;
-using System.Drawing;
-using System.Drawing.Imaging;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.PixelFormats;
+/*using System.Drawing;
+using System.Drawing.Imaging;*/
 using System.IO;
 using SixLabors.ImageSharp.Formats;
 using System.Text;
@@ -122,28 +125,27 @@ namespace Web_App.Rest.Authorization.Services
                 throw new FileNotFoundException("Image file not found.", imagePath);
             }
 
-            using (Bitmap image = new Bitmap(imagePath))
+            using (var image = Image.Load<Rgba32>(imagePath))
             {
                 using (MemoryStream stream = new MemoryStream())
                 {
-                    image.Save(stream, ImageFormat.Png);
-
+                    image.SaveAsPng(stream);
                     byte[] byteArray = stream.ToArray();
-
                     return byteArray;
                 }
             }
-/*            using (Bitmap image = new Bitmap("Rest/User/Assets/userPhoto.png"))
-            {
-                using (MemoryStream stream = new MemoryStream())
-                {
-                    image.Save(stream, ImageFormat.Png);
 
-                    byte[] byteArray = stream.ToArray();
+            /*            using (Bitmap image = new Bitmap("Rest/User/Assets/userPhoto.png"))
+                        {
+                            using (MemoryStream stream = new MemoryStream())
+                            {
+                                image.Save(stream, ImageFormat.Png);
 
-                    return byteArray;
-                }
-            }*/
+                                byte[] byteArray = stream.ToArray();
+
+                                return byteArray;
+                            }
+                        }*/
         }
 
         public bool checkUsername(string username)
