@@ -116,7 +116,13 @@ namespace Web_App.Rest.Authorization.Services
 
         private byte[] createImageByte()
         {
-            using (Bitmap image = new Bitmap("Rest/User/Assets/userPhoto.png"))
+            string imagePath = Path.Combine("Rest", "User", "Assets", "userPhoto.png");
+            if (!File.Exists(imagePath))
+            {
+                throw new FileNotFoundException("Image file not found.", imagePath);
+            }
+
+            using (Bitmap image = new Bitmap(imagePath))
             {
                 using (MemoryStream stream = new MemoryStream())
                 {
@@ -127,6 +133,17 @@ namespace Web_App.Rest.Authorization.Services
                     return byteArray;
                 }
             }
+/*            using (Bitmap image = new Bitmap("Rest/User/Assets/userPhoto.png"))
+            {
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    image.Save(stream, ImageFormat.Png);
+
+                    byte[] byteArray = stream.ToArray();
+
+                    return byteArray;
+                }
+            }*/
         }
 
         public bool checkUsername(string username)
