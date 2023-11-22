@@ -24,7 +24,6 @@ namespace Web_App.Rest.Order.Controller
             _orderService = new OrderService(_conf);
             _tokenService = new TokenService(_conf);
         }
-
         [HttpPost]
         [Route("addorder")]
         public IActionResult addOrder(OrderRequestModel orderRequestModel)
