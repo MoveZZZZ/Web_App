@@ -134,18 +134,6 @@ namespace Web_App.Rest.Authorization.Services
                     return byteArray;
                 }
             }
-
-            /*            using (Bitmap image = new Bitmap("Rest/User/Assets/userPhoto.png"))
-                        {
-                            using (MemoryStream stream = new MemoryStream())
-                            {
-                                image.Save(stream, ImageFormat.Png);
-
-                                byte[] byteArray = stream.ToArray();
-
-                                return byteArray;
-                            }
-                        }*/
         }
 
         public bool checkUsername(string username)

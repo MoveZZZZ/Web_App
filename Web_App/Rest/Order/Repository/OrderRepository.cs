@@ -80,7 +80,7 @@ namespace Web_App.Rest.Order.Repository
             {
                 connection.Open();
                 command.Connection = connection;
-                command.CommandText = "SELECT order_id, username, date_create FROM `order_removed_user`";
+                command.CommandText = "SELECT order_id, username, date_create, comment FROM `order_removed_user`";
                 adapter.SelectCommand = command;
                 adapter.Fill(table);
             }
@@ -89,7 +89,7 @@ namespace Web_App.Rest.Order.Repository
                 _model = new AllOrderAdminModel();
                 _model.OrderID = Convert.ToInt32(row["order_id"].ToString());
                 _model.UserEmail = row["username"].ToString();
-                _model.Status = "Arvhive";
+                _model.Status = row["comment"].ToString();
                 _model.DateTime = Convert.ToDateTime(row["date_create"].ToString());
                 _data.Add(_model);
             }
@@ -604,6 +604,64 @@ namespace Web_App.Rest.Order.Repository
                 command.Parameters.Add("@orderid", MySqlDbType.Int32).Value = orderID;
                 command.ExecuteNonQuery();
             }
+        }
+        public List<AllOrderAdminModel> getAllOrderArchiveRemovedUser()
+        {
+            List<AllOrderAdminModel> _data = new List<AllOrderAdminModel>();
+            AllOrderAdminModel _model;
+
+
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            DataTable table = new DataTable();
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "SELECT order_id, username, date_create, comment FROM `order_removed_user` WHERE comment=@comm";
+                command.Parameters.Add("@comm", MySqlDbType.VarChar).Value = "Removed user";
+                adapter.SelectCommand = command;
+                adapter.Fill(table);
+            }
+            foreach (DataRow row in table.Rows)
+            {
+                _model = new AllOrderAdminModel();
+                _model.OrderID = Convert.ToInt32(row["order_id"].ToString());
+                _model.UserEmail = row["username"].ToString();
+                _model.Status = row["comment"].ToString();
+                _model.DateTime = Convert.ToDateTime(row["date_create"].ToString());
+                _data.Add(_model);
+            }
+            return _data;
+        }
+        public List<AllOrderAdminModel> getAllOrderArchivePotentialAttack()
+        {
+            List<AllOrderAdminModel> _data = new List<AllOrderAdminModel>();
+            AllOrderAdminModel _model;
+
+
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            DataTable table = new DataTable();
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "SELECT order_id, username, date_create, comment FROM `order_removed_user` WHERE comment=@comm";
+                command.Parameters.Add("@comm", MySqlDbType.VarChar).Value = "Potential attack";
+                adapter.SelectCommand = command;
+                adapter.Fill(table);
+            }
+            foreach (DataRow row in table.Rows)
+            {
+                _model = new AllOrderAdminModel();
+                _model.OrderID = Convert.ToInt32(row["order_id"].ToString());
+                _model.UserEmail = row["username"].ToString();
+                _model.Status = row["comment"].ToString();
+                _model.DateTime = Convert.ToDateTime(row["date_create"].ToString());
+                _data.Add(_model);
+            }
+            return _data;
         }
     }
 }

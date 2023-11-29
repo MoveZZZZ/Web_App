@@ -24,6 +24,8 @@ namespace Web_App.Rest.Order.Repository
         public List<AllOrderAdminModel> getAllOrderThisDay();
         public List<AllOrderAdminModel> getAllOrderThisMonath();
         public List<AllOrderAdminModel> getAllOrderThisYear();
+        public List<AllOrderAdminModel> getAllOrderArchiveRemovedUser();
+        public List<AllOrderAdminModel> getAllOrderArchivePotentialAttack();
 
     }
 }

@@ -263,5 +263,17 @@ namespace Web_App.Rest.Order.Service
             _userOrders = _orderRepository.getAllOrderThisYear();
             return _userOrders;
         }
+        public List<AllOrderAdminModel> getAllArchiveOrdersRemovedUser()
+        {
+            List<AllOrderAdminModel> _userOrders = new List<AllOrderAdminModel>();
+            _userOrders = _orderRepository.getAllOrderArchiveRemovedUser();
+            return _userOrders;
+        }
+        public List<AllOrderAdminModel> getAllArchiveOrdersPotentialAttack()
+        {
+            List<AllOrderAdminModel> _userOrders = new List<AllOrderAdminModel>();
+            _userOrders = _orderRepository.getAllOrderArchivePotentialAttack();
+            return _userOrders;
+        }
     }
 }

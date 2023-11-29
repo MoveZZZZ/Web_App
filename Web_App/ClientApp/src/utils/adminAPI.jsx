@@ -124,3 +124,17 @@ export const fetchAllOrdersThisYear = async () => {
     };
     return fetchWithAuthentication(api, params);
 }
+export const fetchAllOrdersArchiveRemovedUser = async () => {
+    const api = `${process.env.REACT_APP_API_IP}/order/admin/getallarchiveorder/removeduser`;
+    const params = {
+        credentials: 'include',
+    };
+    return fetchWithAuthentication(api, params);
+}
+export const fetchAllOrdersArchivePotentialAttack = async () => {
+    const api = `${process.env.REACT_APP_API_IP}/order/admin/getallarchiveorder/potetntialattack`;
+    const params = {
+        credentials: 'include',
+    };
+    return fetchWithAuthentication(api, params);
+}

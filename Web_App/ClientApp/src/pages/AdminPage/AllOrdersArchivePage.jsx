@@ -1,5 +1,5 @@
 ﻿import React, { useState, useEffect, } from 'react';
-import { fetchAllArchiveOrders, fetchAllArchiveOrderByUsername } from "../../utils/adminAPI"
+import { fetchAllArchiveOrders, fetchAllArchiveOrderByUsername, fetchAllOrdersArchiveRemovedUser, fetchAllOrdersArchivePotentialAttack } from "../../utils/adminAPI"
 import { Link } from 'react-router-dom';
 import _ from "lodash";
 import Spinner from '../../components/Spinner/Spinner';
@@ -10,13 +10,14 @@ const AllOrdersArchivePage = () => {
     const [ordersList, setOrdersList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
-
+    const [sortList, setSortList] = useState(["Removed User", "Potential Attack"])
     const [searchQuery, setSearchQuery] = useState('');
 
     const handleOrdersUser = async () => {
         fetchAllArchiveOrders()
             .then((data) => {
                 setOrdersList(data);
+                setIsLoading(true);
             })
             .catch((error) => {
                 console.error('Error fetching products:', error);
@@ -49,6 +50,48 @@ const AllOrdersArchivePage = () => {
         }
     };
 
+    const getAllOrderRemovedUser = async () => {
+        fetchAllOrdersArchiveRemovedUser()
+            .then((data) => {
+                setOrdersList(data);
+                setIsLoading(true);
+            })
+            .catch((error) => {
+                console.error(error);
+            })
+            .finally(() => {
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 1000)
+            })
+    }
+    const getAllOrderPotetntialAttack = async () => {
+        fetchAllOrdersArchivePotentialAttack()
+            .then((data) => {
+                setOrdersList(data);
+                setIsLoading(true);
+            })
+            .catch((error) => {
+                console.error(error);
+            })
+            .finally(() => {
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 1000)
+            })
+    }
+
+    const handleSort = async (event) => {
+        const option = event.target.value;
+        if (option === "Removed User")
+            getAllOrderRemovedUser();
+        else if (option === "Potential Attack")
+            getAllOrderPotetntialAttack();
+        else
+            console.log(option);
+            handleOrdersUser();
+    }
+
     useEffect(() => {
         searchOrderByUsername(searchQuery);
     }, [searchQuery]);
@@ -67,6 +110,16 @@ const AllOrdersArchivePage = () => {
                 </div>
                 <div className="flex items-center justify-between">
                     <div className="flex bg-gray-50 items-center p-2 rounded-md">
+                        <div>
+                            <select className="w-40 max-sm:w-20 mx-24 text-primary-400 bg-white border rounded-md 
+                                        shadow-sm outline-none appearance-none focus:border-secondary text-center py-2 bg-white text-xs"
+                                onChange={handleSort}>
+                                <option key="All time">All</option>
+                                {sortList.map((sort) => (
+                                    <option key={sort}>{sort}</option>
+                                ))}
+                            </select>
+                        </div>
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20"
                             fill="currentColor">
                             <path fillRule="evenodd"
@@ -156,8 +209,13 @@ const AllOrdersArchivePage = () => {
                                                     >
                                                         <span
                                                             className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                                            <span aria-hidden
-                                                                className="absolute inset-0 bg-primary-300 opacity-50 rounded-full"></span>
+                                                            {item.status === "Potential attack" ?
+                                                                <span aria-hidden
+                                                                    className="absolute inset-0 bg-yellow opacity-50 rounded-full"></span>
+                                                                :
+                                                                <span aria-hidden
+                                                                    className="absolute inset-0 bg-primary-300 opacity-50 rounded-full"></span>
+                                                            }
                                                             <span className="relative">{item.status}</span>
                                                         </span>
                                                     </Link>
