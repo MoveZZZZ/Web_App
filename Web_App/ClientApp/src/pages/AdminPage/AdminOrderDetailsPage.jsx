@@ -12,11 +12,10 @@ const AdminOrderDetailsPage = () => {
 
     const handleOrderDetails = async () => {
         setIsLoading(true);
-        fetchOrderDetailsAdmin(location.state.orderID, location.state.userEmail)
+        await fetchOrderDetailsAdmin(location.state.orderID, location.state.userEmail)
             .then((data) => {
                 setOrderDetailData(data);
                 setorderDetailProducts(data.productOrderList);
-
             })
             .catch((error) => {
                 console.error('Error fetching products:', error);
@@ -103,8 +102,13 @@ const AdminOrderDetailsPage = () => {
                                     <div className="flex justify-center text-gray-800 dark:text-white md:justify-start items-center space-x-4 py-4 border-b border-gray-200 w-full">
                                         <span
                                             className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                            <span aria-hidden
-                                                className="absolute inset-0 bg-greenLight opacity-50 rounded-full"></span>
+                                            {orderDetailData.status === "Potential attack" ?
+                                                <span aria-hidden
+                                                    className="absolute inset-0 bg-yellow opacity-50 rounded-full"></span>
+                                                :
+                                                <span aria-hidden
+                                                    className="absolute inset-0 bg-primary-300 opacity-50 rounded-full"></span>
+                                            }
                                             <span className="relative">{orderDetailData.status}</span>
                                         </span>
 

@@ -526,7 +526,7 @@ namespace Web_App.Rest.Order.Repository
             {
                 connection.Open();
                 command.Connection = connection;
-                command.CommandText = "SELECT `order_removed_user`.cost, `order_removed_user`.name, `order_removed_user`.lastname, `order_removed_user`.phone, access_point.state, access_point.city, access_point.street, access_point.building_num, access_point.post_index FROM `order_removed_user` JOIN access_point ON `order_removed_user`.ap_id=access_point.id WHERE `order_removed_user`.order_id=@orderid AND `order_removed_user`.username=@username;";
+                command.CommandText = "SELECT `order_removed_user`.cost, `order_removed_user`.name, `order_removed_user`.lastname, `order_removed_user`.phone,`order_removed_user`.comment, access_point.state, access_point.city, access_point.street, access_point.building_num, access_point.post_index FROM `order_removed_user` JOIN access_point ON `order_removed_user`.ap_id=access_point.id WHERE `order_removed_user`.order_id=@orderid AND `order_removed_user`.username=@username;";
                 command.Parameters.Add("@orderid", MySqlDbType.Int32).Value = orderID;
                 command.Parameters.Add("@username", MySqlDbType.VarChar).Value = username;
                 adapter.SelectCommand = command;
@@ -536,7 +536,7 @@ namespace Web_App.Rest.Order.Repository
             {
 
                 orderModel.OrderID = orderID;
-                orderModel.Status = "Archive";
+                orderModel.Status = row["comment"].ToString();
                 orderModel.Cost = Convert.ToDouble(row["cost"].ToString());
                 orderModel.ClientName = row["name"].ToString();
                 orderModel.ClientLastname = row["lastname"].ToString();
