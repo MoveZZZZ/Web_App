@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using MySqlX.XDevAPI;
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 using Web_App.Rest.JWT.Identity;
 using Web_App.Rest.JWT.Services;
 using Web_App.Rest.Order.Model;
@@ -209,6 +210,24 @@ namespace Web_App.Rest.Order.Controller
         {
             List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
             model = _orderService.getAllOrdersThisYear();
+            return Ok(model);
+        }
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
+        [HttpGet]
+        [Route("admin/getallarchiveorder/removeduser")]
+        public IActionResult getAllOrderArchiveRemovedUser()
+        {
+            List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
+            model = _orderService.getAllArchiveOrdersRemovedUser();
+            return Ok(model);
+        }
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
+        [HttpGet]
+        [Route("admin/getallarchiveorder/potetntialattack")]
+        public IActionResult getAllOrderArchivePotentialAttack()
+        {
+            List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
+            model = _orderService.getAllArchiveOrdersPotentialAttack();
             return Ok(model);
         }
     }
