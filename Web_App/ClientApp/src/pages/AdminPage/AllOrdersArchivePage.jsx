@@ -16,6 +16,7 @@ const AllOrdersArchivePage = () => {
     const handleOrdersUser = async () => {
         fetchAllArchiveOrders()
             .then((data) => {
+                setOrdersList([]);
                 setOrdersList(data);
                 setIsLoading(true);
             })
@@ -53,6 +54,7 @@ const AllOrdersArchivePage = () => {
     const getAllOrderRemovedUser = async () => {
         fetchAllOrdersArchiveRemovedUser()
             .then((data) => {
+                setOrdersList([]);
                 setOrdersList(data);
                 setIsLoading(true);
             })
@@ -68,6 +70,7 @@ const AllOrdersArchivePage = () => {
     const getAllOrderPotetntialAttack = async () => {
         fetchAllOrdersArchivePotentialAttack()
             .then((data) => {
+                setOrdersList([]);
                 setOrdersList(data);
                 setIsLoading(true);
             })
@@ -88,7 +91,6 @@ const AllOrdersArchivePage = () => {
         else if (option === "Potential Attack")
             getAllOrderPotetntialAttack();
         else
-            console.log(option);
             handleOrdersUser();
     }
 
