@@ -118,7 +118,7 @@ namespace Web_App.Rest.Order.Repository
                 _model = new AllOrderAdminModel();
                 _model.OrderID = Convert.ToInt32(row["order_id"].ToString());
                 _model.UserEmail = row["username"].ToString();
-                _model.Status = "Arvhive";
+                _model.Status = row["comment"].ToString();
                 _model.DateTime = Convert.ToDateTime(row["date_create"].ToString());
                 _data.Add(_model);
             }
