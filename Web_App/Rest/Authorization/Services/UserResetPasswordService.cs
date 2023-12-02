@@ -24,7 +24,7 @@ namespace Web_App.Rest.Authorization.Services
             _mailSendingService = new MailSendingService(conf);
             _resetPasswordRepository = new UserResetPasswordRepository();
             _userAuth = new UserAuthorizationRepository();
-            _userRegistrationService = new UserRegistrationService();
+            _userRegistrationService = new UserRegistrationService(conf);
         }
 
         public string checkExistUID(string uid)
@@ -33,16 +33,25 @@ namespace Web_App.Rest.Authorization.Services
                 return "Valid!";
             return "No valid!";
         }
-        public void processingUserResetPasswordRequest(string email)
+        public bool processingUserResetPasswordRequest(string email)
         {
             ResetPasswordModel user = createResetLink(email);
+            if (user.UID == null)
+            {
+                return false;
+            }
             _mailSendingService.SendMailWithRecoveryLink(user.Email, user.UID);
+            return true;
         }
 
         private ResetPasswordModel createResetLink(string email)
         {
             ResetPasswordModel reset = new ResetPasswordModel();
             UserModel user = _userAuth.getUserDataFromDBviaEmail(email);
+            if (_resetPasswordRepository.isRequestForIdExists(user.Id))
+            {
+                return reset;
+            }
             Random rand = new Random();
             int payload = rand.Next(1000000, 9999999);
             string mergedData = user.Password + Convert.ToString(payload) + user.Email;
@@ -52,6 +61,8 @@ namespace Web_App.Rest.Authorization.Services
             reset.Email = email;
             return reset;
         }
+
+
 
         static string CalculateSHA512Hash(string input)
         {
@@ -68,7 +79,7 @@ namespace Web_App.Rest.Authorization.Services
                 return hashBuilder.ToString();
             }
         }
-        public string ChangePaswwordUser (string password, string confirm, string uid)
+        public string ChangePaswwordUser(string password, string confirm, string uid)
         {
             if (_userRegistrationService.checkSamePassword(password, confirm))
                 return "Password must be same!";

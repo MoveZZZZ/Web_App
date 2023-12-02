@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Drawing;
 using Web_App.Rest.Cart.Model;
@@ -7,9 +8,11 @@ using Web_App.Rest.JWT.Services;
 
 namespace Web_App.Rest.Cart.Controller
 {
+    [EnableCors("AllowSpecificOrigins")]
     [Route("[controller]")]
     [ApiController]
-    public class CartController:ControllerBase
+    [Authorize]
+    public class CartController : ControllerBase
     {
         CartService _cartService;
         private readonly ITokenService _tokenService;
@@ -19,7 +22,6 @@ namespace Web_App.Rest.Cart.Controller
             _tokenService = new TokenService(_conf);
         }
 
-        [Authorize]
         [HttpGet]
         [Route("getlistcart")]
         public IActionResult GetCartItemsList([FromQuery] int userID)
@@ -30,12 +32,11 @@ namespace Web_App.Rest.Cart.Controller
                 return BadRequest(new { message = "UnAuthorized Attempt to Access Data belong to Other User!" });
             }
             List<CartModelResponse> response = new List<CartModelResponse>();
-            response= _cartService.getCartItem(userID);
+            response = _cartService.getCartItem(userID);
 
-            return Ok( new {Towar = response});
+            return Ok(new { Towar = response });
         }
 
-        [Authorize]
         [HttpGet]
         [Route("getindexlistcart")]
         public IActionResult GetIndexCartList([FromQuery] int userID)
@@ -46,11 +47,10 @@ namespace Web_App.Rest.Cart.Controller
                 return BadRequest(new { message = "UnAuthorized Attempt to Access Data belong to Other User!" });
             }
             List<int> response = new List<int>();
-            response=_cartService.getCartIndexesUser(userID);
-            return Ok(new {cartIndexesList = response});
+            response = _cartService.getCartIndexesUser(userID);
+            return Ok(new { cartIndexesList = response });
         }
 
-        [Authorize]
         [HttpPost]
         [Route("addtocart")]
         public IActionResult AddToCart([FromBody] CartModelRequest model)
@@ -61,10 +61,9 @@ namespace Web_App.Rest.Cart.Controller
                 return BadRequest(new { message = "UnAuthorized Attempt to Access Data belong to Other User!" });
             }
             _cartService.addTowarInCart(model);
-            return Ok(new {message = "zaebis!"});
+            return Ok(new { message = "zaebis!" });
         }
 
-        //[Authorize]
         [HttpPost]
         [Route("removefromcart")]
         public IActionResult RemoveItemFromCart([FromBody] CartModelRequest model)
@@ -75,7 +74,6 @@ namespace Web_App.Rest.Cart.Controller
                 return BadRequest(new { message = "UnAuthorized Attempt to Access Data belong to Other User!" });
             }
             _cartService.removeTowarFromCart(model);
-
             return Ok(new { message = "jebnia!" });
         }
     }

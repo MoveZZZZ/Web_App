@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.Contracts;
 using System.Drawing;
@@ -8,8 +9,10 @@ using Web_App.Rest.JWT.Services;
 
 namespace Web_App.Rest.Favorite.Controller
 {
+    [EnableCors("AllowSpecificOrigins")]
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class FavoriteController : ControllerBase
     {
         FavoriteService _favoriteService;
@@ -20,7 +23,6 @@ namespace Web_App.Rest.Favorite.Controller
             _tokenService = new TokenService(_conf);
         }
 
-        [Authorize]
         [HttpPost]
         [Route("addfavorite")]
         public IActionResult AddFavorite([FromBody] FavoriteRequestModel model)
@@ -31,10 +33,9 @@ namespace Web_App.Rest.Favorite.Controller
                 return BadRequest(new { message = "UnAuthorized Attempt to Access Data belong to Other User!" });
             }
             _favoriteService.addToFavorite(model);
-            return Ok(new {message = "Added successfully" });
+            return Ok(new { message = "Added successfully" });
         }
 
-        [Authorize]
         [HttpGet]
         [Route("getlistfavorite")]
         public IActionResult GetIndexFavorite([FromQuery] int clientId)
@@ -49,7 +50,7 @@ namespace Web_App.Rest.Favorite.Controller
             return Ok(new { ListIndex = indexes });
         }
 
-        [Authorize]
+
         [HttpPost]
         [Route("removefavoriteitem")]
         public IActionResult RemoveFavoriteItem([FromBody] FavoriteRequestModel model)
@@ -63,7 +64,6 @@ namespace Web_App.Rest.Favorite.Controller
             return Ok(new { message = "Deleted successfully" });
         }
 
-        [Authorize]
         [HttpGet]
         [Route("getallfavoriteuser")]
         public IActionResult GetAllFavoriteItem(int userID)
@@ -75,12 +75,8 @@ namespace Web_App.Rest.Favorite.Controller
             }
             List<FavoritePageResponseModel> response = new List<FavoritePageResponseModel>();
             response = _favoriteService.getAllUserFavorite(userID);
-            float sum = response.Sum(t => t.Cost);
-
+            double sum = response.Sum(t => t.Cost);
             return Ok(new { towars = response, summary = sum });
         }
     }
-
-
-
 }

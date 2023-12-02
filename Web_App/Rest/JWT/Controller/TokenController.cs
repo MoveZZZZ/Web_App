@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using MySql.Data.MySqlClient;
@@ -11,7 +12,7 @@ using Web_App.Rest.JWT.Model;
 using Web_App.Rest.JWT.Services;
 using Web_App.Rest.User.Models;
 
-
+[EnableCors("AllowSpecificOrigins")]
 [Route("[controller]")]
 [ApiController]
 public class TokenController : ControllerBase
@@ -27,19 +28,19 @@ public class TokenController : ControllerBase
     public IActionResult AccessTokenRenew()
     {
         RefreshTokenModel _response = null;
-        try 
-        { 
-            _response = _tokenService.RenewTokensProcessingService(Request.Cookies["RefreshToken"]); 
-        }
-        catch (Exception ex) 
-        { 
-            return BadRequest(new { message = "Invalid token" }); 
-        }
-        if(_response != null && _response.UserID != 0)
+        try
         {
-            this.Response.Cookies.Append("AccessToken",  _response.UserToken, new CookieOptions()
+            _response = _tokenService.RenewTokensProcessingService(Request.Cookies["RefreshToken"]);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = "Invalid token" });
+        }
+        if (_response != null && _response.UserID != 0)
+        {
+            this.Response.Cookies.Append("AccessToken", _response.UserToken, new CookieOptions()
             {
-                Expires = DateTimeOffset.Now.AddMinutes(2),
+                Expires = DateTimeOffset.Now.AddSeconds(30),
                 Path = "/",
                 HttpOnly = true,
                 Domain = null,
@@ -49,7 +50,7 @@ public class TokenController : ControllerBase
             });
             this.Response.Cookies.Append("RefreshToken", _response.UserRefreshToken, new CookieOptions()
             {
-                Expires = DateTimeOffset.Now.AddMinutes(4800),
+                Expires = DateTimeOffset.Now.AddMinutes(2880),
                 Path = "/token/",
                 HttpOnly = true,
                 Domain = null,
@@ -79,7 +80,7 @@ public class TokenController : ControllerBase
             Secure = true,
             SameSite = SameSiteMode.Strict
         });
-        return Unauthorized(new { message = "Invalid token" });  
+        return BadRequest(new { message = "Invalid token" });
     }
 
     [HttpGet("logout")]

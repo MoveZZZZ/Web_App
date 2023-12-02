@@ -36,7 +36,7 @@ namespace Web_App.Rest.Product.Repository
                 product.Id = Convert.ToInt32(row[0].ToString());
                 product.Name = row[1].ToString();
                 product.Description = row[2].ToString();
-                product.Cost = Convert.ToInt32(row[3].ToString());
+                product.Cost = Convert.ToDouble(row[3].ToString());
                 product.ImageUrl = (byte[])row["image"];
                 product.Count = Convert.ToInt32(row[5].ToString());
                 products.Add(product);
@@ -68,7 +68,7 @@ namespace Web_App.Rest.Product.Repository
                 command.CommandText = "INSERT INTO products(`name`, `description`, `cost`, `image`, `count`) VALUES(@name, @des, @cost, @img, @cnt)";
                 command.Parameters.Add("@name", MySqlDbType.VarChar).Value = model.Name;
                 command.Parameters.Add("@des", MySqlDbType.TinyText).Value = model.Description;
-                command.Parameters.Add("@cost", MySqlDbType.Float).Value = model.Cost;
+                command.Parameters.Add("@cost", MySqlDbType.Double).Value = model.Cost;
                 command.Parameters.Add("@img", MySqlDbType.Blob).Value = model.ImageUrl;
                 command.Parameters.Add("@cnt", MySqlDbType.Int32).Value = model.Count;
                 command.ExecuteNonQuery();
@@ -96,7 +96,7 @@ namespace Web_App.Rest.Product.Repository
                 product.Id = Convert.ToInt32(row[0].ToString());
                 product.Name = row[1].ToString();
                 product.Description = row[2].ToString();
-                product.Cost = Convert.ToInt32(row[3].ToString());
+                product.Cost = Convert.ToDouble(row[3].ToString());
                 product.ImageUrl = (byte[])row["image"];
                 product.Count = Convert.ToInt32(row[5].ToString());
             }
@@ -126,7 +126,7 @@ namespace Web_App.Rest.Product.Repository
                 product.Id = Convert.ToInt32(row[0].ToString());
                 product.Name = row[1].ToString();
                 product.Description = row[2].ToString();
-                product.Cost = Convert.ToInt32(row[3].ToString());
+                product.Cost = Convert.ToDouble(row[3].ToString());
                 product.ImageUrl = (byte[])row["image"];
                 product.Count = Convert.ToInt32(row[5].ToString());
                 products.Add(product);
@@ -140,7 +140,7 @@ namespace Web_App.Rest.Product.Repository
             {
                 connection.Open();
                 command.Connection = connection;
-                command.CommandText = "UPDATE products SET count=count-@ordercount WHERE id=@pid";
+                command.CommandText = "UPDATE products SET count=count-@ordercount WHERE id=@pid AND count-@ordercount>-1";
                 command.Parameters.Add("@ordercount", MySqlDbType.Int32).Value = orderCountProduct;
                 command.Parameters.Add("@pid", MySqlDbType.Int32).Value = productID;
                 command.ExecuteNonQuery();
@@ -153,12 +153,12 @@ namespace Web_App.Rest.Product.Repository
             {
                 connection.Open();
                 command.Connection = connection;
-                if(model.ImageUrl != null)
+                if (model.ImageUrl != null)
                 {
                     command.CommandText = "UPDATE products SET description=@desc, cost=@cost, image=@img, count=@count WHERE id=@id";
                     command.Parameters.Add("@id", MySqlDbType.Int32).Value = model.Id;
                     command.Parameters.Add("@desc", MySqlDbType.MediumText).Value = model.Description;
-                    command.Parameters.Add("@cost", MySqlDbType.Float).Value = model.Cost;
+                    command.Parameters.Add("@cost", MySqlDbType.Double).Value = model.Cost;
                     command.Parameters.Add("@img", MySqlDbType.LongBlob).Value = model.ImageUrl;
                     command.Parameters.Add("@count", MySqlDbType.Int32).Value = model.Count;
                     command.ExecuteNonQuery();
@@ -168,12 +168,54 @@ namespace Web_App.Rest.Product.Repository
                     command.CommandText = "UPDATE products SET description=@desc, cost=@cost, count=@count WHERE id=@id";
                     command.Parameters.Add("@id", MySqlDbType.Int32).Value = model.Id;
                     command.Parameters.Add("@desc", MySqlDbType.MediumText).Value = model.Description;
-                    command.Parameters.Add("@cost", MySqlDbType.Float).Value = model.Cost;
+                    command.Parameters.Add("@cost", MySqlDbType.Double).Value = model.Cost;
                     command.Parameters.Add("@count", MySqlDbType.Int32).Value = model.Count;
                     command.ExecuteNonQuery();
                 }
-               
+
             }
+        }
+        public List<ProductModel> getTop3View()
+        {
+            List<ProductModel> products = new List<ProductModel>();
+            ProductModel product;
+
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            DataTable table = new DataTable();
+
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "SELECT * FROM top_3_products";
+                adapter.SelectCommand = command;
+                adapter.Fill(table);
+            }
+            foreach (DataRow row in table.Rows)
+            {
+                product = new ProductModel();
+                product.Id = Convert.ToInt32(row["id"].ToString());
+                product.Name = row["name"].ToString();
+                product.ImageUrl = (byte[])row["image"];
+                products.Add(product);
+            }
+            return products;
+        }
+        public bool isCountCurrent (int id, int count)
+        {
+            bool isExist;
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "SELECT * FROM products WHERE id=@id AND count-@count>-1";
+                command.Parameters.Add("@id", MySqlDbType.Int32).Value = id;
+                command.Parameters.Add("@count", MySqlDbType.Int32).Value = count;
+                isExist = command.ExecuteScalar() == null ? false : true;
+            }
+            return isExist;
         }
     }
 }

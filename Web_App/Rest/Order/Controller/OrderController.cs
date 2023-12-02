@@ -1,8 +1,10 @@
 ﻿using Braintree.Exceptions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using MySqlX.XDevAPI;
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 using Web_App.Rest.JWT.Identity;
 using Web_App.Rest.JWT.Services;
 using Web_App.Rest.Order.Model;
@@ -10,6 +12,7 @@ using Web_App.Rest.Order.Service;
 
 namespace Web_App.Rest.Order.Controller
 {
+    [EnableCors("AllowSpecificOrigins")]
     [Route("order")]
     [ApiController]
     [Authorize]
@@ -19,10 +22,9 @@ namespace Web_App.Rest.Order.Controller
         private OrderService _orderService;
         public OrderController(IConfiguration _conf)
         {
-            _orderService = new OrderService();
+            _orderService = new OrderService(_conf);
             _tokenService = new TokenService(_conf);
         }
-
         [HttpPost]
         [Route("addorder")]
         public IActionResult addOrder(OrderRequestModel orderRequestModel)
@@ -32,13 +34,22 @@ namespace Web_App.Rest.Order.Controller
             {
                 return BadRequest(new { message = "UnAuthorized Attempt to Access Data belong to Other User!" });
             }
+            string msgCount = _orderService.checkTowarCountBeforAdd(orderRequestModel);
+            string msg = _orderService.checkDataOrder(orderRequestModel);
+            if (msg != "")
+                return Ok(new { message = msg });
+            if (msgCount != "")
+            {
+                _orderService.removeBadTowarCountList();
+                return Ok(new { message = msgCount });
+            }
             _orderService.addOrderToDB(orderRequestModel);
             _orderService.addOrderProductToTable(orderRequestModel.TowarCount);
             _orderService.removeProductFromCart();
             _orderService.updateCountProducts(orderRequestModel.TowarCount, orderRequestModel.TowarIdList);
-
-            return Ok(new { Message = "Zajebis" });
+            return Ok(new { message = "" });
         }
+
         [HttpGet]
         public IActionResult getOrderDetails([FromQuery] int orderID, int clientID)
         {
@@ -51,62 +62,63 @@ namespace Web_App.Rest.Order.Controller
             orderDetailsModel = _orderService.getOrderDetailsModel(orderID, clientID);
             return Ok(orderDetailsModel);
         }
+
         [HttpGet]
         [Route("getallordersuser")]
-        public IActionResult getOrdersUser([FromQuery] int  userID)
+        public IActionResult getOrdersUser([FromQuery] int userID)
         {
             string token = Request.Cookies["AccessToken"];
             if (!_tokenService.IDQueryTokenVerificator(userID, token))
             {
                 return BadRequest(new { message = "UnAuthorized Attempt to Access Data belong to Other User!" });
             }
-            List <OrdersUserModel> model = new List <OrdersUserModel>();
+            List<OrdersUserModel> model = new List<OrdersUserModel>();
             model = _orderService.getOrdersUsers(userID);
-
-
             return Ok(model);
         }
 
-        [Authorize]
-        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")] 
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
         [HttpGet]
         [Route("admin/getallorder")]
-        public IActionResult getAllOrders([FromQuery] int userID)
+        public IActionResult getAllOrders()
         {
-
             List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
             model = _orderService.getAllOrders();
-
-
             return Ok(model);
         }
-        [Authorize]
+
         [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
-        [HttpGet]
+        [HttpPost]
         [Route("admin/getallorderbyemail")]
-        public IActionResult getAllOrdersByEmail([FromQuery] string userEmail)
+        public IActionResult getAllOrdersByEmail([FromBody] OrderUserDataModel userModel)
         {
-
             List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
-
-            model = _orderService.getAllOrdersByUserEmail(userEmail);
-
-
+            model = _orderService.getAllOrdersByUserEmail(userModel.email);
             return Ok(model);
         }
-        [Authorize]
+
         [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
-        [HttpGet]
+        [HttpPost]
         [Route("admin/orderdetails")]
-        public IActionResult getOrderDetailsAdmin([FromQuery] int orderID, string emailUser)
+        public IActionResult getOrderDetailsAdmin([FromBody] OrderUserDataModel userModel)
         {
             OrderDetailsModel orderDetailsModel = new OrderDetailsModel();
-            orderDetailsModel = _orderService.getOrderDetailsModelAdmin(orderID, emailUser);
+            orderDetailsModel = _orderService.getOrderDetailsModelAdmin(Convert.ToInt32(userModel.orderID), userModel.email, "");
             return Ok(orderDetailsModel);
         }
-        [Authorize]
+
         [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
-        [HttpDelete]
+        [HttpGet]
+        [Route("admin/orderdetails/archive")]
+        public IActionResult getOrderDetailsArchiveAdmin([FromQuery] int orderID, string username)
+        {
+            OrderDetailsModel orderDetailsModel = new OrderDetailsModel();
+            orderDetailsModel = _orderService.getOrderDetailsModelAdmin(orderID, "" ,username);
+            return Ok(orderDetailsModel);
+        }
+
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
+        [HttpPost]
         [Route("admin/removeorder")]
         public IActionResult removeOrderAdmin([FromQuery] int orderID)
         {
@@ -119,8 +131,104 @@ namespace Web_App.Rest.Order.Controller
             {
                 return StatusCode(500);
             }
-           
         }
 
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
+        [HttpGet]
+        [Route("admin/getallarchiveorder")]
+        public IActionResult getAllOrdersArchiveAdmin()
+        {
+            List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
+            model = _orderService.getAllArchiveOrders();
+            return Ok(model);
+        }
+
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
+        [HttpGet]
+        [Route("admin/getallarchiveorder/searchusername")]
+        public IActionResult getAllOrdersArchiveByUsernameAdmin([FromQuery] string username)
+        {
+            List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
+            model = _orderService.getAllArchiveOrdersByUsername(username);
+            return Ok(model);
+        }
+
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
+        [HttpGet]
+        [Route("admin/getallorder/lastday")]
+        public IActionResult getAllOrdersLastDay()
+        {
+            List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
+            model = _orderService.getAllOrdersLastDay();
+            return Ok(model);
+        }
+
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
+        [HttpGet]
+        [Route("admin/getallorder/lastmonath")]
+        public IActionResult getAllOrdersLastMonath()
+        {
+            List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
+            model = _orderService.getAllOrdersLastMonath();
+            return Ok(model);
+        }
+
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
+        [HttpGet]
+        [Route("admin/getallorder/lastyear")]
+        public IActionResult getAllOrdersLastYear()
+        {
+            List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
+            model = _orderService.getAllOrdersLastYear();
+            return Ok(model);
+        }
+
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
+        [HttpGet]
+        [Route("admin/getallorder/today")]
+        public IActionResult getAllOrdersToday()
+        {
+            List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
+            model = _orderService.getAllOrdersToday();
+            return Ok(model);
+        }
+
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
+        [HttpGet]
+        [Route("admin/getallorder/thismonath")]
+        public IActionResult getAllOrdersThisMonath()
+        {
+            List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
+            model = _orderService.getAllOrdersThisMon();
+            return Ok(model);
+        }
+
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
+        [HttpGet]
+        [Route("admin/getallorder/thisyear")]
+        public IActionResult getAllOrdersThisYear()
+        {
+            List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
+            model = _orderService.getAllOrdersThisYear();
+            return Ok(model);
+        }
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
+        [HttpGet]
+        [Route("admin/getallarchiveorder/removeduser")]
+        public IActionResult getAllOrderArchiveRemovedUser()
+        {
+            List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
+            model = _orderService.getAllArchiveOrdersRemovedUser();
+            return Ok(model);
+        }
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
+        [HttpGet]
+        [Route("admin/getallarchiveorder/potetntialattack")]
+        public IActionResult getAllOrderArchivePotentialAttack()
+        {
+            List<AllOrderAdminModel> model = new List<AllOrderAdminModel>();
+            model = _orderService.getAllArchiveOrdersPotentialAttack();
+            return Ok(model);
+        }
     }
 }

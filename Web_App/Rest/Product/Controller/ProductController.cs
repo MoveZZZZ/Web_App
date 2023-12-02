@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Runtime.CompilerServices;
@@ -8,14 +9,15 @@ using Web_App.Rest.Product.Service;
 
 namespace Web_App.Rest.Product.Controller
 {
+    [EnableCors("AllowSpecificOrigins")]
     [Route("products")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
         ProductService _productService;
-        public ProductsController()
+        public ProductsController(IConfiguration _configuration)
         {
-            _productService = new ProductService();
+            _productService = new ProductService(_configuration);
         }
 
         [HttpGet]
@@ -47,34 +49,51 @@ namespace Web_App.Rest.Product.Controller
         [Route("addproduct")]
         public IActionResult AddProduct([FromForm] ProductRequestModel model)
         {
+            model.Cost = Math.Round(model.Cost, 2);
+            string msg = _productService.validateProductData(model);
+            if (msg != "")
+            {
+                return Ok(new { message = msg });
+            }
             ProductModel modelBase = new ProductModel();
             modelBase = _productService.createDBModelProduct(model);
             _productService.addTowar(modelBase);
-            return Ok();
+            return Ok(new { message = "" });
         }
 
         [HttpPost]
+        [Authorize]
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
         [Route("productdetails/admin/changeproduct")]
         public IActionResult ChangeDataProduct([FromForm] ProductUpdateModel model)
         {
+            model.Cost = Math.Round(model.Cost, 2);
             ProductModel modelBase = new ProductModel();
             modelBase = _productService.createDBModelProductUpdateProduct(model);
             _productService.updateTowar(modelBase);
             return Ok();
-
         }
+
         [HttpPost]
+        [Authorize]
+        [RequiresClaim(IdentityData.AdminUserClaimName, "ADMIN")]
         [Route("productdetails/admin/changeproductwithoutimage")]
         public IActionResult ChangeDataProductWithoutImage([FromForm] ProductUpdateWithoutImageModel model)
         {
+            model.Cost = Math.Round(model.Cost, 2);
             ProductModel modelBase = new ProductModel();
             modelBase = _productService.createDBModelProductUpdateProductWithoutImage(model);
             _productService.updateTowar(modelBase);
             return Ok();
-
         }
-
+        [HttpGet]
+        [Route("gettop3products")]
+        public IActionResult GetTopThreeProduct()
+        {
+            List <ProductModel> model = new List<ProductModel>();
+            model = _productService.getTopThreeProducts();
+            return Ok(model);
+        }
     }
-
 }
 

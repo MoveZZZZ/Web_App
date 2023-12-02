@@ -10,7 +10,7 @@ const Message = ({ param }) => {
                 icon={faCheck}
                 className="mr-4"
             />
-            { param }
+            {param}
         </p>
     </div>
     )
