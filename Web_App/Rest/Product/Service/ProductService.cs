@@ -50,6 +50,8 @@ namespace Web_App.Rest.Product.Service
         {
             if (model.Name.Length > 128)
                 return "Name has to long!";
+            if (model.Image.Length / (1024 * 1024) > 5)
+                return "Image has to long!";
             if (model.Description.Length > 16777215)
                 return "Description has to long!";
             if (!_userService.IsAllowedFileType(model.Image))
