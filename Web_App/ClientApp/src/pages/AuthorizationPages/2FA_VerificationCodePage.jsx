@@ -105,7 +105,7 @@ const MFAAuthPage = () => {
                                         value={code}
                                         onChange={(e) => setCode(e.target.value)}
                                         className="w-full px-4 py-3 pr-10 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none"
-                                        placeholder="Password*"
+                                        placeholder="Verification code*"
                                     />
                                 </div>
                             </div>
