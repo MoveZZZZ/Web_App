@@ -16,11 +16,11 @@ namespace Web_App.Rest.JWT.Identity
         public RequiresClaimAttribute(string claimName, string claimValue)
         {
             _claimName = claimName;
-            _claimValue = claimValue; 
+            _claimValue = claimValue;
         }
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            if(!roleValidator(context, _claimValue))
+            if (!roleValidator(context, _claimValue))
             {
                 context.Result = new ForbidResult();
             }
@@ -31,7 +31,7 @@ namespace Web_App.Rest.JWT.Identity
             var tokenHandler = new JwtSecurityTokenHandler();
             var securityToken = (JwtSecurityToken)tokenHandler.ReadToken(bearerToken);
             var claimValue = securityToken.Claims.FirstOrDefault((c => c.Type == "role"))?.Value;
-            if (claimValue != null) 
+            if (claimValue != null)
             {
                 if (claimValue == role)
                 {

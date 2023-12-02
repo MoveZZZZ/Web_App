@@ -1,7 +1,7 @@
-﻿import { fetchWithAuthentication, } from './AuthenticationLogic';
+﻿import { fetchWithAuthentication, } from './authenticationLogic';
 
-export const fetchCreateOrder = async (ClientID, TowarIdList, TowarCount, Cost, Ordercom, AccessPointId, PaymentMethod) => {
-    const api = 'https://localhost:7257/order/addorder';
+export const fetchCreateOrder = async (ClientID, TowarIdList, TowarCount, Cost, Ordercom, AccessPointId, PaymentMethod, ClientName, ClientLastName, Phone) => {
+    const api = `${process.env.REACT_APP_API_IP}/order/addorder`;
     const params =
     {
         method: 'POST',
@@ -9,13 +9,13 @@ export const fetchCreateOrder = async (ClientID, TowarIdList, TowarCount, Cost, 
             'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify({ ClientID, TowarIdList, TowarCount, Cost, Ordercom, AccessPointId, PaymentMethod })
+        body: JSON.stringify({ ClientID, TowarIdList, TowarCount, Cost, Ordercom, AccessPointId, PaymentMethod, ClientName, ClientLastName, Phone })
     };
     return fetchWithAuthentication(api, params);
 }
 
 export const fetchOrderDetails = async (orderID, clientID) => {
-    const api = `https://localhost:7257/order/?orderID=${orderID}&clientID=${clientID}`;
+    const api = `${process.env.REACT_APP_API_IP}/order/?orderID=${orderID}&clientID=${clientID}`;
     const params = {
         credentials: 'include',
     };
@@ -23,7 +23,7 @@ export const fetchOrderDetails = async (orderID, clientID) => {
 }
 
 export const fetchAllUserOrders = async (userID) => {
-    const api = `https://localhost:7257/order/getallordersuser?userID=${userID}`;
+    const api = `${process.env.REACT_APP_API_IP}/order/getallordersuser?userID=${userID}`;
     const params = {
         credentials: 'include',
     };

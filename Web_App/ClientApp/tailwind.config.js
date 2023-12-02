@@ -17,10 +17,17 @@ module.exports = {
             "background-color": "#FFFFFF",
             red: "#ff0000",
             greenLight: "#90EE90",
-            lightgrey:"#F2F2F2"
+            lightgrey:"#F2F2F2",
+            yellow: "#FFFF00"
             
         },
         extend: {
+            width: {
+                'xl': '40rem'
+            },
+            height: {
+                'xl': '30rem'
+            }
         },
 
     },

@@ -1,4 +1,4 @@
-﻿import { fetchWithAuthentication, } from './AuthenticationLogic';
+﻿import { fetchWithAuthentication, } from './authenticationLogic';
 //!
 export const fetchAddToCart = async (IdClient, IdTowar, TowarCount) => {
     const params = {
@@ -9,11 +9,11 @@ export const fetchAddToCart = async (IdClient, IdTowar, TowarCount) => {
         credentials: 'include',
         body: JSON.stringify({ IdClient, IdTowar, TowarCount }),
     }
-    return fetchWithAuthentication('https://localhost:7257/cart/addtocart', params);
+    return fetchWithAuthentication(`${process.env.REACT_APP_API_IP}/cart/addtocart`, params);
 }
 //!
 export const fetchGetAllClientCartItems = async (clientId) => {
-    return fetchWithAuthentication(`https://localhost:7257/cart/getlistcart?userID=${clientId}`, { credentials: 'include', });
+    return fetchWithAuthentication(`${process.env.REACT_APP_API_IP}/cart/getlistcart?userID=${clientId}`, { credentials: 'include', });
 }
 
 export const fetchRemoveFromCart = (IdClient, IdTowar) => {
@@ -25,7 +25,7 @@ export const fetchRemoveFromCart = (IdClient, IdTowar) => {
         credentials: 'include',
         body: JSON.stringify({ IdClient, IdTowar }),
     }
-    return fetchWithAuthentication('https://localhost:7257/cart/removefromcart', params);
+    return fetchWithAuthentication(`${process.env.REACT_APP_API_IP}/cart/removefromcart`, params);
 }
 
 
@@ -35,5 +35,5 @@ export const fetchGetAllIndexClientCart = (clientId) => {
         method: 'GET',
         credentials: 'include',
     }
-    return fetchWithAuthentication(`https://localhost:7257/cart/getindexlistcart?userID=${clientId}`, params);
+    return fetchWithAuthentication(`${process.env.REACT_APP_API_IP}/cart/getindexlistcart?userID=${clientId}`, params);
 }

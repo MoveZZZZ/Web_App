@@ -33,10 +33,55 @@ namespace Web_App.Rest.Authorization.Repositories
                 userModel.Password = row[2].ToString();
                 userModel.Email = row[3].ToString();
                 userModel.Role = row[4].ToString();
+                userModel.isBlocked = Convert.ToInt32(row[6].ToString());
             }
             return userModel;
         }
 
+        public int processAntiAutomationCheckDB(int ID)
+        {
+            int response = -2;
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            DataTable table = new DataTable();
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "SELECT web_base.sessionTime(@id)";
+                command.Parameters.Add("@id", MySqlDbType.Int32).Value = ID;
+                response = Convert.ToInt32(command.ExecuteScalar());
+            }
+            return response;
+        }
+        public bool activityRateLimiterCheck(int ID)
+        {
+            bool response = false;
+            MySqlDataAdapter adapter = new MySqlDataAdapter();
+            DataTable table = new DataTable();
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "SELECT web_base.activityHandler(@id)";
+                command.Parameters.Add("@id", MySqlDbType.Int32).Value = ID;
+                response = (Convert.ToInt32(command.ExecuteScalar()) == 1) ? true : false;
+            }
+            return response;
+        }
+        public void IncrementLoginFailureByID(int user_ID)
+        {
+            using (var connection = GetConnection())
+            using (var command = new MySqlCommand())
+            {
+                connection.Open();
+                command.Connection = connection;
+                command.CommandText = "INSERT INTO login_failures(user_id, time_stamp) VALUES (@id, NOW()); UPDATE user SET blocked = 1 WHERE id=@id AND (SELECT COUNT(*) FROM login_failures WHERE user_id=@id) >= 15";
+                command.Parameters.Add("@id", MySqlDbType.Int32).Value = user_ID;
+                command.ExecuteNonQuery();
+            }
+        }
         public UserModel getUserDataFromDBviaID(int userID)
         {
             UserModel userModel = new UserModel();
@@ -63,7 +108,6 @@ namespace Web_App.Rest.Authorization.Repositories
             }
             return userModel;
         }
-
         public UserModel getUserDataFromDBviaEmail(string email)
         {
             UserModel userModel = new UserModel();

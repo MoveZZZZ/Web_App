@@ -1,16 +1,16 @@
 export const refreshTokens = async () => {
-    return await fetch('https://localhost:7257/token/refresh_access_token',
+    return await fetch(`${process.env.REACT_APP_API_IP}/token/refresh_access_token`,
         {
             method: 'GET',
             credentials: 'include'
         })
         .then((response) => {
             return response.json();
-        });   
+        });
 };
 
 export const logoutCookieCleanUp = async () => {
-    await fetch('https://localhost:7257/token/logout',
+    await fetch(`${process.env.REACT_APP_API_IP}/token/logout`,
         {
             method: 'GET',
             credentials: 'include'
@@ -26,6 +26,7 @@ export async function fetchWithAuthentication(url, params) {
         }
         else {
             sessionStorage.removeItem("ID");
+            setTimeout(() => 2500);
             // eslint-disable-next-line no-restricted-globals
             location.replace("/login");
         }

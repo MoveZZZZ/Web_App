@@ -8,6 +8,12 @@ using Microsoft.Extensions.Configuration;
 using Web_App.Rest.JWT.Model;
 using Web_App.Rest.JWT.Services;
 using Web_App.Rest.Payments.Service;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System.Globalization;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,10 +25,10 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(builder =>
+    options.AddPolicy("AllowSpecificOrigins", builder =>
     {
         builder.WithOrigins("https://localhost:44456")
-            .WithMethods("GET", "POST", "DELETE")
+            .WithMethods("GET", "POST")
             .WithHeaders("Content-Type")
             .AllowCredentials();
     });
@@ -39,6 +45,22 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 builder.Services.AddTransient<MySqlConnection>(_ =>
     new MySqlConnection(builder.Configuration.GetConnectionString("Default")));
 
+builder.Services.AddControllers();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+var supportedCultures = new[]
+{
+    new CultureInfo("en-US")
+};
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.DefaultRequestCulture = new RequestCulture("en-US"); 
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+});
 
 builder.Services.AddTransient<IBraintreeService, BraintreeService>();
 builder.Services.AddAuthentication(options =>
@@ -57,7 +79,7 @@ builder.Services.AddAuthentication(options =>
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         //NOT FOR RELEASE VERSION, RENEW TOKEN AFTER FIX THAT
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("MFswDQYJKoZIhvcNAQEBBQADSgAwRwJAf/GielqHk/+f1YrD2gRRnSHoAae+Ta05ktSA5/x7hpozFsANrUy6SaYMvGgc/t7aqTmMTEHUtrAfIZDY9cWSqwIDAQAB"))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Token:SecurityKey"]))
     };
     options.SaveToken = true;
     options.Events = new JwtBearerEvents();
@@ -90,6 +112,9 @@ app.UseRouting();
 app.UseCors();
 app.UseCookiePolicy();
 app.UseAuthentication();
+app.UseRequestLocalization();
+app.UseSwagger();
+app.UseSwaggerUI();
 app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {

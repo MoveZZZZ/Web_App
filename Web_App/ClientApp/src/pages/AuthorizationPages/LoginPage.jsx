@@ -1,34 +1,63 @@
-﻿import React, { useState, useContext, useEffect } from 'react';
-import { login, } from '../../utils/AuthorizationApi';
+﻿import React, { useState, useRef } from 'react';
+import { login, } from '../../utils/authorizationApi';
 import snoopSec from "../../assets/snoopSec.gif";
-import { AuthContext, UserIDContext, UserTokenContext, UserRefreshTokenContext, } from "../../context";
+import ReCAPTCHA from "react-google-recaptcha";
+import Message from "../../components/Message/Message";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const LoginPage = () => {
+
     const [loginUser, setLoginUser] = useState('');
     const [passwordUser, setPasswordUser] = useState('');
     const [errMsg, setErrMsg] = useState('');
+    const recaptcha = useRef();
+    const [isMessage, setIsMessage] = useState(false);
+    const [message, setMessage] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
 
-    const handleLogin = () => {
-        login(loginUser, passwordUser)
-            .then((response) => {
-                if (!response.message) {
-                    // eslint-disable-next-line no-restricted-globals
-                    location.replace("/login");
-                }
-                else {
-                    setErrMsg(response.message);
-                }
-            })
-            .catch((error) => {
-                setErrMsg("*bad login or password")
-            });
+    const handleLogin = async (e) => {
+        e.preventDefault()
+        const captchaValue = recaptcha.current.getValue();
+        if (!captchaValue) {
+
+            setErrMsg("Please verify the reCAPTCHA!");
+        }
+        else {
+            let response = await login(loginUser, passwordUser)
+            if (!response.message && !response.uid) {
+                // eslint-disable-next-line no-restricted-globals
+                location.replace("/login");
+            }
+            if (response.uid) {
+                setMessage("Hi, verefication code has ben send to your email!")
+                getMessage();
+                setTimeout(() => window.open("/oauth/"+ response.uid, "_self"), 2500);
+            }
+            else {
+                setErrMsg(response.message);
+                recaptcha.current.reset();
+            }
+        }
         setLoginUser("");
         setPasswordUser("");
     }
+
+    const getMessage = () => {
+        setIsMessage(true);
+        setTimeout(() => setIsMessage(false), 2500);
+    }
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
     return (
-        <section class="border-primary-500  flex items-center justify-center">
-            <div class="bg-primary-100 p-5 flex rounded-xl shadow-lg max-w-3xl m-28">
-                <div class="w-1/2 md:block hidden ">
+        <>
+        { isMessage ? <Message param={message} /> : null }
+        <section className="border-primary-500  flex items-center justify-center">
+            <div className="bg-primary-100 p-5 flex rounded-xl shadow-lg max-w-3xl m-28">
+                <div className="w-1/2 md:block hidden ">
                     <img
                         src={snoopSec}
                         className="rounded-2xl w-auto h-auto"
@@ -38,7 +67,7 @@ const LoginPage = () => {
                     <h2 className="text-2xl font-bold text-primary-300 ">Login</h2>
                     <form className="mt-6">
                         <div>
-                            <label class="block text-primary-700">Username</label>
+                            <label className="block text-primary-700">Username</label>
                             <input
                                 id="uname"
                                 name="uname"
@@ -50,18 +79,24 @@ const LoginPage = () => {
                                 className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none"
                                 placeholder="Username*" />
                         </div>
-                        <div class="mt-4">
+                            <div className="mt-4 relative" >
                             <label className="block text-primary-700">Password</label>
                             <input
                                 id="password"
                                 name="password"
-                                type="password"
+                                    type={showPassword ? 'text' : 'password'}
                                 autoComplete="current-password"
                                 required
                                 value={passwordUser}
                                 onChange={(e) => setPasswordUser(e.target.value)}
-                                className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none"
-                                placeholder="Password*" />
+                                className="w-full px-4 py-3 rounded-lg bg-primary-100 mt-2 border focus:border-secondary focus:bg-primary-100 focus:outline-none relative"
+                                    placeholder="Password*" />
+                                <span
+                                    className="absolute right-3 top-4 mt-7 cursor-pointer text-primary-400"
+                                    onClick={togglePasswordVisibility}
+                                >
+                                    {showPassword ? <i><FontAwesomeIcon icon={faEyeSlash} /></i> : <i><FontAwesomeIcon icon={faEye} /></i>}
+                                </span>
                         </div>
                         <div className="text-right mt-2">
                             <a href="/passwordrecovery"
@@ -70,29 +105,25 @@ const LoginPage = () => {
                         <p className="text-red text-xs">{errMsg}</p>
                         <button
                             type="submit"
-                            className="w-full block bg-primary-300 hover:bg-primary-200 duration-200 focus:bg-blue-400 text-primary-600 font-semibold rounded-lg px-4 py-3 mt-3"
+                            className="w-full block bg-primary-300 hover:bg-primary-200 duration-200 focus:bg-blue-400 text-primary-600 font-semibold rounded-lg px-4 py-3 mt-3 mb-4"
                             onClick={handleLogin}>Log In</button>
+                            <ReCAPTCHA sitekey={process.env.REACT_APP_SITE_KEY} ref={recaptcha} />
                     </form>
-
-                    <div class="mt-7 grid grid-cols-3 items-center text-gray-500">
-                        <hr class="border-secondary" />
-                        <p class="text-center text-sm text-secondary">OR</p>
-                        <hr class="border-secondary" />
+                    <div className="mt-7 grid grid-cols-3 items-center text-gray-500">
+                        <hr className="border-secondary" />
+                        <p className="text-center text-sm text-secondary">OR</p>
+                        <hr className="border-secondary" />
                     </div>
-
-                    <div class="text-sm flex justify-between items-center mt-3 text-left">
+                    <div className="text-sm flex justify-between items-center mt-3 text-left">
                         <p>If you don't have an account...</p>
                         <a href="/signup" >
-                            <button class="py-2 px-5 ml-3 bg-primary-100 border rounded-xl hover:scale-110 duration-300 border-primary-300  ">Register</button>
+                            <button className="py-2 px-5 ml-3 bg-primary-100 border rounded-xl hover:scale-110 duration-300 border-primary-300  ">Register</button>
                         </a>
                     </div>
                 </div>
-
-
-
             </div>
-        </section>
+            </section>
+        </>
     );
 };
-
 export default LoginPage;

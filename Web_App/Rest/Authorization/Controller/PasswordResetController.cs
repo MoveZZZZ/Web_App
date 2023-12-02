@@ -11,7 +11,10 @@ using Web_App.Rest.Authorization.Services;
 using Web_App.Rest.JWT.Model;
 using Web_App.Rest.JWT.Services;
 using Web_App.Rest.User.Models;
+using System.Reflection.Metadata;
+using Microsoft.AspNetCore.Cors;
 
+[EnableCors("AllowSpecificOrigins")]
 [Route("[controller]")]
 [ApiController]
 public class PasswordResetController : ControllerBase
@@ -24,36 +27,35 @@ public class PasswordResetController : ControllerBase
 
     [HttpPost]
     [Route("genresetmail")]
-    public IActionResult GenereteResetMail([FromQuery] string email)
+    public IActionResult GenereteResetMail([FromBody] ResetPasswordModel model)
     {
+        bool isSuccessfullySent = false;
         try
         {
-            _userResetPasswordService.processingUserResetPasswordRequest(email);
+            isSuccessfullySent = _userResetPasswordService.processingUserResetPasswordRequest(model.Email);
         }
         catch
         {
             return Unauthorized(new { message = "Wrong Email!" });
         }
+        if (!isSuccessfullySent) { return Unauthorized(new { message = "Email was sent earlier, please check your email!" }); }
         return Ok(new { message = "Email were successfuly send!" });
     }
+
     [HttpPost]
     [Route("checklink")]
-    public IActionResult ValidateRecoveryLink([FromQuery] string uid)
+    public IActionResult ValidateRecoveryLink([FromBody] ResetPasswordModel model)
     {
-       string msg = _userResetPasswordService.checkExistUID(uid);
-        return Ok(new {message =  msg});
-    }
-    public IActionResult ResetPassword([FromBody] string newPassword, [FromQuery] string resetID)
-    {
-        return Ok();
-    }
-    [HttpPost]
-    [Route("recoverypage/changepassword")]
-    public IActionResult ChangePassword([FromQuery] string password, string confirmpassword, string uid)
-    {
-        string message = _userResetPasswordService.ChangePaswwordUser(password, confirmpassword, uid);
-        return Ok(new { message = message });
+        string msg = _userResetPasswordService.checkExistUID(model.UID);
+        return Ok(new { message = msg });
     }
 
+    [HttpPost]
+    [Route("recoverypage/changepassword")]
+    public IActionResult ChangePassword([FromBody] ResetPasswordModel model)
+    {
+        string message = _userResetPasswordService.ChangePaswwordUser(model.Password, model.ConfirmPassword, model.UID);
+        return Ok(new { message = message });
+    }
 }
 

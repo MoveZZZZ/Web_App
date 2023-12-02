@@ -12,22 +12,17 @@ namespace Web_App.Rest.AccessPoint.Service
             _accessPointRepository = new AccessPointRepository();
         }
 
-        public List<string> getAllPointsState()
+        public List<string> getAllPointsCountry()
         {
             List<string> data = new List<string>();
-            data = _accessPointRepository.GetAllStateAccessPoint();
+            data = _accessPointRepository.GetAllCountryAccessPoint();
             return data;
         }
-        public List<string> getAllPointsCity()
+
+        public List<string> getAllPointsStateTheCountry(string country)
         {
             List<string> data = new List<string>();
-            data = _accessPointRepository.GetAllCityAccessPoint();
-            return data;
-        }
-        public List<AccessPointModel> getAllPointsTheState(string state)
-        {
-            List<AccessPointModel> data = new List<AccessPointModel>();
-            data = _accessPointRepository.GetAllAccessPointState(state);
+            data = _accessPointRepository.GetAllStateAPTheCoutry(country);
             return data;
         }
         public List<AccessPointModel> getAllPointsTheCity(string state, string city)
