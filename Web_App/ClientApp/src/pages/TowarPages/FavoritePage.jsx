@@ -103,7 +103,7 @@ const FavoritePage = () => {
                     <div className="bg-white rounded-md w-full">
                         <div className=" flex items-center justify-between">
                             <div>
-                                <h2 className="text-gray-600 font-semibold">Favorite</h2>
+                                <h2 className="text-gray-600 font-semibold">Favourite</h2>
                             </div>
 
                         </div>
