@@ -3,7 +3,7 @@
 export const menuLinks = [
     { id: 1, title: "Shop", link: "/product", icon: faStore, isAdmin: true, isUser: true },
     { id: 2, title: "Cart", link: "/cart", icon: faCartShopping, isAdmin: false, isUser: true },
-    { id: 3, title: "Favorite", link: "/favorite", icon: faHeart, isAdmin: false, isUser: true },
+    { id: 3, title: "Favourite", link: "/favorite", icon: faHeart, isAdmin: false, isUser: true },
     { id: 4, title: "Orders", link: "/orders", icon: faBagShopping, isAdmin: false, isUser: true },
 ]
 
