@@ -6,7 +6,6 @@ using Web_App.Rest.Authorization.Services;
 using Web_App.Rest.JWT.Services;
 using Microsoft.Extensions.Configuration;
 using Web_App.Rest.JWT.Model;
-using Web_App.Rest.JWT.Services;
 using Web_App.Rest.Payments.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

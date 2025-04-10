@@ -5,7 +5,6 @@ using System.Net;
 using Web_App.Rest.Authorization.Models;
 using Web_App.Rest.DataBase.Repositories;
 using Web_App.Rest.User.Models;
-using Web_App.Rest.DataBase.Repositories;
 
 namespace Web_App.Rest.Authorization.Repositories
 {
