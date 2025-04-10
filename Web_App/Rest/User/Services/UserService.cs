@@ -10,6 +10,8 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace Web_App.Rest.User.Services
 {
